@@ -1,4 +1,4 @@
 _book
 _bookdown_files
 *.Rproj
-Rproj.user
+.Rproj.user

@@ -1,0 +1,9 @@
+sudo: false
+notifications:
+    email: false
+
+language: r
+
+script:
+    - make build
+    - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ]; then make deploy-gh-pages; fi

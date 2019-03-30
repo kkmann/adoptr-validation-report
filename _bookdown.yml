@@ -1,0 +1,12 @@
+book_filename:
+    "adoptr-validation-report"
+delete_merged_file:
+    true
+language:
+  ui:
+    chapter_name:
+        ""
+output_dir:
+    "_book"
+new_session:
+    no

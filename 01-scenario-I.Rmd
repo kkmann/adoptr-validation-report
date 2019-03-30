@@ -1,0 +1,550 @@
+# Scenario I: large effect, point alternative
+
+
+
+## Details
+
+In this scenario an alternative effect size of $\delta = 0.4$ with
+point prior distribution is investigated. 
+The null hypothesis is $\delta \leq 0$.
+Currently, `adoptr` only supports normal distributed data what is widely spread
+in the development of adaptive designs. 
+We protect the one-sided type one error rate at $\alpha = 0.025$ and require
+the power of the design to be at least $1 - \beta = 0.8$.
+
+
+
+### Data distribution
+
+Two-armed trial with normally distributed test statistic
+```{r}
+datadist <- Normal(two_armed = TRUE)
+```
+
+
+### Null hypothesis
+
+The null hypothesis is $\mathcal{H}_0:\delta \leq 0$
+```{r}
+H_0 <- PointMassPrior(.0, 1)
+```
+
+
+### Prior assumptions
+A point mass prior with probability mass on $\delta = 0.4$ is assumed.
+```{r}
+prior <- PointMassPrior(.4, 1)
+```
+
+
+
+
+## Case I-1: Minimizing Expected Sample Size under Point Prior
+
+### Objective
+
+Expected sample size under the respective prior is minimized, i.e.,
+$\boldsymbol{E}\big[n(\mathcal{D})\big]$.
+```{r}
+ess <- expected(ConditionalSampleSize(datadist, prior))
+```
+
+
+### Constrains
+
+The type one error rate is controlled at $0.025$ on the boundary of the 
+null hypothesis.
+```{r}
+toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= .025
+```
+
+Power must be larger than $0.8$.
+```{r}
+pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= .8
+```
+
+
+### Initial Design
+
+`adoptr` requires the definition of an initial design for optimization. 
+We start with a group-sequential design from the package `rpact` that
+fulfills these constraints and is used later for comparison.
+The order of integration is set to
+```{r}
+order <- 7L
+```
+For usage as two-stage design with variable sample size, it has to
+be converted to a `TwoStageDesign`.
+```{r init}
+init_design_gs <- rpact_design(0.4, 0.025, 0.8, TRUE, order)
+
+init_design    <- TwoStageDesign(init_design_gs)
+```
+
+
+### Optimization 
+
+The optimal design is computed in three variants: two-stage, group-sequential
+and one-stage.
+The input only differs with regard to the initial design.
+
+```{r opt1}
+opt_design <- function(initial_design) {
+    minimize(
+        
+        ess,
+        
+        subject_to(
+            
+            toer_cnstr,
+            pow_cnstr
+            
+        ),
+        
+        initial_design = initial_design,
+        
+        opts = opts
+        
+    )
+}
+
+opt1_ts <- opt_design(init_design)
+opt1_gs <- opt_design(init_design_gs)
+opt1_os <- opt_design(OneStageDesign(200, 2.0))
+```
+
+
+
+### Test Cases
+
+Check if the optimization algorithm converged in all cases.
+```{r}
+iters <- sapply(list(opt1_ts, opt1_gs, opt1_os), 
+                function(x) x$nloptr_return$iterations)
+
+print(iters)
+
+testthat::expect_true(all(iters < opts$maxeval))
+```
+
+The $n_2$ function of the optimal two-stage design is expected to be 
+monotonously decreasing.
+
+```{r}
+testthat::expect_equal(
+    sign(diff(opt1_ts$design@n2_pivots)),
+    rep(-1, (order - 1))
+)
+```
+
+
+Type one error rate constraint is tested for the three designs.
+Due to numerical issues we allow a realtive error of $2\%$.
+```{r}
+tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
+                  function(x) sim_pr_reject(x$design, .0, datadist))
+df_toer <- data.frame(
+    toer = as.numeric(tmp[1, ]),
+    se   = as.numeric(tmp[2, ])
+)
+rm(tmp)
+
+testthat::expect_true(all(df_toer$toer <= .025*(1.02)))
+
+df_toer
+```
+
+
+The power constraint can also be tested via simulation.
+Due to numerical issues we allow a realtive error of $2\%$.
+```{r}
+tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
+                  function(x) sim_pr_reject(x$design, .4, datadist))
+df_pow <- data.frame(
+    pow  = as.numeric(tmp[1, ]),
+    se   = as.numeric(tmp[2, ])
+)
+rm(tmp)
+
+testthat::expect_true(all(df_pow$pow >= .8 * (1 - 0.02)))
+
+df_pow
+```
+
+
+The expected sample sizes should be ordered in a specific way.
+```{r ess}
+testthat::expect_gte(
+    evaluate(ess, opt1_os$design),
+    evaluate(ess, opt1_gs$design)
+)
+
+testthat::expect_gte(
+    evaluate(ess, init_design_gs),
+    evaluate(ess, opt1_gs$design)
+)
+
+testthat::expect_gte(
+    evaluate(ess, opt1_gs$design),
+    evaluate(ess, opt1_ts$design)
+)
+```
+
+
+The expected sample size of the optimal designs is simulated and compared
+to the outomce of `adoptr::evaluate()`.
+The tolerance is set to $0.5$ what is due to rounding one patient per group
+in the worst case.
+```{r}
+ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
+
+testthat::expect_equal(
+    sim_n(opt1_os$design, .0, datadist),
+    evaluate(ess_0, opt1_os$design),
+    tolerance = .5
+)
+
+testthat::expect_equal(
+    sim_n(opt1_gs$design, .0, datadist),
+    evaluate(ess_0, opt1_gs$design),
+    tolerance = .5
+)
+
+testthat::expect_equal(
+    sim_n(opt1_ts$design, .0, datadist),
+    evaluate(ess_0, opt1_ts$design),
+    tolerance = .5
+)
+```
+
+
+Additionally, the sample sizes under the point prior are compared.
+```{r}
+testthat::expect_equal(
+    sim_n(opt1_os$design, .4, datadist),
+    evaluate(ess, opt1_os$design),
+    tolerance = .5
+)
+
+testthat::expect_equal(
+    sim_n(opt1_gs$design, .4, datadist),
+    evaluate(ess, opt1_gs$design),
+    tolerance = .5
+)
+
+testthat::expect_equal(
+    sim_n(opt1_ts$design, .4, datadist),
+    evaluate(ess, opt1_ts$design),
+    tolerance = .5
+)
+```
+
+
+
+
+
+## Case I-2: Minimizing Expected Sample Size under Null Hypothesis
+
+### Objective
+
+Expected sample size under the null hypothesis prior is minimized, i.e.,
+```{r objective2}
+ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
+```
+
+
+### Constrains
+
+The constraints remain the same as before.
+
+### Initial Design
+
+For runtime issues the previous initial design has to be updated.
+It turns out that a constant $c_2$-starting value is much more efficient
+in this case.
+Furthermore, a more strict upper-boundary design than the default one needs
+to be defined because stopping for efficacy would otherwise only happen
+for very large values of $x_1$ due to optimization under the null hypothesis.
+
+```{r init2}
+init_design_2 <- init_design
+init_design_2@c2_pivots <- rep(2, order)
+
+
+ub_design <- TwoStageDesign(
+    opt1_os$design@n1,
+    opt1_os$design@c1f,
+    3,
+    rep(300, order),
+    rep(3.0, order)
+)
+```
+
+### Optimization 
+
+The optimal two-stage design is computed. 
+
+```{r opt2}
+opt2_ts <- minimize(
+        
+        ess_0,
+        
+        subject_to(
+            
+            toer_cnstr,
+            pow_cnstr
+            
+        ),
+        
+        initial_design = init_design_2,
+        
+        upper_boundary_design = ub_design,
+
+        opts = opts
+        
+)
+```
+
+
+
+### Test Cases
+
+Check if the optimization algorithm converged.
+```{r}
+print(opt2_ts$nloptr_return$iterations)
+
+testthat::expect_true(opt2_ts$nloptr_return$iterations < opts$maxeval)
+```
+
+The $n_2$ function of the optimal two-stage design is expected to be 
+monotnously increasing.
+
+```{r}
+testthat::expect_equal(
+    sign(diff(opt2_ts$design@n2_pivots)),
+    rep(1, (order - 1))
+)
+```
+
+Type one error rate constraint is tested for the optimal design.
+Due to numerical issues we allow a realtive error of $2\%$.
+```{r}
+tmp     <- sim_pr_reject(opt2_ts$design, .0, datadist)
+df_toer2 <- data.frame(
+    toer = as.numeric(tmp[1]),
+    se   = as.numeric(tmp[2])
+)
+rm(tmp)
+
+testthat::expect_true(all(df_toer2$toer <= .025*(1.02)))
+
+df_toer2
+```
+
+
+The power constraint can also be tested via simulation.
+Due to numerical issues we allow a realtive error of $2\%$.
+```{r}
+tmp     <- sim_pr_reject(opt2_ts$design, .4, datadist)
+df_pow2 <- data.frame(
+    pow  = as.numeric(tmp[1]),
+    se   = as.numeric(tmp[2])
+)
+rm(tmp)
+
+testthat::expect_true(all(df_pow2$pow >= .8 * (1 - 0.02)))
+
+df_pow2
+```
+
+The expected sample size under the null should be lower than the ess under the
+null of the initial design derived from `rpact`.
+```{r ess2}
+testthat::expect_gte(
+    evaluate(ess_0, init_design),
+    evaluate(ess_0, opt2_ts$design)
+)
+
+```
+
+
+The expected sample size of the optimal designs is simulated and compared
+to the outomce of `adoptr::evaluate()`.
+The tolerance is set to $0.5$ what is due to rounding one patient per group
+in the worst case.
+```{r}
+testthat::expect_equal(
+    sim_n(opt2_ts$design, .0, datadist),
+    evaluate(ess_0, opt2_ts$design),
+    tolerance = .5
+)
+```
+
+
+Additionally, the sample sizes under the point prior are compared.
+```{r}
+testthat::expect_equal(
+    sim_n(opt2_ts$design, .4, datadist),
+    evaluate(ess, opt2_ts$design),
+    tolerance = .5
+)
+```
+
+
+
+
+## Case I-3: Conditional Power Constraint
+
+### Objective
+
+Expected sample size under the point prior is minimized and has already been 
+defined.
+
+### Constrains
+
+The constraints remain the same as before, additionally to a constraint
+on conditional power.
+```{r cp-cnstr}
+cp <- ConditionalPower(datadist, prior)
+
+cp_cnstr <- cp >= .7
+```
+
+### Initial Design
+
+The previous initial design can still be applied.
+
+### Optimization 
+
+The optimal two-stage design is computed. 
+
+```{r opt3}
+opt3_ts <- minimize(
+        
+        ess,
+        
+        subject_to(
+            
+            toer_cnstr,
+            pow_cnstr,
+            cp_cnstr
+            
+        ),
+        
+        initial_design = init_design,
+        
+        opts = opts
+        
+)
+```
+
+
+
+### Test Cases
+
+Check if the optimization algorithm converged.
+```{r}
+print(opt3_ts$nloptr_return$iterations)
+
+testthat::expect_true(opt3_ts$nloptr_return$iterations < opts$maxeval)
+```
+
+
+Type one error rate constraint is tested for the optimal design.
+Due to numerical issues we allow a realtive error of $2\%$.
+```{r}
+tmp     <- sim_pr_reject(opt3_ts$design, .0, datadist)
+df_toer3 <- data.frame(
+    toer = as.numeric(tmp[1]),
+    se   = as.numeric(tmp[2])
+)
+rm(tmp)
+
+testthat::expect_true(all(df_toer3$toer <= .025*(1.02)))
+
+df_toer3
+```
+
+
+The power constraint can also be tested via simulation.
+Due to numerical issues we allow a realtive error of $2\%$.
+```{r}
+tmp     <- sim_pr_reject(opt3_ts$design, .4, datadist)
+df_pow3 <- data.frame(
+    pow  = as.numeric(tmp[1]),
+    se   = as.numeric(tmp[2])
+)
+rm(tmp)
+
+testthat::expect_true(all(df_pow3$pow >= .8 * (1 - 0.02)))
+
+df_pow3
+```
+
+
+The expected sample size under the prior should be higher than
+in the case without the constraint that was analyzed in I.1.
+```{r ess3}
+testthat::expect_gte(
+    evaluate(ess, opt3_ts$design),
+    evaluate(ess, opt1_ts$design)
+)
+```
+
+The conditional power constraint needs to be tested. 
+Select three points for this and check the constraint.
+```{r}
+x <- adoptr:::scaled_integration_pivots(opt3_ts$design)[c(1, 3, 5)]
+
+cp_val <- sapply(x, function(z) evaluate(cp, opt3_ts$design, z))
+
+testthat::expect_true(all(cp_val >= 0.7))
+```
+
+
+
+
+
+
+## Plot Two-Stage Designs
+The optimal two-stage designs stemming from the different variants
+are plotted together. 
+
+
+```{r, echo = FALSE}
+z1 <- seq(0, 4, by = .01)
+
+tibble(
+    type  = c("ESS under Prior", "ESS under Null", "ESS under Prior with CP constraint"), 
+    design = list(opt1_ts$design, opt2_ts$design, opt3_ts$design)
+) %>% 
+    group_by(type) %>% 
+    do(
+        z1 = z1,
+        n  = adoptr::n(.$design[[1]], z1),
+        c2 = c2(.$design[[1]], z1),
+        cp = evaluate(cp, .$design[[1]], z1)
+    ) %>% 
+    unnest() %>% 
+    mutate(
+        section = ifelse(
+            is.finite(c2), 
+            "continuation", 
+            ifelse(c2 == -Inf, "efficacy", "futility")
+        )
+    ) %>% 
+    gather(variable, value, n, c2, cp) %>% 
+    ggplot(aes(z1, value, color = type)) +
+        geom_line(aes(group = interaction(section, type))) + 
+        facet_wrap(~variable, scales = "free_y") +
+        theme_bw() +
+        scale_color_manual(
+          values = c(rgb(0,74,111, maxColorValue = 255),
+                                    rgb(0,159,227, maxColorValue = 255),
+                                    rgb(230,121,0, maxColorValue = 255))) +
+        theme(
+            panel.grid = element_blank(),
+            legend.position = "bottom"
+        )
+```
+
