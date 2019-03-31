@@ -138,7 +138,7 @@ Type one error rate constraint is tested for the three designs.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
-                  function(x) ""sim_pr_reject(x$design, .0, datadist))
+                  function(x) sim_pr_reject(x$design, .0, datadist))
 df_toer <- data.frame(
     toer = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -232,7 +232,7 @@ testthat::expect_true(opt2_ts$nloptr_return$iterations < opts$maxeval)
 Type one error rate constraint is tested for the optimal design.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
-tmp     <- ""sim_pr_reject(opt2_ts$design, .0, datadist)
+tmp     <- sim_pr_reject(opt2_ts$design, .0, datadist)
 df_toer2 <- data.frame(
     toer = as.numeric(tmp[1]),
     se   = as.numeric(tmp[2])
@@ -317,7 +317,7 @@ testthat::expect_true(opt3_ts$nloptr_return$iterations < opts$maxeval)
 Type one error rate constraint is tested for the optimal design.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
-tmp     <- ""sim_pr_reject(opt3_ts$design, .0, datadist)
+tmp     <- sim_pr_reject(opt3_ts$design, .0, datadist)
 df_toer3 <- data.frame(
     toer = as.numeric(tmp[1]),
     se   = as.numeric(tmp[2])

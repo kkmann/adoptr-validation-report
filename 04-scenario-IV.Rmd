@@ -143,7 +143,7 @@ Type one error rate constraint is tested for the three designs.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
-                  function(x) ""sim_pr_reject(x$design, .0, datadist))
+                  function(x) sim_pr_reject(x$design, .0, datadist))
 df_toer <- data.frame(
     toer = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -160,7 +160,7 @@ The power constraint can also be tested via simulation.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
-                  function(x) ""sim_pr_reject(x$design, .2, datadist))
+                  function(x) sim_pr_reject(x$design, .2, datadist))
 df_pow <- data.frame(
     pow  = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -200,19 +200,19 @@ in the worst case.
 ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
 
 testthat::expect_equal(
-    ""sim_n(opt1_os$design, .0, datadist),
+    sim_n(opt1_os$design, .0, datadist),
     evaluate(ess_0, opt1_os$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt1_gs$design, .0, datadist),
+    sim_n(opt1_gs$design, .0, datadist),
     evaluate(ess_0, opt1_gs$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt1_ts$design, .0, datadist),
+    sim_n(opt1_ts$design, .0, datadist),
     evaluate(ess_0, opt1_ts$design),
     tolerance = .5
 )
@@ -222,19 +222,19 @@ testthat::expect_equal(
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
 testthat::expect_equal(
-    ""sim_n(opt1_os$design, .2, datadist),
+    sim_n(opt1_os$design, .2, datadist),
     evaluate(ess, opt1_os$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt1_gs$design, .2, datadist),
+    sim_n(opt1_gs$design, .2, datadist),
     evaluate(ess, opt1_gs$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt1_ts$design, .2, datadist),
+    sim_n(opt1_ts$design, .2, datadist),
     evaluate(ess, opt1_ts$design),
     tolerance = .5
 )
@@ -331,7 +331,7 @@ Type one error rate constraint is tested for the three designs.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
 tmp     <- sapply(list(opt2_ts, opt2_gs, opt2_os),  
-                  function(x) ""sim_pr_reject(x$design, .0, datadist))
+                  function(x) sim_pr_reject(x$design, .0, datadist))
 df_toer <- data.frame(
     toer = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -348,7 +348,7 @@ The power constraint can also be tested via simulation.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
 tmp     <- sapply(list(opt2_ts, opt2_gs, opt2_os),  
-                  function(x) ""sim_pr_reject(x$design, .2, datadist))
+                  function(x) sim_pr_reject(x$design, .2, datadist))
 df_pow <- data.frame(
     pow  = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -388,19 +388,19 @@ in the worst case.
 ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
 
 testthat::expect_equal(
-    ""sim_n(opt2_os$design, .0, datadist),
+    sim_n(opt2_os$design, .0, datadist),
     evaluate(ess_0, opt2_os$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt2_gs$design, .0, datadist),
+    sim_n(opt2_gs$design, .0, datadist),
     evaluate(ess_0, opt2_gs$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt2_ts$design, .0, datadist),
+    sim_n(opt2_ts$design, .0, datadist),
     evaluate(ess_0, opt2_ts$design),
     tolerance = .5
 )
@@ -410,19 +410,19 @@ testthat::expect_equal(
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
 testthat::expect_equal(
-    ""sim_n(opt2_os$design, .2, datadist),
+    sim_n(opt2_os$design, .2, datadist),
     evaluate(ess, opt2_os$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt2_gs$design, .2, datadist),
+    sim_n(opt2_gs$design, .2, datadist),
     evaluate(ess, opt2_gs$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt2_ts$design, .2, datadist),
+    sim_n(opt2_ts$design, .2, datadist),
     evaluate(ess, opt2_ts$design),
     tolerance = .5
 )
@@ -517,7 +517,7 @@ Type one error rate constraint is tested for the three designs.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
 tmp     <- sapply(list(opt3_ts, opt3_gs, opt3_os),  
-                  function(x) ""sim_pr_reject(x$design, .0, datadist))
+                  function(x) sim_pr_reject(x$design, .0, datadist))
 df_toer <- data.frame(
     toer = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -534,7 +534,7 @@ The power constraint can also be tested via simulation.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
 tmp     <- sapply(list(opt3_ts, opt3_gs, opt3_os),  
-                  function(x) ""sim_pr_reject(x$design, .2, datadist))
+                  function(x) sim_pr_reject(x$design, .2, datadist))
 df_pow <- data.frame(
     pow  = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -574,19 +574,19 @@ in the worst case.
 ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
 
 testthat::expect_equal(
-    ""sim_n(opt3_os$design, .0, datadist),
+    sim_n(opt3_os$design, .0, datadist),
     evaluate(ess_0, opt3_os$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt3_gs$design, .0, datadist),
+    sim_n(opt3_gs$design, .0, datadist),
     evaluate(ess_0, opt3_gs$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt3_ts$design, .0, datadist),
+    sim_n(opt3_ts$design, .0, datadist),
     evaluate(ess_0, opt3_ts$design),
     tolerance = .5
 )
@@ -596,19 +596,19 @@ testthat::expect_equal(
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
 testthat::expect_equal(
-    ""sim_n(opt3_os$design, .2, datadist),
+    sim_n(opt3_os$design, .2, datadist),
     evaluate(ess, opt3_os$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt3_gs$design, .2, datadist),
+    sim_n(opt3_gs$design, .2, datadist),
     evaluate(ess, opt3_gs$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    ""sim_n(opt3_ts$design, .2, datadist),
+    sim_n(opt3_ts$design, .2, datadist),
     evaluate(ess, opt3_ts$design),
     tolerance = .5
 )
