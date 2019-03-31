@@ -24,9 +24,9 @@ build:
 
 deploy-gh-pages:
 	git config --global user.email "kevin.kunzmann@mrc-bsu.cam.ac.uk"
-	git config --global user.name "TravisCI build"
+	git config --global user.name "Travis CI build"
 	git clone -b gh-pages \
-		https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git \
+		https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git \
 	  	book-output
 	cd book-output
 	git rm -rf *
