@@ -159,7 +159,7 @@ seed <- 42
 opts = list(
     algorithm = "NLOPT_LN_COBYLA",
     xtol_rel  = 1e-5,
-    maxeval   = 50000
+    maxeval   = 100000
 )
 ```
 

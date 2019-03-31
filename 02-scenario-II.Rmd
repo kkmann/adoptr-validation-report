@@ -1,14 +1,13 @@
-# Scenario I: large effect, point alternative
-
+# Scenario II 
 
 
 ## Details
 
-In this scenario an alternative effect size of $\delta = 0.4$ with
-point prior distribution is investigated. 
+In this scenario a Gaussian prior on the effect size 
+$\delta \sim \mathcal{N} ( 0.4, 0.2^2)$ is investigated. 
 The null hypothesis is $\delta \leq 0$.
-Currently, `adoptr` only supports normal distributed data what is widely spread
-in the development of adaptive designs. 
+Currently, `adoptr` only supports normal distributed data what is widely
+spread in the development of adaptive designs. 
 We protect the one-sided type one error rate at $\alpha = 0.025$ and require
 the power of the design to be at least $1 - \beta = 0.8$.
 
@@ -31,19 +30,22 @@ H_0 <- PointMassPrior(.0, 1)
 
 
 ### Prior assumptions
-A point mass prior with probability mass on $\delta = 0.4$ is assumed.
+A Gaussian prior with mean $\delta = 0.4$ and standard deviation
+$\tau = .2$ is defined.
 ```{r}
-prior <- PointMassPrior(.4, 1)
+prior <- ContinuousPrior(function(delta) dnorm(delta, mean = .4, sd = .2),
+                         support = c(-5, 5),
+                         tighten_support = TRUE)
 ```
 
 
 
 
-## Case I-1: Minimizing Expected Sample Size under Point Prior
+## Case II-1: Minimizing Expected Sample Size under Point Prior
 
 ### Objective
 
-Expected sample size under the respective prior is minimized, i.e.,
+Expected sample size under the prior is minimized, i.e.,
 $\boldsymbol{E}\big[n(\mathcal{D})\big]$.
 ```{r}
 ess <- expected(ConditionalSampleSize(datadist, prior))
@@ -58,9 +60,12 @@ null hypothesis.
 toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= .025
 ```
 
-Power must be larger than $0.8$.
+Expected Power (rejection probability for positive effect sizes)
+must be larger than $0.8$.
 ```{r}
-pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= .8
+pow_cnstr <- expected(
+    ConditionalPower(datadist, condition(prior, c(0,3)))
+    ) >= .8
 ```
 
 
@@ -68,14 +73,15 @@ pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= .8
 
 `adoptr` requires the definition of an initial design for optimization. 
 We start with a group-sequential design from the package `rpact` that
-fulfills these constraints and is used later for comparison.
-The order of integration is set to
-```{r}
-order <- 7L
-```
+fulfills the type-one error rate constraint and the power
+constraint for a point effect size at $\delta = 0.4$.
+The order of integration is set to $5$.
 For usage as two-stage design with variable sample size, it has to
 be converted to a `TwoStageDesign`.
+
 ```{r}
+order <- 5L 
+
 init_design_gs <- rpact_design(0.4, 0.025, 0.8, TRUE, order)
 
 init_design    <- TwoStageDesign(init_design_gs)
@@ -84,8 +90,8 @@ init_design    <- TwoStageDesign(init_design_gs)
 
 ### Optimization 
 
-The optimal design is computed in three variants: two-stage, group-sequential
-and one-stage.
+The optimal design is computed in three variants: two-stage,
+group-sequentialand one-stage.
 The input only differs with regard to the initial design.
 
 ```{r}
@@ -105,12 +111,12 @@ opt_design <- function(initial_design) {
         
         opts = opts
         
-    )
+)
 }
 
-opt1_ts <- opt_design(init_design)
 opt1_gs <- opt_design(init_design_gs)
-opt1_os <- opt_design(OneStageDesign(200, 2.0))
+opt1_os <- opt_design(OneStageDesign(300, 2.0))
+opt1_ts <- opt_design(TwoStageDesign(opt1_gs$design))
 ```
 
 
@@ -127,22 +133,12 @@ print(iters)
 testthat::expect_true(all(iters < opts$maxeval))
 ```
 
-The $n_2$ function of the optimal two-stage design is expected to be 
-monotonously decreasing.
-
-```{r}
-testthat::expect_equal(
-    sign(diff(opt1_ts$design@n2_pivots)),
-    rep(-1, (order - 1))
-)
-```
-
 
 Type one error rate constraint is tested for the three designs.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
-                  function(x) sim_pr_reject(x$design, .0, datadist))
+                  function(x) ""sim_pr_reject(x$design, .0, datadist))
 df_toer <- data.frame(
     toer = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -155,32 +151,11 @@ df_toer
 ```
 
 
-The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of $2\%$.
-```{r}
-tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
-                  function(x) sim_pr_reject(x$design, .4, datadist))
-df_pow <- data.frame(
-    pow  = as.numeric(tmp[1, ]),
-    se   = as.numeric(tmp[2, ])
-)
-rm(tmp)
-
-testthat::expect_true(all(df_pow$pow >= .8 * (1 - 0.02)))
-
-df_pow
-```
-
 
 The expected sample sizes should be ordered in a specific way.
 ```{r}
 testthat::expect_gte(
     evaluate(ess, opt1_os$design),
-    evaluate(ess, opt1_gs$design)
-)
-
-testthat::expect_gte(
-    evaluate(ess, init_design_gs),
     evaluate(ess, opt1_gs$design)
 )
 
@@ -191,65 +166,16 @@ testthat::expect_gte(
 ```
 
 
-The expected sample size of the optimal designs is simulated and compared
-to the outomce of `adoptr::evaluate()`.
-The tolerance is set to $0.5$ what is due to rounding one patient per group
-in the worst case.
-```{r}
-ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
-
-testthat::expect_equal(
-    sim_n(opt1_os$design, .0, datadist),
-    evaluate(ess_0, opt1_os$design),
-    tolerance = .5
-)
-
-testthat::expect_equal(
-    sim_n(opt1_gs$design, .0, datadist),
-    evaluate(ess_0, opt1_gs$design),
-    tolerance = .5
-)
-
-testthat::expect_equal(
-    sim_n(opt1_ts$design, .0, datadist),
-    evaluate(ess_0, opt1_ts$design),
-    tolerance = .5
-)
-```
-
-
-Additionally, the sample sizes under the point prior are compared.
-```{r}
-testthat::expect_equal(
-    sim_n(opt1_os$design, .4, datadist),
-    evaluate(ess, opt1_os$design),
-    tolerance = .5
-)
-
-testthat::expect_equal(
-    sim_n(opt1_gs$design, .4, datadist),
-    evaluate(ess, opt1_gs$design),
-    tolerance = .5
-)
-
-testthat::expect_equal(
-    sim_n(opt1_ts$design, .4, datadist),
-    evaluate(ess, opt1_ts$design),
-    tolerance = .5
-)
-```
 
 
 
-
-
-## Case I-2: Minimizing Expected Sample Size under Null Hypothesis
+## Case II-2: Minimizing Expected Sample Size under Null Hypothesis
 
 ### Objective
 
-Expected sample size under the null hypothesis prior is minimized, i.e.,
+Expected sample size conditioned on negative effect sizes is minimized, i.e.,
 ```{r}
-ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
+ess_0 <- expected(ConditionalSampleSize(datadist, condition(prior, c(-3, 0))))
 ```
 
 
@@ -259,33 +185,17 @@ The constraints remain the same as before.
 
 ### Initial Design
 
-For runtime issues the previous initial design has to be updated.
-It turns out that a constant $c_2$-starting value is much more efficient
-in this case.
-Furthermore, a more strict upper-boundary design than the default one needs
-to be defined because stopping for efficacy would otherwise only happen
-for very large values of $x_1$ due to optimization under the null hypothesis.
+The previous initial design can still be applied.
 
-```{r}
-init_design_2 <- init_design
-init_design_2@c2_pivots <- rep(2, order)
-
-
-ub_design <- TwoStageDesign(
-    opt1_os$design@n1,
-    opt1_os$design@c1f,
-    3,
-    rep(300, order),
-    rep(3.0, order)
-)
-```
 
 ### Optimization 
 
-The optimal two-stage design is computed. 
+The optimal group-sequential design and based on this the
+optimal two-stage design are computed. 
 
 ```{r}
-opt2_ts <- minimize(
+opt2 <- function(initial_design) {
+    minimize(
         
         ess_0,
         
@@ -296,13 +206,15 @@ opt2_ts <- minimize(
             
         ),
         
-        initial_design = init_design_2,
+        initial_design = initial_design,
         
-        upper_boundary_design = ub_design,
-
         opts = opts
         
 )
+}
+
+opt2_gs <- opt2(init_design_gs)
+opt2_ts <- opt2(TwoStageDesign(opt2_gs$design))
 ```
 
 
@@ -316,20 +228,11 @@ print(opt2_ts$nloptr_return$iterations)
 testthat::expect_true(opt2_ts$nloptr_return$iterations < opts$maxeval)
 ```
 
-The $n_2$ function of the optimal two-stage design is expected to be 
-monotnously increasing.
-
-```{r}
-testthat::expect_equal(
-    sign(diff(opt2_ts$design@n2_pivots)),
-    rep(1, (order - 1))
-)
-```
 
 Type one error rate constraint is tested for the optimal design.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
-tmp     <- sim_pr_reject(opt2_ts$design, .0, datadist)
+tmp     <- ""sim_pr_reject(opt2_ts$design, .0, datadist)
 df_toer2 <- data.frame(
     toer = as.numeric(tmp[1]),
     se   = as.numeric(tmp[2])
@@ -341,71 +244,32 @@ testthat::expect_true(all(df_toer2$toer <= .025*(1.02)))
 df_toer2
 ```
 
+The expected sample size under the null hypothesis should be lower
+than of the design from variant II.1 where expected sample size under
+the full prior was minimized.
 
-The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
-tmp     <- sim_pr_reject(opt2_ts$design, .4, datadist)
-df_pow2 <- data.frame(
-    pow  = as.numeric(tmp[1]),
-    se   = as.numeric(tmp[2])
-)
-rm(tmp)
-
-testthat::expect_true(all(df_pow2$pow >= .8 * (1 - 0.02)))
-
-df_pow2
-```
-
-The expected sample size under the null should be lower than the ess under the
-null of the initial design derived from `rpact`.
-```{r}
-testthat::expect_gte(
-    evaluate(ess_0, init_design),
-    evaluate(ess_0, opt2_ts$design)
-)
-
-```
-
-
-The expected sample size of the optimal designs is simulated and compared
-to the outomce of `adoptr::evaluate()`.
-The tolerance is set to $0.5$ what is due to rounding one patient per group
-in the worst case.
-```{r}
-testthat::expect_equal(
-    sim_n(opt2_ts$design, .0, datadist),
+testthat::expect_lte(
     evaluate(ess_0, opt2_ts$design),
-    tolerance = .5
-)
-```
-
-
-Additionally, the sample sizes under the point prior are compared.
-```{r}
-testthat::expect_equal(
-    sim_n(opt2_ts$design, .4, datadist),
-    evaluate(ess, opt2_ts$design),
-    tolerance = .5
+    evaluate(ess_0, opt1_ts$design)
 )
 ```
 
 
 
 
-## Case I-3: Conditional Power Constraint
+## Case II-3: Conditional Power Constraint
 
 ### Objective
 
-Expected sample size under the point prior is minimized and has already been 
-defined.
+Expected sample size under the prior is minimized and has already been defined.
 
 ### Constrains
 
 The constraints remain the same as before, additionally to a constraint
 on conditional power.
 ```{r}
-cp <- ConditionalPower(datadist, prior)
+cp <- ConditionalPower(datadist, condition(prior, c(0, 3)))
 
 cp_cnstr <- cp >= .7
 ```
@@ -453,7 +317,7 @@ testthat::expect_true(opt3_ts$nloptr_return$iterations < opts$maxeval)
 Type one error rate constraint is tested for the optimal design.
 Due to numerical issues we allow a realtive error of $2\%$.
 ```{r}
-tmp     <- sim_pr_reject(opt3_ts$design, .0, datadist)
+tmp     <- ""sim_pr_reject(opt3_ts$design, .0, datadist)
 df_toer3 <- data.frame(
     toer = as.numeric(tmp[1]),
     se   = as.numeric(tmp[2])
@@ -466,24 +330,9 @@ df_toer3
 ```
 
 
-The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of $2\%$.
-```{r}
-tmp     <- sim_pr_reject(opt3_ts$design, .4, datadist)
-df_pow3 <- data.frame(
-    pow  = as.numeric(tmp[1]),
-    se   = as.numeric(tmp[2])
-)
-rm(tmp)
-
-testthat::expect_true(all(df_pow3$pow >= .8 * (1 - 0.02)))
-
-df_pow3
-```
-
 
 The expected sample size under the prior should be higher than
-in the case without the constraint that was analyzed in I.1.
+in the case without the constraint that was analyzed in II.1.
 ```{r}
 testthat::expect_gte(
     evaluate(ess, opt3_ts$design),
@@ -500,9 +349,6 @@ cp_val <- sapply(x, function(z) evaluate(cp, opt3_ts$design, z))
 
 testthat::expect_true(all(cp_val >= 0.7))
 ```
-
-
-
 
 
 

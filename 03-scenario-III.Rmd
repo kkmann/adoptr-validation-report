@@ -1,0 +1,198 @@
+# Scenario III: large effect, uniform prior alternative
+
+
+
+## Details
+
+This scenario is a variant of Scenario I.
+The purpose is to asses whether placing uniform priors with decreasing 
+width of support centered at the $\delta=0.4$ leads to a sequence of
+optimal designs which converges towards the solution in Case I-1.
+
+
+### Data distribution
+
+Two-armed trial with normally distributed test statistic
+```{r}
+datadist <- Normal(two_armed = TRUE)
+```
+
+
+### Null hypothesis
+
+The null hypothesis is $\mathcal{H}_0:\delta \leq 0$
+```{r}
+H_0 <- PointMassPrior(.0, 1)
+```
+
+
+### Prior assumptions
+
+In this scenario we consider a sequence of uniform distributions
+$\delta\sim\operatorname{Unif}(0.4 - \Delta_i, 0.4 + \Delta_i)$
+around $0.4$ with $\Delta_i=(3 - i)/10$ for $i=0\ldots 3$. 
+I.e., for $\Delta_3=0$ reduces to `PointMassPrior` on $\delta=0.4$. 
+```{r}
+prior <- function(delta) {
+    if (delta == 0)
+        return(PointMassPrior(.4, 1.0))
+    a <- .4 - delta; b <- .4 + delta
+    ContinuousPrior(function(x) dunif(x, a, b), support = c(a, b))
+}
+```
+
+
+
+
+
+## Case III.1: Convergence under prior concentration
+
+Make sure that the optimal solution converges as the prior is more and more 
+concentrated at a point mass.
+
+
+### Objective
+
+Expected sample size under the respective prior is minimized, i.e.,
+$\boldsymbol{E}\big[n(\mathcal{D})\big]$.
+```{r}
+objective <- function(delta) {
+    expected(ConditionalSampleSize(datadist, prior(delta)))
+}
+```
+
+
+### Constrains
+
+The type one error rate is controlled at $0.025$ on the boundary of the 
+null hypothesis.
+```{r}
+toer_cstr <- expected(ConditionalPower(datadist, H_0)) <= .025
+```
+
+Expected power $\boldsymbol{Pr}\big[c_2(\mathcal{D}, X_1) < X_2\,|\,\delta\geq 0.0\big]$ must be larger than $0.8$.
+```{r}
+ep_cnstr <- function(delta) {
+    prior     <- prior(delta)
+    cnd_prior <- condition(prior, c(0, bounds(prior)[2]))
+    return( expected(ConditionalPower(datadist, cnd_prior)) >= 0.8 )
+}
+```
+
+
+### Optimization problem
+
+The optimization problem depending on $\Delta_i$ is defined below.
+The default optimization paramters, 5 pivot points, and a fixed initial design
+is used. 
+[TODO: rationale for intial design?]
+```{r}
+init <- TwoStageDesign(
+    n1    = 150,
+    c1f   = 0,
+    c1e   = 2.3,
+    n2    = 125.0,
+    c2    = 2.0,
+    order = 5
+)
+
+optimal_design <- function(delta) {
+    
+    minimize(
+        
+        objective(delta),
+        
+        subject_to(
+            
+            toer_cstr,
+            ep_cnstr(delta)
+            
+        ),
+        
+        initial_design = init
+        
+    )
+}
+```
+
+Compute the sequence of optimal designs
+```{r}
+deltas  <- 3:0/10
+results <- lapply(deltas, optimal_design)
+```
+
+### Test cases
+
+Check that iteration limit was not exceeded in any case.
+```{r}
+iters <- sapply(results, function(x) x$nloptr_return$iterations)
+
+print(iters)
+
+testthat::expect_true(all(iters <= 10000))
+```
+
+Check type one error rate control
+```{r}
+sim_toer <- function(design) {
+    simdata <- simulate(
+        design,
+        nsim  = 10^6, 
+        dist  = datadist, 
+        theta =   .0,
+        seed  = 42
+    )
+    return(list(
+        toer = mean(simdata$reject), 
+        se   = sd(simdata$reject) / sqrt(nrow(simdata))
+    ))
+}
+
+tmp     <- sapply(results, function(x) sim_toer(x$design))
+df_toer <- data.frame(
+    toer = as.numeric(tmp[1, ]),
+    se   = as.numeric(tmp[2, ])
+)
+rm(tmp)
+
+testthat::expect_true(all(df_toer$toer < .025))
+
+df_toer
+```
+
+
+### Plot designs
+
+Plot and assess for convergence
+```{r}
+z1 <- seq(0, 3, by = .01)
+
+tibble(
+    delta  = deltas, 
+    design = lapply(results, function(x) x$design)
+) %>% 
+    group_by(delta) %>% 
+    do(
+        z1 = z1,
+        n  = adoptr::n(.$design[[1]], z1),
+        c2 = c2(.$design[[1]], z1)
+    ) %>% 
+    unnest() %>% 
+    mutate(
+        section = ifelse(
+            is.finite(c2), 
+            "continuation", 
+            ifelse(c2 == -Inf, "efficacy", "futility")
+        )
+    ) %>% 
+    gather(variable, value, n, c2) %>% 
+    ggplot(aes(z1, value, color = delta)) +
+        geom_line(aes(group = interaction(section, delta))) + 
+        facet_wrap(~variable, scales = "free_y") +
+        theme_bw() +
+        scale_color_continuous(bquote(Delta)) +
+        theme(
+            panel.grid = element_blank(),
+            legend.position = "bottom"
+        )
+```
