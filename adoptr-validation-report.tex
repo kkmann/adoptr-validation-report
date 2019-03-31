@@ -1,0 +1,873 @@
+\documentclass[]{book}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Validation Report for adoptr package},
+            pdfauthor={Kevin Kunzmann \& Maximilian Pilz},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{natbib}
+\bibliographystyle{apalike}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Validation Report for \textbf{adoptr} package}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Kevin Kunzmann \& Maximilian Pilz}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2019-03-31}
+
+\usepackage{booktabs}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\hypertarget{introduction}{%
+\chapter{Introduction}\label{introduction}}
+
+\hypertarget{concept}{%
+\section{Concept}\label{concept}}
+
+The goal of adoptrValidation is to provide a comprehensive suit of test
+for the \href{https://github.com/kkmann/adoptr}{adoptr} package.
+The package is not directly inteded to be used but to automatically
+deploy a weekly validation report via github pages to
+\url{https://kkmann.github.io/adoptrValidation/}.
+The report is implemented as a set of vignettes which are compiled
+into a static web page using pkgdown.
+For details on the class of supported designs, see
+\url{https://github.com/kkmann/adoptr}.
+
+\hypertarget{local-validation}{%
+\section{Local validation}\label{local-validation}}
+
+\ldots{}
+
+\hypertarget{brief-introdcution-to-two-stage-designs}{%
+\section{Brief Introdcution to Two-Stage Designs}\label{brief-introdcution-to-two-stage-designs}}
+
+In \texttt{adoptrValidation} a suitable set of cases is tested in order to
+validate the performance of the package \texttt{adoptr}.
+This package allows to compute optimal designs (adaptive two-stage,
+group-sequential two-stage and one-stage) for normally distributed data.
+For a treatment group \(T\) and a control group \(C\) where
+the observations \(X_i^T \sim \mathcal{N} (\mu_T, \sigma^2)\),
+\(X_i^C \sim \mathcal{N} (\mu_C, \sigma^2)\) the following hypotheses are
+tested:
+\[
+\mathcal{H}_0: \delta := \mu_T - \mu_C \leq 0 \text{ v.s. }
+\mathcal{H_1}: \delta > 0. 
+\]
+The power of a test procedure is computed on an alternative effect size
+\(\delta_1 > 0\) where a prior distribution
+\(\delta_1 \sim \pi(\vartheta, \tau^2)\) is imaginable.
+
+The trial evaluation happens as follows.
+After \(n_1\) patients (per group) finished the trial an interim analysis
+is conducted. The interim test statistic \(Z_1\) for a standard z-test is computed
+and the trial is stopped early for futility, if \(Z_1 < c_f\).
+If \(Z_1 > c_e\) the null hypothesis is rejected and the trial is stopped early
+for efficacy. Otherwise, i.e.~if \(c_f \leq Z_1 \leq c_e\), the trial enters
+in the second stage. Due to the adaptivness of the trial design, the
+stage-two sample size is a function of \(Z_1\), i.e. \(n_2(Z_1)\).
+Also the final rejection boundary \(c_2\) depends on \(Z_1\).
+At the final analysis the stage-two test statistic \(Z_2\) is computed and
+the null hypothesis is rejected if \(Z_2 > c_2(Z_1)\).
+
+A design \(D\) is a five-tuple consisting of the first-stage sample size
+\(n_1\), early stopping boundaries \(c_f\) (futility) and \(c_e\) (efficacy)
+and stage-two functions \(n_2(\cdot)\) (sample size) and \(c_2(\cdot)\)
+(rejection boundary).
+All these elements can be computed optimally in \texttt{adoptr}.
+The incorporation of continuous priors is possible as well as including
+conditional and unconditional constraints.
+
+Given a design \(D\) and a objective function \(f\)
+the default setting in {[}adoptr{]} is the following.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\(\min\) & \(f(D)\)\tabularnewline
+\midrule
+\endhead
+such that & Type One Error Rate \(\leq \alpha\)\tabularnewline
+and & Power \(\geq 1 - \beta\)\tabularnewline
+\bottomrule
+\end{longtable}
+
+Often in clinical practice one is not willing to enter in a second
+stage when the conditional power (i.e., the probability to reject at
+the final analysis given the first-stage results) is too low or too high
+because in these cases the stage-two result is likely predictable.
+Therefore, introducing conditional power constraints of the form
+\[
+1 - \beta_2 \leq \text{Conditional Power}(z_1, D) \leq 1 - \beta_3
+\]
+may be desirable and are supported by \texttt{adoptr}.
+
+In \texttt{adoptrValidation} different scenarios are investigated.
+Each scenario is determined by the assumed effect size \(\delta_1\) and its
+prior distribution \(\pi\).
+In each scenario, different tests are performed.
+All tests are indicated by a bullet point.
+
+\hypertarget{validation-strategy}{%
+\section{Validation strategy}\label{validation-strategy}}
+
+\textbf{adoptrValidation} essentially extends the test suit of \textbf{adoptr} to cover
+more different scenarios.
+In order to generate a proper validation report the test Variants are not managed
+using a unit testing framework like testthat but are directly included in a
+set of vignettes (one per sceanrio).
+These vignettes are automatically built and published (here) once per week
+using pkgdown to keep the validation report up to date with the latest
+CRAN release {[}TODO: we currently use our master!{]}.
+The overall failure/pass status of the latest build can be checked using the
+Travis-CI badge.
+In the following, all Scenarios and their respective sub-Variants are outlined.
+\textbf{Scenarios} are defined by the joint distribution of the test statistic and the
+location parameter, while \textbf{Variants} are given by the respective optimization
+problem (objective, constraints).
+
+\hypertarget{technical-setup}{%
+\subsection{Technical Setup}\label{technical-setup}}
+
+Initially, the both packages are loaded and the seed for simulation is set.
+Additionally, the options for optimization are modified by increasing
+the maximum number of evaluations to ensure convergence.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(adoptr)}
+\KeywordTok{library}\NormalTok{(tidyverse)}
+
+\CommentTok{# load custom functions in folder subfolder '/R'}
+\ControlFlowTok{for}\NormalTok{ (nm }\ControlFlowTok{in} \KeywordTok{list.files}\NormalTok{(}\StringTok{"R"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{.[RrSsQq]$"}\NormalTok{))}
+   \KeywordTok{source}\NormalTok{(}\KeywordTok{file.path}\NormalTok{(}\StringTok{"R"}\NormalTok{, nm))}
+
+\CommentTok{# define seed value}
+\NormalTok{seed <-}\StringTok{ }\DecValTok{42}
+
+\CommentTok{# define custom tolerance and iteration limit for nloptr}
+\NormalTok{opts =}\StringTok{ }\KeywordTok{list}\NormalTok{(}
+    \DataTypeTok{algorithm =} \StringTok{"NLOPT_LN_COBYLA"}\NormalTok{,}
+    \DataTypeTok{xtol_rel  =} \FloatTok{1e-5}\NormalTok{,}
+    \DataTypeTok{maxeval   =} \DecValTok{50000}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{scenario-i}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-I.html\#tocnav}{Scenario I}}{Scenario I}}\label{scenario-i}}
+
+This is the default scenario.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data distribution:} Two-armed trial with normally distributed test statistic
+\item
+  \textbf{Prior:} \(\delta\sim\delta_{0.4}\)
+\item
+  \textbf{Null hypothesis:} \(\mathcal{H}_0:\delta \leq 0\)
+\end{itemize}
+
+\hypertarget{variant-i.1-minimizing-expected-sample-size-under-the-alternative}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-I.html\#case-i-1-minimizing-expected-sample-size-under-point-prior}{Variant I.1: Minimizing Expected Sample Size under the Alternative}}{Variant I.1: Minimizing Expected Sample Size under the Alternative}}\label{variant-i.1-minimizing-expected-sample-size-under-the-alternative}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.4\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    Three variants: two-stage, group-sequential, one-stage.
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    All three \textbf{adoptr} variants (two-stage, group-sequential, one-stage)
+    comply with constraints. Internally validated by testing vs.~simulated
+    values of the power curve at respective points.
+  \item
+    \(ESS\) of optimal two-stage design is lower than \(ESS\) of optimal
+    group-sequential one and that is in turn lower than the one of the
+    optimal one-stage design.
+  \item
+    \(ESS\) of optimal group-sequential design is lower than \(ESS\) of
+    externally computed group-sequential design using the \href{https://rpact.org/}{rpact} package.
+  \item
+    Are the \(ESS\) values obtained from simulation the same as the ones
+    obtained by using numerical integration via \texttt{adoptr::evaluate}?
+  \item
+    Is \(n()\) of the optimal two-stage design monotonously decreasing on
+    continuation area?
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{variant-i.2-minimizing-expected-sample-size-under-the-null-hypothesis}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-I.html\#case-i-2-minimizing-expected-sample-size-under-null-hypothesis}{Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis}}{Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis}}\label{variant-i.2-minimizing-expected-sample-size-under-the-null-hypothesis}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta=0.0}\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.4\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Validate constraint compliance by testing vs.~simulated
+    values of the power curve at respective points.
+  \item
+    \(n()\) of optimal design is monotonously increasing on continuation area.
+    TODO
+  \item
+    \(ESS\) of optimal two-stage design is lower than \(ESS\) of externally
+    computed group-sequential design using the \href{https://rpact.org/}{rpact} package.
+  \item
+    Are the \(ESS\) values obtained from simulation the same as the ones
+    obtained by using numerical integration via \texttt{adoptr::evaluate}?
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{variant-i.3-condtional-power-constraint}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-I.html\#case-i-3-conditional-power-constraint}{Variant I.3: Condtional Power Constraint}}{Variant I.3: Condtional Power Constraint}}\label{variant-i.3-condtional-power-constraint}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.4\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    \(CP := \color{red}{\boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.4, X_1 = x_1\big] \geq 0.7}\) for all \(x_1\in(c_1^f, c_1^e)\)
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Check \(Power\) and \(TOER\) constraints with simulation.
+    Check \(CP\) constraint on three different values of \(x_1\) in
+    \((c_1^f, c_1^e)\)
+  \item
+    Are the \(CP\) values at the three test-pivots obtained from simulation the
+    same as the ones obtained by using numerical integration via
+    \texttt{adoptr::evaluate}?
+  \item
+    Is \(ESS\) of optimal two-stage design with \(CP\) constraint higher than
+    \(ESS\) of optimal two-stage design without this constraint?
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{scenario-ii}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-II.html\#tocnav}{Scenario II}}{Scenario II}}\label{scenario-ii}}
+
+Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta\).
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data distribution:} Two-armed trial with normally distributed test statistic
+\item
+  \textbf{Prior:} \(\delta\sim\mathcal{N}(0.4, .3)\)
+\item
+  \textbf{Null hypothesis:} \(\mathcal{H}_0:\delta \leq 0\)
+\end{itemize}
+
+\hypertarget{variant-ii.1-minimizing-expected-sample-size}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-II.html\#case-ii-1-minimizing-expected-sample-size-under-point-prior}{Variant II.1: Minimizing Expected Sample Size}}{Variant II.1: Minimizing Expected Sample Size}}\label{variant-ii.1-minimizing-expected-sample-size}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta> 0.0\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    Three variants: two-stage, group-sequential, one-stage.
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    All designs comply with type one error rate constraints (tested via
+    simulation).
+  \item
+    \(ESS\) of optimal two-stage design is lower than \(ESS\) of optimal
+    group-sequential one and that is in turn lower than the one of the
+    optimal one-stage design.
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{variant-ii.2-minimizing-expected-sample-size-under-the-null-hypothesis}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-II.html\#case-ii-2-minimizing-expected-sample-size-under-null-hypothesis}{Variant II.2: Minimizing Expected Sample Size under the Null hypothesis}}{Variant II.2: Minimizing Expected Sample Size under the Null hypothesis}}\label{variant-ii.2-minimizing-expected-sample-size-under-the-null-hypothesis}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta\leq 0}\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta> 0.0\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Does the design comply with \(TOER\) constraint (via simulation)?
+  \item
+    Check \(CP\) constraint on three different values of \(x_1\) in
+    \((c_1^f, c_1^e)\)
+  \item
+    TODO: Is the sample size function monotonously increasing?
+  \item
+    Is \(ESS\) lower than expected sample size under the null hypothesis
+    for the optimal two stage design from Variant II-1?
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{variant-ii.3-condtional-power-constraint}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-II.html\#case-ii-3-conditional-power-constraint}{Variant II.3: Condtional Power Constraint}}{Variant II.3: Condtional Power Constraint}}\label{variant-ii.3-condtional-power-constraint}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta>0.0\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    \(CP := \color{red}{\boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta> 0.0, X_1 = x_1\big] \geq 0.7}\)
+    for all \(x_1\in(c_1^f, c_1^e)\)
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Check \(TOER\) constraint with simulation.
+    Check \(CP\) constraint on three different values of \(x_1\) in
+    \((c_1^f, c_1^e)\)
+  \item
+    Is \(ESS\) of optimal two-stage design with \(CP\) constraint higher than
+    \(ESS\) of optimal two-stage design without the constraint?
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{scenario-iii}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-III.html\#tocnav}{Scenario III:}}{Scenario III:}}\label{scenario-iii}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data distribution:} Two-armed trial with normally distributed test statistic
+\item
+  \textbf{Prior:} sequence of uniform distributions
+  \(\delta\sim\operatorname{Unif}(0.4 - \Delta_i, 0.4 + \Delta_i)\)
+  around \(0.4\) with \(\Delta_i=(3 - i)/10\) for \(i=0\ldots 3\).
+  I.e., for \(\Delta_3=0\) reduces to a point prior on \(\delta=0.4\).
+\item
+  \textbf{Null hypothesis:} \(\mathcal{H}_0:\delta \leq 0\)
+\end{itemize}
+
+\hypertarget{variant-iii.1-convergence-under-prior-concentration}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-III.html\#Variant-iii-1-minimizing-expected-sample-size-under-alternative}{Variant III.1: Convergence under Prior Concentration}}{Variant III.1: Convergence under Prior Concentration}}\label{variant-iii.1-convergence-under-prior-concentration}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta>0.0\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Simulated type one error rate is compared to \(TOER\) constraint for each
+    design.
+  \item
+    Number of iterations are checked agaist default maximum to ensure proper
+    convergence.
+  \item
+    TODO: \(ESS\) decreases with prior variance.
+  \end{enumerate}
+\end{itemize}
+
+Additionally, the designs are compared graphically.
+Inspect the plot to see convergence pattern.
+
+\hypertarget{scenario-iv-smaller-effect-size-larger-trials.}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html\#tocnav}{Scenario IV: Smaller effect size, larger trials.}}{Scenario IV: Smaller effect size, larger trials.}}\label{scenario-iv-smaller-effect-size-larger-trials.}}
+
+\hypertarget{variant-iv.1-minimizing-expected-sample-size-under-the-alternative}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html\#Variant-iv-1-minimizing-expected-sample-size-under-alternative}{Variant IV.1: Minimizing Expected Sample Size under the Alternative}}{Variant IV.1: Minimizing Expected Sample Size under the Alternative}}\label{variant-iv.1-minimizing-expected-sample-size-under-the-alternative}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.2\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    Three variants: two-stage, group-sequential, one-stage.
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    All three adoptr variants (two-stage, group-sequential, one-stage)
+    comply with costraints. Internally validated by testing vs.~simulated
+    values of the power curve at respective points.
+  \item
+    \(ESS\) of optimal two-stage design is lower than \(ESS\) of optimal
+    group-sequential one and that is in tunr lower than the one of the
+    optimal one-stage design.
+  \item
+    \(ESS\) of optimal group-sequential design is lower than \(ESS\) of
+    externally computed group-sequential design using the \href{https://rpact.org/}{rpact} package.
+  \item
+    Are the \(ESS\) values obtained from simulation the same as the ones
+    obtained by using numerical integration via \texttt{adoptr::evaluate}?
+  \item
+    Is \(n()\) of the optimal two-stage design monotonously decreasing on
+    continuation area? TODO
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{variant-iv.2-increasing-power}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html\#Variant-iv-2-increase-power}{Variant IV.2: Increasing Power}}{Variant IV.2: Increasing Power}}\label{variant-iv.2-increasing-power}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.2\big] \geq \color{red}{0.9}\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    Three variants: two-stage, group-sequential, one-stage.
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Does the design respect all constraints (via simulation)?
+  \item
+    \(ESS\) of optimal two-stage design is lower than \(ESS\) of optimal
+    group-sequential one and that is in tunr lower than the one of the
+    optimal one-stage design.
+  \item
+    \(ESS\) of optimal group-sequential design is lower than \(ESS\) of
+    externally computed group-sequential design using the \href{https://rpact.org/}{rpact} package.
+  \item
+    Are the \(ESS\) values obtained from simulation the same as the ones
+    obtained by using numerical integration via \texttt{adoptr::evaluate}?
+  \item
+    Is \(n()\) of the optimal two-stage design monotonously decreasing on
+    continuation area? TODO
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{variant-iv.3-increasing-maximal-type-one-error-rate}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html\#Variant-iv-3-increase-maximal-type-one-error-rate}{Variant IV.3: Increasing Maximal Type One Error Rate}}{Variant IV.3: Increasing Maximal Type One Error Rate}}\label{variant-iv.3-increasing-maximal-type-one-error-rate}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.2\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq \color{red}{0.05}\)
+  \item
+    Three variants: two-stage, group-sequential, one-stage.
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Does the design respect all constraints (via simulation)?
+  \item
+    \(ESS\) of optimal two-stage design is lower than \(ESS\) of optimal
+    group-sequential one and that is in tunr lower than the one of the
+    optimal one-stage design.
+  \item
+    \(ESS\) of optimal group-sequential design is lower than \(ESS\) of
+    externally computed group-sequential design using the \href{https://rpact.org/}{rpact} package.
+  \item
+    Are the \(ESS\) values obtained from simulation the same as the ones
+    obtained by using numerical integration via \texttt{adoptr::evaluate}?
+  \item
+    Is \(n()\) of the optimal two-stage design monotonously decreasing on
+    continuation area? TODO
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{scenario-v-single-arm-design-medium-effect-size.}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#tocnav}{Scenario V: Single-arm design, medium effect size.}}{Scenario V: Single-arm design, medium effect size.}}\label{scenario-v-single-arm-design-medium-effect-size.}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data distribution:} One-armed trial with normally distributed test statistic
+\item
+  \textbf{Prior:} \(\delta\sim\delta_{0.3}\)
+\item
+  \textbf{Null hypothesis:} \(\mathcal{H}_0:\delta \leq 0\)
+\end{itemize}
+
+\hypertarget{variant-v.1-sensitivity-to-integration-order}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#case-v-1-sensitivity-to-integration-order}{Variant V.1: Sensitivity to Integration Order}}{Variant V.1: Sensitivity to Integration Order}}\label{variant-v.1-sensitivity-to-integration-order}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\color{red}{\delta=0.3}\big] \geq 0.8\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    Three variants: integration order 5, 8, 11 two-stage designs {[}TODO: maybe more?{]}.
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Do all designs respect all constraints (via simulation)?
+  \item
+    Do all designs converge within the respective iteration limit?
+  \item
+    Does constraint compliance get better with increased order?
+  \item
+    Does the simulated \(ESS\) get better with increased order?
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{variant-v.2-utility-maximization}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#case-v-2-utility-maximization}{Variant V.2: Utility Maximization}}{Variant V.2: Utility Maximization}}\label{variant-v.2-utility-maximization}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(\lambda\, Power - ESS := \lambda\, \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] - \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big].\)
+  for \(\lambda = 100\) and \(200\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Do both desings respect the type one error rate constraint (via simulation)?
+  \item
+    Is the power of the design with larger \(\lambda\) larger?
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{variant-v.3-n_1-penalty}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#case-v-3-n1-penalty}{Variant V.3: \(n_1\) penalty}}{Variant V.3: n\_1 penalty}}\label{variant-v.3-n_1-penalty}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda \, n_1\)
+  for \(\lambda = 0.05\) and \(0.2\).
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] \geq 0.8\)
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Is \(n_1\) for the optimal design smaller than the order-5 design in V.1?
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{variant-v.4-n_2-penalty}{%
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#case-v-4-n2-penalty}{Variant V.4: \(n_2\) penalty}}{Variant V.4: n\_2 penalty}}\label{variant-v.4-n_2-penalty}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] +\) \texttt{AverageN2}
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] \geq 0.8\)
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Is the \texttt{AverageN2} for the optimal design smaller than for the order-5
+    design in V.1?
+  \end{enumerate}
+\end{itemize}
+
+\bibliography{book.bib,packages.bib}
+
+
+\end{document}

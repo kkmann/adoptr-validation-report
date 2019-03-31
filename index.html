@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Validation Report for adoptr package</title>
+  <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Validation Report for adoptr package" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Validation Report for adoptr package" />
+  
+  <meta name="twitter:description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
+  
+
+<meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
+
+
+<meta name="date" content="2019-03-31">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+
+<link rel="next" href="references.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Validation Report for adoptr Package</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#concept"><i class="fa fa-check"></i><b>1.1</b> Concept</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#local-validation"><i class="fa fa-check"></i><b>1.2</b> Local validation</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#brief-introdcution-to-two-stage-designs"><i class="fa fa-check"></i><b>1.3</b> Brief Introdcution to Two-Stage Designs</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#validation-strategy"><i class="fa fa-check"></i><b>1.4</b> Validation strategy</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#technical-setup"><i class="fa fa-check"></i><b>1.4.1</b> Technical Setup</a></li>
+<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#scenario-i"><i class="fa fa-check"></i><b>1.4.2</b> <span>Scenario I</span></a></li>
+<li class="chapter" data-level="1.4.3" data-path="index.html"><a href="index.html#scenario-ii"><i class="fa fa-check"></i><b>1.4.3</b> <span>Scenario II</span></a></li>
+<li class="chapter" data-level="1.4.4" data-path="index.html"><a href="index.html#scenario-iii"><i class="fa fa-check"></i><b>1.4.4</b> <span>Scenario III:</span></a></li>
+<li class="chapter" data-level="1.4.5" data-path="index.html"><a href="index.html#scenario-iv-smaller-effect-size-larger-trials."><i class="fa fa-check"></i><b>1.4.5</b> <span>Scenario IV: Smaller effect size, larger trials.</span></a></li>
+<li class="chapter" data-level="1.4.6" data-path="index.html"><a href="index.html#scenario-v-single-arm-design-medium-effect-size."><i class="fa fa-check"></i><b>1.4.6</b> <span>Scenario V: Single-arm design, medium effect size.</span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Validation Report for <strong>adoptr</strong> package</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Validation Report for <strong>adoptr</strong> package</h1>
+<p class="author"><em>Kevin Kunzmann &amp; Maximilian Pilz</em></p>
+<p class="date"><em>2019-03-31</em></p>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<div id="concept" class="section level2">
+<h2><span class="header-section-number">1.1</span> Concept</h2>
+<p>The goal of adoptrValidation is to provide a comprehensive suit of test
+for the <a href="https://github.com/kkmann/adoptr">adoptr</a> package.
+The package is not directly inteded to be used but to automatically
+deploy a weekly validation report via github pages to
+<a href="https://kkmann.github.io/adoptrValidation/" class="uri">https://kkmann.github.io/adoptrValidation/</a>.
+The report is implemented as a set of vignettes which are compiled
+into a static web page using pkgdown.
+For details on the class of supported designs, see
+<a href="https://github.com/kkmann/adoptr" class="uri">https://github.com/kkmann/adoptr</a>.</p>
+</div>
+<div id="local-validation" class="section level2">
+<h2><span class="header-section-number">1.2</span> Local validation</h2>
+<p>…</p>
+</div>
+<div id="brief-introdcution-to-two-stage-designs" class="section level2">
+<h2><span class="header-section-number">1.3</span> Brief Introdcution to Two-Stage Designs</h2>
+<p>In <code>adoptrValidation</code> a suitable set of cases is tested in order to
+validate the performance of the package <code>adoptr</code>.
+This package allows to compute optimal designs (adaptive two-stage,
+group-sequential two-stage and one-stage) for normally distributed data.
+For a treatment group <span class="math inline">\(T\)</span> and a control group <span class="math inline">\(C\)</span> where
+the observations <span class="math inline">\(X_i^T \sim \mathcal{N} (\mu_T, \sigma^2)\)</span>,
+<span class="math inline">\(X_i^C \sim \mathcal{N} (\mu_C, \sigma^2)\)</span> the following hypotheses are
+tested:
+<span class="math display">\[
+\mathcal{H}_0: \delta := \mu_T - \mu_C \leq 0 \text{ v.s. }
+\mathcal{H_1}: \delta &gt; 0. 
+\]</span>
+The power of a test procedure is computed on an alternative effect size
+<span class="math inline">\(\delta_1 &gt; 0\)</span> where a prior distribution
+<span class="math inline">\(\delta_1 \sim \pi(\vartheta, \tau^2)\)</span> is imaginable.</p>
+<p>The trial evaluation happens as follows.
+After <span class="math inline">\(n_1\)</span> patients (per group) finished the trial an interim analysis
+is conducted. The interim test statistic <span class="math inline">\(Z_1\)</span> for a standard z-test is computed
+and the trial is stopped early for futility, if <span class="math inline">\(Z_1 &lt; c_f\)</span>.
+If <span class="math inline">\(Z_1 &gt; c_e\)</span> the null hypothesis is rejected and the trial is stopped early
+for efficacy. Otherwise, i.e. if <span class="math inline">\(c_f \leq Z_1 \leq c_e\)</span>, the trial enters
+in the second stage. Due to the adaptivness of the trial design, the
+stage-two sample size is a function of <span class="math inline">\(Z_1\)</span>, i.e. <span class="math inline">\(n_2(Z_1)\)</span>.
+Also the final rejection boundary <span class="math inline">\(c_2\)</span> depends on <span class="math inline">\(Z_1\)</span>.
+At the final analysis the stage-two test statistic <span class="math inline">\(Z_2\)</span> is computed and
+the null hypothesis is rejected if <span class="math inline">\(Z_2 &gt; c_2(Z_1)\)</span>.</p>
+<p>A design <span class="math inline">\(D\)</span> is a five-tuple consisting of the first-stage sample size
+<span class="math inline">\(n_1\)</span>, early stopping boundaries <span class="math inline">\(c_f\)</span> (futility) and <span class="math inline">\(c_e\)</span> (efficacy)
+and stage-two functions <span class="math inline">\(n_2(\cdot)\)</span> (sample size) and <span class="math inline">\(c_2(\cdot)\)</span>
+(rejection boundary).
+All these elements can be computed optimally in <code>adoptr</code>.
+The incorporation of continuous priors is possible as well as including
+conditional and unconditional constraints.</p>
+<p>Given a design <span class="math inline">\(D\)</span> and a objective function <span class="math inline">\(f\)</span>
+the default setting in [adoptr] is the following.</p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(\min\)</span></th>
+<th><span class="math inline">\(f(D)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>such that</td>
+<td>Type One Error Rate <span class="math inline">\(\leq \alpha\)</span></td>
+</tr>
+<tr class="even">
+<td>and</td>
+<td>Power <span class="math inline">\(\geq 1 - \beta\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Often in clinical practice one is not willing to enter in a second
+stage when the conditional power (i.e., the probability to reject at
+the final analysis given the first-stage results) is too low or too high
+because in these cases the stage-two result is likely predictable.
+Therefore, introducing conditional power constraints of the form
+<span class="math display">\[
+1 - \beta_2 \leq \text{Conditional Power}(z_1, D) \leq 1 - \beta_3
+\]</span>
+may be desirable and are supported by <code>adoptr</code>.</p>
+<p>In <code>adoptrValidation</code> different scenarios are investigated.
+Each scenario is determined by the assumed effect size <span class="math inline">\(\delta_1\)</span> and its
+prior distribution <span class="math inline">\(\pi\)</span>.
+In each scenario, different tests are performed.
+All tests are indicated by a bullet point.</p>
+</div>
+<div id="validation-strategy" class="section level2">
+<h2><span class="header-section-number">1.4</span> Validation strategy</h2>
+<p><strong>adoptrValidation</strong> essentially extends the test suit of <strong>adoptr</strong> to cover
+more different scenarios.
+In order to generate a proper validation report the test Variants are not managed
+using a unit testing framework like testthat but are directly included in a
+set of vignettes (one per sceanrio).
+These vignettes are automatically built and published (here) once per week
+using pkgdown to keep the validation report up to date with the latest
+CRAN release [TODO: we currently use our master!].
+The overall failure/pass status of the latest build can be checked using the
+Travis-CI badge.
+In the following, all Scenarios and their respective sub-Variants are outlined.
+<strong>Scenarios</strong> are defined by the joint distribution of the test statistic and the
+location parameter, while <strong>Variants</strong> are given by the respective optimization
+problem (objective, constraints).</p>
+<div id="technical-setup" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> Technical Setup</h3>
+<p>Initially, the both packages are loaded and the seed for simulation is set.
+Additionally, the options for optimization are modified by increasing
+the maximum number of evaluations to ensure convergence.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(adoptr)
+<span class="kw">library</span>(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.1.0          ✔ purrr   0.3.2     
+## ✔ tibble  2.1.1          ✔ dplyr   0.8.0.1   
+## ✔ tidyr   0.8.3.9000     ✔ stringr 1.3.1     
+## ✔ readr   1.3.1          ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ✖ dplyr::n()      masks adoptr::n()</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span>
+<span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))
+   <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))
+
+<span class="co"># define seed value</span>
+seed &lt;-<span class="st"> </span><span class="dv">42</span>
+
+<span class="co"># define custom tolerance and iteration limit for nloptr</span>
+opts =<span class="st"> </span><span class="kw">list</span>(
+    <span class="dt">algorithm =</span> <span class="st">&quot;NLOPT_LN_COBYLA&quot;</span>,
+    <span class="dt">xtol_rel  =</span> <span class="fl">1e-5</span>,
+    <span class="dt">maxeval   =</span> <span class="dv">50000</span>
+)</code></pre>
+</div>
+<div id="scenario-i" class="section level3">
+<h3><span class="header-section-number">1.4.2</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#tocnav">Scenario I</a></h3>
+<p>This is the default scenario.</p>
+<ul>
+<li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
+<li><strong>Prior:</strong> <span class="math inline">\(\delta\sim\delta_{0.4}\)</span></li>
+<li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
+</ul>
+<div id="variant-i.1-minimizing-expected-sample-size-under-the-alternative" class="section level4">
+<h4><span class="header-section-number">1.4.2.1</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#case-i-1-minimizing-expected-sample-size-under-point-prior">Variant I.1: Minimizing Expected Sample Size under the Alternative</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.4\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+<li>Three variants: two-stage, group-sequential, one-stage.</li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>All three <strong>adoptr</strong> variants (two-stage, group-sequential, one-stage)
+comply with constraints. Internally validated by testing vs. simulated
+values of the power curve at respective points.</li>
+<li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
+group-sequential one and that is in turn lower than the one of the
+optimal one-stage design.</li>
+<li><span class="math inline">\(ESS\)</span> of optimal group-sequential design is lower than <span class="math inline">\(ESS\)</span> of
+externally computed group-sequential design using the <a href="https://rpact.org/">rpact</a> package.</li>
+<li>Are the <span class="math inline">\(ESS\)</span> values obtained from simulation the same as the ones
+obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
+<li>Is <span class="math inline">\(n()\)</span> of the optimal two-stage design monotonously decreasing on
+continuation area?</li>
+</ol></li>
+</ul>
+</div>
+<div id="variant-i.2-minimizing-expected-sample-size-under-the-null-hypothesis" class="section level4">
+<h4><span class="header-section-number">1.4.2.2</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#case-i-2-minimizing-expected-sample-size-under-null-hypothesis">Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta=0.0}\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.4\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Validate constraint compliance by testing vs. simulated
+values of the power curve at respective points.</li>
+<li><span class="math inline">\(n()\)</span> of optimal design is monotonously increasing on continuation area.
+TODO</li>
+<li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of externally
+computed group-sequential design using the <a href="https://rpact.org/">rpact</a> package.</li>
+<li>Are the <span class="math inline">\(ESS\)</span> values obtained from simulation the same as the ones
+obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
+</ol></li>
+</ul>
+</div>
+<div id="variant-i.3-condtional-power-constraint" class="section level4">
+<h4><span class="header-section-number">1.4.2.3</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#case-i-3-conditional-power-constraint">Variant I.3: Condtional Power Constraint</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.4\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+<li><span class="math inline">\(CP := \color{red}{\boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.4, X_1 = x_1\big] \geq 0.7}\)</span> for all <span class="math inline">\(x_1\in(c_1^f, c_1^e)\)</span></li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Check <span class="math inline">\(Power\)</span> and <span class="math inline">\(TOER\)</span> constraints with simulation.
+Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
+<span class="math inline">\((c_1^f, c_1^e)\)</span></li>
+<li>Are the <span class="math inline">\(CP\)</span> values at the three test-pivots obtained from simulation the
+same as the ones obtained by using numerical integration via
+<code>adoptr::evaluate</code>?</li>
+<li>Is <span class="math inline">\(ESS\)</span> of optimal two-stage design with <span class="math inline">\(CP\)</span> constraint higher than
+<span class="math inline">\(ESS\)</span> of optimal two-stage design without this constraint?</li>
+</ol></li>
+</ul>
+</div>
+</div>
+<div id="scenario-ii" class="section level3">
+<h3><span class="header-section-number">1.4.3</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#tocnav">Scenario II</a></h3>
+<p>Similar in scope to Scenario I, but with a continuous Gaussian prior on <span class="math inline">\(\delta\)</span>.</p>
+<ul>
+<li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
+<li><strong>Prior:</strong> <span class="math inline">\(\delta\sim\mathcal{N}(0.4, .3)\)</span></li>
+<li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
+</ul>
+<div id="variant-ii.1-minimizing-expected-sample-size" class="section level4">
+<h4><span class="header-section-number">1.4.3.1</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#case-ii-1-minimizing-expected-sample-size-under-point-prior">Variant II.1: Minimizing Expected Sample Size</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta&gt; 0.0\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+<li>Three variants: two-stage, group-sequential, one-stage.</li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>All designs comply with type one error rate constraints (tested via
+simulation).</li>
+<li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
+group-sequential one and that is in turn lower than the one of the
+optimal one-stage design.</li>
+</ol></li>
+</ul>
+</div>
+<div id="variant-ii.2-minimizing-expected-sample-size-under-the-null-hypothesis" class="section level4">
+<h4><span class="header-section-number">1.4.3.2</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#case-ii-2-minimizing-expected-sample-size-under-null-hypothesis">Variant II.2: Minimizing Expected Sample Size under the Null hypothesis</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta\leq 0}\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta&gt; 0.0\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Does the design comply with <span class="math inline">\(TOER\)</span> constraint (via simulation)?</li>
+<li>Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
+<span class="math inline">\((c_1^f, c_1^e)\)</span></li>
+<li>TODO: Is the sample size function monotonously increasing?</li>
+<li>Is <span class="math inline">\(ESS\)</span> lower than expected sample size under the null hypothesis
+for the optimal two stage design from Variant II-1?</li>
+</ol></li>
+</ul>
+</div>
+<div id="variant-ii.3-condtional-power-constraint" class="section level4">
+<h4><span class="header-section-number">1.4.3.3</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#case-ii-3-conditional-power-constraint">Variant II.3: Condtional Power Constraint</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta&gt;0.0\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+<li><span class="math inline">\(CP := \color{red}{\boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta&gt; 0.0, X_1 = x_1\big] \geq 0.7}\)</span>
+for all <span class="math inline">\(x_1\in(c_1^f, c_1^e)\)</span></li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Check <span class="math inline">\(TOER\)</span> constraint with simulation.
+Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
+<span class="math inline">\((c_1^f, c_1^e)\)</span></li>
+<li>Is <span class="math inline">\(ESS\)</span> of optimal two-stage design with <span class="math inline">\(CP\)</span> constraint higher than
+<span class="math inline">\(ESS\)</span> of optimal two-stage design without the constraint?</li>
+</ol></li>
+</ul>
+</div>
+</div>
+<div id="scenario-iii" class="section level3">
+<h3><span class="header-section-number">1.4.4</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-III.html#tocnav">Scenario III:</a></h3>
+<ul>
+<li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
+<li><strong>Prior:</strong> sequence of uniform distributions
+<span class="math inline">\(\delta\sim\operatorname{Unif}(0.4 - \Delta_i, 0.4 + \Delta_i)\)</span>
+around <span class="math inline">\(0.4\)</span> with <span class="math inline">\(\Delta_i=(3 - i)/10\)</span> for <span class="math inline">\(i=0\ldots 3\)</span>.
+I.e., for <span class="math inline">\(\Delta_3=0\)</span> reduces to a point prior on <span class="math inline">\(\delta=0.4\)</span>.</li>
+<li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
+</ul>
+<div id="variant-iii.1-convergence-under-prior-concentration" class="section level4">
+<h4><span class="header-section-number">1.4.4.1</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-III.html#Variant-iii-1-minimizing-expected-sample-size-under-alternative">Variant III.1: Convergence under Prior Concentration</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta&gt;0.0\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Simulated type one error rate is compared to <span class="math inline">\(TOER\)</span> constraint for each
+design.</li>
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
+<li>TODO: <span class="math inline">\(ESS\)</span> decreases with prior variance.</li>
+</ol></li>
+</ul>
+<p>Additionally, the designs are compared graphically.
+Inspect the plot to see convergence pattern.</p>
+</div>
+</div>
+<div id="scenario-iv-smaller-effect-size-larger-trials." class="section level3">
+<h3><span class="header-section-number">1.4.5</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#tocnav">Scenario IV: Smaller effect size, larger trials.</a></h3>
+<div id="variant-iv.1-minimizing-expected-sample-size-under-the-alternative" class="section level4">
+<h4><span class="header-section-number">1.4.5.1</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#Variant-iv-1-minimizing-expected-sample-size-under-alternative">Variant IV.1: Minimizing Expected Sample Size under the Alternative</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.2\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+<li>Three variants: two-stage, group-sequential, one-stage.</li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>All three adoptr variants (two-stage, group-sequential, one-stage)
+comply with costraints. Internally validated by testing vs. simulated
+values of the power curve at respective points.</li>
+<li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
+group-sequential one and that is in tunr lower than the one of the
+optimal one-stage design.</li>
+<li><span class="math inline">\(ESS\)</span> of optimal group-sequential design is lower than <span class="math inline">\(ESS\)</span> of
+externally computed group-sequential design using the <a href="https://rpact.org/">rpact</a> package.</li>
+<li>Are the <span class="math inline">\(ESS\)</span> values obtained from simulation the same as the ones
+obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
+<li>Is <span class="math inline">\(n()\)</span> of the optimal two-stage design monotonously decreasing on
+continuation area? TODO</li>
+</ol></li>
+</ul>
+</div>
+<div id="variant-iv.2-increasing-power" class="section level4">
+<h4><span class="header-section-number">1.4.5.2</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#Variant-iv-2-increase-power">Variant IV.2: Increasing Power</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.2\big] \geq \color{red}{0.9}\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+<li>Three variants: two-stage, group-sequential, one-stage.</li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Does the design respect all constraints (via simulation)?</li>
+<li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
+group-sequential one and that is in tunr lower than the one of the
+optimal one-stage design.</li>
+<li><span class="math inline">\(ESS\)</span> of optimal group-sequential design is lower than <span class="math inline">\(ESS\)</span> of
+externally computed group-sequential design using the <a href="https://rpact.org/">rpact</a> package.</li>
+<li>Are the <span class="math inline">\(ESS\)</span> values obtained from simulation the same as the ones
+obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
+<li>Is <span class="math inline">\(n()\)</span> of the optimal two-stage design monotonously decreasing on
+continuation area? TODO</li>
+</ol></li>
+</ul>
+</div>
+<div id="variant-iv.3-increasing-maximal-type-one-error-rate" class="section level4">
+<h4><span class="header-section-number">1.4.5.3</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#Variant-iv-3-increase-maximal-type-one-error-rate">Variant IV.3: Increasing Maximal Type One Error Rate</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.2\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq \color{red}{0.05}\)</span></li>
+<li>Three variants: two-stage, group-sequential, one-stage.</li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Does the design respect all constraints (via simulation)?</li>
+<li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
+group-sequential one and that is in tunr lower than the one of the
+optimal one-stage design.</li>
+<li><span class="math inline">\(ESS\)</span> of optimal group-sequential design is lower than <span class="math inline">\(ESS\)</span> of
+externally computed group-sequential design using the <a href="https://rpact.org/">rpact</a> package.</li>
+<li>Are the <span class="math inline">\(ESS\)</span> values obtained from simulation the same as the ones
+obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
+<li>Is <span class="math inline">\(n()\)</span> of the optimal two-stage design monotonously decreasing on
+continuation area? TODO</li>
+</ol></li>
+</ul>
+</div>
+</div>
+<div id="scenario-v-single-arm-design-medium-effect-size." class="section level3">
+<h3><span class="header-section-number">1.4.6</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#tocnav">Scenario V: Single-arm design, medium effect size.</a></h3>
+<ul>
+<li><strong>Data distribution:</strong> One-armed trial with normally distributed test statistic</li>
+<li><strong>Prior:</strong> <span class="math inline">\(\delta\sim\delta_{0.3}\)</span></li>
+<li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
+</ul>
+<div id="variant-v.1-sensitivity-to-integration-order" class="section level4">
+<h4><span class="header-section-number">1.4.6.1</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-1-sensitivity-to-integration-order">Variant V.1: Sensitivity to Integration Order</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big]\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\color{red}{\delta=0.3}\big] \geq 0.8\)</span></li>
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+<li>Three variants: integration order 5, 8, 11 two-stage designs [TODO: maybe more?].</li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Do all designs respect all constraints (via simulation)?</li>
+<li>Do all designs converge within the respective iteration limit?</li>
+<li>Does constraint compliance get better with increased order?</li>
+<li>Does the simulated <span class="math inline">\(ESS\)</span> get better with increased order?</li>
+</ol></li>
+</ul>
+</div>
+<div id="variant-v.2-utility-maximization" class="section level4">
+<h4><span class="header-section-number">1.4.6.2</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-2-utility-maximization">Variant V.2: Utility Maximization</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(\lambda\, Power - ESS := \lambda\, \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.3\big] - \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big].\)</span>
+for <span class="math inline">\(\lambda = 100\)</span> and <span class="math inline">\(200\)</span></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Do both desings respect the type one error rate constraint (via simulation)?</li>
+<li>Is the power of the design with larger <span class="math inline">\(\lambda\)</span> larger?</li>
+</ol></li>
+</ul>
+</div>
+<div id="variant-v.3-n_1-penalty" class="section level4">
+<h4><span class="header-section-number">1.4.6.3</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-3-n1-penalty">Variant V.3: <span class="math inline">\(n_1\)</span> penalty</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda \, n_1\)</span>
+for <span class="math inline">\(\lambda = 0.05\)</span> and <span class="math inline">\(0.2\)</span>.</li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.3\big] \geq 0.8\)</span></li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Is <span class="math inline">\(n_1\)</span> for the optimal design smaller than the order-5 design in V.1?</li>
+</ol></li>
+</ul>
+</div>
+<div id="variant-v.4-n_2-penalty" class="section level4">
+<h4><span class="header-section-number">1.4.6.4</span> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-4-n2-penalty">Variant V.4: <span class="math inline">\(n_2\)</span> penalty</a></h4>
+<ul>
+<li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] +\)</span> <code>AverageN2</code></li>
+<li><strong>Constraints:</strong>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
+<li><span class="math inline">\(Power := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.3\big] \geq 0.8\)</span></li>
+</ol></li>
+<li><strong>Formal tests:</strong>
+<ol style="list-style-type: decimal">
+<li>Is the <code>AverageN2</code> for the optimal design smaller than for the order-5
+design in V.1?</li>
+</ol></li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="references.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["adoptr-validation-report.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
