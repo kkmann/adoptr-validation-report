@@ -4,9 +4,7 @@ notifications:
 
 language: r
 
-install:
-    - R -e 'devtools::install_github("kkmann/adoptr")'
-
 script:
+    - R -e 'devtools::install_github("kkmann/adoptr")'
     - make build
     - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ]; then make deploy-gh-pages; fi
