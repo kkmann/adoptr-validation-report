@@ -1,4 +1,4 @@
-.PHONY: build deploy-gh clean
+.PHONY: build deploy-gh clean install-deps
 
 
 
@@ -6,6 +6,14 @@ clean:
 	rm -rf _book
 	rm -rf _bookdown_files
 	rm -rf adoptr-validation-report.rds
+
+
+
+install-deps:
+	R -e 'install.packages("bookdown")'
+	R -e 'install.packages("tidyverse")'
+	R -e 'install.packages("devtools")'
+	R -e 'devtools::install_github("kkmann/adoptr")'
 
 
 

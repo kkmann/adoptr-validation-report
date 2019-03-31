@@ -4,6 +4,12 @@ notifications:
 
 language: r
 
+install:
+	- R -e 'install.packages("bookdown")'
+	- R -e 'install.packages("tidyverse")'
+	- R -e 'install.packages("devtools")'
+	- R -e 'devtools::install_github("kkmann/adoptr")'
+
 script:
-    - make build
-    - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ]; then make deploy-gh-pages; fi
+	- make build
+	- if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ]; then make deploy-gh-pages; fi
