@@ -17,8 +17,6 @@ output:
       config:
         edit: yes
         toc:
-          collapse: 
-            section
           before: |
             <li><a href="./">Validation Report for adoptr Package</a></li>
           after: |
