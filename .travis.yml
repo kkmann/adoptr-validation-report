@@ -4,7 +4,11 @@ notifications:
 
 language: r
 
-script:
+before_script:
+    - chmod +x ./_build.sh
+    - chmod +x ./_deploy.sh
     - R -e 'devtools::install_github("kkmann/adoptr")'
-    - make build
-    - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ]; then make deploy-gh-pages; fi
+
+script:
+    - ./_build.sh
+    - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ]; then ./_deploy; fi
