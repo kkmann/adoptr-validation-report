@@ -3,4 +3,5 @@ Depends:
     devtools,
     tidyverse, 
     bookdown,
-    rpact
+    rpact,
+    testthat
