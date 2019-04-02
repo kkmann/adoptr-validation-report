@@ -68,37 +68,6 @@ https://github.com/kkmann/adoptr-validation-report.
 
 
 
-
-
-## Creating a Local Validation Report
-
-To validate a local version of  **adoptr**, clone the validation report
-source reposiotry via
-```bash
-git clone https://github.com/kkmann/adoptr-validation-report.git
-```
-and switch to the newly created folder
-```bash
-cd adoptr-validation-report
-```
-To build the book, you will need to install the dependencies listed in the DESCRIPTION file,
-i.e.
-```
-install.packages(c("tidyverse, "bookdown", "rpact", "testthat", "pwr"))
-```
-before finally beuilding the book by invoking
-```bash
-Rscript -e 'bookdown::render_book("index.Rmd", output_format = "all")'
-```
-(or executing the equivalent command in an R terminal in the same folder).
-This will produce a `_book` folder with an `index.html` file that can be 
-viewed in a browser as well as the PDF version of the validation
-report.
-
-
-
-
-
 ## Validation Scenarios
 
 
