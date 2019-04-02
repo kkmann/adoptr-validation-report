@@ -66,7 +66,7 @@ https://github.com/kkmann/adoptr-validation-report.
 The following quality metrics are inspired by https://www.pharmar.org/packages/:
 
 | **Metric**                         | **Value/Statement** |
-|-----------------------------------:|:--------------------|
+|:-----------------------------------|:--------------------|
 | **Vignette?**                      | yes, online version at https://kkmann.github.io/adoptr/articles/adoptr.html |
 | **Website?**                       | yes, https://kkmann.github.io/adoptr |
 | **Version Control?**               | yes, https:github.com/kkmann | 
@@ -79,7 +79,7 @@ The following quality metrics are inspired by https://www.pharmar.org/packages/:
 | **CRAN?**                          | [![CRAN status](https://www.r-pkg.org/badges/version/adoptr)](https://cran.r-project.org/package=adoptr) |
 | **Bioconductor?**                  | No |
 | **# reverse dependencies**         | 0 |
-| **# Downloads**                    | Only available for R Studio CRAN mirror: [![](http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green)] |
+| **# Downloads**                    | Only available for R Studio CRAN mirror: [![]](http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green) |
 | **Professional Maintainer?**       | No |
 
 
