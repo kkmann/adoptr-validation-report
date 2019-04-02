@@ -311,15 +311,86 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <div id="concept" class="section level2">
 <h2><span class="header-section-number">1.1</span> Concept</h2>
-<p>The goal of adoptrValidation is to provide a comprehensive suit of test
-for the <a href="https://github.com/kkmann/adoptr">adoptr</a> package.
-The bookdown report is not directly inteded to be used but to automatically
-deploy a weekly validation report via github pages to
-<a href="https://kkmann.github.io/adoptr-validation-report/" class="uri">https://kkmann.github.io/adoptr-validation-report/</a>.
-The report is implemented as a set of vignettes which are compiled
-into a static web page using pkgdown.
-For details on the class of supported designs, see
-<a href="https://github.com/kkmann/adoptr" class="uri">https://github.com/kkmann/adoptr</a>.</p>
+<p>R package validation for regulatory environments is a tedious endevour.
+Note that there is no such thing as a ‘validated R package’:
+validation is by definition a process conducted by the <em>user</em>.
+This valdation report may thus only be seen as a means to facilitate
+validation of <strong><a href="https://github.com/kkmann/adoptr">adoptr</a></strong> as much as possible.
+No warranty whatsoever as to the correctness of <strong>adoptr</strong> not the
+completeness of the validation report are given by the authors!</p>
+<p>The online version of this report can be found at
+<a href="https://kkmann.github.io/adoptr-validation-report/" class="uri">https://kkmann.github.io/adoptr-validation-report/</a> and is automatically
+rebuild and redeployed on a daily basis using Travis-CI.
+It uses the respective most current CRAN version of <strong>adoptr</strong> (cf. below).
+The source code repository of this report can be found at
+<a href="https://github.com/kkmann/adoptr-validation-report" class="uri">https://github.com/kkmann/adoptr-validation-report</a>.</p>
+<p>The following quality metrics are inspired by <a href="https://www.pharmar.org/packages/" class="uri">https://www.pharmar.org/packages/</a>:</p>
+<table>
+<colgroup>
+<col width="41%" />
+<col width="58%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right"><strong>Metric</strong></th>
+<th align="left"><strong>Value/Statement</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><strong>Vignette?</strong></td>
+<td align="left">yes, online version at <a href="https://kkmann.github.io/adoptr/articles/adoptr.html" class="uri">https://kkmann.github.io/adoptr/articles/adoptr.html</a></td>
+</tr>
+<tr class="even">
+<td align="right"><strong>Website?</strong></td>
+<td align="left">yes, <a href="https://kkmann.github.io/adoptr" class="uri">https://kkmann.github.io/adoptr</a></td>
+</tr>
+<tr class="odd">
+<td align="right"><strong>Source Code under Version Control?</strong></td>
+<td align="left">yes, <a href="https:github.com/kkmann" class="uri">https:github.com/kkmann</a></td>
+</tr>
+<tr class="even">
+<td align="right"><strong>Public/Open Source Developmen?</strong></td>
+<td align="left">yes, <a href="https:github.com/kkmann" class="uri">https:github.com/kkmann</a></td>
+</tr>
+<tr class="odd">
+<td align="right"><strong>Formal Bug Tracking?</strong></td>
+<td align="left">yes, <a href="https://github.com/kkmann/adoptr/issues" class="uri">https://github.com/kkmann/adoptr/issues</a></td>
+</tr>
+<tr class="even">
+<td align="right"><strong>Changelog?</strong></td>
+<td align="left">yes, <a href="https://github.com/kkmann/adoptr/blob/master/NEWS.md" class="uri">https://github.com/kkmann/adoptr/blob/master/NEWS.md</a></td>
+</tr>
+<tr class="odd">
+<td align="right"><strong>Release Cycle</strong></td>
+<td align="left">irregular</td>
+</tr>
+<tr class="even">
+<td align="right"><strong>Unit Testing?</strong></td>
+<td align="left">yes, <a href="https://codecov.io/gh/kkmann/adoptr?branch=master"><img src="https://codecov.io/gh/kkmann/adoptr/branch/master/graph/badge.svg" alt="Codecov test coverage" /></a></td>
+</tr>
+<tr class="odd">
+<td align="right"><strong>License</strong></td>
+<td align="left">MIT, <a href="https://github.com/kkmann/adoptr/blob/master/LICENSE.md" class="uri">https://github.com/kkmann/adoptr/blob/master/LICENSE.md</a></td>
+</tr>
+<tr class="even">
+<td align="right"><strong>CRAN?</strong></td>
+<td align="left"><a href="https://cran.r-project.org/package=adoptr"><img src="https://www.r-pkg.org/badges/version/adoptr" alt="CRAN status" /></a></td>
+</tr>
+<tr class="odd">
+<td align="right"><strong>Bioconductor?</strong></td>
+<td align="left">No</td>
+</tr>
+<tr class="even">
+<td align="right"><strong># reverse dependencies</strong></td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="right"><strong># Downloads</strong></td>
+<td align="left">Only available for R Studio CRAN mirror: [<img src="http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green" />]</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="local-validation" class="section level2">
 <h2><span class="header-section-number">1.2</span> Local validation</h2>
