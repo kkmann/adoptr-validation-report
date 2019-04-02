@@ -15,8 +15,8 @@ The following quality metrics are inspired by https://www.pharmar.org/packages/:
 |:-----------------------------------|:--------------------|
 | **Vignette?**                      | yes, online version at https://kkmann.github.io/adoptr/articles/adoptr.html |
 | **Website?**                       | yes, https://kkmann.github.io/adoptr |
-| **Version Control?**               | yes, https:github.com/kkmann | 
-| **Public/Open Source Developmen?** | yes, https:github.com/kkmann |
+| **Version Control?**               | yes, https://github.com/kkmann | 
+| **Public/Open Source Developmen?** | yes, https://github.com/kkmann |
 | **Formal Bug Tracking?**           | yes, https://github.com/kkmann/adoptr/issues |
 | **Changelog?**                     | yes, https://kkmann.github.io/adoptr/news/index.html |
 | **Release Cycle**                  | irregular |
