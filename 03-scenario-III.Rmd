@@ -1,4 +1,4 @@
-# Scenario III: large effect, uniform prior alternative
+# Scenario III: large effect, uniform prior {#scenarioIII}
 
 
 
@@ -45,7 +45,7 @@ prior <- function(delta) {
 
 
 
-## Case III.1: Convergence under prior concentration
+## Variant III.1: Convergence under prior concentration {#variantIII_1}
 
 Make sure that the optimal solution converges as the prior is more and more 
 concentrated at a point mass.
@@ -85,7 +85,12 @@ ep_cnstr <- function(delta) {
 The optimization problem depending on $\Delta_i$ is defined below.
 The default optimization paramters, 5 pivot points, and a fixed initial design
 is used. 
-[TODO: rationale for intial design?]
+The initial design is chosen such that the error constraints are
+fulfilled. Early stopping for futility is applied if the effect shows 
+in the opponent direction to the alternative, i.e. $c_1^f=0$. 
+$c_2$ is chosen close to and $c_1^e$ a little larger than the $1-\alpha$-quantile
+of the standard normal distribution. The sample sizes are selected
+to fulfill the error constraints.
 ```{r}
 init <- TwoStageDesign(
     n1    = 150,
@@ -159,6 +164,26 @@ testthat::expect_true(all(df_toer$toer < .025))
 
 df_toer
 ```
+
+Check that expected sample size decreases with decreasing prior variance.
+```{r}
+testthat::expect_gte(
+  evaluate(objective(deltas[1]), results[[1]]$design),
+  evaluate(objective(deltas[2]), results[[2]]$design)
+)
+
+testthat::expect_gte(
+  evaluate(objective(deltas[2]), results[[2]]$design),
+  evaluate(objective(deltas[3]), results[[3]]$design)
+)
+
+testthat::expect_gte(
+  evaluate(objective(deltas[3]), results[[3]]$design),
+  evaluate(objective(deltas[4]), results[[4]]$design)
+)
+
+```
+
 
 
 ### Plot designs

@@ -1,4 +1,4 @@
-# Scenario II 
+# Scenario II: Large effect, Gaussian prior {#scenarioII}
 
 
 ## Details
@@ -9,7 +9,7 @@ The null hypothesis is $\delta \leq 0$.
 Currently, `adoptr` only supports normal distributed data what is widely
 spread in the development of adaptive designs. 
 We protect the one-sided type one error rate at $\alpha = 0.025$ and require
-the power of the design to be at least $1 - \beta = 0.8$.
+the expected power of the design to be at least $1 - \beta = 0.8$.
 
 
 
@@ -41,7 +41,7 @@ prior <- ContinuousPrior(function(delta) dnorm(delta, mean = .4, sd = .2),
 
 
 
-## Case II-1: Minimizing Expected Sample Size under Point Prior
+## Variant II-1: Minimizing Expected Sample Size under Point Prior {#variantII_1}
 
 ### Objective
 
@@ -91,7 +91,7 @@ init_design    <- TwoStageDesign(init_design_gs)
 ### Optimization 
 
 The optimal design is computed in three variants: two-stage,
-group-sequentialand one-stage.
+group-sequential, and one-stage.
 The input only differs with regard to the initial design.
 
 ```{r}
@@ -135,7 +135,7 @@ testthat::expect_true(all(iters < opts$maxeval))
 
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .0, datadist))
@@ -145,7 +145,7 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= .025*(1.02)))
+testthat::expect_true(all(df_toer$toer <= .025*(1.01)))
 
 df_toer
 ```
@@ -169,7 +169,7 @@ testthat::expect_gte(
 
 
 
-## Case II-2: Minimizing Expected Sample Size under Null Hypothesis
+## Variant II-2: Minimizing Expected Sample Size under Null Hypothesis {#variantII_2}
 
 ### Objective
 
@@ -230,7 +230,7 @@ testthat::expect_true(opt2_ts$nloptr_return$iterations < opts$maxeval)
 
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sim_pr_reject(opt2_ts$design, .0, datadist)
 df_toer2 <- data.frame(
@@ -239,7 +239,7 @@ df_toer2 <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer2$toer <= .025*(1.02)))
+testthat::expect_true(all(df_toer2$toer <= .025*(1.01)))
 
 df_toer2
 ```
@@ -258,7 +258,7 @@ testthat::expect_lte(
 
 
 
-## Case II-3: Conditional Power Constraint
+## Variant II-3: Conditional Power Constraint {#variantII_3}
 
 ### Objective
 
@@ -315,7 +315,7 @@ testthat::expect_true(opt3_ts$nloptr_return$iterations < opts$maxeval)
 
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sim_pr_reject(opt3_ts$design, .0, datadist)
 df_toer3 <- data.frame(
@@ -324,7 +324,7 @@ df_toer3 <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer3$toer <= .025*(1.02)))
+testthat::expect_true(all(df_toer3$toer <= .025*(1.01)))
 
 df_toer3
 ```

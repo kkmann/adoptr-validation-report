@@ -1,4 +1,4 @@
-# Scenario IV: smaller effect, point alternative
+# Scenario IV: smaller effect, point prior {#scenarioIV}
 
 
 ## Details
@@ -41,7 +41,7 @@ prior <- PointMassPrior(.2, 1)
 
 
 
-## Case IV-1: Minimizing Expected Sample Size under Point Prior
+## Variant IV-1: Minimizing Expected Sample Size under Point Prior {#variantIV_1}
 
 ### Objective
 
@@ -140,7 +140,7 @@ testthat::expect_equal(
 
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .0, datadist))
@@ -150,14 +150,14 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= .025*(1.02)))
+testthat::expect_true(all(df_toer$toer <= .025*(1.01)))
 
 df_toer
 ```
 
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .2, datadist))
@@ -167,7 +167,7 @@ df_pow <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_pow$pow >= .8 * (1 - 0.02)))
+testthat::expect_true(all(df_pow$pow >= .8 * (1 - 0.01)))
 
 df_pow
 ```
@@ -244,7 +244,7 @@ testthat::expect_equal(
 
 
 
-## Case IV-2: Increase Power
+## Variant IV-2: Increase Power {#variantIV_2}
 
 ### Objective
 
@@ -328,7 +328,7 @@ testthat::expect_equal(
 
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt2_ts, opt2_gs, opt2_os),  
                   function(x) sim_pr_reject(x$design, .0, datadist))
@@ -338,14 +338,14 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= .025*(1.02)))
+testthat::expect_true(all(df_toer$toer <= .025*(1.01)))
 
 df_toer
 ```
 
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt2_ts, opt2_gs, opt2_os),  
                   function(x) sim_pr_reject(x$design, .2, datadist))
@@ -355,7 +355,7 @@ df_pow <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_pow$pow >= .9 * (1 - 0.02)))
+testthat::expect_true(all(df_pow$pow >= .9 * (1 - 0.01)))
 
 df_pow
 ```
@@ -431,7 +431,7 @@ testthat::expect_equal(
 
 
 
-## Case IV-3: Increase Type One Error rate
+## Variant IV-3: Increase Type One Error rate {#variantIV_3}
 
 ### Objective
 
@@ -514,7 +514,7 @@ testthat::expect_equal(
 
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt3_ts, opt3_gs, opt3_os),  
                   function(x) sim_pr_reject(x$design, .0, datadist))
@@ -524,14 +524,14 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= .055*(1.02)))
+testthat::expect_true(all(df_toer$toer <= .05*(1.01)))
 
 df_toer
 ```
 
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt3_ts, opt3_gs, opt3_os),  
                   function(x) sim_pr_reject(x$design, .2, datadist))
@@ -541,7 +541,7 @@ df_pow <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_pow$pow >= .9 * (1 - 0.02)))
+testthat::expect_true(all(df_pow$pow >= .9 * (1 - 0.01)))
 
 df_pow
 ```

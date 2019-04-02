@@ -39,9 +39,9 @@ output:
 
 The goal of adoptrValidation is to provide a comprehensive suit of test
 for the [adoptr](https://github.com/kkmann/adoptr) package.
-The package is not directly inteded to be used but to automatically
+The bookdown report is not directly inteded to be used but to automatically
 deploy a weekly validation report via github pages to
-[https://kkmann.github.io/adoptrValidation/](https://kkmann.github.io/adoptrValidation/).
+https://kkmann.github.io/adoptr-validation-report/.
 The report is implemented as a set of vignettes which are compiled
 into a static web page using pkgdown.
 For details on the class of supported designs, see 
@@ -93,7 +93,7 @@ conditional and unconditional constraints.
 
 
 Given a design $D$ and a objective function $f$
-the default setting in [adoptr] is the following.
+the default setting in `adoptr` is the following.
 
 $\min$ | $f(D)$ 
 --- | ---
@@ -131,7 +131,7 @@ using a unit testing framework like testthat but are directly included in a
 set of vignettes (one per sceanrio).
 These vignettes are automatically built and published (here) once per week 
 using pkgdown to keep the validation report up to date with the latest 
-CRAN release [TODO: we currently use our master!].
+CRAN release.
 The overall failure/pass status of the latest build can be checked using the
 Travis-CI badge.
 In the following, all Scenarios and their respective sub-Variants are outlined.
@@ -166,7 +166,7 @@ opts = list(
 ```
 
 
-### [Scenario I](https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#tocnav)
+### [Scenario I: Large effect, point prior](#scenarioI)
 
 This is the default scenario. 
 
@@ -175,7 +175,7 @@ This is the default scenario.
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
-#### [Variant I.1: Minimizing Expected Sample Size under the Alternative](https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#case-i-1-minimizing-expected-sample-size-under-point-prior)
+#### [Variant I.1: Minimizing Expected Sample Size under the Alternative](#variantI_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]$
 * **Constraints:** 
@@ -197,7 +197,7 @@ This is the default scenario.
         continuation area? 
 
 
-#### [Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis](https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#case-i-2-minimizing-expected-sample-size-under-null-hypothesis)
+#### [Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis](#variantI_2)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta=0.0}\big]$
 * **Constraints:** 
@@ -207,7 +207,6 @@ This is the default scenario.
     1. Validate constraint compliance by testing vs. simulated 
         values of the power curve at respective points.
     2. $n()$ of optimal design is monotonously increasing on continuation area.
-    TODO
     3. $ESS$ of optimal two-stage design is lower than $ESS$ of externally 
         computed group-sequential design using the [rpact](https://rpact.org/) package.
     4. Are the $ESS$ values obtained from simulation the same as the ones 
@@ -215,7 +214,7 @@ This is the default scenario.
 
 
 
-#### [Variant I.3: Condtional Power Constraint](https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#case-i-3-conditional-power-constraint)
+#### [Variant I.3: Condtional Power Constraint](#variantI_3)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]$
 * **Constraints:** 
@@ -237,7 +236,7 @@ This is the default scenario.
 
 
 
-### [Scenario II](https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#tocnav)
+### [Scenario II: Large effect, Gaussian prior](#scenarioII)
 
 Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$.
 
@@ -247,7 +246,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
-#### [Variant II.1: Minimizing Expected Sample Size](https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#case-ii-1-minimizing-expected-sample-size-under-point-prior)
+#### [Variant II.1: Minimizing Expected Sample Size](#variantII_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\big]$
 * **Constraints:** 
@@ -263,7 +262,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
 
 
 
-#### [Variant II.2: Minimizing Expected Sample Size under the Null hypothesis](https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#case-ii-2-minimizing-expected-sample-size-under-null-hypothesis)
+#### [Variant II.2: Minimizing Expected Sample Size under the Null hypothesis](#variantII_2)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta\leq 0}\big]$
 * **Constraints:** 
@@ -273,14 +272,13 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
     1. Does the design comply with $TOER$ constraint (via simulation)?
     2. Check $CP$ constraint on three different values of $x_1$ in 
         $(c_1^f, c_1^e)$
-    3. TODO: Is the sample size function monotonously increasing?
-    4. Is $ESS$ lower than expected sample size under the null hypothesis 
+    3. Is $ESS$ lower than expected sample size under the null hypothesis 
       for the optimal two stage design from Variant II-1?
       
       
 
 
-#### [Variant II.3: Condtional Power Constraint](https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#case-ii-3-conditional-power-constraint)
+#### [Variant II.3: Condtional Power Constraint](#variantII_3)
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\big]$
 * **Constraints:** 
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta>0.0\big] \geq 0.8$
@@ -299,7 +297,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
       
       
 
-### [Scenario III:](https://kkmann.github.io/adoptrValidation/articles/scenario-III.html#tocnav)
+### [Scenario III: Large effect, uniform prior](#scenarioIII)
 
 * **Data distribution:** Two-armed trial with normally distributed test statistic
 * **Prior:** sequence of uniform distributions
@@ -309,7 +307,7 @@ I.e., for $\Delta_3=0$ reduces to a point prior on $\delta=0.4$.
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
-#### [Variant III.1: Convergence under Prior Concentration](https://kkmann.github.io/adoptrValidation/articles/scenario-III.html#Variant-iii-1-minimizing-expected-sample-size-under-alternative)
+#### [Variant III.1: Convergence under Prior Concentration](#variantIII_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\big]$
 * **Constraints:** 
@@ -320,7 +318,7 @@ I.e., for $\Delta_3=0$ reduces to a point prior on $\delta=0.4$.
       design.
     2. Number of iterations are checked agaist default maximum to ensure proper
       convergence.
-    3. TODO: $ESS$ decreases with prior variance.
+    3. $ESS$ decreases with prior variance.
     
 Additionally, the designs are compared graphically. 
 Inspect the plot to see convergence pattern.
@@ -329,11 +327,11 @@ Inspect the plot to see convergence pattern.
 
 
 
-### [Scenario IV: Smaller effect size, larger trials.](https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#tocnav)
+### [Scenario IV: Smaller effect size, larger trials](#scenarioIV)
 
 
 
-#### [Variant IV.1: Minimizing Expected Sample Size under the Alternative](https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#Variant-iv-1-minimizing-expected-sample-size-under-alternative)
+#### [Variant IV.1: Minimizing Expected Sample Size under the Alternative](#variantIV_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]$
 * **Constraints:** 
@@ -352,11 +350,11 @@ Inspect the plot to see convergence pattern.
     4. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
     5. Is $n()$ of the optimal two-stage design monotonously decreasing on
-        continuation area? TODO
+        continuation area? 
 
 
 
-#### [Variant IV.2: Increasing Power](https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#Variant-iv-2-increase-power)
+#### [Variant IV.2: Increasing Power](#variantIV_2)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]$
 * **Constraints:** 
@@ -373,12 +371,12 @@ Inspect the plot to see convergence pattern.
     4. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
     5. Is $n()$ of the optimal two-stage design monotonously decreasing on
-        continuation area? TODO
+        continuation area? 
 
 
 
 
-#### [Variant IV.3: Increasing Maximal Type One Error Rate](https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#Variant-iv-3-increase-maximal-type-one-error-rate)
+#### [Variant IV.3: Increasing Maximal Type One Error Rate](#variantIV_3)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]$
 * **Constraints:** 
@@ -395,25 +393,25 @@ Inspect the plot to see convergence pattern.
     4. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
     5. Is $n()$ of the optimal two-stage design monotonously decreasing on
-        continuation area? TODO
+        continuation area? 
 
 
 
 
-### [Scenario V: Single-arm design, medium effect size.](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#tocnav)
+### [Scenario V: Single-arm design, medium effect size](#scenarioV)
 
-* **Data distribution:** One-armed trial with normally distributed test statistic
+* **Data distribution:** \textcolor{red}{One-armed} trial with normally distributed test statistic
 * **Prior:** $\delta\sim\delta_{0.3}$
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
-#### [Variant V.1: Sensitivity to Integration Order](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-1-sensitivity-to-integration-order)
+#### [Variant V.1: Sensitivity to Integration Order](#variantV_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big]$
 * **Constraints:** 
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\color{red}{\delta=0.3}\big] \geq 0.8$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
-    3. Three variants: integration order 5, 8, 11 two-stage designs [TODO: maybe more?]. 
+    3. Three variants: integration order 5, 8, 11 two-stage designs. 
 * **Formal tests:**
     1. Do all designs respect all constraints (via simulation)?
     2. Do all designs converge within the respective iteration limit?
@@ -421,7 +419,7 @@ Inspect the plot to see convergence pattern.
     4. Does the simulated $ESS$ get better with increased order?
     
     
-#### [Variant V.2: Utility Maximization](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-2-utility-maximization)
+#### [Variant V.2: Utility Maximization](#variantV_2)
 
 * **Objective:** $\lambda\, Power - ESS := \lambda\,  \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] - \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big].$
   for $\lambda = 100$ and $200$
@@ -432,7 +430,7 @@ Inspect the plot to see convergence pattern.
     2. Is the power of the design with larger $\lambda$ larger?
     
     
-#### [Variant V.3: $n_1$ penalty](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-3-n1-penalty)
+#### [Variant V.3: $n_1$ penalty](#variantV_3)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda \, n_1$ 
      for $\lambda = 0.05$ and $0.2$.
@@ -443,9 +441,10 @@ Inspect the plot to see convergence pattern.
     1. Is $n_1$ for the optimal design smaller than the order-5 design in V.1?
 
 
-#### [Variant V.4: $n_2$ penalty](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-4-n2-penalty)
+#### [Variant V.4: $n_2$ penalty](#variantV_4)
 
-* **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] +$ `AverageN2`
+* **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda$ `AverageN2`
+     for $\lambda = 0.01$ and $0.1$.
 * **Constraints:** 
     1. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     2. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] \geq 0.8$
