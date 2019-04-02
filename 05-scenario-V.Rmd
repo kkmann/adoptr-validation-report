@@ -1,6 +1,4 @@
-# Secenario V
-
-
+# Scenario V: Single-arm design, medium effect size {#scenarioV}
 
 ## Details
 
@@ -11,8 +9,6 @@ in scenario I.
 The null hypothesis is $\delta \leq 0$.
 Currently, `adoptr` only supports normal distributed data what is widely spread
 in the development of adaptive designs. 
-
-
 
 
 
@@ -40,7 +36,7 @@ prior <- PointMassPrior(.3, 1)
 ```
 
 
-## Case V-1, sensitivity to integration order
+## Variant V-1, sensitivity to integration order {#variantV_1}
 
 ### Objective
 
@@ -131,7 +127,7 @@ testthat::expect_true(all(iters < opts$maxeval))
 ```
 
 Check type one error rate control.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 sim_toer <- function(design) {
     simdata <- simulate(
@@ -154,12 +150,14 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer < .025 * (1 + .02)))
+testthat::expect_true(all(df_toer$toer < .025 * 1.01))
 
 df_toer
 ```
 
-Check power
+Check the power constraint.
+For numerical reasons we allow a realtive error of $1\%$.
+
 ```{r}
 sim_pow <- function(design) {
     simdata <- simulate(
@@ -182,13 +180,13 @@ df_pow <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_pow$pow > 0.8 * (1 - .02)))
+testthat::expect_true(all(df_pow$pow > 0.8 * (1 - .01)))
 
 df_pow
 ```
 
 
-Check expected sample size under the prior
+Check expected sample size under the prior.
 ```{r}
 sim_ess <- function(design) {
     simdata <- simulate(
@@ -215,7 +213,7 @@ df_ess
 ```
 
 
-## Case V-2, utility maximization
+## Variant V-2, utility maximization {#variantV_2}
 
 
 ### Objective
@@ -284,7 +282,7 @@ testthat::expect_true(all(iters < opts$maxeval))
 ```
 
 Check type one error rate control for both designs via simulation.
-Due to numerical issues we allow a realtive error of $2\%$.
+Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(opt2, function(x) sim_toer(x$design))
 df_toer <- data.frame(
@@ -293,7 +291,7 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer < .025 * (1 + .02)))
+testthat::expect_true(all(df_toer$toer < .025 * 1.01))
 
 df_toer
 ```
@@ -347,7 +345,7 @@ tibble(
 ```
 
 
-## Case V-3, n1-penalty
+## Variant V-3, n1-penalty {#variantV_3}
 
 In this case, the influence of the regularization term `N1()` is investigated.
 
@@ -436,7 +434,7 @@ comparison.
 z1 <- seq(0, 3, by = .01)
 
 tibble(
-    type  = c("Power inequality", "Penalize n1 with lambda = 0.05", "Penalize n1 with lambda = 0.2"), 
+    type  = c("No Penalization", "Penalize n1 with lambda = 0.05", "Penalize n1 with lambda = 0.2"), 
     design = list(opt1[[1]]$design, opt3[[1]]$design, opt3[[2]]$design)
 ) %>% 
     group_by(type) %>% 
@@ -470,7 +468,7 @@ tibble(
 
 
 
-## Case V-4, n2-penalty
+## Variant V-4, n2-penalty {#variantV_4}
 
 In this case the average over $n_2$ is penalized by the predefined score
 `AverageN2`.
@@ -563,7 +561,7 @@ comparison.
 z1 <- seq(0, 3, by = .01)
 
 tibble(
-    type  = c("Power inequality", "Penalize AverageN2 with lambda = 0.01", 
+    type  = c("No Penalization", "Penalize AverageN2 with lambda = 0.01", 
               "Penalize AverageN2 with lambda = 0.1"), 
     design = list(opt1[[1]]$design, opt4[[1]]$design, opt4[[2]]$design)
 ) %>% 

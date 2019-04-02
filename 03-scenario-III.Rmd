@@ -1,4 +1,4 @@
-# Scenario III: large effect, uniform prior alternative
+# Scenario III: large effect, uniform prior {#scenarioIII}
 
 
 
@@ -45,7 +45,7 @@ prior <- function(delta) {
 
 
 
-## Case III.1: Convergence under prior concentration
+## Variant III.1: Convergence under prior concentration {#variantIII_1}
 
 Make sure that the optimal solution converges as the prior is more and more 
 concentrated at a point mass.
@@ -159,6 +159,14 @@ testthat::expect_true(all(df_toer$toer < .025))
 
 df_toer
 ```
+
+Check that expected sample size decreases with decreasing prior variance.
+```{r}
+e_s_s <- sapply(deltas, function(delta) evaluate(objective(delta), results$design(delta)))
+
+testthat::expect_true(all(diff(e_s_s) > 0))
+```
+
 
 
 ### Plot designs
