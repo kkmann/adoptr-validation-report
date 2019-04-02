@@ -134,16 +134,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#concept"><i class="fa fa-check"></i><b>1.1</b> Concept</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#local-validation"><i class="fa fa-check"></i><b>1.2</b> Local validation</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#brief-introdcution-to-two-stage-designs"><i class="fa fa-check"></i><b>1.3</b> Brief Introdcution to Two-Stage Designs</a></li>
-<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#validation-strategy"><i class="fa fa-check"></i><b>1.4</b> Validation strategy</a><ul>
-<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#technical-setup"><i class="fa fa-check"></i><b>1.4.1</b> Technical Setup</a></li>
-<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#scenario-i-large-effect-point-prior"><i class="fa fa-check"></i><b>1.4.2</b> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></a></li>
-<li class="chapter" data-level="1.4.3" data-path="index.html"><a href="index.html#scenario-ii-large-effect-gaussian-prior"><i class="fa fa-check"></i><b>1.4.3</b> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></a></li>
-<li class="chapter" data-level="1.4.4" data-path="index.html"><a href="index.html#scenario-iii-large-effect-uniform-prior"><i class="fa fa-check"></i><b>1.4.4</b> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></a></li>
-<li class="chapter" data-level="1.4.5" data-path="index.html"><a href="index.html#scenario-iv-smaller-effect-size-larger-trials"><i class="fa fa-check"></i><b>1.4.5</b> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></a></li>
-<li class="chapter" data-level="1.4.6" data-path="index.html"><a href="index.html#scenario-v-single-arm-design-medium-effect-size"><i class="fa fa-check"></i><b>1.4.6</b> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#creating-a-local-validation-report"><i class="fa fa-check"></i><b>1.2</b> Creating a Local Validation Report</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#validation-scenarios"><i class="fa fa-check"></i><b>1.3</b> Validation Scenarios</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#scenario-i-large-effect-point-prior"><i class="fa fa-check"></i><b>1.3.1</b> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#scenario-ii-large-effect-gaussian-prior"><i class="fa fa-check"></i><b>1.3.2</b> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#scenario-iii-large-effect-uniform-prior"><i class="fa fa-check"></i><b>1.3.3</b> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></a></li>
+<li class="chapter" data-level="1.3.4" data-path="index.html"><a href="index.html#scenario-iv-smaller-effect-size-larger-trials"><i class="fa fa-check"></i><b>1.3.4</b> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></a></li>
+<li class="chapter" data-level="1.3.5" data-path="index.html"><a href="index.html#scenario-v-single-arm-design-medium-effect-size"><i class="fa fa-check"></i><b>1.3.5</b> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></a></li>
 </ul></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#technical-setup"><i class="fa fa-check"></i><b>1.4</b> Technical Setup</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="scenarioI.html"><a href="scenarioI.html"><i class="fa fa-check"></i><b>2</b> Scenario I: large effect, point prior</a><ul>
 <li class="chapter" data-level="2.1" data-path="scenarioI.html"><a href="scenarioI.html#details"><i class="fa fa-check"></i><b>2.1</b> Details</a><ul>
@@ -318,6 +317,16 @@ This valdation report may thus only be seen as a means to facilitate
 validation of <strong><a href="https://github.com/kkmann/adoptr">adoptr</a></strong> as much as possible.
 No warranty whatsoever as to the correctness of <strong>adoptr</strong> not the
 completeness of the validation report are given by the authors!</p>
+<p>We assume that the reader is familiar with the notation an theoretical
+background of <strong>adoptr</strong>.
+Otherwise, the resources linked at <a href="https://github.com/kkmann/adoptr" class="uri">https://github.com/kkmann/adoptr</a> might
+be a good starting point <em>ToDo: publications</em>.
+The report explores a variety of essential scenarios and both formally
+tests results (wherever possible) using <strong>testthat</strong>.
+Detailed results are also printed in the report itself.
+Any failure of the integrated formal tests will cause the build status
+of the validation report to switch from ‘passing’ to ‘failed’.
+An overview of the respective test scenarios is given in <a href="index.html#validation-scenarios">Validation Scenarios</a>.</p>
 <p>The online version of this report can be found at
 <a href="https://kkmann.github.io/adoptr-validation-report/" class="uri">https://kkmann.github.io/adoptr-validation-report/</a> and is automatically
 rebuild and redeployed on a daily basis using Travis-CI.
@@ -396,128 +405,27 @@ The source code repository of this report can be found at
 </tbody>
 </table>
 </div>
-<div id="local-validation" class="section level2">
-<h2><span class="header-section-number">1.2</span> Local validation</h2>
-<p>…</p>
+<div id="creating-a-local-validation-report" class="section level2">
+<h2><span class="header-section-number">1.2</span> Creating a Local Validation Report</h2>
+<p>To validate a local version of <strong>adoptr</strong>, clone the validation report
+source reposiotry via</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone https://github.com/kkmann/adoptr-validation-report.git</code></pre>
+<p>and switch to the newly created folder</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">cd</span> adoptr-validation-report</code></pre>
+<p>To build the book, you will need to install the dependencies listed in the DESCRIPTION file,
+i.e.</p>
+<pre><code>install.packages(c(&quot;tidyverse, &quot;bookdown&quot;, &quot;rpact&quot;, &quot;testthat&quot;, &quot;pwr&quot;))</code></pre>
+<p>before finally beuilding the book by invoking</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">Rscript</span> -e <span class="st">&#39;bookdown::render_book(&quot;index.Rmd&quot;, output_format = &quot;all&quot;)&#39;</span></code></pre>
+<p>(or executing the equivalent command in an R terminal in the same folder).
+This will produce a <code>_book</code> folder with an <code>index.html</code> file that can be
+viewed in a browser as well as the PDF version of the validation
+report.</p>
 </div>
-<div id="brief-introdcution-to-two-stage-designs" class="section level2">
-<h2><span class="header-section-number">1.3</span> Brief Introdcution to Two-Stage Designs</h2>
-<p>In <code>adoptrValidation</code> a suitable set of cases is tested in order to
-validate the performance of the package <code>adoptr</code>.
-This package allows to compute optimal designs (adaptive two-stage,
-group-sequential two-stage and one-stage) for normally distributed data.
-For a treatment group <span class="math inline">\(T\)</span> and a control group <span class="math inline">\(C\)</span> where
-the observations <span class="math inline">\(X_i^T \sim \mathcal{N} (\mu_T, \sigma^2)\)</span>,
-<span class="math inline">\(X_i^C \sim \mathcal{N} (\mu_C, \sigma^2)\)</span> the following hypotheses are
-tested:
-<span class="math display">\[
-\mathcal{H}_0: \delta := \mu_T - \mu_C \leq 0 \text{ v.s. }
-\mathcal{H_1}: \delta &gt; 0. 
-\]</span>
-The power of a test procedure is computed on an alternative effect size
-<span class="math inline">\(\delta_1 &gt; 0\)</span> where a prior distribution
-<span class="math inline">\(\delta_1 \sim \pi(\vartheta, \tau^2)\)</span> is imaginable.</p>
-<p>The trial evaluation happens as follows.
-After <span class="math inline">\(n_1\)</span> patients (per group) finished the trial an interim analysis
-is conducted. The interim test statistic <span class="math inline">\(Z_1\)</span> for a standard z-test is computed
-and the trial is stopped early for futility, if <span class="math inline">\(Z_1 &lt; c_f\)</span>.
-If <span class="math inline">\(Z_1 &gt; c_e\)</span> the null hypothesis is rejected and the trial is stopped early
-for efficacy. Otherwise, i.e. if <span class="math inline">\(c_f \leq Z_1 \leq c_e\)</span>, the trial enters
-in the second stage. Due to the adaptivness of the trial design, the
-stage-two sample size is a function of <span class="math inline">\(Z_1\)</span>, i.e. <span class="math inline">\(n_2(Z_1)\)</span>.
-Also the final rejection boundary <span class="math inline">\(c_2\)</span> depends on <span class="math inline">\(Z_1\)</span>.
-At the final analysis the stage-two test statistic <span class="math inline">\(Z_2\)</span> is computed and
-the null hypothesis is rejected if <span class="math inline">\(Z_2 &gt; c_2(Z_1)\)</span>.</p>
-<p>A design <span class="math inline">\(D\)</span> is a five-tuple consisting of the first-stage sample size
-<span class="math inline">\(n_1\)</span>, early stopping boundaries <span class="math inline">\(c_f\)</span> (futility) and <span class="math inline">\(c_e\)</span> (efficacy)
-and stage-two functions <span class="math inline">\(n_2(\cdot)\)</span> (sample size) and <span class="math inline">\(c_2(\cdot)\)</span>
-(rejection boundary).
-All these elements can be computed optimally in <code>adoptr</code>.
-The incorporation of continuous priors is possible as well as including
-conditional and unconditional constraints.</p>
-<p>Given a design <span class="math inline">\(D\)</span> and a objective function <span class="math inline">\(f\)</span>
-the default setting in <code>adoptr</code> is the following.</p>
-<table>
-<thead>
-<tr class="header">
-<th><span class="math inline">\(\min\)</span></th>
-<th><span class="math inline">\(f(D)\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>such that</td>
-<td>Type One Error Rate <span class="math inline">\(\leq \alpha\)</span></td>
-</tr>
-<tr class="even">
-<td>and</td>
-<td>Power <span class="math inline">\(\geq 1 - \beta\)</span></td>
-</tr>
-</tbody>
-</table>
-<p>Often in clinical practice one is not willing to enter in a second
-stage when the conditional power (i.e., the probability to reject at
-the final analysis given the first-stage results) is too low or too high
-because in these cases the stage-two result is likely predictable.
-Therefore, introducing conditional power constraints of the form
-<span class="math display">\[
-1 - \beta_2 \leq \text{Conditional Power}(z_1, D) \leq 1 - \beta_3
-\]</span>
-may be desirable and are supported by <code>adoptr</code>.</p>
-<p>In <code>adoptrValidation</code> different scenarios are investigated.
-Each scenario is determined by the assumed effect size <span class="math inline">\(\delta_1\)</span> and its
-prior distribution <span class="math inline">\(\pi\)</span>.
-In each scenario, different tests are performed.
-All tests are indicated by a bullet point.</p>
-</div>
-<div id="validation-strategy" class="section level2">
-<h2><span class="header-section-number">1.4</span> Validation strategy</h2>
-<p><strong>adoptrValidation</strong> essentially extends the test suit of <strong>adoptr</strong> to cover
-more different scenarios.
-In order to generate a proper validation report the test Variants are not managed
-using a unit testing framework like testthat but are directly included in a
-set of vignettes (one per sceanrio).
-These vignettes are automatically built and published (here) once per week
-using pkgdown to keep the validation report up to date with the latest
-CRAN release.
-The overall failure/pass status of the latest build can be checked using the
-Travis-CI badge.
-In the following, all Scenarios and their respective sub-Variants are outlined.
-<strong>Scenarios</strong> are defined by the joint distribution of the test statistic and the
-location parameter, while <strong>Variants</strong> are given by the respective optimization
-problem (objective, constraints).</p>
-<div id="technical-setup" class="section level3">
-<h3><span class="header-section-number">1.4.1</span> Technical Setup</h3>
-<p>Initially, the both packages are loaded and the seed for simulation is set.
-Additionally, the options for optimization are modified by increasing
-the maximum number of evaluations to ensure convergence.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(adoptr)
-<span class="kw">library</span>(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 3.1.0       ✔ purrr   0.3.2  
-## ✔ tibble  2.1.1       ✔ dplyr   0.8.0.1
-## ✔ tidyr   0.8.3       ✔ stringr 1.4.0  
-## ✔ readr   1.3.1       ✔ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ dplyr::n()      masks adoptr::n()</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span>
-<span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))
-   <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))
-
-<span class="co"># define seed value</span>
-seed &lt;-<span class="st"> </span><span class="dv">42</span>
-
-<span class="co"># define custom tolerance and iteration limit for nloptr</span>
-opts =<span class="st"> </span><span class="kw">list</span>(
-    <span class="dt">algorithm =</span> <span class="st">&quot;NLOPT_LN_COBYLA&quot;</span>,
-    <span class="dt">xtol_rel  =</span> <span class="fl">1e-5</span>,
-    <span class="dt">maxeval   =</span> <span class="dv">100000</span>
-)</code></pre>
-</div>
+<div id="validation-scenarios" class="section level2">
+<h2><span class="header-section-number">1.3</span> Validation Scenarios</h2>
 <div id="scenario-i-large-effect-point-prior" class="section level3">
-<h3><span class="header-section-number">1.4.2</span> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></h3>
+<h3><span class="header-section-number">1.3.1</span> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></h3>
 <p>This is the default scenario.</p>
 <ul>
 <li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
@@ -525,7 +433,7 @@ opts =<span class="st"> </span><span class="kw">list</span>(
 <li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
 </ul>
 <div id="variant-i.1-minimizing-expected-sample-size-under-the-alternative" class="section level4">
-<h4><span class="header-section-number">1.4.2.1</span> <a href="scenarioI.html#variantI_1">Variant I.1: Minimizing Expected Sample Size under the Alternative</a></h4>
+<h4><span class="header-section-number">1.3.1.1</span> <a href="scenarioI.html#variantI_1">Variant I.1: Minimizing Expected Sample Size under the Alternative</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -552,7 +460,7 @@ continuation area?</li>
 </ul>
 </div>
 <div id="variant-i.2-minimizing-expected-sample-size-under-the-null-hypothesis" class="section level4">
-<h4><span class="header-section-number">1.4.2.2</span> <a href="scenarioI.html#variantI_2">Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis</a></h4>
+<h4><span class="header-section-number">1.3.1.2</span> <a href="scenarioI.html#variantI_2">Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta=0.0}\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -573,7 +481,7 @@ obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
 </ul>
 </div>
 <div id="variant-i.3-condtional-power-constraint" class="section level4">
-<h4><span class="header-section-number">1.4.2.3</span> <a href="scenarioI.html#variantI_3">Variant I.3: Condtional Power Constraint</a></h4>
+<h4><span class="header-section-number">1.3.1.3</span> <a href="scenarioI.html#variantI_3">Variant I.3: Condtional Power Constraint</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -597,7 +505,7 @@ same as the ones obtained by using numerical integration via
 </div>
 </div>
 <div id="scenario-ii-large-effect-gaussian-prior" class="section level3">
-<h3><span class="header-section-number">1.4.3</span> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></h3>
+<h3><span class="header-section-number">1.3.2</span> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></h3>
 <p>Similar in scope to Scenario I, but with a continuous Gaussian prior on <span class="math inline">\(\delta\)</span>.</p>
 <ul>
 <li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
@@ -605,7 +513,7 @@ same as the ones obtained by using numerical integration via
 <li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
 </ul>
 <div id="variant-ii.1-minimizing-expected-sample-size" class="section level4">
-<h4><span class="header-section-number">1.4.3.1</span> <a href="scenarioII.html#variantII_1">Variant II.1: Minimizing Expected Sample Size</a></h4>
+<h4><span class="header-section-number">1.3.2.1</span> <a href="scenarioII.html#variantII_1">Variant II.1: Minimizing Expected Sample Size</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -625,7 +533,7 @@ optimal one-stage design.</li>
 </ul>
 </div>
 <div id="variant-ii.2-minimizing-expected-sample-size-under-the-null-hypothesis" class="section level4">
-<h4><span class="header-section-number">1.4.3.2</span> <a href="scenarioII.html#variantII_2">Variant II.2: Minimizing Expected Sample Size under the Null hypothesis</a></h4>
+<h4><span class="header-section-number">1.3.2.2</span> <a href="scenarioII.html#variantII_2">Variant II.2: Minimizing Expected Sample Size under the Null hypothesis</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta\leq 0}\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -644,7 +552,7 @@ for the optimal two stage design from Variant II-1?</li>
 </ul>
 </div>
 <div id="variant-ii.3-condtional-power-constraint" class="section level4">
-<h4><span class="header-section-number">1.4.3.3</span> <a href="scenarioII.html#variantII_3">Variant II.3: Condtional Power Constraint</a></h4>
+<h4><span class="header-section-number">1.3.2.3</span> <a href="scenarioII.html#variantII_3">Variant II.3: Condtional Power Constraint</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -666,7 +574,7 @@ Check <span class="math inline">\(CP\)</span> constraint on three different valu
 </div>
 </div>
 <div id="scenario-iii-large-effect-uniform-prior" class="section level3">
-<h3><span class="header-section-number">1.4.4</span> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></h3>
+<h3><span class="header-section-number">1.3.3</span> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></h3>
 <ul>
 <li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
 <li><strong>Prior:</strong> sequence of uniform distributions
@@ -676,7 +584,7 @@ I.e., for <span class="math inline">\(\Delta_3=0\)</span> reduces to a point pri
 <li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
 </ul>
 <div id="variant-iii.1-convergence-under-prior-concentration" class="section level4">
-<h4><span class="header-section-number">1.4.4.1</span> <a href="scenarioIII.html#variantIII_1">Variant III.1: Convergence under Prior Concentration</a></h4>
+<h4><span class="header-section-number">1.3.3.1</span> <a href="scenarioIII.html#variantIII_1">Variant III.1: Convergence under Prior Concentration</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -698,9 +606,9 @@ Inspect the plot to see convergence pattern.</p>
 </div>
 </div>
 <div id="scenario-iv-smaller-effect-size-larger-trials" class="section level3">
-<h3><span class="header-section-number">1.4.5</span> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></h3>
+<h3><span class="header-section-number">1.3.4</span> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></h3>
 <div id="variant-iv.1-minimizing-expected-sample-size-under-the-alternative" class="section level4">
-<h4><span class="header-section-number">1.4.5.1</span> <a href="scenarioIV.html#variantIV_1">Variant IV.1: Minimizing Expected Sample Size under the Alternative</a></h4>
+<h4><span class="header-section-number">1.3.4.1</span> <a href="scenarioIV.html#variantIV_1">Variant IV.1: Minimizing Expected Sample Size under the Alternative</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -727,7 +635,7 @@ continuation area?</li>
 </ul>
 </div>
 <div id="variant-iv.2-increasing-power" class="section level4">
-<h4><span class="header-section-number">1.4.5.2</span> <a href="scenarioIV.html#variantIV_2">Variant IV.2: Increasing Power</a></h4>
+<h4><span class="header-section-number">1.3.4.2</span> <a href="scenarioIV.html#variantIV_2">Variant IV.2: Increasing Power</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -752,7 +660,7 @@ continuation area?</li>
 </ul>
 </div>
 <div id="variant-iv.3-increasing-maximal-type-one-error-rate" class="section level4">
-<h4><span class="header-section-number">1.4.5.3</span> <a href="scenarioIV.html#variantIV_3">Variant IV.3: Increasing Maximal Type One Error Rate</a></h4>
+<h4><span class="header-section-number">1.3.4.3</span> <a href="scenarioIV.html#variantIV_3">Variant IV.3: Increasing Maximal Type One Error Rate</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -778,14 +686,14 @@ continuation area?</li>
 </div>
 </div>
 <div id="scenario-v-single-arm-design-medium-effect-size" class="section level3">
-<h3><span class="header-section-number">1.4.6</span> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></h3>
+<h3><span class="header-section-number">1.3.5</span> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></h3>
 <ul>
 <li><strong>Data distribution:</strong>  trial with normally distributed test statistic</li>
 <li><strong>Prior:</strong> <span class="math inline">\(\delta\sim\delta_{0.3}\)</span></li>
 <li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
 </ul>
 <div id="variant-v.1-sensitivity-to-integration-order" class="section level4">
-<h4><span class="header-section-number">1.4.6.1</span> <a href="scenarioV.html#variantV_1">Variant V.1: Sensitivity to Integration Order</a></h4>
+<h4><span class="header-section-number">1.3.5.1</span> <a href="scenarioV.html#variantV_1">Variant V.1: Sensitivity to Integration Order</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -804,7 +712,7 @@ continuation area?</li>
 </ul>
 </div>
 <div id="variant-v.2-utility-maximization" class="section level4">
-<h4><span class="header-section-number">1.4.6.2</span> <a href="scenarioV.html#variantV_2">Variant V.2: Utility Maximization</a></h4>
+<h4><span class="header-section-number">1.3.5.2</span> <a href="scenarioV.html#variantV_2">Variant V.2: Utility Maximization</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(\lambda\, Power - ESS := \lambda\, \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.3\big] - \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big].\)</span>
 for <span class="math inline">\(\lambda = 100\)</span> and <span class="math inline">\(200\)</span></li>
@@ -820,7 +728,7 @@ for <span class="math inline">\(\lambda = 100\)</span> and <span class="math inl
 </ul>
 </div>
 <div id="variant-v.3-n_1-penalty" class="section level4">
-<h4><span class="header-section-number">1.4.6.3</span> <a href="scenarioV.html#variantV_3">Variant V.3: <span class="math inline">\(n_1\)</span> penalty</a></h4>
+<h4><span class="header-section-number">1.3.5.3</span> <a href="scenarioV.html#variantV_3">Variant V.3: <span class="math inline">\(n_1\)</span> penalty</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda \, n_1\)</span>
 for <span class="math inline">\(\lambda = 0.05\)</span> and <span class="math inline">\(0.2\)</span>.</li>
@@ -836,7 +744,7 @@ for <span class="math inline">\(\lambda = 0.05\)</span> and <span class="math in
 </ul>
 </div>
 <div id="variant-v.4-n_2-penalty" class="section level4">
-<h4><span class="header-section-number">1.4.6.4</span> <a href="scenarioV.html#variantV_4">Variant V.4: <span class="math inline">\(n_2\)</span> penalty</a></h4>
+<h4><span class="header-section-number">1.3.5.4</span> <a href="scenarioV.html#variantV_4">Variant V.4: <span class="math inline">\(n_2\)</span> penalty</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda\)</span> <code>AverageN2</code>
 for <span class="math inline">\(\lambda = 0.01\)</span> and <span class="math inline">\(0.1\)</span>.</li>
@@ -851,9 +759,42 @@ for <span class="math inline">\(\lambda = 0.01\)</span> and <span class="math in
 design in V.1?</li>
 </ol></li>
 </ul>
+</div>
+</div>
+</div>
+<div id="technical-setup" class="section level2">
+<h2><span class="header-section-number">1.4</span> Technical Setup</h2>
+<p>All scenarios are run in a single, shared R session.
+Required packages are loaded here <em>ToDo: make sure that is the case!</em>,
+the random see is defined and set centrally, and the default number
+of iteration is increased to make sure that all scenarios
+converge properly.
+Additionally R scripts with convenience functions are sourced here as well <em>ToDo: descibe or eliminate these functions!</em>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(adoptr)
+<span class="kw">library</span>(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.1.0       ✔ purrr   0.3.2  
+## ✔ tibble  2.1.1       ✔ dplyr   0.8.0.1
+## ✔ tidyr   0.8.3       ✔ stringr 1.4.0  
+## ✔ readr   1.3.1       ✔ forcats 0.4.0</code></pre>
+<pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ✖ dplyr::n()      masks adoptr::n()</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span>
+<span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))
+   <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))
 
-</div>
-</div>
+<span class="co"># define seed value</span>
+seed &lt;-<span class="st"> </span><span class="dv">42</span>
+
+<span class="co"># define custom tolerance and iteration limit for nloptr</span>
+opts =<span class="st"> </span><span class="kw">list</span>(
+    <span class="dt">algorithm =</span> <span class="st">&quot;NLOPT_LN_COBYLA&quot;</span>,
+    <span class="dt">xtol_rel  =</span> <span class="fl">1e-5</span>,
+    <span class="dt">maxeval   =</span> <span class="dv">100000</span>
+)</code></pre>
+
 </div>
 </div>
             </section>
