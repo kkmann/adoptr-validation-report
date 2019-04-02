@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 bibliography:
 - book.bib
 - packages.bib
-description: This is an automatically generated validation report for the **adoptr**  R
+description: This is an automatically generated validation report for the **adoptr** R
   package published via **bookdown**.
 documentclass: book
 link-citations: yes
@@ -37,15 +37,42 @@ output:
 
 ## Concept
 
-The goal of adoptrValidation is to provide a comprehensive suit of test
-for the [adoptr](https://github.com/kkmann/adoptr) package.
-The bookdown report is not directly inteded to be used but to automatically
-deploy a weekly validation report via github pages to
-https://kkmann.github.io/adoptr-validation-report/.
-The report is implemented as a set of vignettes which are compiled
-into a static web page using pkgdown.
-For details on the class of supported designs, see 
-https://github.com/kkmann/adoptr.
+R package validation for regulatory environments is a tedious endevour.
+Note that there is no such thing as a 'validated R package':
+validation is by definition a process conducted by the *user*.
+This valdation report may thus only be seen as a means to facilitate 
+validation of **[adoptr](https://github.com/kkmann/adoptr)** as much as possible.
+No warranty whatsoever as to the correctness of **adoptr** not the
+completeness of the validation report are given by the authors!
+
+The online version of this report can be found at 
+https://kkmann.github.io/adoptr-validation-report/ and is automatically
+rebuild and redeployed on a daily basis using Travis-CI.
+It uses the respective most current CRAN version of **adoptr** (cf. below).
+The source code repository of this report can be found at 
+https://github.com/kkmann/adoptr-validation-report.
+
+The following quality metrics are inspired by https://www.pharmar.org/packages/:
+
+| **Metric**    | **Value/Statement** |
+|--------------:|:--------------------|
+| **Vignette?** | yes, online version at https://kkmann.github.io/adoptr/articles/adoptr.html |
+| **Website?**  | yes, https://kkmann.github.io/adoptr |
+| **Source Code under Version Control?**| yes, https:github.com/kkmann | 
+| **Public/Open Source Developmen?** | yes, https:github.com/kkmann |
+| **Formal Bug Tracking?** | yes, https://github.com/kkmann/adoptr/issues |
+| **Changelog?** | yes, https://github.com/kkmann/adoptr/blob/master/NEWS.md |
+| **Release Cycle** | irregular |
+| **Unit Testing?**| yes, [![Codecov test coverage](https://codecov.io/gh/kkmann/adoptr/branch/master/graph/badge.svg)](https://codecov.io/gh/kkmann/adoptr?branch=master) |
+| **License** | MIT, https://github.com/kkmann/adoptr/blob/master/LICENSE.md |
+| **CRAN?** | [![CRAN status](https://www.r-pkg.org/badges/version/adoptr)](https://cran.r-project.org/package=adoptr) |
+| **Bioconductor?** | No |
+| **# reverse dependencies** | 0 |
+| **# Downloads** | Only available for R Studio CRAN mirror: [![](http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green)] |
+
+
+
+
 
 
 ## Local validation
