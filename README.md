@@ -28,3 +28,30 @@ The following quality metrics are inspired by https://www.pharmar.org/packages/:
 | **# Downloads**                    | Only available for R Studio CRAN mirror: [![R Studio CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green)](https://cran.r-project.org/package=adoptr) |
 | **Maturity**                       | Initial CRAN release date: 2019-04-01 |
 | **Professional Maintainer?**       | No |
+
+
+
+## Creating a Local Validation Report
+
+To validate a local version of  **adoptr**, clone the validation report
+source reposiotry via
+```bash
+git clone https://github.com/kkmann/adoptr-validation-report.git
+```
+and switch to the newly created folder
+```bash
+cd adoptr-validation-report
+```
+To build the book, you will need to install the dependencies listed in the DESCRIPTION file,
+i.e.
+```R
+install.packages(c("tidyverse, "bookdown", "rpact", "testthat", "pwr"))
+```
+before finally beuilding the book by invoking
+```bash
+Rscript -e 'bookdown::render_book("index.Rmd", output_format = "all")'
+```
+(or executing the equivalent command in an R terminal in the same folder).
+This will produce a `_book` folder with an `index.html` file that can be 
+viewed in a browser as well as the PDF version of the validation
+report.
