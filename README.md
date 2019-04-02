@@ -45,7 +45,7 @@ cd adoptr-validation-report
 To build the book, you will need to install the dependencies listed in the DESCRIPTION file,
 i.e.
 ```R
-install.packages(c("tidyverse, "bookdown", "rpact", "testthat", "pwr"))
+install.packages(c("tidyverse", "bookdown", "rpact", "testthat", "pwr"))
 ```
 before finally beuilding the book by invoking
 ```bash
