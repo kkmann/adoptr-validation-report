@@ -10,7 +10,3 @@ output_dir:
     "_book"
 new_session:
     no
-edit:
-    https://github.com/kkmann/adoptr-validation-report/edit/master/%s
-github-repo: 
-    kkmann/adoptr-validation-report
