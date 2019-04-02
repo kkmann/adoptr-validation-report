@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>References | Validation Report for adoptr package</title>
+  <title>3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package</title>
   <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="References | Validation Report for adoptr package" />
+  <meta property="og:title" content="3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | Validation Report for adoptr package" />
+  <meta name="twitter:title" content="3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package" />
   
   <meta name="twitter:description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="scenarioV.html">
-
+<link rel="prev" href="scenarioI.html">
+<link rel="next" href="scenarioIII.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -302,17 +302,305 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="scenarioII" class="section level1">
+<h1><span class="header-section-number">3</span> Scenario II: Large effect, Gaussian prior</h1>
+<div id="details-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Details</h2>
+<p>In this scenario a Gaussian prior on the effect size
+<span class="math inline">\(\delta \sim \mathcal{N} ( 0.4, 0.2^2)\)</span> is investigated.
+The null hypothesis is <span class="math inline">\(\delta \leq 0\)</span>.
+Currently, <code>adoptr</code> only supports normal distributed data what is widely
+spread in the development of adaptive designs.
+We protect the one-sided type one error rate at <span class="math inline">\(\alpha = 0.025\)</span> and require
+the expected power of the design to be at least <span class="math inline">\(1 - \beta = 0.8\)</span>.</p>
+<div id="data-distribution-1" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Data distribution</h3>
+<p>Two-armed trial with normally distributed test statistic</p>
+<pre class="sourceCode r"><code class="sourceCode r">datadist &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">TRUE</span>)</code></pre>
+</div>
+<div id="null-hypothesis-1" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Null hypothesis</h3>
+<p>The null hypothesis is <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">H_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)</code></pre>
+</div>
+<div id="prior-assumptions-1" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Prior assumptions</h3>
+<p>A Gaussian prior with mean <span class="math inline">\(\delta = 0.4\)</span> and standard deviation
+<span class="math inline">\(\tau = .2\)</span> is defined.</p>
+<pre class="sourceCode r"><code class="sourceCode r">prior &lt;-<span class="st"> </span><span class="kw">ContinuousPrior</span>(<span class="cf">function</span>(delta) <span class="kw">dnorm</span>(delta, <span class="dt">mean =</span> <span class="fl">.4</span>, <span class="dt">sd =</span> <span class="fl">.2</span>),
+                         <span class="dt">support =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>),
+                         <span class="dt">tighten_support =</span> <span class="ot">TRUE</span>)</code></pre>
+</div>
+</div>
+<div id="variantII_1" class="section level2">
+<h2><span class="header-section-number">3.2</span> Variant II-1: Minimizing Expected Sample Size under Point Prior</h2>
+<div id="objective-3" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Objective</h3>
+<p>Expected sample size under the prior is minimized, i.e.,
+<span class="math inline">\(\boldsymbol{E}\big[n(\mathcal{D})\big]\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">ess &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, prior))</code></pre>
+</div>
+<div id="constrains-3" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Constrains</h3>
+<p>The type one error rate is controlled at <span class="math inline">\(0.025\)</span> on the boundary of the
+null hypothesis.</p>
+<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, H_<span class="dv">0</span>)) <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.025</span></code></pre>
+<p>Expected Power (rejection probability for positive effect sizes)
+must be larger than <span class="math inline">\(0.8\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">pow_cnstr &lt;-<span class="st"> </span><span class="kw">expected</span>(
+    <span class="kw">ConditionalPower</span>(datadist, <span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">3</span>)))
+    ) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">.8</span></code></pre>
+</div>
+<div id="initial-design-3" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Initial Design</h3>
+<p><code>adoptr</code> requires the definition of an initial design for optimization.
+We start with a group-sequential design from the package <code>rpact</code> that
+fulfills the type-one error rate constraint and the power
+constraint for a point effect size at <span class="math inline">\(\delta = 0.4\)</span>.
+The order of integration is set to <span class="math inline">\(5\)</span>.
+For usage as two-stage design with variable sample size, it has to
+be converted to a <code>TwoStageDesign</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">order &lt;-<span class="st"> </span>5L 
 
+init_design_gs &lt;-<span class="st"> </span><span class="kw">rpact_design</span>(<span class="fl">0.4</span>, <span class="fl">0.025</span>, <span class="fl">0.8</span>, <span class="ot">TRUE</span>, order)
+
+init_design    &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(init_design_gs)</code></pre>
+</div>
+<div id="optimization-3" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> Optimization</h3>
+<p>The optimal design is computed in three variants: two-stage,
+group-sequential, and one-stage.
+The input only differs with regard to the initial design.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
+    <span class="kw">minimize</span>(
+        
+        ess,
+        
+        <span class="kw">subject_to</span>(
+            
+            toer_cnstr,
+            pow_cnstr
+            
+        ),
+        
+        <span class="dt">initial_design =</span> initial_design,
+        
+        <span class="dt">opts =</span> opts
+        
+)
+}
+
+opt1_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_gs)</code></pre>
+<pre><code>## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
+## = initial_design, : initial design is infeasible!</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">opt1_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">300</span>, <span class="fl">2.0</span>))
+opt1_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">TwoStageDesign</span>(opt1_gs<span class="op">$</span>design))</code></pre>
+<pre><code>## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
+## = initial_design, : initial design is infeasible!</code></pre>
+</div>
+<div id="test-cases-3" class="section level3">
+<h3><span class="header-section-number">3.2.5</span> Test Cases</h3>
+<p>Check if the optimization algorithm converged in all cases.</p>
+<pre class="sourceCode r"><code class="sourceCode r">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt1_ts, opt1_gs, opt1_os), 
+                <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
+
+<span class="kw">print</span>(iters)</code></pre>
+<pre><code>## [1] 1368  449   31</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
+<p>Type one error rate constraint is tested for the three designs.
+Due to numerical issues we allow a realtive error of <span class="math inline">\(1\%\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt1_ts, opt1_gs, opt1_os),  
+                  <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.0</span>, datadist))
+df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
+    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
+)
+<span class="kw">rm</span>(tmp)
+
+testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.025</span><span class="op">*</span>(<span class="fl">1.01</span>)))
+
+df_toer</code></pre>
+<pre><code>##       toer           se
+## 1 0.024986 0.0001560824
+## 2 0.024904 0.0001558327
+## 3 0.025116 0.0001564775</code></pre>
+<p>The expected sample sizes should be ordered in a specific way.</p>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
+    <span class="kw">evaluate</span>(ess, opt1_os<span class="op">$</span>design),
+    <span class="kw">evaluate</span>(ess, opt1_gs<span class="op">$</span>design)
+)
+
+testthat<span class="op">::</span><span class="kw">expect_gte</span>(
+    <span class="kw">evaluate</span>(ess, opt1_gs<span class="op">$</span>design),
+    <span class="kw">evaluate</span>(ess, opt1_ts<span class="op">$</span>design)
+)</code></pre>
+</div>
+</div>
+<div id="variantII_2" class="section level2">
+<h2><span class="header-section-number">3.3</span> Variant II-2: Minimizing Expected Sample Size under Null Hypothesis</h2>
+<div id="objective-4" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Objective</h3>
+<p>Expected sample size conditioned on negative effect sizes is minimized, i.e.,</p>
+<pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, <span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>))))</code></pre>
+</div>
+<div id="constrains-4" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Constrains</h3>
+<p>The constraints remain the same as before.</p>
+</div>
+<div id="initial-design-4" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Initial Design</h3>
+<p>The previous initial design can still be applied.</p>
+</div>
+<div id="optimization-4" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> Optimization</h3>
+<p>The optimal group-sequential design and based on this the
+optimal two-stage design are computed.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt2 &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
+    <span class="kw">minimize</span>(
+        
+        ess_<span class="dv">0</span>,
+        
+        <span class="kw">subject_to</span>(
+            
+            toer_cnstr,
+            pow_cnstr
+            
+        ),
+        
+        <span class="dt">initial_design =</span> initial_design,
+        
+        <span class="dt">opts =</span> opts
+        
+)
+}
+
+opt2_gs &lt;-<span class="st"> </span><span class="kw">opt2</span>(init_design_gs)</code></pre>
+<pre><code>## Warning in minimize(ess_0, subject_to(toer_cnstr, pow_cnstr),
+## initial_design = initial_design, : initial design is infeasible!</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">opt2_ts &lt;-<span class="st"> </span><span class="kw">opt2</span>(<span class="kw">TwoStageDesign</span>(opt2_gs<span class="op">$</span>design))</code></pre>
+<pre><code>## Warning in minimize(ess_0, subject_to(toer_cnstr, pow_cnstr),
+## initial_design = initial_design, : initial design is infeasible!</code></pre>
+</div>
+<div id="test-cases-4" class="section level3">
+<h3><span class="header-section-number">3.3.5</span> Test Cases</h3>
+<p>Check if the optimization algorithm converged.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(opt2_ts<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)</code></pre>
+<pre><code>## [1] 1348</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(opt2_ts<span class="op">$</span>nloptr_return<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval)</code></pre>
+<p>Type one error rate constraint is tested for the optimal design.
+Due to numerical issues we allow a realtive error of <span class="math inline">\(1\%\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sim_pr_reject</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)
+df_toer2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>]),
+    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>])
+)
+<span class="kw">rm</span>(tmp)
+
+testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer2<span class="op">$</span>toer <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.025</span><span class="op">*</span>(<span class="fl">1.01</span>)))
+
+df_toer2</code></pre>
+<pre><code>##       toer           se
+## 1 0.024804 0.0001555274</code></pre>
+<p>The expected sample size under the null hypothesis should be lower
+than of the design from variant II.1 where expected sample size under
+the full prior was minimized.</p>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_lte</span>(
+    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_ts<span class="op">$</span>design),
+    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_ts<span class="op">$</span>design)
+)</code></pre>
+</div>
+</div>
+<div id="variantII_3" class="section level2">
+<h2><span class="header-section-number">3.4</span> Variant II-3: Conditional Power Constraint</h2>
+<div id="objective-5" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> Objective</h3>
+<p>Expected sample size under the prior is minimized and has already been defined.</p>
+</div>
+<div id="constrains-5" class="section level3">
+<h3><span class="header-section-number">3.4.2</span> Constrains</h3>
+<p>The constraints remain the same as before, additionally to a constraint
+on conditional power.</p>
+<pre class="sourceCode r"><code class="sourceCode r">cp &lt;-<span class="st"> </span><span class="kw">ConditionalPower</span>(datadist, <span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">3</span>)))
+
+cp_cnstr &lt;-<span class="st"> </span>cp <span class="op">&gt;=</span><span class="st"> </span><span class="fl">.7</span></code></pre>
+</div>
+<div id="initial-design-5" class="section level3">
+<h3><span class="header-section-number">3.4.3</span> Initial Design</h3>
+<p>The previous initial design can still be applied.</p>
+</div>
+<div id="optimization-5" class="section level3">
+<h3><span class="header-section-number">3.4.4</span> Optimization</h3>
+<p>The optimal two-stage design is computed.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt3_ts &lt;-<span class="st"> </span><span class="kw">minimize</span>(
+        
+        ess,
+        
+        <span class="kw">subject_to</span>(
+            
+            toer_cnstr,
+            pow_cnstr,
+            cp_cnstr
+            
+        ),
+        
+        <span class="dt">initial_design =</span> init_design,
+        
+        <span class="dt">opts =</span> opts
+        
+)</code></pre>
+<pre><code>## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr, cp_cnstr),
+## initial_design = init_design, : initial design is infeasible!</code></pre>
+</div>
+<div id="test-cases-5" class="section level3">
+<h3><span class="header-section-number">3.4.5</span> Test Cases</h3>
+<p>Check if the optimization algorithm converged.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(opt3_ts<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)</code></pre>
+<pre><code>## [1] 2503</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(opt3_ts<span class="op">$</span>nloptr_return<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval)</code></pre>
+<p>Type one error rate constraint is tested for the optimal design.
+Due to numerical issues we allow a realtive error of <span class="math inline">\(1\%\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sim_pr_reject</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)
+df_toer3 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>]),
+    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>])
+)
+<span class="kw">rm</span>(tmp)
+
+testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer3<span class="op">$</span>toer <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.025</span><span class="op">*</span>(<span class="fl">1.01</span>)))
+
+df_toer3</code></pre>
+<pre><code>##       toer           se
+## 1 0.024991 0.0001560976</code></pre>
+<p>The expected sample size under the prior should be higher than
+in the case without the constraint that was analyzed in II.1.</p>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
+    <span class="kw">evaluate</span>(ess, opt3_ts<span class="op">$</span>design),
+    <span class="kw">evaluate</span>(ess, opt1_ts<span class="op">$</span>design)
+)</code></pre>
+<p>The conditional power constraint needs to be tested.
+Select three points for this and check the constraint.</p>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>adoptr<span class="op">:::</span><span class="kw">scaled_integration_pivots</span>(opt3_ts<span class="op">$</span>design)[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)]
+
+cp_val &lt;-<span class="st"> </span><span class="kw">sapply</span>(x, <span class="cf">function</span>(z) <span class="kw">evaluate</span>(cp, opt3_ts<span class="op">$</span>design, z))
+
+testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(cp_val <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.7</span>))</code></pre>
+</div>
+</div>
+<div id="plot-two-stage-designs-1" class="section level2">
+<h2><span class="header-section-number">3.5</span> Plot Two-Stage Designs</h2>
+<p>The optimal two-stage designs stemming from the different variants
+are plotted together.</p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="scenarioV.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="scenarioI.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="scenarioIII.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -342,7 +630,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/kkmann/adoptr-validation-report/edit/master/10-references.Rmd",
+"link": "https://github.com/kkmann/adoptr-validation-report/edit/master/02-scenario-II.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>References | Validation Report for adoptr package</title>
+  <title>4 Scenario III: large effect, uniform prior | Validation Report for adoptr package</title>
   <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="References | Validation Report for adoptr package" />
+  <meta property="og:title" content="4 Scenario III: large effect, uniform prior | Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | Validation Report for adoptr package" />
+  <meta name="twitter:title" content="4 Scenario III: large effect, uniform prior | Validation Report for adoptr package" />
   
   <meta name="twitter:description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="scenarioV.html">
-
+<link rel="prev" href="scenarioII.html">
+<link rel="next" href="scenarioIV.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -302,17 +302,202 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="scenarioIII" class="section level1">
+<h1><span class="header-section-number">4</span> Scenario III: large effect, uniform prior</h1>
+<div id="details-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> Details</h2>
+<p>This scenario is a variant of Scenario I.
+The purpose is to asses whether placing uniform priors with decreasing
+width of support centered at the <span class="math inline">\(\delta=0.4\)</span> leads to a sequence of
+optimal designs which converges towards the solution in Case I-1.</p>
+<div id="data-distribution-2" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Data distribution</h3>
+<p>Two-armed trial with normally distributed test statistic</p>
+<pre class="sourceCode r"><code class="sourceCode r">datadist &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">TRUE</span>)</code></pre>
+</div>
+<div id="null-hypothesis-2" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> Null hypothesis</h3>
+<p>The null hypothesis is <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">H_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)</code></pre>
+</div>
+<div id="prior-assumptions-2" class="section level3">
+<h3><span class="header-section-number">4.1.3</span> Prior assumptions</h3>
+<p>In this scenario we consider a sequence of uniform distributions
+<span class="math inline">\(\delta\sim\operatorname{Unif}(0.4 - \Delta_i, 0.4 + \Delta_i)\)</span>
+around <span class="math inline">\(0.4\)</span> with <span class="math inline">\(\Delta_i=(3 - i)/10\)</span> for <span class="math inline">\(i=0\ldots 3\)</span>.
+I.e., for <span class="math inline">\(\Delta_3=0\)</span> reduces to <code>PointMassPrior</code> on <span class="math inline">\(\delta=0.4\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">prior &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {
+    <span class="cf">if</span> (delta <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)
+        <span class="kw">return</span>(<span class="kw">PointMassPrior</span>(.<span class="dv">4</span>, <span class="fl">1.0</span>))
+    a &lt;-<span class="st"> </span><span class="fl">.4</span> <span class="op">-</span><span class="st"> </span>delta; b &lt;-<span class="st"> </span><span class="fl">.4</span> <span class="op">+</span><span class="st"> </span>delta
+    <span class="kw">ContinuousPrior</span>(<span class="cf">function</span>(x) <span class="kw">dunif</span>(x, a, b), <span class="dt">support =</span> <span class="kw">c</span>(a, b))
+}</code></pre>
+</div>
+</div>
+<div id="variantIII_1" class="section level2">
+<h2><span class="header-section-number">4.2</span> Variant III.1: Convergence under prior concentration</h2>
+<p>Make sure that the optimal solution converges as the prior is more and more
+concentrated at a point mass.</p>
+<div id="objective-6" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Objective</h3>
+<p>Expected sample size under the respective prior is minimized, i.e.,
+<span class="math inline">\(\boldsymbol{E}\big[n(\mathcal{D})\big]\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">objective &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {
+    <span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, <span class="kw">prior</span>(delta)))
+}</code></pre>
+</div>
+<div id="constrains-6" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Constrains</h3>
+<p>The type one error rate is controlled at <span class="math inline">\(0.025\)</span> on the boundary of the
+null hypothesis.</p>
+<pre class="sourceCode r"><code class="sourceCode r">toer_cstr &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, H_<span class="dv">0</span>)) <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.025</span></code></pre>
+<p>Expected power <span class="math inline">\(\boldsymbol{Pr}\big[c_2(\mathcal{D}, X_1) &lt; X_2\,|\,\delta\geq 0.0\big]\)</span> must be larger than <span class="math inline">\(0.8\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">ep_cnstr &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {
+    prior     &lt;-<span class="st"> </span><span class="kw">prior</span>(delta)
+    cnd_prior &lt;-<span class="st"> </span><span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">bounds</span>(prior)[<span class="dv">2</span>]))
+    <span class="kw">return</span>( <span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, cnd_prior)) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.8</span> )
+}</code></pre>
+</div>
+<div id="optimization-problem" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Optimization problem</h3>
+<p>The optimization problem depending on <span class="math inline">\(\Delta_i\)</span> is defined below.
+The default optimization paramters, 5 pivot points, and a fixed initial design
+is used.
+The initial design is chosen such that the error constraints are
+fulfilled. Early stopping for futility is applied if the effect shows
+in the opponent direction to the alternative, i.e. <span class="math inline">\(c_1^f=0\)</span>.
+<span class="math inline">\(c_2\)</span> is chosen close to and <span class="math inline">\(c_1^e\)</span> a little larger than the <span class="math inline">\(1-\alpha\)</span>-quantile
+of the standard normal distribution. The sample sizes are selected
+to fulfill the error constraints.</p>
+<pre class="sourceCode r"><code class="sourceCode r">init &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(
+    <span class="dt">n1    =</span> <span class="dv">150</span>,
+    <span class="dt">c1f   =</span> <span class="dv">0</span>,
+    <span class="dt">c1e   =</span> <span class="fl">2.3</span>,
+    <span class="dt">n2    =</span> <span class="fl">125.0</span>,
+    <span class="dt">c2    =</span> <span class="fl">2.0</span>,
+    <span class="dt">order =</span> <span class="dv">5</span>
+)
 
+optimal_design &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {
+    
+    <span class="kw">minimize</span>(
+        
+        <span class="kw">objective</span>(delta),
+        
+        <span class="kw">subject_to</span>(
+            
+            toer_cstr,
+            <span class="kw">ep_cnstr</span>(delta)
+            
+        ),
+        
+        <span class="dt">initial_design =</span> init
+        
+    )
+}</code></pre>
+<p>Compute the sequence of optimal designs</p>
+<pre class="sourceCode r"><code class="sourceCode r">deltas  &lt;-<span class="st"> </span><span class="dv">3</span><span class="op">:</span><span class="dv">0</span><span class="op">/</span><span class="dv">10</span>
+results &lt;-<span class="st"> </span><span class="kw">lapply</span>(deltas, optimal_design)</code></pre>
+</div>
+<div id="test-cases-6" class="section level3">
+<h3><span class="header-section-number">4.2.4</span> Test cases</h3>
+<p>Check that iteration limit was not exceeded in any case.</p>
+<pre class="sourceCode r"><code class="sourceCode r">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(results, <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
+
+<span class="kw">print</span>(iters)</code></pre>
+<pre><code>## [1] 1746 1857 2438 2684</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10000</span>))</code></pre>
+<p>Check type one error rate control</p>
+<pre class="sourceCode r"><code class="sourceCode r">sim_toer &lt;-<span class="st"> </span><span class="cf">function</span>(design) {
+    simdata &lt;-<span class="st"> </span><span class="kw">simulate</span>(
+        design,
+        <span class="dt">nsim  =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">6</span>, 
+        <span class="dt">dist  =</span> datadist, 
+        <span class="dt">theta =</span>   <span class="fl">.0</span>,
+        <span class="dt">seed  =</span> <span class="dv">42</span>
+    )
+    <span class="kw">return</span>(<span class="kw">list</span>(
+        <span class="dt">toer =</span> <span class="kw">mean</span>(simdata<span class="op">$</span>reject), 
+        <span class="dt">se   =</span> <span class="kw">sd</span>(simdata<span class="op">$</span>reject) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">nrow</span>(simdata))
+    ))
+}
+
+tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(results, <span class="cf">function</span>(x) <span class="kw">sim_toer</span>(x<span class="op">$</span>design))
+df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
+    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
+)
+<span class="kw">rm</span>(tmp)
+
+testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer <span class="op">&lt;</span><span class="st"> </span><span class="fl">.025</span>))
+
+df_toer</code></pre>
+<pre><code>##       toer           se
+## 1 0.024979 0.0001560611
+## 2 0.024957 0.0001559941
+## 3 0.024972 0.0001560398
+## 4 0.024979 0.0001560611</code></pre>
+<p>Check that expected sample size decreases with decreasing prior variance.</p>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
+  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">1</span>]), results[[<span class="dv">1</span>]]<span class="op">$</span>design),
+  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">2</span>]), results[[<span class="dv">2</span>]]<span class="op">$</span>design)
+)
+
+testthat<span class="op">::</span><span class="kw">expect_gte</span>(
+  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">2</span>]), results[[<span class="dv">2</span>]]<span class="op">$</span>design),
+  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">3</span>]), results[[<span class="dv">3</span>]]<span class="op">$</span>design)
+)
+
+testthat<span class="op">::</span><span class="kw">expect_gte</span>(
+  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">3</span>]), results[[<span class="dv">3</span>]]<span class="op">$</span>design),
+  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">4</span>]), results[[<span class="dv">4</span>]]<span class="op">$</span>design)
+)</code></pre>
+</div>
+<div id="plot-designs" class="section level3">
+<h3><span class="header-section-number">4.2.5</span> Plot designs</h3>
+<p>Plot and assess for convergence</p>
+<pre class="sourceCode r"><code class="sourceCode r">z1 &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">3</span>, <span class="dt">by =</span> <span class="fl">.01</span>)
+
+<span class="kw">tibble</span>(
+    <span class="dt">delta  =</span> deltas, 
+    <span class="dt">design =</span> <span class="kw">lapply</span>(results, <span class="cf">function</span>(x) x<span class="op">$</span>design)
+) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(delta) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">do</span>(
+        <span class="dt">z1 =</span> z1,
+        <span class="dt">n  =</span> adoptr<span class="op">::</span><span class="kw">n</span>(.<span class="op">$</span>design[[<span class="dv">1</span>]], z1),
+        <span class="dt">c2 =</span> <span class="kw">c2</span>(.<span class="op">$</span>design[[<span class="dv">1</span>]], z1)
+    ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">section =</span> <span class="kw">ifelse</span>(
+            <span class="kw">is.finite</span>(c2), 
+            <span class="st">&quot;continuation&quot;</span>, 
+            <span class="kw">ifelse</span>(c2 <span class="op">==</span><span class="st"> </span><span class="op">-</span><span class="ot">Inf</span>, <span class="st">&quot;efficacy&quot;</span>, <span class="st">&quot;futility&quot;</span>)
+        )
+    ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">gather</span>(variable, value, n, c2) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(z1, value, <span class="dt">color =</span> delta)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="kw">interaction</span>(section, delta))) <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable, <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>) <span class="op">+</span>
+<span class="st">        </span><span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">        </span><span class="kw">scale_color_continuous</span>(<span class="kw">bquote</span>(Delta)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">theme</span>(
+            <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(),
+            <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>
+        )</code></pre>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="scenarioV.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="scenarioII.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="scenarioIV.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -342,7 +527,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/kkmann/adoptr-validation-report/edit/master/10-references.Rmd",
+"link": "https://github.com/kkmann/adoptr-validation-report/edit/master/03-scenario-III.Rmd",
 "text": "Edit"
 },
 "history": {
