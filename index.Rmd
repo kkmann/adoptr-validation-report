@@ -17,6 +17,7 @@ output:
       config:
         toc:
           collapse: section
+          scroll_highlight: yes
           before: |
             <li><a href="./">Validation Report for adoptr Package</a></li>
           after: |
