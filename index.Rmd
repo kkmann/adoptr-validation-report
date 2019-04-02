@@ -61,7 +61,7 @@ The following quality metrics are inspired by https://www.pharmar.org/packages/:
 | **Version Control?**               | yes, https:github.com/kkmann | 
 | **Public/Open Source Developmen?** | yes, https:github.com/kkmann |
 | **Formal Bug Tracking?**           | yes, https://github.com/kkmann/adoptr/issues |
-| **Changelog?**                     | yes, https://github.com/kkmann/adoptr/blob/master/NEWS.md |
+| **Changelog?**                     | yes, https://kkmann.github.io/adoptr/news/index.html |
 | **Release Cycle**                  | irregular |
 | **Unit Testing?**                  | yes, [![Codecov test coverage](https://codecov.io/gh/kkmann/adoptr/branch/master/graph/badge.svg)](https://codecov.io/gh/kkmann/adoptr?branch=master) |
 | **License**                        | MIT, https://github.com/kkmann/adoptr/blob/master/LICENSE.md |
