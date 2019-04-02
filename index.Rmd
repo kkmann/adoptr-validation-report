@@ -54,22 +54,22 @@ https://github.com/kkmann/adoptr-validation-report.
 
 The following quality metrics are inspired by https://www.pharmar.org/packages/:
 
-| **Metric**    | **Value/Statement** |
-|--------------:|:--------------------|
-| **Vignette?** | yes, online version at https://kkmann.github.io/adoptr/articles/adoptr.html |
-| **Website?**  | yes, https://kkmann.github.io/adoptr |
-| **Source Code under Version Control?**| yes, https:github.com/kkmann | 
+| **Metric**                         | **Value/Statement** |
+|-----------------------------------:|:--------------------|
+| **Vignette?**                      | yes, online version at https://kkmann.github.io/adoptr/articles/adoptr.html |
+| **Website?**                       | yes, https://kkmann.github.io/adoptr |
+| **Version Control?**               | yes, https:github.com/kkmann | 
 | **Public/Open Source Developmen?** | yes, https:github.com/kkmann |
-| **Formal Bug Tracking?** | yes, https://github.com/kkmann/adoptr/issues |
-| **Changelog?** | yes, https://github.com/kkmann/adoptr/blob/master/NEWS.md |
-| **Release Cycle** | irregular |
-| **Unit Testing?**| yes, [![Codecov test coverage](https://codecov.io/gh/kkmann/adoptr/branch/master/graph/badge.svg)](https://codecov.io/gh/kkmann/adoptr?branch=master) |
-| **License** | MIT, https://github.com/kkmann/adoptr/blob/master/LICENSE.md |
-| **CRAN?** | [![CRAN status](https://www.r-pkg.org/badges/version/adoptr)](https://cran.r-project.org/package=adoptr) |
-| **Bioconductor?** | No |
-| **# reverse dependencies** | 0 |
-| **# Downloads** | Only available for R Studio CRAN mirror: [![](http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green)] |
-
+| **Formal Bug Tracking?**           | yes, https://github.com/kkmann/adoptr/issues |
+| **Changelog?**                     | yes, https://github.com/kkmann/adoptr/blob/master/NEWS.md |
+| **Release Cycle**                  | irregular |
+| **Unit Testing?**                  | yes, [![Codecov test coverage](https://codecov.io/gh/kkmann/adoptr/branch/master/graph/badge.svg)](https://codecov.io/gh/kkmann/adoptr?branch=master) |
+| **License**                        | MIT, https://github.com/kkmann/adoptr/blob/master/LICENSE.md |
+| **CRAN?**                          | [![CRAN status](https://www.r-pkg.org/badges/version/adoptr)](https://cran.r-project.org/package=adoptr) |
+| **Bioconductor?**                  | No |
+| **# reverse dependencies**         | 0 |
+| **# Downloads**                    | Only available for R Studio CRAN mirror: [![](http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green)] |
+| **Professional Maintainer?**       | No |
 
 
 
