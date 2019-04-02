@@ -45,6 +45,17 @@ validation of **[adoptr](https://github.com/kkmann/adoptr)** as much as possible
 No warranty whatsoever as to the correctness of **adoptr** not the
 completeness of the validation report are given by the authors!
 
+We assume that the reader is familiar with the notation an theoretical
+background of **adoptr**.
+Otherwise, the resources linked at https://github.com/kkmann/adoptr might
+be a good starting point *ToDo: publications*.
+The report explores a variety of essential scenarios and both formally
+tests results (wherever possible) using **testthat**.
+Detailed results are also printed in the report itself.
+Any failure of the integrated formal tests will cause the build status
+of the validation report to switch from 'passing' to 'failed'.
+An overview of the respective test scenarios is given in [Validation Scenarios].
+
 The online version of this report can be found at 
 https://kkmann.github.io/adoptr-validation-report/ and is automatically
 rebuild and redeployed on a daily basis using Travis-CI.
@@ -75,122 +86,37 @@ The following quality metrics are inspired by https://www.pharmar.org/packages/:
 
 
 
-## Local validation
+## Creating a Local Validation Report
 
-...
-
-## Brief Introdcution to Two-Stage Designs
-
-In `adoptrValidation` a suitable set of cases is tested in order to
-validate the performance of the package `adoptr`.
-This package allows to compute optimal designs (adaptive two-stage,
-group-sequential two-stage and one-stage) for normally distributed data.
-For a treatment group $T$ and a control group $C$ where 
-the observations $X_i^T \sim \mathcal{N} (\mu_T, \sigma^2)$,
-$X_i^C \sim \mathcal{N} (\mu_C, \sigma^2)$ the following hypotheses are
-tested:
-$$
-\mathcal{H}_0: \delta := \mu_T - \mu_C \leq 0 \text{ v.s. }
-\mathcal{H_1}: \delta > 0. 
-$$
-The power of a test procedure is computed on an alternative effect size
-$\delta_1 > 0$ where a prior distribution 
-$\delta_1 \sim \pi(\vartheta, \tau^2)$ is imaginable.
-
-The trial evaluation happens as follows.
-After $n_1$ patients (per group) finished the trial an interim analysis
-is conducted. The interim test statistic $Z_1$ for a standard z-test is computed
-and the trial is stopped early for futility, if $Z_1 < c_f$.
-If $Z_1 > c_e$ the null hypothesis is rejected and the trial is stopped early
-for efficacy. Otherwise, i.e. if $c_f \leq Z_1 \leq c_e$, the trial enters
-in the second stage. Due to the adaptivness of the trial design, the 
-stage-two sample size is a function of $Z_1$, i.e. $n_2(Z_1)$. 
-Also the final rejection boundary $c_2$ depends on $Z_1$. 
-At the final analysis the stage-two test statistic $Z_2$ is computed and
-the null hypothesis is rejected if $Z_2 > c_2(Z_1)$. 
-
-
-A design $D$ is a five-tuple consisting of the first-stage sample size
-$n_1$, early stopping boundaries $c_f$ (futility) and $c_e$ (efficacy)
-and stage-two functions $n_2(\cdot)$ (sample size) and $c_2(\cdot)$
-(rejection boundary).
-All these elements can be computed optimally in `adoptr`. 
-The incorporation of continuous priors is possible as well as including
-conditional and unconditional constraints. 
-
-
-Given a design $D$ and a objective function $f$
-the default setting in `adoptr` is the following.
-
-$\min$ | $f(D)$ 
---- | ---
-such that | Type One Error Rate $\leq \alpha$ 
-and | Power $\geq 1 - \beta$ 
-
-
-Often in clinical practice one is not willing to enter in a second
-stage when the conditional power (i.e., the probability to reject at
-the final analysis given the first-stage results) is too low or too high
-because in these cases the stage-two result is likely predictable.
-Therefore, introducing conditional power constraints of the form
-$$
-1 - \beta_2 \leq \text{Conditional Power}(z_1, D) \leq 1 - \beta_3
-$$
-may be desirable and are supported by `adoptr`.
-
-
-In `adoptrValidation` different scenarios are investigated. 
-Each scenario is determined by the assumed effect size $\delta_1$ and its
-prior distribution $\pi$. 
-In each scenario, different tests are performed. 
-All tests are indicated by a bullet point. 
-
-
-
-
-
-## Validation strategy 
-
-**adoptrValidation** essentially extends the test suit of **adoptr** to cover
-more different scenarios.
-In order to generate a proper validation report the test Variants are not managed
-using a unit testing framework like testthat but are directly included in a
-set of vignettes (one per sceanrio).
-These vignettes are automatically built and published (here) once per week 
-using pkgdown to keep the validation report up to date with the latest 
-CRAN release.
-The overall failure/pass status of the latest build can be checked using the
-Travis-CI badge.
-In the following, all Scenarios and their respective sub-Variants are outlined.
-**Scenarios** are defined by the joint distribution of the test statistic and the 
-location parameter, while **Variants** are given by the respective optimization
-problem (objective, constraints).
-
-
-### Technical Setup
-
-Initially, the both packages are loaded and the seed for simulation is set.
-Additionally, the options for optimization are modified by increasing
-the maximum number of evaluations to ensure convergence.
-
-```{r setup}
-library(adoptr)
-library(tidyverse)
-
-# load custom functions in folder subfolder '/R'
-for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
-   source(file.path("R", nm))
-
-# define seed value
-seed <- 42
-
-# define custom tolerance and iteration limit for nloptr
-opts = list(
-    algorithm = "NLOPT_LN_COBYLA",
-    xtol_rel  = 1e-5,
-    maxeval   = 100000
-)
+To validate a local version of  **adoptr**, clone the validation report
+source reposiotry via
+```bash
+git clone https://github.com/kkmann/adoptr-validation-report.git
 ```
+and switch to the newly created folder
+```bash
+cd adoptr-validation-report
+```
+To build the book, you will need to install the dependencies listed in the DESCRIPTION file,
+i.e.
+```
+install.packages(c("tidyverse, "bookdown", "rpact", "testthat", "pwr"))
+```
+before finally beuilding the book by invoking
+```bash
+Rscript -e 'bookdown::render_book("index.Rmd", output_format = "all")'
+```
+(or executing the equivalent command in an R terminal in the same folder).
+This will produce a `_book` folder with an `index.html` file that can be 
+viewed in a browser as well as the PDF version of the validation
+report.
+
+
+
+
+
+## Validation Scenarios
+
 
 
 ### [Scenario I: Large effect, point prior](#scenarioI)
@@ -478,3 +404,33 @@ Inspect the plot to see convergence pattern.
 * **Formal tests:**
     1. Is the `AverageN2` for the optimal design smaller than for the order-5 
     design in V.1?
+
+
+
+
+## Technical Setup
+
+All scenarios are run in a single, shared R session.
+Required packages are loaded here *ToDo: make sure that is the case!*,
+the random see is defined and set centrally, and the default number
+of iteration is increased to make sure that all scenarios 
+converge properly.
+Additionally R scripts with convenience functions are sourced here as well *ToDo: descibe or eliminate these functions!*.
+```{r setup}
+library(adoptr)
+library(tidyverse)
+
+# load custom functions in folder subfolder '/R'
+for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
+   source(file.path("R", nm))
+
+# define seed value
+seed <- 42
+
+# define custom tolerance and iteration limit for nloptr
+opts = list(
+    algorithm = "NLOPT_LN_COBYLA",
+    xtol_rel  = 1e-5,
+    maxeval   = 100000
+)
+```
