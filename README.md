@@ -26,5 +26,5 @@ The following quality metrics are inspired by https://www.pharmar.org/packages/:
 | **Bioconductor?**                  | No |
 | **# reverse dependencies**         | 0 |
 | **# Downloads**                    | Only available for R Studio CRAN mirror: [![R Studio CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green)](https://cran.r-project.org/package=adoptr) |
-| **Maturity**                       | Initial CRAN release date: 2019-04-01, `r round(as.numeric(difftime(Sys.Date(), "2019-04-01", units = "days"))/365.25, 2)` years |
+| **Maturity**                       | Initial CRAN release date: 2019-04-01 |
 | **Professional Maintainer?**       | No |
