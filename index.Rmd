@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 bibliography:
 - book.bib
 - packages.bib
-description: This is an automatically generated validation report for the **adoptr**  R
+description: This is an automatically generated validation report for the **adoptr** R
   package published via **bookdown**.
 documentclass: book
 link-citations: yes
@@ -17,17 +17,14 @@ output:
       config:
         toc:
           collapse: section
+          scroll_highlight: yes
           before: |
             <li><a href="./">Validation Report for adoptr Package</a></li>
           after: |
             <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-        download:
-          ["pdf"]
+        download: ["pdf"]
         edit: https://github.com/kkmann/adoptr-validation-report/edit/master/%s
-        github-repo: "kkmann/adoptr-validation-report"
-        sharing:
-          github: yes
-          facebook: no
+        github-repo: https://github.com/kkmann/adoptr-validation-report
     bookdown::pdf_book:
       includes:
         in_header: preamble.tex
@@ -41,136 +38,39 @@ output:
 
 ## Concept
 
-The goal of adoptrValidation is to provide a comprehensive suit of test
-for the [adoptr](https://github.com/kkmann/adoptr) package.
-The package is not directly inteded to be used but to automatically
-deploy a weekly validation report via github pages to
-[https://kkmann.github.io/adoptrValidation/](https://kkmann.github.io/adoptrValidation/).
-The report is implemented as a set of vignettes which are compiled
-into a static web page using pkgdown.
-For details on the class of supported designs, see 
-https://github.com/kkmann/adoptr.
+R package validation for regulatory environments is a tedious endevour.
+Note that there is no such thing as a 'validated R package':
+validation is by definition a process conducted by the *user*.
+This valdation report may thus only be seen as a means to facilitate 
+validation of **[adoptr](https://github.com/kkmann/adoptr)** as much as possible.
+No warranty whatsoever as to the correctness of **adoptr** not the
+completeness of the validation report are given by the authors!
 
+We assume that the reader is familiar with the notation an theoretical
+background of **adoptr**.
+Otherwise, the resources linked at https://github.com/kkmann/adoptr might
+be a good starting point *ToDo: publications*.
+The report explores a variety of essential scenarios and both formally
+tests results (wherever possible) using **testthat**.
+Detailed results are also printed in the report itself.
+Any failure of the integrated formal tests will cause the build status
+of the validation report to switch from 'passing' to 'failed'.
+An overview of the respective test scenarios is given in [Validation Scenarios].
 
-## Local validation
-
-...
-
-## Brief Introdcution to Two-Stage Designs
-
-In `adoptrValidation` a suitable set of cases is tested in order to
-validate the performance of the package `adoptr`.
-This package allows to compute optimal designs (adaptive two-stage,
-group-sequential two-stage and one-stage) for normally distributed data.
-For a treatment group $T$ and a control group $C$ where 
-the observations $X_i^T \sim \mathcal{N} (\mu_T, \sigma^2)$,
-$X_i^C \sim \mathcal{N} (\mu_C, \sigma^2)$ the following hypotheses are
-tested:
-$$
-\mathcal{H}_0: \delta := \mu_T - \mu_C \leq 0 \text{ v.s. }
-\mathcal{H_1}: \delta > 0. 
-$$
-The power of a test procedure is computed on an alternative effect size
-$\delta_1 > 0$ where a prior distribution 
-$\delta_1 \sim \pi(\vartheta, \tau^2)$ is imaginable.
-
-The trial evaluation happens as follows.
-After $n_1$ patients (per group) finished the trial an interim analysis
-is conducted. The interim test statistic $Z_1$ for a standard z-test is computed
-and the trial is stopped early for futility, if $Z_1 < c_f$.
-If $Z_1 > c_e$ the null hypothesis is rejected and the trial is stopped early
-for efficacy. Otherwise, i.e. if $c_f \leq Z_1 \leq c_e$, the trial enters
-in the second stage. Due to the adaptivness of the trial design, the 
-stage-two sample size is a function of $Z_1$, i.e. $n_2(Z_1)$. 
-Also the final rejection boundary $c_2$ depends on $Z_1$. 
-At the final analysis the stage-two test statistic $Z_2$ is computed and
-the null hypothesis is rejected if $Z_2 > c_2(Z_1)$. 
-
-
-A design $D$ is a five-tuple consisting of the first-stage sample size
-$n_1$, early stopping boundaries $c_f$ (futility) and $c_e$ (efficacy)
-and stage-two functions $n_2(\cdot)$ (sample size) and $c_2(\cdot)$
-(rejection boundary).
-All these elements can be computed optimally in `adoptr`. 
-The incorporation of continuous priors is possible as well as including
-conditional and unconditional constraints. 
-
-
-Given a design $D$ and a objective function $f$
-the default setting in [adoptr] is the following.
-
-$\min$ | $f(D)$ 
---- | ---
-such that | Type One Error Rate $\leq \alpha$ 
-and | Power $\geq 1 - \beta$ 
-
-
-Often in clinical practice one is not willing to enter in a second
-stage when the conditional power (i.e., the probability to reject at
-the final analysis given the first-stage results) is too low or too high
-because in these cases the stage-two result is likely predictable.
-Therefore, introducing conditional power constraints of the form
-$$
-1 - \beta_2 \leq \text{Conditional Power}(z_1, D) \leq 1 - \beta_3
-$$
-may be desirable and are supported by `adoptr`.
-
-
-In `adoptrValidation` different scenarios are investigated. 
-Each scenario is determined by the assumed effect size $\delta_1$ and its
-prior distribution $\pi$. 
-In each scenario, different tests are performed. 
-All tests are indicated by a bullet point. 
+The online version of this report can be found at 
+https://kkmann.github.io/adoptr-validation-report/ and is automatically
+rebuild and redeployed on a daily basis using Travis-CI.
+It uses the respective most current CRAN version of **adoptr** (cf. below).
+The source code repository of this report can be found at 
+https://github.com/kkmann/adoptr-validation-report.
 
 
 
+## Validation Scenarios
 
 
-## Validation strategy 
 
-**adoptrValidation** essentially extends the test suit of **adoptr** to cover
-more different scenarios.
-In order to generate a proper validation report the test Variants are not managed
-using a unit testing framework like testthat but are directly included in a
-set of vignettes (one per sceanrio).
-These vignettes are automatically built and published (here) once per week 
-using pkgdown to keep the validation report up to date with the latest 
-CRAN release [TODO: we currently use our master!].
-The overall failure/pass status of the latest build can be checked using the
-Travis-CI badge.
-In the following, all Scenarios and their respective sub-Variants are outlined.
-**Scenarios** are defined by the joint distribution of the test statistic and the 
-location parameter, while **Variants** are given by the respective optimization
-problem (objective, constraints).
-
-
-### Technical Setup
-
-Initially, the both packages are loaded and the seed for simulation is set.
-Additionally, the options for optimization are modified by increasing
-the maximum number of evaluations to ensure convergence.
-
-```{r setup}
-library(adoptr)
-library(tidyverse)
-
-# load custom functions in folder subfolder '/R'
-for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
-   source(file.path("R", nm))
-
-# define seed value
-seed <- 42
-
-# define custom tolerance and iteration limit for nloptr
-opts = list(
-    algorithm = "NLOPT_LN_COBYLA",
-    xtol_rel  = 1e-5,
-    maxeval   = 100000
-)
-```
-
-
-### [Scenario I](https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#tocnav)
+### [Scenario I: Large effect, point prior](#scenarioI)
 
 This is the default scenario. 
 
@@ -179,7 +79,7 @@ This is the default scenario.
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
-#### [Variant I.1: Minimizing Expected Sample Size under the Alternative](https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#case-i-1-minimizing-expected-sample-size-under-point-prior)
+#### [Variant I.1: Minimizing Expected Sample Size under the Alternative](#variantI_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]$
 * **Constraints:** 
@@ -201,7 +101,7 @@ This is the default scenario.
         continuation area? 
 
 
-#### [Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis](https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#case-i-2-minimizing-expected-sample-size-under-null-hypothesis)
+#### [Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis](#variantI_2)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta=0.0}\big]$
 * **Constraints:** 
@@ -211,7 +111,6 @@ This is the default scenario.
     1. Validate constraint compliance by testing vs. simulated 
         values of the power curve at respective points.
     2. $n()$ of optimal design is monotonously increasing on continuation area.
-    TODO
     3. $ESS$ of optimal two-stage design is lower than $ESS$ of externally 
         computed group-sequential design using the [rpact](https://rpact.org/) package.
     4. Are the $ESS$ values obtained from simulation the same as the ones 
@@ -219,7 +118,7 @@ This is the default scenario.
 
 
 
-#### [Variant I.3: Condtional Power Constraint](https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#case-i-3-conditional-power-constraint)
+#### [Variant I.3: Condtional Power Constraint](#variantI_3)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]$
 * **Constraints:** 
@@ -241,7 +140,7 @@ This is the default scenario.
 
 
 
-### [Scenario II](https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#tocnav)
+### [Scenario II: Large effect, Gaussian prior](#scenarioII)
 
 Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$.
 
@@ -251,7 +150,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
-#### [Variant II.1: Minimizing Expected Sample Size](https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#case-ii-1-minimizing-expected-sample-size-under-point-prior)
+#### [Variant II.1: Minimizing Expected Sample Size](#variantII_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\big]$
 * **Constraints:** 
@@ -267,7 +166,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
 
 
 
-#### [Variant II.2: Minimizing Expected Sample Size under the Null hypothesis](https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#case-ii-2-minimizing-expected-sample-size-under-null-hypothesis)
+#### [Variant II.2: Minimizing Expected Sample Size under the Null hypothesis](#variantII_2)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta\leq 0}\big]$
 * **Constraints:** 
@@ -277,14 +176,13 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
     1. Does the design comply with $TOER$ constraint (via simulation)?
     2. Check $CP$ constraint on three different values of $x_1$ in 
         $(c_1^f, c_1^e)$
-    3. TODO: Is the sample size function monotonously increasing?
-    4. Is $ESS$ lower than expected sample size under the null hypothesis 
+    3. Is $ESS$ lower than expected sample size under the null hypothesis 
       for the optimal two stage design from Variant II-1?
       
       
 
 
-#### [Variant II.3: Condtional Power Constraint](https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#case-ii-3-conditional-power-constraint)
+#### [Variant II.3: Condtional Power Constraint](#variantII_3)
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\big]$
 * **Constraints:** 
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta>0.0\big] \geq 0.8$
@@ -303,7 +201,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
       
       
 
-### [Scenario III:](https://kkmann.github.io/adoptrValidation/articles/scenario-III.html#tocnav)
+### [Scenario III: Large effect, uniform prior](#scenarioIII)
 
 * **Data distribution:** Two-armed trial with normally distributed test statistic
 * **Prior:** sequence of uniform distributions
@@ -313,7 +211,7 @@ I.e., for $\Delta_3=0$ reduces to a point prior on $\delta=0.4$.
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
-#### [Variant III.1: Convergence under Prior Concentration](https://kkmann.github.io/adoptrValidation/articles/scenario-III.html#Variant-iii-1-minimizing-expected-sample-size-under-alternative)
+#### [Variant III.1: Convergence under Prior Concentration](#variantIII_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\big]$
 * **Constraints:** 
@@ -324,7 +222,7 @@ I.e., for $\Delta_3=0$ reduces to a point prior on $\delta=0.4$.
       design.
     2. Number of iterations are checked agaist default maximum to ensure proper
       convergence.
-    3. TODO: $ESS$ decreases with prior variance.
+    3. $ESS$ decreases with prior variance.
     
 Additionally, the designs are compared graphically. 
 Inspect the plot to see convergence pattern.
@@ -333,11 +231,11 @@ Inspect the plot to see convergence pattern.
 
 
 
-### [Scenario IV: Smaller effect size, larger trials.](https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#tocnav)
+### [Scenario IV: Smaller effect size, larger trials](#scenarioIV)
 
 
 
-#### [Variant IV.1: Minimizing Expected Sample Size under the Alternative](https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#Variant-iv-1-minimizing-expected-sample-size-under-alternative)
+#### [Variant IV.1: Minimizing Expected Sample Size under the Alternative](#variantIV_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]$
 * **Constraints:** 
@@ -356,11 +254,11 @@ Inspect the plot to see convergence pattern.
     4. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
     5. Is $n()$ of the optimal two-stage design monotonously decreasing on
-        continuation area? TODO
+        continuation area? 
 
 
 
-#### [Variant IV.2: Increasing Power](https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#Variant-iv-2-increase-power)
+#### [Variant IV.2: Increasing Power](#variantIV_2)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]$
 * **Constraints:** 
@@ -377,12 +275,12 @@ Inspect the plot to see convergence pattern.
     4. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
     5. Is $n()$ of the optimal two-stage design monotonously decreasing on
-        continuation area? TODO
+        continuation area? 
 
 
 
 
-#### [Variant IV.3: Increasing Maximal Type One Error Rate](https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#Variant-iv-3-increase-maximal-type-one-error-rate)
+#### [Variant IV.3: Increasing Maximal Type One Error Rate](#variantIV_3)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]$
 * **Constraints:** 
@@ -399,25 +297,25 @@ Inspect the plot to see convergence pattern.
     4. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
     5. Is $n()$ of the optimal two-stage design monotonously decreasing on
-        continuation area? TODO
+        continuation area? 
 
 
 
 
-### [Scenario V: Single-arm design, medium effect size.](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#tocnav)
+### [Scenario V: Single-arm design, medium effect size](#scenarioV)
 
-* **Data distribution:** One-armed trial with normally distributed test statistic
+* **Data distribution:** \textcolor{red}{One-armed} trial with normally distributed test statistic
 * **Prior:** $\delta\sim\delta_{0.3}$
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
-#### [Variant V.1: Sensitivity to Integration Order](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-1-sensitivity-to-integration-order)
+#### [Variant V.1: Sensitivity to Integration Order](#variantV_1)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big]$
 * **Constraints:** 
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\color{red}{\delta=0.3}\big] \geq 0.8$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
-    3. Three variants: integration order 5, 8, 11 two-stage designs [TODO: maybe more?]. 
+    3. Three variants: integration order 5, 8, 11 two-stage designs. 
 * **Formal tests:**
     1. Do all designs respect all constraints (via simulation)?
     2. Do all designs converge within the respective iteration limit?
@@ -425,7 +323,7 @@ Inspect the plot to see convergence pattern.
     4. Does the simulated $ESS$ get better with increased order?
     
     
-#### [Variant V.2: Utility Maximization](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-2-utility-maximization)
+#### [Variant V.2: Utility Maximization](#variantV_2)
 
 * **Objective:** $\lambda\, Power - ESS := \lambda\,  \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] - \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big].$
   for $\lambda = 100$ and $200$
@@ -436,7 +334,7 @@ Inspect the plot to see convergence pattern.
     2. Is the power of the design with larger $\lambda$ larger?
     
     
-#### [Variant V.3: $n_1$ penalty](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-3-n1-penalty)
+#### [Variant V.3: $n_1$ penalty](#variantV_3)
 
 * **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda \, n_1$ 
      for $\lambda = 0.05$ and $0.2$.
@@ -447,12 +345,43 @@ Inspect the plot to see convergence pattern.
     1. Is $n_1$ for the optimal design smaller than the order-5 design in V.1?
 
 
-#### [Variant V.4: $n_2$ penalty](https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#case-v-4-n2-penalty)
+#### [Variant V.4: $n_2$ penalty](#variantV_4)
 
-* **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] +$ `AverageN2`
+* **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda$ `AverageN2`
+     for $\lambda = 0.01$ and $0.1$.
 * **Constraints:** 
     1. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     2. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] \geq 0.8$
 * **Formal tests:**
     1. Is the `AverageN2` for the optimal design smaller than for the order-5 
     design in V.1?
+
+
+
+
+## Technical Setup
+
+All scenarios are run in a single, shared R session.
+Required packages are loaded here *ToDo: make sure that is the case!*,
+the random see is defined and set centrally, and the default number
+of iteration is increased to make sure that all scenarios 
+converge properly.
+Additionally R scripts with convenience functions are sourced here as well *ToDo: descibe or eliminate these functions!*.
+```{r setup}
+library(adoptr)
+library(tidyverse)
+
+# load custom functions in folder subfolder '/R'
+for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
+   source(file.path("R", nm))
+
+# define seed value
+seed <- 42
+
+# define custom tolerance and iteration limit for nloptr
+opts = list(
+    algorithm = "NLOPT_LN_COBYLA",
+    xtol_rel  = 1e-5,
+    maxeval   = 100000
+)
+```
