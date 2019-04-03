@@ -10,3 +10,4 @@ output_dir:
     "_book"
 new_session:
     no
+repo: "https://github.com/kkmann/adoptr-validation-report/"
