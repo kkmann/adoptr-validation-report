@@ -168,46 +168,6 @@ It uses the respective most current CRAN version of \textbf{adoptr} (cf.~below).
 The source code repository of this report can be found at
 \url{https://github.com/kkmann/adoptr-validation-report}.
 
-\hypertarget{creating-a-local-validation-report}{%
-\section{Creating a Local Validation Report}\label{creating-a-local-validation-report}}
-
-To validate a local version of \textbf{adoptr}, clone the validation report
-source reposiotry via
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{git}\NormalTok{ clone https://github.com/kkmann/adoptr-validation-report.git}
-\end{Highlighting}
-\end{Shaded}
-
-and switch to the newly created folder
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\BuiltInTok{cd}\NormalTok{ adoptr-validation-report}
-\end{Highlighting}
-\end{Shaded}
-
-To build the book, you will need to install the dependencies listed in the DESCRIPTION file,
-i.e.
-
-\begin{verbatim}
-install.packages(c("tidyverse, "bookdown", "rpact", "testthat", "pwr"))
-\end{verbatim}
-
-before finally beuilding the book by invoking
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{Rscript}\NormalTok{ -e }\StringTok{'bookdown::render_book("index.Rmd", output_format = "all")'}
-\end{Highlighting}
-\end{Shaded}
-
-(or executing the equivalent command in an R terminal in the same folder).
-This will produce a \texttt{\_book} folder with an \texttt{index.html} file that can be
-viewed in a browser as well as the PDF version of the validation
-report.
-
 \hypertarget{validation-scenarios}{%
 \section{Validation Scenarios}\label{validation-scenarios}}
 
