@@ -1,4 +1,4 @@
-[![cc-by-sa 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg)] 
+![cc-by-sa 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg)
 
 [![Build Status](https://travis-ci.com/kkmann/adoptr-validation-report.svg?branch=master)](https://travis-ci.com/kkmann/adoptr-validation-report)
 
