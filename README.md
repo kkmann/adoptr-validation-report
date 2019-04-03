@@ -1,4 +1,4 @@
-# **adoptr** Validation Report
+# **adoptr** Validation Report [![Build Status](https://travis-ci.com/kkmann/adoptr-validation-report.svg?branch=master)](https://travis-ci.com/kkmann/adoptr-validation-report)
 
 This repository contains code to build an automated validation report for the 
 [**adoptr**](https://github.com/kkmann/adoptr) R package.
