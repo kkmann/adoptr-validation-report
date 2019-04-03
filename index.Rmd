@@ -65,7 +65,7 @@ An overview of the respective test scenarios is given in [Validation Scenarios].
 The online version of this report can be found at 
 https://kkmann.github.io/adoptr-validation-report/ and is automatically
 rebuild and redeployed on a daily basis using Travis-CI.
-It uses the respective most current CRAN version of **adoptr** (cf. below).
+It uses the respective most current CRAN version of **adoptr**.
 The source code repository of this report can be found at 
 https://github.com/kkmann/adoptr-validation-report.
 
