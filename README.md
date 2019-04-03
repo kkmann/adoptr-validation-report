@@ -3,10 +3,7 @@
 # **adoptr** Validation Report 
 
 This repository contains code to build an automated validation report for the 
-[![Build Status](https://travis-ci.com/kkmann/adoptr-validation-report.svg?branch=master)](https://travis-ci.com/kkmann/adoptr-validation-report)
-
-[**adoptr**](https://github.com/kkmann/adoptr) R packag
-e.
+[**adoptr**](https://github.com/kkmann/adoptr) R package.
 The report is build using R Markdown and the **bookdown** 
 (https://github.com/rstudio/bookdown) package.
 The most recent build of the validation report is hosted on this repository's 
