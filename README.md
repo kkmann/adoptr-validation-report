@@ -1,7 +1,12 @@
-# **adoptr** Validation Report [![Build Status](https://travis-ci.com/kkmann/adoptr-validation-report.svg?branch=master)](https://travis-ci.com/kkmann/adoptr-validation-report)
+[![Build Status](https://travis-ci.com/kkmann/adoptr-validation-report.svg?branch=master)](https://travis-ci.com/kkmann/adoptr-validation-report)
+
+# **adoptr** Validation Report 
 
 This repository contains code to build an automated validation report for the 
-[**adoptr**](https://github.com/kkmann/adoptr) R package.
+[![Build Status](https://travis-ci.com/kkmann/adoptr-validation-report.svg?branch=master)](https://travis-ci.com/kkmann/adoptr-validation-report)
+
+[**adoptr**](https://github.com/kkmann/adoptr) R packag
+e.
 The report is build using R Markdown and the **bookdown** 
 (https://github.com/rstudio/bookdown) package.
 The most recent build of the validation report is hosted on this repository's 
@@ -23,6 +28,7 @@ The following quality metrics are inspired by https://www.pharmar.org/packages/:
 | **Unit Testing?**                  | yes, [![codecov](https://codecov.io/gh/kkmann/adoptr/branch/master/graph/badge.svg)](https://codecov.io/gh/kkmann/adoptr) |
 | **License**                        | MIT, https://github.com/kkmann/adoptr/blob/master/LICENSE.md |
 | **CRAN?**                          | [![CRAN status](https://www.r-pkg.org/badges/version/adoptr)](https://cran.r-project.org/package=adoptr) |
+| **Long-term storage?**             | yes, zenodo.org [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2616952.svg)](https://doi.org/10.5281/zenodo.2616952) |
 | **Bioconductor?**                  | No |
 | **# reverse dependencies**         | 0 |
 | **# Downloads**                    | Only available for R Studio CRAN mirror: [![R Studio CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green)](https://cran.r-project.org/package=adoptr) |
