@@ -134,14 +134,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#concept"><i class="fa fa-check"></i><b>1.1</b> Concept</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#validation-scenarios"><i class="fa fa-check"></i><b>1.2</b> Validation Scenarios</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#scenario-i-large-effect-point-prior"><i class="fa fa-check"></i><b>1.2.1</b> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#scenario-ii-large-effect-gaussian-prior"><i class="fa fa-check"></i><b>1.2.2</b> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></a></li>
-<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#scenario-iii-large-effect-uniform-prior"><i class="fa fa-check"></i><b>1.2.3</b> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></a></li>
-<li class="chapter" data-level="1.2.4" data-path="index.html"><a href="index.html#scenario-iv-smaller-effect-size-larger-trials"><i class="fa fa-check"></i><b>1.2.4</b> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></a></li>
-<li class="chapter" data-level="1.2.5" data-path="index.html"><a href="index.html#scenario-v-single-arm-design-medium-effect-size"><i class="fa fa-check"></i><b>1.2.5</b> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#local-validation"><i class="fa fa-check"></i><b>1.2</b> Local validation</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#brief-introdcution-to-two-stage-designs"><i class="fa fa-check"></i><b>1.3</b> Brief Introdcution to Two-Stage Designs</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#validation-strategy"><i class="fa fa-check"></i><b>1.4</b> Validation strategy</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#technical-setup"><i class="fa fa-check"></i><b>1.4.1</b> Technical Setup</a></li>
+<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#scenario-i"><i class="fa fa-check"></i><b>1.4.2</b> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-I.html#tocnav">Scenario I</a></a></li>
+<li class="chapter" data-level="1.4.3" data-path="index.html"><a href="index.html#scenario-ii"><i class="fa fa-check"></i><b>1.4.3</b> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-II.html#tocnav">Scenario II</a></a></li>
+<li class="chapter" data-level="1.4.4" data-path="index.html"><a href="index.html#scenario-iii"><i class="fa fa-check"></i><b>1.4.4</b> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-III.html#tocnav">Scenario III:</a></a></li>
+<li class="chapter" data-level="1.4.5" data-path="index.html"><a href="index.html#scenario-iv-smaller-effect-size-larger-trials."><i class="fa fa-check"></i><b>1.4.5</b> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html#tocnav">Scenario IV: Smaller effect size, larger trials.</a></a></li>
+<li class="chapter" data-level="1.4.6" data-path="index.html"><a href="index.html#scenario-v-single-arm-design-medium-effect-size."><i class="fa fa-check"></i><b>1.4.6</b> <a href="https://kkmann.github.io/adoptrValidation/articles/scenario-V.html#tocnav">Scenario V: Single-arm design, medium effect size.</a></a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#technical-setup"><i class="fa fa-check"></i><b>1.3</b> Technical Setup</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="scenarioI.html"><a href="scenarioI.html"><i class="fa fa-check"></i><b>2</b> Scenario I: large effect, point prior</a><ul>
 <li class="chapter" data-level="2.1" data-path="scenarioI.html"><a href="scenarioI.html#details"><i class="fa fa-check"></i><b>2.1</b> Details</a><ul>
@@ -324,8 +326,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
-"facebook": true,
+"github": true,
+"facebook": false,
 "twitter": true,
 "google": false,
 "linkedin": false,
@@ -349,10 +351,9 @@ gitbook.start({
 },
 "download": ["adoptr-validation-report.pdf"],
 "toc": {
-"collapse": "section",
-"scroll_highlight": true
+"collapse": "section"
 },
-"github-repo": "https://github.com/kkmann/adoptr-validation-report"
+"github-repo": "kkmann/adoptr-validation-report"
 });
 });
 </script>

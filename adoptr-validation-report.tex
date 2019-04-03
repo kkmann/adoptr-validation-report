@@ -142,37 +142,137 @@
 \hypertarget{concept}{%
 \section{Concept}\label{concept}}
 
-R package validation for regulatory environments is a tedious endevour.
-Note that there is no such thing as a `validated R package':
-validation is by definition a process conducted by the \emph{user}.
-This valdation report may thus only be seen as a means to facilitate
-validation of \textbf{\href{https://github.com/kkmann/adoptr}{adoptr}} as much as possible.
-No warranty whatsoever as to the correctness of \textbf{adoptr} not the
-completeness of the validation report are given by the authors!
+The goal of adoptrValidation is to provide a comprehensive suit of test
+for the \href{https://github.com/kkmann/adoptr}{adoptr} package.
+The package is not directly inteded to be used but to automatically
+deploy a weekly validation report via github pages to
+\url{https://kkmann.github.io/adoptrValidation/}.
+The report is implemented as a set of vignettes which are compiled
+into a static web page using pkgdown.
+For details on the class of supported designs, see
+\url{https://github.com/kkmann/adoptr}.
 
-We assume that the reader is familiar with the notation an theoretical
-background of \textbf{adoptr}.
-Otherwise, the resources linked at \url{https://github.com/kkmann/adoptr} might
-be a good starting point \emph{ToDo: publications}.
-The report explores a variety of essential scenarios and both formally
-tests results (wherever possible) using \textbf{testthat}.
-Detailed results are also printed in the report itself.
-Any failure of the integrated formal tests will cause the build status
-of the validation report to switch from `passing' to `failed'.
-An overview of the respective test scenarios is given in \protect\hyperlink{validation-scenarios}{Validation Scenarios}.
+\hypertarget{local-validation}{%
+\section{Local validation}\label{local-validation}}
 
-The online version of this report can be found at
-\url{https://kkmann.github.io/adoptr-validation-report/} and is automatically
-rebuild and redeployed on a daily basis using Travis-CI.
-It uses the respective most current CRAN version of \textbf{adoptr} (cf.~below).
-The source code repository of this report can be found at
-\url{https://github.com/kkmann/adoptr-validation-report}.
+\ldots{}
 
-\hypertarget{validation-scenarios}{%
-\section{Validation Scenarios}\label{validation-scenarios}}
+\hypertarget{brief-introdcution-to-two-stage-designs}{%
+\section{Brief Introdcution to Two-Stage Designs}\label{brief-introdcution-to-two-stage-designs}}
 
-\hypertarget{scenario-i-large-effect-point-prior}{%
-\subsection{\texorpdfstring{\protect\hyperlink{scenarioI}{Scenario I: Large effect, point prior}}{Scenario I: Large effect, point prior}}\label{scenario-i-large-effect-point-prior}}
+In \texttt{adoptrValidation} a suitable set of cases is tested in order to
+validate the performance of the package \texttt{adoptr}.
+This package allows to compute optimal designs (adaptive two-stage,
+group-sequential two-stage and one-stage) for normally distributed data.
+For a treatment group \(T\) and a control group \(C\) where
+the observations \(X_i^T \sim \mathcal{N} (\mu_T, \sigma^2)\),
+\(X_i^C \sim \mathcal{N} (\mu_C, \sigma^2)\) the following hypotheses are
+tested:
+\[
+\mathcal{H}_0: \delta := \mu_T - \mu_C \leq 0 \text{ v.s. }
+\mathcal{H_1}: \delta > 0. 
+\]
+The power of a test procedure is computed on an alternative effect size
+\(\delta_1 > 0\) where a prior distribution
+\(\delta_1 \sim \pi(\vartheta, \tau^2)\) is imaginable.
+
+The trial evaluation happens as follows.
+After \(n_1\) patients (per group) finished the trial an interim analysis
+is conducted. The interim test statistic \(Z_1\) for a standard z-test is computed
+and the trial is stopped early for futility, if \(Z_1 < c_f\).
+If \(Z_1 > c_e\) the null hypothesis is rejected and the trial is stopped early
+for efficacy. Otherwise, i.e.~if \(c_f \leq Z_1 \leq c_e\), the trial enters
+in the second stage. Due to the adaptivness of the trial design, the
+stage-two sample size is a function of \(Z_1\), i.e. \(n_2(Z_1)\).
+Also the final rejection boundary \(c_2\) depends on \(Z_1\).
+At the final analysis the stage-two test statistic \(Z_2\) is computed and
+the null hypothesis is rejected if \(Z_2 > c_2(Z_1)\).
+
+A design \(D\) is a five-tuple consisting of the first-stage sample size
+\(n_1\), early stopping boundaries \(c_f\) (futility) and \(c_e\) (efficacy)
+and stage-two functions \(n_2(\cdot)\) (sample size) and \(c_2(\cdot)\)
+(rejection boundary).
+All these elements can be computed optimally in \texttt{adoptr}.
+The incorporation of continuous priors is possible as well as including
+conditional and unconditional constraints.
+
+Given a design \(D\) and a objective function \(f\)
+the default setting in {[}adoptr{]} is the following.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\(\min\) & \(f(D)\)\tabularnewline
+\midrule
+\endhead
+such that & Type One Error Rate \(\leq \alpha\)\tabularnewline
+and & Power \(\geq 1 - \beta\)\tabularnewline
+\bottomrule
+\end{longtable}
+
+Often in clinical practice one is not willing to enter in a second
+stage when the conditional power (i.e., the probability to reject at
+the final analysis given the first-stage results) is too low or too high
+because in these cases the stage-two result is likely predictable.
+Therefore, introducing conditional power constraints of the form
+\[
+1 - \beta_2 \leq \text{Conditional Power}(z_1, D) \leq 1 - \beta_3
+\]
+may be desirable and are supported by \texttt{adoptr}.
+
+In \texttt{adoptrValidation} different scenarios are investigated.
+Each scenario is determined by the assumed effect size \(\delta_1\) and its
+prior distribution \(\pi\).
+In each scenario, different tests are performed.
+All tests are indicated by a bullet point.
+
+\hypertarget{validation-strategy}{%
+\section{Validation strategy}\label{validation-strategy}}
+
+\textbf{adoptrValidation} essentially extends the test suit of \textbf{adoptr} to cover
+more different scenarios.
+In order to generate a proper validation report the test Variants are not managed
+using a unit testing framework like testthat but are directly included in a
+set of vignettes (one per sceanrio).
+These vignettes are automatically built and published (here) once per week
+using pkgdown to keep the validation report up to date with the latest
+CRAN release {[}TODO: we currently use our master!{]}.
+The overall failure/pass status of the latest build can be checked using the
+Travis-CI badge.
+In the following, all Scenarios and their respective sub-Variants are outlined.
+\textbf{Scenarios} are defined by the joint distribution of the test statistic and the
+location parameter, while \textbf{Variants} are given by the respective optimization
+problem (objective, constraints).
+
+\hypertarget{technical-setup}{%
+\subsection{Technical Setup}\label{technical-setup}}
+
+Initially, the both packages are loaded and the seed for simulation is set.
+Additionally, the options for optimization are modified by increasing
+the maximum number of evaluations to ensure convergence.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(adoptr)}
+\KeywordTok{library}\NormalTok{(tidyverse)}
+
+\CommentTok{# load custom functions in folder subfolder '/R'}
+\ControlFlowTok{for}\NormalTok{ (nm }\ControlFlowTok{in} \KeywordTok{list.files}\NormalTok{(}\StringTok{"R"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{.[RrSsQq]$"}\NormalTok{))}
+   \KeywordTok{source}\NormalTok{(}\KeywordTok{file.path}\NormalTok{(}\StringTok{"R"}\NormalTok{, nm))}
+
+\CommentTok{# define seed value}
+\NormalTok{seed <-}\StringTok{ }\DecValTok{42}
+
+\CommentTok{# define custom tolerance and iteration limit for nloptr}
+\NormalTok{opts =}\StringTok{ }\KeywordTok{list}\NormalTok{(}
+    \DataTypeTok{algorithm =} \StringTok{"NLOPT_LN_COBYLA"}\NormalTok{,}
+    \DataTypeTok{xtol_rel  =} \FloatTok{1e-5}\NormalTok{,}
+    \DataTypeTok{maxeval   =} \DecValTok{100000}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{scenario-i}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-I.html\#tocnav}{Scenario I}}{Scenario I}}\label{scenario-i}}
 
 This is the default scenario.
 
@@ -187,7 +287,7 @@ This is the default scenario.
 \end{itemize}
 
 \hypertarget{variant-i.1-minimizing-expected-sample-size-under-the-alternative}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantI_1}{Variant I.1: Minimizing Expected Sample Size under the Alternative}}{Variant I.1: Minimizing Expected Sample Size under the Alternative}}\label{variant-i.1-minimizing-expected-sample-size-under-the-alternative}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-I.html\#case-i-1-minimizing-expected-sample-size-under-point-prior}{Variant I.1: Minimizing Expected Sample Size under the Alternative}}{Variant I.1: Minimizing Expected Sample Size under the Alternative}}\label{variant-i.1-minimizing-expected-sample-size-under-the-alternative}}
 
 \begin{itemize}
 \tightlist
@@ -233,7 +333,7 @@ This is the default scenario.
 \end{itemize}
 
 \hypertarget{variant-i.2-minimizing-expected-sample-size-under-the-null-hypothesis}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantI_2}{Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis}}{Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis}}\label{variant-i.2-minimizing-expected-sample-size-under-the-null-hypothesis}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-I.html\#case-i-2-minimizing-expected-sample-size-under-null-hypothesis}{Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis}}{Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis}}\label{variant-i.2-minimizing-expected-sample-size-under-the-null-hypothesis}}
 
 \begin{itemize}
 \tightlist
@@ -261,6 +361,7 @@ This is the default scenario.
     values of the power curve at respective points.
   \item
     \(n()\) of optimal design is monotonously increasing on continuation area.
+    TODO
   \item
     \(ESS\) of optimal two-stage design is lower than \(ESS\) of externally
     computed group-sequential design using the \href{https://rpact.org/}{rpact} package.
@@ -271,7 +372,7 @@ This is the default scenario.
 \end{itemize}
 
 \hypertarget{variant-i.3-condtional-power-constraint}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantI_3}{Variant I.3: Condtional Power Constraint}}{Variant I.3: Condtional Power Constraint}}\label{variant-i.3-condtional-power-constraint}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-I.html\#case-i-3-conditional-power-constraint}{Variant I.3: Condtional Power Constraint}}{Variant I.3: Condtional Power Constraint}}\label{variant-i.3-condtional-power-constraint}}
 
 \begin{itemize}
 \tightlist
@@ -310,8 +411,8 @@ This is the default scenario.
   \end{enumerate}
 \end{itemize}
 
-\hypertarget{scenario-ii-large-effect-gaussian-prior}{%
-\subsection{\texorpdfstring{\protect\hyperlink{scenarioII}{Scenario II: Large effect, Gaussian prior}}{Scenario II: Large effect, Gaussian prior}}\label{scenario-ii-large-effect-gaussian-prior}}
+\hypertarget{scenario-ii}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-II.html\#tocnav}{Scenario II}}{Scenario II}}\label{scenario-ii}}
 
 Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta\).
 
@@ -326,7 +427,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
 \end{itemize}
 
 \hypertarget{variant-ii.1-minimizing-expected-sample-size}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantII_1}{Variant II.1: Minimizing Expected Sample Size}}{Variant II.1: Minimizing Expected Sample Size}}\label{variant-ii.1-minimizing-expected-sample-size}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-II.html\#case-ii-1-minimizing-expected-sample-size-under-point-prior}{Variant II.1: Minimizing Expected Sample Size}}{Variant II.1: Minimizing Expected Sample Size}}\label{variant-ii.1-minimizing-expected-sample-size}}
 
 \begin{itemize}
 \tightlist
@@ -362,7 +463,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
 \end{itemize}
 
 \hypertarget{variant-ii.2-minimizing-expected-sample-size-under-the-null-hypothesis}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantII_2}{Variant II.2: Minimizing Expected Sample Size under the Null hypothesis}}{Variant II.2: Minimizing Expected Sample Size under the Null hypothesis}}\label{variant-ii.2-minimizing-expected-sample-size-under-the-null-hypothesis}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-II.html\#case-ii-2-minimizing-expected-sample-size-under-null-hypothesis}{Variant II.2: Minimizing Expected Sample Size under the Null hypothesis}}{Variant II.2: Minimizing Expected Sample Size under the Null hypothesis}}\label{variant-ii.2-minimizing-expected-sample-size-under-the-null-hypothesis}}
 
 \begin{itemize}
 \tightlist
@@ -391,13 +492,15 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
     Check \(CP\) constraint on three different values of \(x_1\) in
     \((c_1^f, c_1^e)\)
   \item
+    TODO: Is the sample size function monotonously increasing?
+  \item
     Is \(ESS\) lower than expected sample size under the null hypothesis
     for the optimal two stage design from Variant II-1?
   \end{enumerate}
 \end{itemize}
 
 \hypertarget{variant-ii.3-condtional-power-constraint}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantII_3}{Variant II.3: Condtional Power Constraint}}{Variant II.3: Condtional Power Constraint}}\label{variant-ii.3-condtional-power-constraint}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-II.html\#case-ii-3-conditional-power-constraint}{Variant II.3: Condtional Power Constraint}}{Variant II.3: Condtional Power Constraint}}\label{variant-ii.3-condtional-power-constraint}}
 
 \begin{itemize}
 \tightlist
@@ -433,8 +536,8 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
   \end{enumerate}
 \end{itemize}
 
-\hypertarget{scenario-iii-large-effect-uniform-prior}{%
-\subsection{\texorpdfstring{\protect\hyperlink{scenarioIII}{Scenario III: Large effect, uniform prior}}{Scenario III: Large effect, uniform prior}}\label{scenario-iii-large-effect-uniform-prior}}
+\hypertarget{scenario-iii}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-III.html\#tocnav}{Scenario III:}}{Scenario III:}}\label{scenario-iii}}
 
 \begin{itemize}
 \tightlist
@@ -450,7 +553,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
 \end{itemize}
 
 \hypertarget{variant-iii.1-convergence-under-prior-concentration}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantIII_1}{Variant III.1: Convergence under Prior Concentration}}{Variant III.1: Convergence under Prior Concentration}}\label{variant-iii.1-convergence-under-prior-concentration}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-III.html\#Variant-iii-1-minimizing-expected-sample-size-under-alternative}{Variant III.1: Convergence under Prior Concentration}}{Variant III.1: Convergence under Prior Concentration}}\label{variant-iii.1-convergence-under-prior-concentration}}
 
 \begin{itemize}
 \tightlist
@@ -480,18 +583,18 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
     Number of iterations are checked agaist default maximum to ensure proper
     convergence.
   \item
-    \(ESS\) decreases with prior variance.
+    TODO: \(ESS\) decreases with prior variance.
   \end{enumerate}
 \end{itemize}
 
 Additionally, the designs are compared graphically.
 Inspect the plot to see convergence pattern.
 
-\hypertarget{scenario-iv-smaller-effect-size-larger-trials}{%
-\subsection{\texorpdfstring{\protect\hyperlink{scenarioIV}{Scenario IV: Smaller effect size, larger trials}}{Scenario IV: Smaller effect size, larger trials}}\label{scenario-iv-smaller-effect-size-larger-trials}}
+\hypertarget{scenario-iv-smaller-effect-size-larger-trials.}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html\#tocnav}{Scenario IV: Smaller effect size, larger trials.}}{Scenario IV: Smaller effect size, larger trials.}}\label{scenario-iv-smaller-effect-size-larger-trials.}}
 
 \hypertarget{variant-iv.1-minimizing-expected-sample-size-under-the-alternative}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantIV_1}{Variant IV.1: Minimizing Expected Sample Size under the Alternative}}{Variant IV.1: Minimizing Expected Sample Size under the Alternative}}\label{variant-iv.1-minimizing-expected-sample-size-under-the-alternative}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html\#Variant-iv-1-minimizing-expected-sample-size-under-alternative}{Variant IV.1: Minimizing Expected Sample Size under the Alternative}}{Variant IV.1: Minimizing Expected Sample Size under the Alternative}}\label{variant-iv.1-minimizing-expected-sample-size-under-the-alternative}}
 
 \begin{itemize}
 \tightlist
@@ -532,12 +635,12 @@ Inspect the plot to see convergence pattern.
     obtained by using numerical integration via \texttt{adoptr::evaluate}?
   \item
     Is \(n()\) of the optimal two-stage design monotonously decreasing on
-    continuation area?
+    continuation area? TODO
   \end{enumerate}
 \end{itemize}
 
 \hypertarget{variant-iv.2-increasing-power}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantIV_2}{Variant IV.2: Increasing Power}}{Variant IV.2: Increasing Power}}\label{variant-iv.2-increasing-power}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html\#Variant-iv-2-increase-power}{Variant IV.2: Increasing Power}}{Variant IV.2: Increasing Power}}\label{variant-iv.2-increasing-power}}
 
 \begin{itemize}
 \tightlist
@@ -576,12 +679,12 @@ Inspect the plot to see convergence pattern.
     obtained by using numerical integration via \texttt{adoptr::evaluate}?
   \item
     Is \(n()\) of the optimal two-stage design monotonously decreasing on
-    continuation area?
+    continuation area? TODO
   \end{enumerate}
 \end{itemize}
 
 \hypertarget{variant-iv.3-increasing-maximal-type-one-error-rate}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantIV_3}{Variant IV.3: Increasing Maximal Type One Error Rate}}{Variant IV.3: Increasing Maximal Type One Error Rate}}\label{variant-iv.3-increasing-maximal-type-one-error-rate}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-IV.html\#Variant-iv-3-increase-maximal-type-one-error-rate}{Variant IV.3: Increasing Maximal Type One Error Rate}}{Variant IV.3: Increasing Maximal Type One Error Rate}}\label{variant-iv.3-increasing-maximal-type-one-error-rate}}
 
 \begin{itemize}
 \tightlist
@@ -620,17 +723,17 @@ Inspect the plot to see convergence pattern.
     obtained by using numerical integration via \texttt{adoptr::evaluate}?
   \item
     Is \(n()\) of the optimal two-stage design monotonously decreasing on
-    continuation area?
+    continuation area? TODO
   \end{enumerate}
 \end{itemize}
 
-\hypertarget{scenario-v-single-arm-design-medium-effect-size}{%
-\subsection{\texorpdfstring{\protect\hyperlink{scenarioV}{Scenario V: Single-arm design, medium effect size}}{Scenario V: Single-arm design, medium effect size}}\label{scenario-v-single-arm-design-medium-effect-size}}
+\hypertarget{scenario-v-single-arm-design-medium-effect-size.}{%
+\subsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#tocnav}{Scenario V: Single-arm design, medium effect size.}}{Scenario V: Single-arm design, medium effect size.}}\label{scenario-v-single-arm-design-medium-effect-size.}}
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Data distribution:} \textcolor{red}{One-armed} trial with normally distributed test statistic
+  \textbf{Data distribution:} One-armed trial with normally distributed test statistic
 \item
   \textbf{Prior:} \(\delta\sim\delta_{0.3}\)
 \item
@@ -638,7 +741,7 @@ Inspect the plot to see convergence pattern.
 \end{itemize}
 
 \hypertarget{variant-v.1-sensitivity-to-integration-order}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantV_1}{Variant V.1: Sensitivity to Integration Order}}{Variant V.1: Sensitivity to Integration Order}}\label{variant-v.1-sensitivity-to-integration-order}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#case-v-1-sensitivity-to-integration-order}{Variant V.1: Sensitivity to Integration Order}}{Variant V.1: Sensitivity to Integration Order}}\label{variant-v.1-sensitivity-to-integration-order}}
 
 \begin{itemize}
 \tightlist
@@ -655,7 +758,7 @@ Inspect the plot to see convergence pattern.
   \item
     \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
   \item
-    Three variants: integration order 5, 8, 11 two-stage designs.
+    Three variants: integration order 5, 8, 11 two-stage designs {[}TODO: maybe more?{]}.
   \end{enumerate}
 \item
   \textbf{Formal tests:}
@@ -675,7 +778,7 @@ Inspect the plot to see convergence pattern.
 \end{itemize}
 
 \hypertarget{variant-v.2-utility-maximization}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantV_2}{Variant V.2: Utility Maximization}}{Variant V.2: Utility Maximization}}\label{variant-v.2-utility-maximization}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#case-v-2-utility-maximization}{Variant V.2: Utility Maximization}}{Variant V.2: Utility Maximization}}\label{variant-v.2-utility-maximization}}
 
 \begin{itemize}
 \tightlist
@@ -705,7 +808,7 @@ Inspect the plot to see convergence pattern.
 \end{itemize}
 
 \hypertarget{variant-v.3-n_1-penalty}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantV_3}{Variant V.3: \(n_1\) penalty}}{Variant V.3: n\_1 penalty}}\label{variant-v.3-n_1-penalty}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#case-v-3-n1-penalty}{Variant V.3: \(n_1\) penalty}}{Variant V.3: n\_1 penalty}}\label{variant-v.3-n_1-penalty}}
 
 \begin{itemize}
 \tightlist
@@ -735,13 +838,12 @@ Inspect the plot to see convergence pattern.
 \end{itemize}
 
 \hypertarget{variant-v.4-n_2-penalty}{%
-\subsubsection{\texorpdfstring{\protect\hyperlink{variantV_4}{Variant V.4: \(n_2\) penalty}}{Variant V.4: n\_2 penalty}}\label{variant-v.4-n_2-penalty}}
+\subsubsection{\texorpdfstring{\href{https://kkmann.github.io/adoptrValidation/articles/scenario-V.html\#case-v-4-n2-penalty}{Variant V.4: \(n_2\) penalty}}{Variant V.4: n\_2 penalty}}\label{variant-v.4-n_2-penalty}}
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda\) \texttt{AverageN2}
-  for \(\lambda = 0.01\) and \(0.1\).
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] +\) \texttt{AverageN2}
 \item
   \textbf{Constraints:}
 
@@ -764,37 +866,6 @@ Inspect the plot to see convergence pattern.
     design in V.1?
   \end{enumerate}
 \end{itemize}
-
-\hypertarget{technical-setup}{%
-\section{Technical Setup}\label{technical-setup}}
-
-All scenarios are run in a single, shared R session.
-Required packages are loaded here \emph{ToDo: make sure that is the case!},
-the random see is defined and set centrally, and the default number
-of iteration is increased to make sure that all scenarios
-converge properly.
-Additionally R scripts with convenience functions are sourced here as well \emph{ToDo: descibe or eliminate these functions!}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{library}\NormalTok{(adoptr)}
-\KeywordTok{library}\NormalTok{(tidyverse)}
-
-\CommentTok{# load custom functions in folder subfolder '/R'}
-\ControlFlowTok{for}\NormalTok{ (nm }\ControlFlowTok{in} \KeywordTok{list.files}\NormalTok{(}\StringTok{"R"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{.[RrSsQq]$"}\NormalTok{))}
-   \KeywordTok{source}\NormalTok{(}\KeywordTok{file.path}\NormalTok{(}\StringTok{"R"}\NormalTok{, nm))}
-
-\CommentTok{# define seed value}
-\NormalTok{seed <-}\StringTok{ }\DecValTok{42}
-
-\CommentTok{# define custom tolerance and iteration limit for nloptr}
-\NormalTok{opts =}\StringTok{ }\KeywordTok{list}\NormalTok{(}
-    \DataTypeTok{algorithm =} \StringTok{"NLOPT_LN_COBYLA"}\NormalTok{,}
-    \DataTypeTok{xtol_rel  =} \FloatTok{1e-5}\NormalTok{,}
-    \DataTypeTok{maxeval   =} \DecValTok{100000}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \hypertarget{scenarioI}{%
 \chapter{Scenario I: large effect, point prior}\label{scenarioI}}
