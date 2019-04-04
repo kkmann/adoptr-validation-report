@@ -95,21 +95,14 @@ and 11.
 ```{r}
 opt_design <- function(order) {
     minimize(
-        
         ess,
-        
         subject_to(
-            
             toer_cnstr,
             pow_cnstr
-            
         ),
-        
         initial_design = init_design(order),
-        
         opts = opts
-        
-)
+    )
 }
 
 opt1 <- lapply(c(5, 8, 11), function(x) opt_design(x))
@@ -129,21 +122,7 @@ testthat::expect_true(all(iters < opts$maxeval))
 Check type one error rate control.
 Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
-sim_toer <- function(design) {
-    simdata <- simulate(
-        design,
-        nsim  = 10^6, 
-        dist  = datadist, 
-        theta =   .0,
-        seed  = 42
-    )
-    return(list(
-        toer = mean(simdata$reject), 
-        se   = sd(simdata$reject) / sqrt(nrow(simdata))
-    ))
-}
-
-tmp     <- sapply(opt1, function(x) sim_toer(x$design))
+tmp     <- sapply(opt1, function(x) sim_pr_reject(x$design, .0, datadist))
 df_toer <- data.frame(
     toer = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -159,21 +138,7 @@ Check the power constraint.
 For numerical reasons we allow a realtive error of $1\%$.
 
 ```{r}
-sim_pow <- function(design) {
-    simdata <- simulate(
-        design,
-        nsim  = 10^6, 
-        dist  = datadist, 
-        theta =   .3,
-        seed  = 42
-    )
-    return(list(
-        pow = mean(simdata$reject), 
-        se  = sd(simdata$reject) / sqrt(nrow(simdata))
-    ))
-}
-
-tmp     <- sapply(opt1, function(x) sim_pow(x$design))
+tmp     <- sapply(opt1, function(x) sim_pr_reject(x$design, .3, datadist))
 df_pow <- data.frame(
     power = as.numeric(tmp[1, ]),
     se    = as.numeric(tmp[2, ])
@@ -188,21 +153,7 @@ df_pow
 
 Check expected sample size under the prior.
 ```{r}
-sim_ess <- function(design) {
-    simdata <- simulate(
-        design,
-        nsim  = 10^6, 
-        dist  = datadist, 
-        theta =   .3,
-        seed  = 42
-    )
-    return(list(
-        n  = mean(simdata$n1 + simdata$n2), 
-        se = sd(simdata$n1 + simdata$n2) / sqrt(nrow(simdata))
-    ))
-}
-
-tmp     <- sapply(opt1, function(x) sim_ess(x$design))
+tmp    <- sapply(opt1, function(x) sim_n(x$design, .3, datadist))
 df_ess <- data.frame(
     n  = as.numeric(tmp[1, ]),
     se = as.numeric(tmp[2, ])
@@ -250,20 +201,13 @@ The optimal design is computed for two values of $\lambda$: 100 and 200.
 opt2_design <- function(lambda) {
 
     minimize(
-        
         obj(lambda),
-        
         subject_to(
-            
             toer_cnstr
-
         ),
-        
         initial_design = init_design(5),
-        
         opts = opts
-        
-)
+    )
 }
 
 opt2 <- lapply(c(100, 200), function(x) opt2_design(x))
@@ -284,7 +228,7 @@ testthat::expect_true(all(iters < opts$maxeval))
 Check type one error rate control for both designs via simulation.
 Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
-tmp     <- sapply(opt2, function(x) sim_toer(x$design))
+tmp     <- sapply(opt2, function(x) sim_pr_reject(x$design, 0, datadist))
 df_toer <- data.frame(
     toer = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
@@ -381,21 +325,14 @@ The optimal design is computed for two values of $\lambda$: 0.05 and 0.2.
 opt3_design <- function(lambda) {
 
     minimize(
-        
         obj3(lambda),
-        
         subject_to(
-            
             toer_cnstr,
             pow_cnstr
-
         ),
-        
         initial_design = init_design(5),
-        
         opts = opts
-        
-)
+    )
 }
 
 opt3 <- lapply(c(.05, .2), function(x) opt3_design(x))
@@ -503,24 +440,16 @@ The optimal design is computed for two values of $\lambda$: 0.01 and 0.1.
 
 ```{r}
 opt4_design <- function(lambda) {
-
     minimize(
-        
         obj4(lambda),
-        
         subject_to(
-            
             toer_cnstr,
             pow_cnstr
-
         ),
-        
         initial_design = init_design(5),
         upper_boundary_design = get_upper_boundary_design(init_design(5), c2_buffer=3),
-        
         opts = opts
-        
-)
+    )
 }
 
 opt4 <- lapply(c(.01, .1), function(x) opt4_design(x))

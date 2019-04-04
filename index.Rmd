@@ -55,9 +55,11 @@ completeness of the validation report are given by the authors!
 We assume that the reader is familiar with the notation an theoretical
 background of **adoptr**.
 Otherwise, the resources linked at https://github.com/kkmann/adoptr might
-be a good starting point *ToDo: publications*.
+be a good starting point.
+A good overview on adaptive designs is given in [@Bauer2015] or much more 
+detailed in the book [@Wassmer2016].
 The report explores a variety of essential scenarios and both formally
-tests results (wherever possible) using **testthat**.
+tests results (wherever possible) using **testthat** [@R-testthat].
 Detailed results are also printed in the report itself.
 Any failure of the integrated formal tests will cause the build status
 of the validation report to switch from 'passing' to 'failed'.
@@ -93,18 +95,20 @@ This is the default scenario.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. All three **adoptr** variants (two-stage, group-sequential, one-stage) 
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. All three **adoptr** variants (two-stage, group-sequential, one-stage) 
         comply with constraints. Internally validated by testing vs. simulated 
         values of the power curve at respective points.
-    2. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
+    3.  Is $n()$ of the optimal two-stage design monotonously decreasing on
+        continuation area? 
+    4. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
         group-sequential one and that is in turn lower than the one of the
         optimal one-stage design.
-    3. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
+    5. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
         externally computed group-sequential design using the [rpact](https://rpact.org/) package.
-    4. Are the $ESS$ values obtained from simulation the same as the ones 
+    6. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
-    5. Is $n()$ of the optimal two-stage design monotonously decreasing on
-        continuation area? 
 
 
 #### [Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis](#variantI_2)
@@ -114,12 +118,14 @@ This is the default scenario.
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.4\big] \geq 0.8$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
 * **Formal tests:**
-    1. Validate constraint compliance by testing vs. simulated 
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. Validate constraint compliance by testing vs. simulated 
         values of the power curve at respective points.
-    2. $n()$ of optimal design is monotonously increasing on continuation area.
-    3. $ESS$ of optimal two-stage design is lower than $ESS$ of externally 
+    3. $n()$ of optimal design is monotonously increasing on continuation area.
+    4. $ESS$ of optimal two-stage design is lower than $ESS$ of externally 
         computed group-sequential design using the [rpact](https://rpact.org/) package.
-    4. Are the $ESS$ values obtained from simulation the same as the ones 
+    5. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
 
 
@@ -132,13 +138,15 @@ This is the default scenario.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. $CP := \color{red}{\boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.4, X_1 = x_1\big] \geq 0.7}$ for all $x_1\in(c_1^f, c_1^e)$
 * **Formal tests:**
-    1. Check $Power$ and $TOER$ constraints with simulation.
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. Check $Power$ and $TOER$ constraints with simulation.
         Check $CP$ constraint on three different values of $x_1$ in 
         $(c_1^f, c_1^e)$
-    2. Are the $CP$ values at the three test-pivots obtained from simulation the 
+    3. Are the $CP$ values at the three test-pivots obtained from simulation the 
         same as the ones obtained by using numerical integration via 
         `adoptr::evaluate`?
-    3. Is $ESS$ of optimal two-stage design with $CP$ constraint higher than 
+    4. Is $ESS$ of optimal two-stage design with $CP$ constraint higher than 
         $ESS$ of optimal two-stage design without this constraint?
         
         
@@ -164,9 +172,11 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. All designs comply with type one error rate constraints (tested via
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. All designs comply with type one error rate constraints (tested via
       simulation).
-    2. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
+    3. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
         group-sequential one and that is in turn lower than the one of the
         optimal one-stage design.
 
@@ -179,9 +189,9 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta> 0.0\big] \geq 0.8$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
 * **Formal tests:**
-    1. Does the design comply with $TOER$ constraint (via simulation)?
-    2. Check $CP$ constraint on three different values of $x_1$ in 
-        $(c_1^f, c_1^e)$
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. Does the design comply with $TOER$ constraint (via simulation)?
     3. Is $ESS$ lower than expected sample size under the null hypothesis 
       for the optimal two stage design from Variant II-1?
       
@@ -196,10 +206,12 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
     3. $CP := \color{red}{\boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta> 0.0, X_1 = x_1\big] \geq 0.7}$
        for all $x_1\in(c_1^f, c_1^e)$
 * **Formal tests:**
-    1. Check $TOER$ constraint with simulation.
-        Check $CP$ constraint on three different values of $x_1$ in 
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. Check $TOER$ constraint with simulation.
+    3. Check $CP$ constraint on three different values of $x_1$ in 
         $(c_1^f, c_1^e)$
-    2. Is $ESS$ of optimal two-stage design with $CP$ constraint higher than 
+    4. Is $ESS$ of optimal two-stage design with $CP$ constraint higher than 
         $ESS$ of optimal two-stage design without the constraint?
 
 
@@ -224,10 +236,10 @@ I.e., for $\Delta_3=0$ reduces to a point prior on $\delta=0.4$.
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta>0.0\big] \geq 0.8$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
 * **Formal tests:**
-    1. Simulated type one error rate is compared to $TOER$ constraint for each
-      design.
-    2. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked agaist default maximum to ensure proper
       convergence.
+    2. Simulated type one error rate is compared to $TOER$ constraint for each
+      design.
     3. $ESS$ decreases with prior variance.
     
 Additionally, the designs are compared graphically. 
@@ -249,17 +261,19 @@ Inspect the plot to see convergence pattern.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. All three adoptr variants (two-stage, group-sequential, one-stage) 
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. All three adoptr variants (two-stage, group-sequential, one-stage) 
         comply with costraints. Internally validated by testing vs. simulated 
         values of the power curve at respective points.
-    2. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
-        group-sequential one and that is in tunr lower than the one of the
+    3. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
+        group-sequential one and that is in turn lower than the one of the
         optimal one-stage design.
-    3. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
+    4. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
         externally computed group-sequential design using the [rpact](https://rpact.org/) package.
-    4. Are the $ESS$ values obtained from simulation the same as the ones 
+    5. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
-    5. Is $n()$ of the optimal two-stage design monotonously decreasing on
+    6. Is $n()$ of the optimal two-stage design monotonously decreasing on
         continuation area? 
 
 
@@ -272,15 +286,17 @@ Inspect the plot to see convergence pattern.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. Does the design respect all constraints (via simulation)?
-    2. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. Does the design respect all constraints (via simulation)?
+    3. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
         group-sequential one and that is in tunr lower than the one of the
         optimal one-stage design.
-    3. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
+    4. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
         externally computed group-sequential design using the [rpact](https://rpact.org/) package.
-    4. Are the $ESS$ values obtained from simulation the same as the ones 
+    5. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
-    5. Is $n()$ of the optimal two-stage design monotonously decreasing on
+    6. Is $n()$ of the optimal two-stage design monotonously decreasing on
         continuation area? 
 
 
@@ -294,15 +310,17 @@ Inspect the plot to see convergence pattern.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq \color{red}{0.05}$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. Does the design respect all constraints (via simulation)?
-    2. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. Does the design respect all constraints (via simulation)?
+    3. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
         group-sequential one and that is in tunr lower than the one of the
         optimal one-stage design.
-    3. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
+    4. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
         externally computed group-sequential design using the [rpact](https://rpact.org/) package.
-    4. Are the $ESS$ values obtained from simulation the same as the ones 
+    5. Are the $ESS$ values obtained from simulation the same as the ones 
         obtained by using numerical integration via `adoptr::evaluate`?
-    5. Is $n()$ of the optimal two-stage design monotonously decreasing on
+    6. Is $n()$ of the optimal two-stage design monotonously decreasing on
         continuation area? 
 
 
@@ -323,11 +341,9 @@ Inspect the plot to see convergence pattern.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. Three variants: integration order 5, 8, 11 two-stage designs. 
 * **Formal tests:**
-    1. Do all designs respect all constraints (via simulation)?
-    2. Do all designs converge within the respective iteration limit?
-    3. Does constraint compliance get better with increased order?
-    4. Does the simulated $ESS$ get better with increased order?
-    
+    1. Do all designs converge within the respective iteration limit?
+    2. Do all designs respect all constraints (via simulation)?
+
     
 #### [Variant V.2: Utility Maximization](#variantV_2)
 
@@ -336,8 +352,10 @@ Inspect the plot to see convergence pattern.
 * **Constraints:** 
     1. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
 * **Formal tests:**
-    1. Do both desings respect the type one error rate constraint (via simulation)?
-    2. Is the power of the design with larger $\lambda$ larger?
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. Do both desings respect the type one error rate constraint (via simulation)?
+    3. Is the power of the design with larger $\lambda$ larger?
     
     
 #### [Variant V.3: $n_1$ penalty](#variantV_3)
@@ -348,7 +366,9 @@ Inspect the plot to see convergence pattern.
     1. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     2. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] \geq 0.8$
 * **Formal tests:**
-    1. Is $n_1$ for the optimal design smaller than the order-5 design in V.1?
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. Is $n_1$ for the optimal design smaller than the order-5 design in V.1?
 
 
 #### [Variant V.4: $n_2$ penalty](#variantV_4)
@@ -359,7 +379,9 @@ Inspect the plot to see convergence pattern.
     1. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     2. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] \geq 0.8$
 * **Formal tests:**
-    1. Is the `AverageN2` for the optimal design smaller than for the order-5 
+    1. Number of iterations are checked agaist default maximum to ensure proper
+      convergence.
+    2. Is the `AverageN2` for the optimal design smaller than for the order-5 
     design in V.1?
 
 
@@ -368,14 +390,22 @@ Inspect the plot to see convergence pattern.
 ## Technical Setup
 
 All scenarios are run in a single, shared R session.
-Required packages are loaded here *ToDo: make sure that is the case!*,
+Required packages are loaded here,
 the random see is defined and set centrally, and the default number
 of iteration is increased to make sure that all scenarios 
 converge properly.
-Additionally R scripts with convenience functions are sourced here as well *ToDo: descibe or eliminate these functions!*.
+Additionally R scripts with convenience functions are sourced here as well.
+There are three additional functions for this report.
+`rpact_design` creates a two-stage design via the package **rpact** [@R-rpact]
+in the notation of **adoptr**.
+`sim_pr_reject` and `sim_n` allow to simulate rejection probabilities
+and expected sample sizes respectively by the **adoptr** routine `simulate`.
 ```{r setup}
 library(adoptr)
 library(tidyverse)
+library(rpact)
+library(pwr)
+library(testthat)
 
 # load custom functions in folder subfolder '/R'
 for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))

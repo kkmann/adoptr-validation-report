@@ -15,5 +15,9 @@ sim_n <- function(design, delta, dist) {
         theta = delta,
         seed  = 42
     )
-    return(mean(simdata$n1 + simdata$n2))
+    return( list(
+      n  = mean(simdata$n1 + simdata$n2),
+      se = sd(simdata$n2) / sqrt(nrow(simdata))
+    )
+    )
 }

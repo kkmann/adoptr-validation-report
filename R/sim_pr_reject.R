@@ -8,7 +8,7 @@
 #'
 #' @export
 sim_pr_reject <- function(design, delta, dist) {
-    simdata <- simulate(
+    simdata <- adoptr::simulate(
         design,
         nsim  = 10^6,
         dist  = dist,
@@ -16,7 +16,7 @@ sim_pr_reject <- function(design, delta, dist) {
         seed  = 42
     )
     return(list(
-        toer = mean(simdata$reject),
+        prob = mean(simdata$reject),
         se   = sd(simdata$reject) / sqrt(nrow(simdata))
     ))
 }
