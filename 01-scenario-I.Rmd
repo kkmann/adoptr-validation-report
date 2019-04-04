@@ -1,7 +1,6 @@
 # Scenario I: large effect, point prior {#scenarioI}
 
 
-
 ## Details
 
 In this scenario an alternative effect size of $\delta = 0.4$ with
@@ -476,7 +475,7 @@ Simulate conditional power at the three pivots and check if the
 constraint is fullfilled with a relative tolerance of $1\%$.
 ```{r}
 cp_sim <- function(z) {
-  z2  <- simulate(datadist, 10^6, n2(opt3_ts$design, z), .3, 42)
+  z2  <- simulate(datadist, 10^6, n2(opt3_ts$design, z), .4, 42)
   rej <- ifelse(z2 > c2(opt3_ts$design, z), 1, 0)
   return(mean(rej))
 }
