@@ -97,21 +97,14 @@ The input only differs with regard to the initial design.
 ```{r}
 opt_design <- function(initial_design) {
     minimize(
-        
         ess,
-        
         subject_to(
-            
             toer_cnstr,
             pow_cnstr
-            
         ),
-        
         initial_design = initial_design,
-        
         opts = opts
-        
-)
+    )
 }
 
 opt1_gs <- opt_design(init_design_gs)
@@ -196,21 +189,14 @@ optimal two-stage design are computed.
 ```{r}
 opt2 <- function(initial_design) {
     minimize(
-        
         ess_0,
-        
         subject_to(
-            
             toer_cnstr,
             pow_cnstr
-            
         ),
-        
         initial_design = initial_design,
-        
         opts = opts
-        
-)
+    )
 }
 
 opt2_gs <- opt2(init_design_gs)
@@ -284,21 +270,14 @@ The optimal two-stage design is computed.
 
 ```{r}
 opt3_ts <- minimize(
-        
         ess,
-        
         subject_to(
-            
             toer_cnstr,
             pow_cnstr,
             cp_cnstr
-            
         ),
-        
         initial_design = init_design,
-        
         opts = opts
-        
 )
 ```
 

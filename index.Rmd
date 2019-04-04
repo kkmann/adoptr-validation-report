@@ -55,9 +55,11 @@ completeness of the validation report are given by the authors!
 We assume that the reader is familiar with the notation an theoretical
 background of **adoptr**.
 Otherwise, the resources linked at https://github.com/kkmann/adoptr might
-be a good starting point *ToDo: publications*.
+be a good starting point.
+A good overview on adaptive designs is given in [@Bauer2015] or much more 
+detailed in the book [@Wassmer2016].
 The report explores a variety of essential scenarios and both formally
-tests results (wherever possible) using **testthat**.
+tests results (wherever possible) using **testthat** [@R-testthat].
 Detailed results are also printed in the report itself.
 Any failure of the integrated formal tests will cause the build status
 of the validation report to switch from 'passing' to 'failed'.
@@ -368,14 +370,22 @@ Inspect the plot to see convergence pattern.
 ## Technical Setup
 
 All scenarios are run in a single, shared R session.
-Required packages are loaded here *ToDo: make sure that is the case!*,
+Required packages are loaded here,
 the random see is defined and set centrally, and the default number
 of iteration is increased to make sure that all scenarios 
 converge properly.
-Additionally R scripts with convenience functions are sourced here as well *ToDo: descibe or eliminate these functions!*.
+Additionally R scripts with convenience functions are sourced here as well.
+There are three additional functions for this report.
+`rpact_design` creates a two-stage design via the package **rpact** [@R-rpact]
+in the notation of **adoptr**.
+`sim_pr_reject` and `sim_n` allow to simulate rejection probabilities
+and expected sample sizes respectively by the **adoptr** routine `simulate`.
 ```{r setup}
 library(adoptr)
 library(tidyverse)
+library(rpact)
+library(pwr)
+library(testthat)
 
 # load custom functions in folder subfolder '/R'
 for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))

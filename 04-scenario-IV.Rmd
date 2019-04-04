@@ -92,21 +92,14 @@ compute the optimal two-stage design.
 ```{r}
 opt_design <- function(initial_design) {
     minimize(
-        
         ess,
-        
         subject_to(
-            
             toer_cnstr,
             pow_cnstr
-            
         ),
-        
         initial_design = initial_design,
-        
         opts = opts
-        
-)
+    )
 }
 
 opt1_gs <- opt_design(init_design_gs)
@@ -280,21 +273,14 @@ The optimal two-stage design is computed.
 ```{r}
 opt_design <- function(initial_design) {
     minimize(
-        
         ess,
-        
         subject_to(
-            
             toer_cnstr,
             pow_cnstr_2
-            
         ),
-        
         initial_design = initial_design,
-        
         opts = opts
-        
-)
+    )
 }
 
 opt2_ts <- opt_design(init_design_2)
@@ -466,21 +452,14 @@ The optimal two-stage design is computed.
 ```{r}
 opt_design <- function(initial_design) {
     minimize(
-        
         ess,
-        
         subject_to(
-            
             toer_cnstr_2,
             pow_cnstr_2
-            
         ),
-        
         initial_design = initial_design,
-        
         opts = opts
-        
-)
+    )
 }
 
 opt3_ts <- opt_design(init_design_3)

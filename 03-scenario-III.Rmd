@@ -102,20 +102,13 @@ init <- TwoStageDesign(
 )
 
 optimal_design <- function(delta) {
-    
     minimize(
-        
         objective(delta),
-        
         subject_to(
-            
             toer_cstr,
             ep_cnstr(delta)
-            
         ),
-        
         initial_design = init
-        
     )
 }
 ```
@@ -139,21 +132,7 @@ testthat::expect_true(all(iters <= 10000))
 
 Check type one error rate control
 ```{r}
-sim_toer <- function(design) {
-    simdata <- simulate(
-        design,
-        nsim  = 10^6, 
-        dist  = datadist, 
-        theta =   .0,
-        seed  = 42
-    )
-    return(list(
-        toer = mean(simdata$reject), 
-        se   = sd(simdata$reject) / sqrt(nrow(simdata))
-    ))
-}
-
-tmp     <- sapply(results, function(x) sim_toer(x$design))
+tmp     <- sapply(results, function(x) sim_pr_reject(x$design, .0, datadist))
 df_toer <- data.frame(
     toer = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
