@@ -25,7 +25,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
 
 
-<meta name="date" content="2019-04-03">
+<meta name="date" content="2019-04-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -303,7 +303,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Validation Report for <strong>adoptr</strong> package</h1>
 <p class="author"><em>Kevin Kunzmann &amp; Maximilian Pilz</em></p>
-<p class="date"><em>2019-04-03</em></p>
+<p class="date"><em>2019-04-04</em></p>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
@@ -320,9 +320,11 @@ completeness of the validation report are given by the authors!</p>
 <p>We assume that the reader is familiar with the notation an theoretical
 background of <strong>adoptr</strong>.
 Otherwise, the resources linked at <a href="https://github.com/kkmann/adoptr" class="uri">https://github.com/kkmann/adoptr</a> might
-be a good starting point <em>ToDo: publications</em>.
+be a good starting point.
+A good overview on adaptive designs is given in <span class="citation">(Bauer et al. <a href="#ref-Bauer2015">2015</a>)</span> or much more
+detailed in the book <span class="citation">(Wassmer and Brannath <a href="#ref-Wassmer2016">2016</a>)</span>.
 The report explores a variety of essential scenarios and both formally
-tests results (wherever possible) using <strong>testthat</strong>.
+tests results (wherever possible) using <strong>testthat</strong> <span class="citation">(Wickham, Studio, and Team <a href="#ref-R-testthat">2018</a>)</span>.
 Detailed results are also printed in the report itself.
 Any failure of the integrated formal tests will cause the build status
 of the validation report to switch from ‘passing’ to ‘failed’.
@@ -356,9 +358,13 @@ The source code repository of this report can be found at
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>All three <strong>adoptr</strong> variants (two-stage, group-sequential, one-stage)
 comply with constraints. Internally validated by testing vs. simulated
 values of the power curve at respective points.</li>
+<li>Is <span class="math inline">\(n()\)</span> of the optimal two-stage design monotonously decreasing on
+continuation area?</li>
 <li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
 group-sequential one and that is in turn lower than the one of the
 optimal one-stage design.</li>
@@ -366,8 +372,6 @@ optimal one-stage design.</li>
 externally computed group-sequential design using the <a href="https://rpact.org/">rpact</a> package.</li>
 <li>Are the <span class="math inline">\(ESS\)</span> values obtained from simulation the same as the ones
 obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
-<li>Is <span class="math inline">\(n()\)</span> of the optimal two-stage design monotonously decreasing on
-continuation area?</li>
 </ol></li>
 </ul>
 </div>
@@ -382,6 +386,8 @@ continuation area?</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>Validate constraint compliance by testing vs. simulated
 values of the power curve at respective points.</li>
 <li><span class="math inline">\(n()\)</span> of optimal design is monotonously increasing on continuation area.</li>
@@ -404,6 +410,8 @@ obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>Check <span class="math inline">\(Power\)</span> and <span class="math inline">\(TOER\)</span> constraints with simulation.
 Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
 <span class="math inline">\((c_1^f, c_1^e)\)</span></li>
@@ -436,6 +444,8 @@ same as the ones obtained by using numerical integration via
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>All designs comply with type one error rate constraints (tested via
 simulation).</li>
 <li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
@@ -455,9 +465,9 @@ optimal one-stage design.</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>Does the design comply with <span class="math inline">\(TOER\)</span> constraint (via simulation)?</li>
-<li>Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
-<span class="math inline">\((c_1^f, c_1^e)\)</span></li>
 <li>Is <span class="math inline">\(ESS\)</span> lower than expected sample size under the null hypothesis
 for the optimal two stage design from Variant II-1?</li>
 </ol></li>
@@ -476,8 +486,10 @@ for all <span class="math inline">\(x_1\in(c_1^f, c_1^e)\)</span></li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Check <span class="math inline">\(TOER\)</span> constraint with simulation.
-Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
+<li>Check <span class="math inline">\(TOER\)</span> constraint with simulation.</li>
+<li>Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
 <span class="math inline">\((c_1^f, c_1^e)\)</span></li>
 <li>Is <span class="math inline">\(ESS\)</span> of optimal two-stage design with <span class="math inline">\(CP\)</span> constraint higher than
 <span class="math inline">\(ESS\)</span> of optimal two-stage design without the constraint?</li>
@@ -506,10 +518,10 @@ I.e., for <span class="math inline">\(\Delta_3=0\)</span> reduces to a point pri
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Simulated type one error rate is compared to <span class="math inline">\(TOER\)</span> constraint for each
-design.</li>
 <li>Number of iterations are checked agaist default maximum to ensure proper
 convergence.</li>
+<li>Simulated type one error rate is compared to <span class="math inline">\(TOER\)</span> constraint for each
+design.</li>
 <li><span class="math inline">\(ESS\)</span> decreases with prior variance.</li>
 </ol></li>
 </ul>
@@ -531,11 +543,13 @@ Inspect the plot to see convergence pattern.</p>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>All three adoptr variants (two-stage, group-sequential, one-stage)
 comply with costraints. Internally validated by testing vs. simulated
 values of the power curve at respective points.</li>
 <li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
-group-sequential one and that is in tunr lower than the one of the
+group-sequential one and that is in turn lower than the one of the
 optimal one-stage design.</li>
 <li><span class="math inline">\(ESS\)</span> of optimal group-sequential design is lower than <span class="math inline">\(ESS\)</span> of
 externally computed group-sequential design using the <a href="https://rpact.org/">rpact</a> package.</li>
@@ -558,6 +572,8 @@ continuation area?</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>Does the design respect all constraints (via simulation)?</li>
 <li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
 group-sequential one and that is in tunr lower than the one of the
@@ -583,6 +599,8 @@ continuation area?</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>Does the design respect all constraints (via simulation)?</li>
 <li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
 group-sequential one and that is in tunr lower than the one of the
@@ -616,10 +634,8 @@ continuation area?</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Do all designs respect all constraints (via simulation)?</li>
 <li>Do all designs converge within the respective iteration limit?</li>
-<li>Does constraint compliance get better with increased order?</li>
-<li>Does the simulated <span class="math inline">\(ESS\)</span> get better with increased order?</li>
+<li>Do all designs respect all constraints (via simulation)?</li>
 </ol></li>
 </ul>
 </div>
@@ -634,6 +650,8 @@ for <span class="math inline">\(\lambda = 100\)</span> and <span class="math inl
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>Do both desings respect the type one error rate constraint (via simulation)?</li>
 <li>Is the power of the design with larger <span class="math inline">\(\lambda\)</span> larger?</li>
 </ol></li>
@@ -651,6 +669,8 @@ for <span class="math inline">\(\lambda = 0.05\)</span> and <span class="math in
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>Is <span class="math inline">\(n_1\)</span> for the optimal design smaller than the order-5 design in V.1?</li>
 </ol></li>
 </ul>
@@ -667,6 +687,8 @@ for <span class="math inline">\(\lambda = 0.01\)</span> and <span class="math in
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
+<li>Number of iterations are checked agaist default maximum to ensure proper
+convergence.</li>
 <li>Is the <code>AverageN2</code> for the optimal design smaller than for the order-5
 design in V.1?</li>
 </ol></li>
@@ -677,11 +699,16 @@ design in V.1?</li>
 <div id="technical-setup" class="section level2">
 <h2><span class="header-section-number">1.3</span> Technical Setup</h2>
 <p>All scenarios are run in a single, shared R session.
-Required packages are loaded here <em>ToDo: make sure that is the case!</em>,
+Required packages are loaded here,
 the random see is defined and set centrally, and the default number
 of iteration is increased to make sure that all scenarios
 converge properly.
-Additionally R scripts with convenience functions are sourced here as well <em>ToDo: descibe or eliminate these functions!</em>.</p>
+Additionally R scripts with convenience functions are sourced here as well.
+There are three additional functions for this report.
+<code>rpact_design</code> creates a two-stage design via the package <strong>rpact</strong> <span class="citation">(Wassmer and Pahlke <a href="#ref-R-rpact">2018</a>)</span>
+in the notation of <strong>adoptr</strong>.
+<code>sim_pr_reject</code> and <code>sim_n</code> allow to simulate rejection probabilities
+and expected sample sizes respectively by the <strong>adoptr</strong> routine <code>simulate</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(adoptr)
 <span class="kw">library</span>(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
@@ -693,6 +720,21 @@ Additionally R scripts with convenience functions are sourced here as well <em>T
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ✖ dplyr::n()      masks adoptr::n()</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rpact)</code></pre>
+<pre><code>## Thank you for using RPACT! Need help or more information? Visit www.rpact.com</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pwr)
+<span class="kw">library</span>(testthat)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;testthat&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     matches</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     is_null</code></pre>
+<pre><code>## The following object is masked from &#39;package:adoptr&#39;:
+## 
+##     expectation</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span>
 <span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))
    <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))
@@ -707,6 +749,21 @@ opts =<span class="st"> </span><span class="kw">list</span>(
     <span class="dt">maxeval   =</span> <span class="dv">100000</span>
 )</code></pre>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Bauer2015">
+<p>Bauer, P., F. Bretz, V. Dragalin, F. König, and G. Wassmer. 2015. “Twenty-Five Years of Confirmatory Adaptive Designs: Opportunities and Pitfalls.” <em>Statistics in Medicine</em> 35 (3): 325–47. <a href="https://doi.org/10.1002/sim.6472" class="uri">https://doi.org/10.1002/sim.6472</a>.</p>
+</div>
+<div id="ref-Wassmer2016">
+<p>Wassmer, G., and W. Brannath. 2016. <em>Group Sequential and Confirmatory Adaptive Designs in Clinical Trials</em>. Springer Series in Pharmaceutical Statistics -. Springer International Publishing.</p>
+</div>
+<div id="ref-R-testthat">
+<p>Wickham, Hadley, R Studio, and R Core Team. 2018. <em>Testthat: Unit Testing for R</em>. <a href="https://cran.r-project.org/web/packages/testthat/index.html" class="uri">https://cran.r-project.org/web/packages/testthat/index.html</a>.</p>
+</div>
+<div id="ref-R-rpact">
+<p>Wassmer, Gernot, and Friedrich Pahlke. 2018. <em>Rpact: Confirmatory Adaptive Clinical Trial Design and Analysis</em>. <a href="https://www.rpact.org" class="uri">https://www.rpact.org</a>.</p>
 </div>
 </div>
             </section>

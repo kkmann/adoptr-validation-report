@@ -25,7 +25,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
 
 
-<meta name="date" content="2019-04-03">
+<meta name="date" content="2019-04-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -365,21 +365,14 @@ The optimal group-sequential design is used as initial design to
 compute the optimal two-stage design.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
     <span class="kw">minimize</span>(
-        
         ess,
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr,
             pow_cnstr
-            
         ),
-        
         <span class="dt">initial_design =</span> initial_design,
-        
         <span class="dt">opts =</span> opts
-        
-)
+    )
 }
 
 opt1_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_gs)
@@ -397,12 +390,6 @@ opt1_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span c
 <span class="kw">print</span>(iters)</code></pre>
 <pre><code>## [1] 1960  912   20</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
-monotonously decreasing.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sign</span>(<span class="kw">diff</span>(opt1_ts<span class="op">$</span>design<span class="op">@</span>n2_pivots)),
-    <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, (order <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
-)</code></pre>
 <p>Type one error rate constraint is tested for the three designs.
 Due to numerical issues we allow a realtive error of <span class="math inline">\(1\%\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt1_ts, opt1_gs, opt1_os),  
@@ -459,39 +446,45 @@ in the worst case.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, H_<span class="dv">0</span>))
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist),
+    <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_os<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist),
+    <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_gs<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist),
+    <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_ts<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )</code></pre>
 <p>Additionally, the sample sizes under the point prior are compared.</p>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist),
+    <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt1_os<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist),
+    <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt1_gs<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist),
+    <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt1_ts<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
+)</code></pre>
+<p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
+monotonously decreasing.</p>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
+    <span class="kw">sign</span>(<span class="kw">diff</span>(opt1_ts<span class="op">$</span>design<span class="op">@</span>n2_pivots)),
+    <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, (order <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
 )</code></pre>
 </div>
 </div>
@@ -521,21 +514,14 @@ init_design_<span class="dv">2</span>    &lt;-<span class="st"> </span><span cla
 <p>The optimal two-stage design is computed.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
     <span class="kw">minimize</span>(
-        
         ess,
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr,
             pow_cnstr_<span class="dv">2</span>
-            
         ),
-        
         <span class="dt">initial_design =</span> initial_design,
-        
         <span class="dt">opts =</span> opts
-        
-)
+    )
 }
 
 opt2_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">2</span>)
@@ -553,12 +539,6 @@ opt2_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span c
 <span class="kw">print</span>(iters)</code></pre>
 <pre><code>## [1] 3008 1168   30</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
-monotonously decreasing.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sign</span>(<span class="kw">diff</span>(opt2_ts<span class="op">$</span>design<span class="op">@</span>n2_pivots)),
-    <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, (order <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
-)</code></pre>
 <p>Type one error rate constraint is tested for the three designs.
 Due to numerical issues we allow a realtive error of <span class="math inline">\(1\%\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt2_ts, opt2_gs, opt2_os),  
@@ -615,39 +595,45 @@ in the worst case.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, H_<span class="dv">0</span>))
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist),
+    <span class="kw">sim_n</span>(opt2_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_os<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist),
+    <span class="kw">sim_n</span>(opt2_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_gs<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist),
+    <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_ts<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )</code></pre>
 <p>Additionally, the sample sizes under the point prior are compared.</p>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist),
+    <span class="kw">sim_n</span>(opt2_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt2_os<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist),
+    <span class="kw">sim_n</span>(opt2_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt2_gs<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist),
+    <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt2_ts<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
+)</code></pre>
+<p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
+monotonously decreasing.</p>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
+    <span class="kw">sign</span>(<span class="kw">diff</span>(opt2_ts<span class="op">$</span>design<span class="op">@</span>n2_pivots)),
+    <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, (order <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
 )</code></pre>
 </div>
 </div>
@@ -678,21 +664,14 @@ init_design_<span class="dv">3</span>    &lt;-<span class="st"> </span><span cla
 <p>The optimal two-stage design is computed.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
     <span class="kw">minimize</span>(
-        
         ess,
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr_<span class="dv">2</span>,
             pow_cnstr_<span class="dv">2</span>
-            
         ),
-        
         <span class="dt">initial_design =</span> initial_design,
-        
         <span class="dt">opts =</span> opts
-        
-)
+    )
 }
 
 opt3_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">3</span>)
@@ -710,12 +689,6 @@ opt3_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span c
 <span class="kw">print</span>(iters)</code></pre>
 <pre><code>## [1] 3294  880   27</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
-monotonously decreasing.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sign</span>(<span class="kw">diff</span>(opt3_ts<span class="op">$</span>design<span class="op">@</span>n2_pivots)),
-    <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, (order <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
-)</code></pre>
 <p>Type one error rate constraint is tested for the three designs.
 Due to numerical issues we allow a realtive error of <span class="math inline">\(1\%\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt3_ts, opt3_gs, opt3_os),  
@@ -772,39 +745,45 @@ in the worst case.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, H_<span class="dv">0</span>))
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist),
+    <span class="kw">sim_n</span>(opt3_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt3_os<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist),
+    <span class="kw">sim_n</span>(opt3_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt3_gs<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist),
+    <span class="kw">sim_n</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt3_ts<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )</code></pre>
 <p>Additionally, the sample sizes under the point prior are compared.</p>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist),
+    <span class="kw">sim_n</span>(opt3_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt3_os<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist),
+    <span class="kw">sim_n</span>(opt3_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt3_gs<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
 )
 
 testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist),
+    <span class="kw">sim_n</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt3_ts<span class="op">$</span>design),
     <span class="dt">tolerance =</span> <span class="fl">.5</span>
+)</code></pre>
+<p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
+monotonously decreasing.</p>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
+    <span class="kw">sign</span>(<span class="kw">diff</span>(opt3_ts<span class="op">$</span>design<span class="op">@</span>n2_pivots)),
+    <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, (order <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
 )</code></pre>
 </div>
 </div>
@@ -812,7 +791,7 @@ testthat<span class="op">::</span><span class="kw">expect_equal</span>(
 <h2><span class="header-section-number">5.5</span> Plot Two-Stage Designs</h2>
 <p>The optimal two-stage designs stemming from the three different variants
 are plotted together.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
 
 </div>
 </div>

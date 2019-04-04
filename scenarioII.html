@@ -25,7 +25,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
 
 
-<meta name="date" content="2019-04-03">
+<meta name="date" content="2019-04-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -371,21 +371,14 @@ group-sequential, and one-stage.
 The input only differs with regard to the initial design.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
     <span class="kw">minimize</span>(
-        
         ess,
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr,
             pow_cnstr
-            
         ),
-        
         <span class="dt">initial_design =</span> initial_design,
-        
         <span class="dt">opts =</span> opts
-        
-)
+    )
 }
 
 opt1_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_gs)</code></pre>
@@ -455,21 +448,14 @@ testthat<span class="op">::</span><span class="kw">expect_gte</span>(
 optimal two-stage design are computed.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt2 &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
     <span class="kw">minimize</span>(
-        
         ess_<span class="dv">0</span>,
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr,
             pow_cnstr
-            
         ),
-        
         <span class="dt">initial_design =</span> initial_design,
-        
         <span class="dt">opts =</span> opts
-        
-)
+    )
 }
 
 opt2_gs &lt;-<span class="st"> </span><span class="kw">opt2</span>(init_design_gs)</code></pre>
@@ -530,21 +516,14 @@ cp_cnstr &lt;-<span class="st"> </span>cp <span class="op">&gt;=</span><span cla
 <h3><span class="header-section-number">3.4.4</span> Optimization</h3>
 <p>The optimal two-stage design is computed.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt3_ts &lt;-<span class="st"> </span><span class="kw">minimize</span>(
-        
         ess,
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr,
             pow_cnstr,
             cp_cnstr
-            
         ),
-        
         <span class="dt">initial_design =</span> init_design,
-        
         <span class="dt">opts =</span> opts
-        
 )</code></pre>
 <pre><code>## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr, cp_cnstr),
 ## initial_design = init_design, : initial design is infeasible!</code></pre>
@@ -569,12 +548,6 @@ testthat<span class="op">::</span><span class="kw">expect_true</span>(<span clas
 df_toer3</code></pre>
 <pre><code>##       toer           se
 ## 1 0.024991 0.0001560976</code></pre>
-<p>The expected sample size under the prior should be higher than
-in the case without the constraint that was analyzed in II.1.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, opt3_ts<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(ess, opt1_ts<span class="op">$</span>design)
-)</code></pre>
 <p>The conditional power constraint needs to be tested.
 Select three points for this and check the constraint.</p>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>adoptr<span class="op">:::</span><span class="kw">scaled_integration_pivots</span>(opt3_ts<span class="op">$</span>design)[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)]
@@ -582,13 +555,19 @@ Select three points for this and check the constraint.</p>
 cp_val &lt;-<span class="st"> </span><span class="kw">sapply</span>(x, <span class="cf">function</span>(z) <span class="kw">evaluate</span>(cp, opt3_ts<span class="op">$</span>design, z))
 
 testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(cp_val <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.7</span>))</code></pre>
+<p>The expected sample size under the prior should be higher than
+in the case without the constraint that was analyzed in II.1.</p>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
+    <span class="kw">evaluate</span>(ess, opt3_ts<span class="op">$</span>design),
+    <span class="kw">evaluate</span>(ess, opt1_ts<span class="op">$</span>design)
+)</code></pre>
 </div>
 </div>
 <div id="plot-two-stage-designs-1" class="section level2">
 <h2><span class="header-section-number">3.5</span> Plot Two-Stage Designs</h2>
 <p>The optimal two-stage designs stemming from the different variants
 are plotted together.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
 
 </div>
 </div>

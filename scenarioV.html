@@ -25,7 +25,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
 
 
-<meta name="date" content="2019-04-03">
+<meta name="date" content="2019-04-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -370,21 +370,14 @@ quantile of the normal distribution.</p>
 and 11.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(order) {
     <span class="kw">minimize</span>(
-        
         ess,
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr,
             pow_cnstr
-            
         ),
-        
         <span class="dt">initial_design =</span> <span class="kw">init_design</span>(order),
-        
         <span class="dt">opts =</span> opts
-        
-)
+    )
 }
 
 opt1 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>), <span class="cf">function</span>(x) <span class="kw">opt_design</span>(x))</code></pre>
@@ -407,21 +400,7 @@ opt1 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="k
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
 <p>Check type one error rate control.
 Due to numerical issues we allow a realtive error of <span class="math inline">\(1\%\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sim_toer &lt;-<span class="st"> </span><span class="cf">function</span>(design) {
-    simdata &lt;-<span class="st"> </span><span class="kw">simulate</span>(
-        design,
-        <span class="dt">nsim  =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">6</span>, 
-        <span class="dt">dist  =</span> datadist, 
-        <span class="dt">theta =</span>   <span class="fl">.0</span>,
-        <span class="dt">seed  =</span> <span class="dv">42</span>
-    )
-    <span class="kw">return</span>(<span class="kw">list</span>(
-        <span class="dt">toer =</span> <span class="kw">mean</span>(simdata<span class="op">$</span>reject), 
-        <span class="dt">se   =</span> <span class="kw">sd</span>(simdata<span class="op">$</span>reject) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">nrow</span>(simdata))
-    ))
-}
-
-tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_toer</span>(x<span class="op">$</span>design))
+<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.0</span>, datadist))
 df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
     <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
     <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
@@ -437,21 +416,7 @@ df_toer</code></pre>
 ## 3 0.024951 0.0001559759</code></pre>
 <p>Check the power constraint.
 For numerical reasons we allow a realtive error of <span class="math inline">\(1\%\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sim_pow &lt;-<span class="st"> </span><span class="cf">function</span>(design) {
-    simdata &lt;-<span class="st"> </span><span class="kw">simulate</span>(
-        design,
-        <span class="dt">nsim  =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">6</span>, 
-        <span class="dt">dist  =</span> datadist, 
-        <span class="dt">theta =</span>   <span class="fl">.3</span>,
-        <span class="dt">seed  =</span> <span class="dv">42</span>
-    )
-    <span class="kw">return</span>(<span class="kw">list</span>(
-        <span class="dt">pow =</span> <span class="kw">mean</span>(simdata<span class="op">$</span>reject), 
-        <span class="dt">se  =</span> <span class="kw">sd</span>(simdata<span class="op">$</span>reject) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">nrow</span>(simdata))
-    ))
-}
-
-tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_pow</span>(x<span class="op">$</span>design))
+<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.3</span>, datadist))
 df_pow &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
     <span class="dt">power =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
     <span class="dt">se    =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
@@ -466,21 +431,7 @@ df_pow</code></pre>
 ## 2 0.799668 0.0004002490
 ## 3 0.799646 0.0004002655</code></pre>
 <p>Check expected sample size under the prior.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sim_ess &lt;-<span class="st"> </span><span class="cf">function</span>(design) {
-    simdata &lt;-<span class="st"> </span><span class="kw">simulate</span>(
-        design,
-        <span class="dt">nsim  =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">6</span>, 
-        <span class="dt">dist  =</span> datadist, 
-        <span class="dt">theta =</span>   <span class="fl">.3</span>,
-        <span class="dt">seed  =</span> <span class="dv">42</span>
-    )
-    <span class="kw">return</span>(<span class="kw">list</span>(
-        <span class="dt">n  =</span> <span class="kw">mean</span>(simdata<span class="op">$</span>n1 <span class="op">+</span><span class="st"> </span>simdata<span class="op">$</span>n2), 
-        <span class="dt">se =</span> <span class="kw">sd</span>(simdata<span class="op">$</span>n1 <span class="op">+</span><span class="st"> </span>simdata<span class="op">$</span>n2) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">nrow</span>(simdata))
-    ))
-}
-
-tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_ess</span>(x<span class="op">$</span>design))
+<pre class="sourceCode r"><code class="sourceCode r">tmp    &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_n</span>(x<span class="op">$</span>design, <span class="fl">.3</span>, datadist))
 df_ess &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
     <span class="dt">n  =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
     <span class="dt">se =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
@@ -522,20 +473,13 @@ null hypothesis. Hence, the previous inequality can still be used.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt2_design &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
 
     <span class="kw">minimize</span>(
-        
         <span class="kw">obj</span>(lambda),
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr
-
         ),
-        
         <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>),
-        
         <span class="dt">opts =</span> opts
-        
-)
+    )
 }
 
 opt2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">100</span>, <span class="dv">200</span>), <span class="cf">function</span>(x) <span class="kw">opt2_design</span>(x))</code></pre>
@@ -555,7 +499,7 @@ opt2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="k
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
 <p>Check type one error rate control for both designs via simulation.
 Due to numerical issues we allow a realtive error of <span class="math inline">\(1\%\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt2, <span class="cf">function</span>(x) <span class="kw">sim_toer</span>(x<span class="op">$</span>design))
+<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt2, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="dv">0</span>, datadist))
 df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
     <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
     <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
@@ -575,7 +519,7 @@ df_toer</code></pre>
 )</code></pre>
 <p>Finally the three designs computed so far are plotted together to allow
 comparison.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-119-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-120-1.png" width="672" /></p>
 </div>
 </div>
 <div id="variantV_3" class="section level2">
@@ -605,21 +549,14 @@ obj3 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
 <pre class="sourceCode r"><code class="sourceCode r">opt3_design &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
 
     <span class="kw">minimize</span>(
-        
         <span class="kw">obj3</span>(lambda),
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr,
             pow_cnstr
-
         ),
-        
         <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>),
-        
         <span class="dt">opts =</span> opts
-        
-)
+    )
 }
 
 opt3 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(.<span class="dv">05</span>, <span class="fl">.2</span>), <span class="cf">function</span>(x) <span class="kw">opt3_design</span>(x))</code></pre>
@@ -650,7 +587,7 @@ testthat<span class="op">::</span><span class="kw">expect_lte</span>(
 )</code></pre>
 <p>Finally the three designs computed so far are plotted together to allow
 comparison.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-124-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-125-1.png" width="672" /></p>
 </div>
 </div>
 <div id="variantV_4" class="section level2">
@@ -679,24 +616,16 @@ obj4 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
 <h3><span class="header-section-number">6.5.4</span> Optimization</h3>
 <p>The optimal design is computed for two values of <span class="math inline">\(\lambda\)</span>: 0.01 and 0.1.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt4_design &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
-
     <span class="kw">minimize</span>(
-        
         <span class="kw">obj4</span>(lambda),
-        
         <span class="kw">subject_to</span>(
-            
             toer_cnstr,
             pow_cnstr
-
         ),
-        
         <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>),
         <span class="dt">upper_boundary_design =</span> <span class="kw">get_upper_boundary_design</span>(<span class="kw">init_design</span>(<span class="dv">5</span>), <span class="dt">c2_buffer=</span><span class="dv">3</span>),
-        
         <span class="dt">opts =</span> opts
-        
-)
+    )
 }
 
 opt4 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(.<span class="dv">01</span>, <span class="fl">.1</span>), <span class="cf">function</span>(x) <span class="kw">opt4_design</span>(x))</code></pre>
@@ -728,7 +657,7 @@ testthat<span class="op">::</span><span class="kw">expect_lte</span>(
 )</code></pre>
 <p>Finally the three designs computed so far are plotted together to allow
 comparison.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
 
 </div>
 </div>

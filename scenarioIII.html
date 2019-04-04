@@ -25,7 +25,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
 
 
-<meta name="date" content="2019-04-03">
+<meta name="date" content="2019-04-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -377,20 +377,13 @@ to fulfill the error constraints.</p>
 )
 
 optimal_design &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {
-    
     <span class="kw">minimize</span>(
-        
         <span class="kw">objective</span>(delta),
-        
         <span class="kw">subject_to</span>(
-            
             toer_cstr,
             <span class="kw">ep_cnstr</span>(delta)
-            
         ),
-        
         <span class="dt">initial_design =</span> init
-        
     )
 }</code></pre>
 <p>Compute the sequence of optimal designs</p>
@@ -406,21 +399,7 @@ results &lt;-<span class="st"> </span><span class="kw">lapply</span>(deltas, opt
 <pre><code>## [1] 1746 1857 2438 2684</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10000</span>))</code></pre>
 <p>Check type one error rate control</p>
-<pre class="sourceCode r"><code class="sourceCode r">sim_toer &lt;-<span class="st"> </span><span class="cf">function</span>(design) {
-    simdata &lt;-<span class="st"> </span><span class="kw">simulate</span>(
-        design,
-        <span class="dt">nsim  =</span> <span class="dv">10</span><span class="op">^</span><span class="dv">6</span>, 
-        <span class="dt">dist  =</span> datadist, 
-        <span class="dt">theta =</span>   <span class="fl">.0</span>,
-        <span class="dt">seed  =</span> <span class="dv">42</span>
-    )
-    <span class="kw">return</span>(<span class="kw">list</span>(
-        <span class="dt">toer =</span> <span class="kw">mean</span>(simdata<span class="op">$</span>reject), 
-        <span class="dt">se   =</span> <span class="kw">sd</span>(simdata<span class="op">$</span>reject) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">nrow</span>(simdata))
-    ))
-}
-
-tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(results, <span class="cf">function</span>(x) <span class="kw">sim_toer</span>(x<span class="op">$</span>design))
+<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(results, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.0</span>, datadist))
 df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
     <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
     <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
@@ -484,7 +463,7 @@ testthat<span class="op">::</span><span class="kw">expect_gte</span>(
             <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(),
             <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>
         )</code></pre>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
 
 </div>
 </div>
