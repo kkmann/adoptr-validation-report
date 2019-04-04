@@ -310,15 +310,6 @@ df_toer3
 
 
 
-The expected sample size under the prior should be higher than
-in the case without the constraint that was analyzed in II.1.
-```{r}
-testthat::expect_gte(
-    evaluate(ess, opt3_ts$design),
-    evaluate(ess, opt1_ts$design)
-)
-```
-
 The conditional power constraint needs to be tested. 
 Select three points for this and check the constraint.
 ```{r}
@@ -328,6 +319,17 @@ cp_val <- sapply(x, function(z) evaluate(cp, opt3_ts$design, z))
 
 testthat::expect_true(all(cp_val >= 0.7))
 ```
+
+
+The expected sample size under the prior should be higher than
+in the case without the constraint that was analyzed in II.1.
+```{r}
+testthat::expect_gte(
+    evaluate(ess, opt3_ts$design),
+    evaluate(ess, opt1_ts$design)
+)
+```
+
 
 
 

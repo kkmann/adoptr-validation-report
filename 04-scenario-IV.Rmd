@@ -121,15 +121,6 @@ print(iters)
 testthat::expect_true(all(iters < opts$maxeval))
 ```
 
-The $n_2$ function of the optimal two-stage design is expected to be 
-monotonously decreasing.
-
-```{r}
-testthat::expect_equal(
-    sign(diff(opt1_ts$design@n2_pivots)),
-    rep(-1, (order - 1))
-)
-```
 
 
 Type one error rate constraint is tested for the three designs.
@@ -233,6 +224,15 @@ testthat::expect_equal(
 )
 ```
 
+The $n_2$ function of the optimal two-stage design is expected to be 
+monotonously decreasing.
+
+```{r}
+testthat::expect_equal(
+    sign(diff(opt1_ts$design@n2_pivots)),
+    rep(-1, (order - 1))
+)
+```
 
 
 
@@ -302,15 +302,6 @@ print(iters)
 testthat::expect_true(all(iters < opts$maxeval))
 ```
 
-The $n_2$ function of the optimal two-stage design is expected to be 
-monotonously decreasing.
-
-```{r}
-testthat::expect_equal(
-    sign(diff(opt2_ts$design@n2_pivots)),
-    rep(-1, (order - 1))
-)
-```
 
 
 Type one error rate constraint is tested for the three designs.
@@ -415,6 +406,16 @@ testthat::expect_equal(
 ```
 
 
+The $n_2$ function of the optimal two-stage design is expected to be 
+monotonously decreasing.
+
+```{r}
+testthat::expect_equal(
+    sign(diff(opt2_ts$design@n2_pivots)),
+    rep(-1, (order - 1))
+)
+```
+
 
 
 ## Variant IV-3: Increase Type One Error rate {#variantIV_3}
@@ -481,15 +482,6 @@ print(iters)
 testthat::expect_true(all(iters < opts$maxeval))
 ```
 
-The $n_2$ function of the optimal two-stage design is expected to be 
-monotonously decreasing.
-
-```{r}
-testthat::expect_equal(
-    sign(diff(opt3_ts$design@n2_pivots)),
-    rep(-1, (order - 1))
-)
-```
 
 
 Type one error rate constraint is tested for the three designs.
@@ -594,9 +586,15 @@ testthat::expect_equal(
 ```
 
 
+The $n_2$ function of the optimal two-stage design is expected to be 
+monotonously decreasing.
 
-
-
+```{r}
+testthat::expect_equal(
+    sign(diff(opt3_ts$design@n2_pivots)),
+    rep(-1, (order - 1))
+)
+```
 
 
 
