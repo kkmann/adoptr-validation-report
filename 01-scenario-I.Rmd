@@ -193,19 +193,19 @@ in the worst case.
 ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
 
 testthat::expect_equal(
-    sim_n(opt1_os$design, .0, datadist),
+    sim_n(opt1_os$design, .0, datadist)$n,
     evaluate(ess_0, opt1_os$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    sim_n(opt1_gs$design, .0, datadist),
+    sim_n(opt1_gs$design, .0, datadist)$n,
     evaluate(ess_0, opt1_gs$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    sim_n(opt1_ts$design, .0, datadist),
+    sim_n(opt1_ts$design, .0, datadist)$n,
     evaluate(ess_0, opt1_ts$design),
     tolerance = .5
 )
@@ -215,19 +215,19 @@ testthat::expect_equal(
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
 testthat::expect_equal(
-    sim_n(opt1_os$design, .4, datadist),
+    sim_n(opt1_os$design, .4, datadist)$n,
     evaluate(ess, opt1_os$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    sim_n(opt1_gs$design, .4, datadist),
+    sim_n(opt1_gs$design, .4, datadist)$n,
     evaluate(ess, opt1_gs$design),
     tolerance = .5
 )
 
 testthat::expect_equal(
-    sim_n(opt1_ts$design, .4, datadist),
+    sim_n(opt1_ts$design, .4, datadist)$n,
     evaluate(ess, opt1_ts$design),
     tolerance = .5
 )
@@ -360,7 +360,7 @@ The tolerance is set to $0.5$ what is due to rounding one patient per group
 in the worst case.
 ```{r}
 testthat::expect_equal(
-    sim_n(opt2_ts$design, .0, datadist),
+    sim_n(opt2_ts$design, .0, datadist)$n,
     evaluate(ess_0, opt2_ts$design),
     tolerance = .5
 )
@@ -370,7 +370,7 @@ testthat::expect_equal(
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
 testthat::expect_equal(
-    sim_n(opt2_ts$design, .4, datadist),
+    sim_n(opt2_ts$design, .4, datadist)$n,
     evaluate(ess, opt2_ts$design),
     tolerance = .5
 )
