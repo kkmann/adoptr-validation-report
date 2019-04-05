@@ -813,6 +813,11 @@ There are three additional functions for this report.
 in the notation of \textbf{adoptr}.
 \texttt{sim\_pr\_reject} and \texttt{sim\_n} allow to simulate rejection probabilities
 and expected sample sizes respectively by the \textbf{adoptr} routine \texttt{simulate}.
+Furthermore, global tolerances for the validation are set.
+For error rates as type one error or power, a relative deviation of \(1\%\) to
+the target value is allowed.
+Sample sizes deviation is upperbounded by an absolute value of \(0.5\).
+This corresponds to a maximal deviation of 1 subject per group due to rounding.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -828,6 +833,12 @@ and expected sample sizes respectively by the \textbf{adoptr} routine \texttt{si
 
 \CommentTok{# define seed value}
 \NormalTok{seed <-}\StringTok{ }\DecValTok{42}
+
+\CommentTok{# define relative tolerance for error rates of 1%}
+\NormalTok{tol <-}\StringTok{ }\FloatTok{0.01}
+
+\CommentTok{# define absolute tolerance for sample sizes of 0.5}
+\NormalTok{tol_n <-}\StringTok{ }\FloatTok{0.5}
 
 \CommentTok{# define custom tolerance and iteration limit for nloptr}
 \NormalTok{opts =}\StringTok{ }\KeywordTok{list}\NormalTok{(}
@@ -1006,7 +1017,6 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1018,7 +1028,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}\OperatorTok{*}\NormalTok{(}\FloatTok{1.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer}
 \end{Highlighting}
@@ -1032,7 +1042,6 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \end{verbatim}
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1044,7 +1053,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\FloatTok{.8} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{0.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_pow}
 \end{Highlighting}
@@ -1092,8 +1101,6 @@ The expected sample sizes should be ordered in a specific way.
 
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of \texttt{adoptr::evaluate()}.
-The tolerance is set to \(0.5\) what is due to rounding one patient per group
-in the worst case.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1102,19 +1109,19 @@ in the worst case.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1126,19 +1133,19 @@ Additionally, the sample sizes under the point prior are compared.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1258,7 +1265,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer2}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}\OperatorTok{*}\NormalTok{(}\FloatTok{1.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer2}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer2}
 \end{Highlighting}
@@ -1281,7 +1288,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow2}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\FloatTok{.8} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{0.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow2}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_pow2}
 \end{Highlighting}
@@ -1314,7 +1321,7 @@ in the worst case.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1326,7 +1333,7 @@ Additionally, the sample sizes under the point prior are compared.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1406,7 +1413,6 @@ Check if the optimization algorithm converged.
 \end{Shaded}
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1417,7 +1423,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer3}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}\OperatorTok{*}\NormalTok{(}\FloatTok{1.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer3}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer3}
 \end{Highlighting}
@@ -1440,7 +1446,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow3}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\FloatTok{.8} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{0.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow3}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_pow3}
 \end{Highlighting}
@@ -1477,7 +1483,7 @@ constraint is fullfilled with a relative tolerance of \(1\%\).
 
 \NormalTok{cp_sim_val <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, }\ControlFlowTok{function}\NormalTok{(z) }\KeywordTok{cp_sim}\NormalTok{(z))}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(cp_sim_val }\OperatorTok{>=}\StringTok{ }\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\OperatorTok{*}\StringTok{ }\FloatTok{0.99}\NormalTok{))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(cp_sim_val }\OperatorTok{>=}\StringTok{ }\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1574,7 +1580,7 @@ null hypothesis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\FloatTok{.025} 
 \end{Highlighting}
 \end{Shaded}
 
@@ -1677,7 +1683,6 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1689,7 +1694,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}\OperatorTok{*}\NormalTok{(}\FloatTok{1.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer}
 \end{Highlighting}
@@ -1804,7 +1809,6 @@ Check if the optimization algorithm converged.
 \end{Shaded}
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1815,7 +1819,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer2}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}\OperatorTok{*}\NormalTok{(}\FloatTok{1.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer2}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer2}
 \end{Highlighting}
@@ -1913,7 +1917,6 @@ Check if the optimization algorithm converged.
 \end{Shaded}
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1924,7 +1927,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer3}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}\OperatorTok{*}\NormalTok{(}\FloatTok{1.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer3}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer3}
 \end{Highlighting}
@@ -2048,7 +2051,7 @@ null hypothesis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{toer_cstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}
+\NormalTok{toer_cstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\FloatTok{.025} 
 \end{Highlighting}
 \end{Shaded}
 
@@ -2144,7 +2147,7 @@ Check type one error rate control
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<}\StringTok{ }\FloatTok{.025}\NormalTok{))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer}
 \end{Highlighting}
@@ -2294,7 +2297,7 @@ null hypothesis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\FloatTok{.025} 
 \end{Highlighting}
 \end{Shaded}
 
@@ -2302,7 +2305,7 @@ Power must be larger than \(0.8\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\FloatTok{.8}
+\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\FloatTok{.8} 
 \end{Highlighting}
 \end{Shaded}
 
@@ -2386,7 +2389,6 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2398,7 +2400,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}\OperatorTok{*}\NormalTok{(}\FloatTok{1.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer}
 \end{Highlighting}
@@ -2412,7 +2414,6 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \end{verbatim}
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2424,7 +2425,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\FloatTok{.8} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{0.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\FloatTok{.8} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_pow}
 \end{Highlighting}
@@ -2460,8 +2461,6 @@ The expected sample sizes should be ordered in a specific way.
 
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of \texttt{adoptr::evaluate()}.
-The tolerance is set to \(0.5\) what is due to rounding one patient per group
-in the worst case.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2470,19 +2469,19 @@ in the worst case.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2494,19 +2493,19 @@ Additionally, the sample sizes under the point prior are compared.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2613,7 +2612,6 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2625,7 +2623,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}\OperatorTok{*}\NormalTok{(}\FloatTok{1.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer}
 \end{Highlighting}
@@ -2639,7 +2637,6 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \end{verbatim}
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2651,7 +2648,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\FloatTok{.9} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{0.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\FloatTok{.9} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_pow}
 \end{Highlighting}
@@ -2687,8 +2684,6 @@ The expected sample sizes should be ordered in a specific way.
 
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of \texttt{adoptr::evaluate()}.
-The tolerance is set to \(0.5\) what is due to rounding one patient per group
-in the worst case.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2697,19 +2692,19 @@ in the worst case.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2721,19 +2716,19 @@ Additionally, the sample sizes under the point prior are compared.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2841,7 +2836,6 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2853,7 +2847,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.05}\OperatorTok{*}\NormalTok{(}\FloatTok{1.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\FloatTok{.05} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer}
 \end{Highlighting}
@@ -2867,7 +2861,6 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \end{verbatim}
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2879,7 +2872,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\FloatTok{.9} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{0.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\FloatTok{.9} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_pow}
 \end{Highlighting}
@@ -2915,8 +2908,6 @@ The expected sample sizes should be ordered in a specific way.
 
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of \texttt{adoptr::evaluate()}.
-The tolerance is set to \(0.5\) what is due to rounding one patient per group
-in the worst case.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2925,19 +2916,19 @@ in the worst case.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt3_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt3_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt3_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2949,19 +2940,19 @@ Additionally, the sample sizes under the point prior are compared.
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt3_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt3_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt3_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =} \FloatTok{.5}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -3064,7 +3055,7 @@ Power must be larger than \(0.8\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\FloatTok{.8}
+\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\FloatTok{.8} 
 \end{Highlighting}
 \end{Shaded}
 
@@ -3154,7 +3145,6 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 Check type one error rate control.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3165,7 +3155,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\FloatTok{1.01}\NormalTok{))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer}
 \end{Highlighting}
@@ -3179,7 +3169,6 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \end{verbatim}
 
 Check the power constraint.
-For numerical reasons we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3190,7 +3179,7 @@ For numerical reasons we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>}\StringTok{ }\FloatTok{0.8} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{.01}\NormalTok{)))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>}\StringTok{ }\FloatTok{0.8} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_pow}
 \end{Highlighting}
@@ -3311,7 +3300,6 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 Check type one error rate control for both designs via simulation.
-Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3322,7 +3310,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \NormalTok{)}
 \KeywordTok{rm}\NormalTok{(tmp)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\FloatTok{1.01}\NormalTok{))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<}\StringTok{ }\FloatTok{.025} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 
 \NormalTok{df_toer}
 \end{Highlighting}

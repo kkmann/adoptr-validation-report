@@ -344,7 +344,7 @@ concentrated at a point mass.</p>
 <h3><span class="header-section-number">4.2.2</span> Constrains</h3>
 <p>The type one error rate is controlled at <span class="math inline">\(0.025\)</span> on the boundary of the
 null hypothesis.</p>
-<pre class="sourceCode r"><code class="sourceCode r">toer_cstr &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, H_<span class="dv">0</span>)) <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.025</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">toer_cstr &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, H_<span class="dv">0</span>)) <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.025</span> </code></pre>
 <p>Expected power <span class="math inline">\(\boldsymbol{Pr}\big[c_2(\mathcal{D}, X_1) &lt; X_2\,|\,\delta\geq 0.0\big]\)</span> must be larger than <span class="math inline">\(0.8\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ep_cnstr &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {
     prior     &lt;-<span class="st"> </span><span class="kw">prior</span>(delta)
@@ -402,7 +402,7 @@ df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
 )
 <span class="kw">rm</span>(tmp)
 
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer <span class="op">&lt;</span><span class="st"> </span><span class="fl">.025</span>))
+testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.025</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
 
 df_toer</code></pre>
 <pre><code>##       toer           se

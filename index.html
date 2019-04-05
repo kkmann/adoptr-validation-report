@@ -704,7 +704,12 @@ There are three additional functions for this report.
 <code>rpact_design</code> creates a two-stage design via the package <strong>rpact</strong> <span class="citation">(Wassmer and Pahlke <a href="#ref-R-rpact">2018</a>)</span>
 in the notation of <strong>adoptr</strong>.
 <code>sim_pr_reject</code> and <code>sim_n</code> allow to simulate rejection probabilities
-and expected sample sizes respectively by the <strong>adoptr</strong> routine <code>simulate</code>.</p>
+and expected sample sizes respectively by the <strong>adoptr</strong> routine <code>simulate</code>.
+Furthermore, global tolerances for the validation are set.
+For error rates as type one error or power, a relative deviation of <span class="math inline">\(1\%\)</span> to
+the target value is allowed.
+Sample sizes deviation is upperbounded by an absolute value of <span class="math inline">\(0.5\)</span>.
+This corresponds to a maximal deviation of 1 subject per group due to rounding.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(adoptr)
 <span class="kw">library</span>(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
@@ -737,6 +742,12 @@ and expected sample sizes respectively by the <strong>adoptr</strong> routine <c
 
 <span class="co"># define seed value</span>
 seed &lt;-<span class="st"> </span><span class="dv">42</span>
+
+<span class="co"># define relative tolerance for error rates of 1%</span>
+tol &lt;-<span class="st"> </span><span class="fl">0.01</span>
+
+<span class="co"># define absolute tolerance for sample sizes of 0.5</span>
+tol_n &lt;-<span class="st"> </span><span class="fl">0.5</span>
 
 <span class="co"># define custom tolerance and iteration limit for nloptr</span>
 opts =<span class="st"> </span><span class="kw">list</span>(
