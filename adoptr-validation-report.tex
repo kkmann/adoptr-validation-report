@@ -125,7 +125,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-04-04}
+    \date{2019-04-05}
 
 \usepackage{booktabs}
 
@@ -844,18 +844,11 @@ and expected sample sizes respectively by the \textbf{adoptr} routine \texttt{si
 \hypertarget{details}{%
 \section{Details}\label{details}}
 
-In this scenario an alternative effect size of \(\delta = 0.4\) with
-point prior distribution is investigated.
-The null hypothesis is \(\delta \leq 0\).
-Currently, \texttt{adoptr} only supports normal distributed data what is widely spread
-in the development of adaptive designs.
-We protect the one-sided type one error rate at \(\alpha = 0.025\) and require
-the power of the design to be at least \(1 - \beta = 0.8\).
-
-\hypertarget{data-distribution}{%
-\subsection{Data distribution}\label{data-distribution}}
-
-Two-armed trial with normally distributed test statistic
+In this scenario, a classical two-arm trial with normal
+test statistic and known variance (w.l.o.g. variance of
+the test statistic is 1).
+This situation corresponds to a classical Z-test for
+a difference in population means.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -863,10 +856,8 @@ Two-armed trial with normally distributed test statistic
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{null-hypothesis}{%
-\subsection{Null hypothesis}\label{null-hypothesis}}
-
-The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
+The null hypothesis is no population mean difference, i.e.
+\(\mathcal{H}_0:\delta \leq 0\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -874,14 +865,47 @@ The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{prior-assumptions}{%
-\subsection{Prior assumptions}\label{prior-assumptions}}
-
-A point mass prior with probability mass on \(\delta = 0.4\) is assumed.
+An alternative effect size of \(\delta = 0.4\) with
+point prior distribution is assumed.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{prior <-}\StringTok{ }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Across all variants in this scenario, the one-sided maximal
+type one error rate is restricted to
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alpha <-}\StringTok{ }\FloatTok{0.025}
+\end{Highlighting}
+\end{Shaded}
+
+and the power at the point alternative of \(\delta=0.4\) must
+be at least
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{min_power <-}\StringTok{ }\FloatTok{0.8}
+\end{Highlighting}
+\end{Shaded}
+
+I.e. throughout this sceanrio, we always use the two
+constraints
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
+\end{Highlighting}
+\end{Shaded}
+
+and
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
 \end{Highlighting}
 \end{Shaded}
 
@@ -903,22 +927,7 @@ Expected sample size under the respective prior is minimized, i.e.,
 \hypertarget{constrains}{%
 \subsection{Constrains}\label{constrains}}
 
-The type one error rate is controlled at \(0.025\) on the boundary of the
-null hypothesis.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\FloatTok{.025}
-\end{Highlighting}
-\end{Shaded}
-
-Power must be larger than \(0.8\).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\FloatTok{.8}
-\end{Highlighting}
-\end{Shaded}
+No additional constraints are considered in this variant.
 
 \hypertarget{initial-design}{%
 \subsection{Initial Design}\label{initial-design}}
@@ -1490,7 +1499,7 @@ in the case without the constraint that was analyzed in I.1.
 The optimal two-stage designs stemming from the different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-35-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-37-1.pdf}
 
 \hypertarget{scenarioII}{%
 \chapter{Scenario II: Large effect, Gaussian prior}\label{scenarioII}}
@@ -1506,8 +1515,8 @@ spread in the development of adaptive designs.
 We protect the one-sided type one error rate at \(\alpha = 0.025\) and require
 the expected power of the design to be at least \(1 - \beta = 0.8\).
 
-\hypertarget{data-distribution-1}{%
-\subsection{Data distribution}\label{data-distribution-1}}
+\hypertarget{data-distribution}{%
+\subsection{Data distribution}\label{data-distribution}}
 
 Two-armed trial with normally distributed test statistic
 
@@ -1517,8 +1526,8 @@ Two-armed trial with normally distributed test statistic
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{null-hypothesis-1}{%
-\subsection{Null hypothesis}\label{null-hypothesis-1}}
+\hypertarget{null-hypothesis}{%
+\subsection{Null hypothesis}\label{null-hypothesis}}
 
 The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
 
@@ -1528,8 +1537,8 @@ The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{prior-assumptions-1}{%
-\subsection{Prior assumptions}\label{prior-assumptions-1}}
+\hypertarget{prior-assumptions}{%
+\subsection{Prior assumptions}\label{prior-assumptions}}
 
 A Gaussian prior with mean \(\delta = 0.4\) and standard deviation
 \(\tau = .2\) is defined.
@@ -1957,7 +1966,7 @@ in the case without the constraint that was analyzed in II.1.
 The optimal two-stage designs stemming from the different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-58-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-60-1.pdf}
 
 \hypertarget{scenarioIII}{%
 \chapter{Scenario III: large effect, uniform prior}\label{scenarioIII}}
@@ -1970,8 +1979,8 @@ The purpose is to asses whether placing uniform priors with decreasing
 width of support centered at the \(\delta=0.4\) leads to a sequence of
 optimal designs which converges towards the solution in Case I-1.
 
-\hypertarget{data-distribution-2}{%
-\subsection{Data distribution}\label{data-distribution-2}}
+\hypertarget{data-distribution-1}{%
+\subsection{Data distribution}\label{data-distribution-1}}
 
 Two-armed trial with normally distributed test statistic
 
@@ -1981,8 +1990,8 @@ Two-armed trial with normally distributed test statistic
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{null-hypothesis-2}{%
-\subsection{Null hypothesis}\label{null-hypothesis-2}}
+\hypertarget{null-hypothesis-1}{%
+\subsection{Null hypothesis}\label{null-hypothesis-1}}
 
 The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
 
@@ -1992,8 +2001,8 @@ The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{prior-assumptions-2}{%
-\subsection{Prior assumptions}\label{prior-assumptions-2}}
+\hypertarget{prior-assumptions-1}{%
+\subsection{Prior assumptions}\label{prior-assumptions-1}}
 
 In this scenario we consider a sequence of uniform distributions
 \(\delta\sim\operatorname{Unif}(0.4 - \Delta_i, 0.4 + \Delta_i)\)
@@ -2210,7 +2219,7 @@ Plot and assess for convergence
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-70-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-72-1.pdf}
 
 \hypertarget{scenarioIV}{%
 \chapter{Scenario IV: smaller effect, point prior}\label{scenarioIV}}
@@ -2229,8 +2238,8 @@ We protect the one-sided type one error rate at \(\alpha = 0.025\) and require
 the power of the design to be at least \(1 - \beta = 0.8\) in the first
 case and vary these values in the following cases.
 
-\hypertarget{data-distribution-3}{%
-\subsection{Data distribution}\label{data-distribution-3}}
+\hypertarget{data-distribution-2}{%
+\subsection{Data distribution}\label{data-distribution-2}}
 
 Two-armed trial with normally distributed test statistic
 
@@ -2240,8 +2249,8 @@ Two-armed trial with normally distributed test statistic
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{null-hypothesis-3}{%
-\subsection{Null hypothesis}\label{null-hypothesis-3}}
+\hypertarget{null-hypothesis-2}{%
+\subsection{Null hypothesis}\label{null-hypothesis-2}}
 
 The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
 
@@ -2251,8 +2260,8 @@ The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{prior-assumptions-3}{%
-\subsection{Prior assumptions}\label{prior-assumptions-3}}
+\hypertarget{prior-assumptions-2}{%
+\subsection{Prior assumptions}\label{prior-assumptions-2}}
 
 A point mass prior with probability mass on \(\delta = 0.2\) is assumed.
 
@@ -2975,7 +2984,7 @@ monotonously decreasing.
 The optimal two-stage designs stemming from the three different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-103-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-105-1.pdf}
 
 \hypertarget{scenarioV}{%
 \chapter{Scenario V: Single-arm design, medium effect size}\label{scenarioV}}
@@ -2991,8 +3000,8 @@ The null hypothesis is \(\delta \leq 0\).
 Currently, \texttt{adoptr} only supports normal distributed data what is widely spread
 in the development of adaptive designs.
 
-\hypertarget{data-distribution-4}{%
-\subsection{Data distribution}\label{data-distribution-4}}
+\hypertarget{data-distribution-3}{%
+\subsection{Data distribution}\label{data-distribution-3}}
 
 One-armed trial with normally distributed test statistic
 
@@ -3002,8 +3011,8 @@ One-armed trial with normally distributed test statistic
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{null-hypothesis-4}{%
-\subsection{Null hypothesis}\label{null-hypothesis-4}}
+\hypertarget{null-hypothesis-3}{%
+\subsection{Null hypothesis}\label{null-hypothesis-3}}
 
 The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
 
@@ -3013,8 +3022,8 @@ The null hypothesis is \(\mathcal{H}_0:\delta \leq 0\)
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{prior-assumptions-4}{%
-\subsection{Prior assumptions}\label{prior-assumptions-4}}
+\hypertarget{prior-assumptions-3}{%
+\subsection{Prior assumptions}\label{prior-assumptions-3}}
 
 A point mass prior with probability mass on \(\delta = 0.3\) is assumed.
 
@@ -3339,7 +3348,7 @@ Check if the power of the design with higher \(\lambda\) is larger.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-120-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-122-1.pdf}
 
 \hypertarget{variantV_3}{%
 \section{Variant V-3, n1-penalty}\label{variantV_3}}
@@ -3447,7 +3456,7 @@ Check if the n1 regularizer of the design with higher \(\lambda\) is lower.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-125-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-127-1.pdf}
 
 \hypertarget{variantV_4}{%
 \section{Variant V-4, n2-penalty}\label{variantV_4}}
@@ -3557,7 +3566,7 @@ higher \(\lambda\) is lower.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-130-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-132-1.pdf}
 
 \bibliography{book.bib,packages.bib}
 
