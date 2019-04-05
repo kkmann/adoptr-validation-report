@@ -400,6 +400,11 @@ There are three additional functions for this report.
 in the notation of **adoptr**.
 `sim_pr_reject` and `sim_n` allow to simulate rejection probabilities
 and expected sample sizes respectively by the **adoptr** routine `simulate`.
+Furthermore, global tolerances for the validation are set. 
+For error rates as type one error or power, a relative deviation of $1\%$ to 
+the target value is allowed. 
+Sample sizes deviation is upperbounded by an absolute value of $0.5$. 
+This corresponds to a maximal deviation of 1 subject per group due to rounding.
 ```{r setup}
 library(adoptr)
 library(tidyverse)
@@ -413,6 +418,12 @@ for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
 
 # define seed value
 seed <- 42
+
+# define relative tolerance for error rates of 1%
+tol <- 0.01
+
+# define absolute tolerance for sample sizes of 0.5
+tol_n <- 0.5
 
 # define custom tolerance and iteration limit for nloptr
 opts = list(
