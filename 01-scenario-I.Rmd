@@ -117,7 +117,6 @@ testthat::expect_true(all(iters < opts$maxeval))
 
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .0, datadist))
@@ -127,14 +126,13 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= .025*(1.01)))
+testthat::expect_true(all(df_toer$toer <= alpha * (1 + tol)))
 
 df_toer
 ```
 
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .4, datadist))
@@ -144,7 +142,7 @@ df_pow <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_pow$pow >= .8 * (1 - 0.01)))
+testthat::expect_true(all(df_pow$pow >= min_power * (1 - tol)))
 
 df_pow
 ```
@@ -182,27 +180,25 @@ testthat::expect_gte(
 
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of `adoptr::evaluate()`.
-The tolerance is set to $0.5$ what is due to rounding one patient per group
-in the worst case.
 ```{r}
 ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
 
 testthat::expect_equal(
     sim_n(opt1_os$design, .0, datadist)$n,
     evaluate(ess_0, opt1_os$design),
-    tolerance = .5
+    tolerance = tol_n
 )
 
 testthat::expect_equal(
     sim_n(opt1_gs$design, .0, datadist)$n,
     evaluate(ess_0, opt1_gs$design),
-    tolerance = .5
+    tolerance = tol_n
 )
 
 testthat::expect_equal(
     sim_n(opt1_ts$design, .0, datadist)$n,
     evaluate(ess_0, opt1_ts$design),
-    tolerance = .5
+    tolerance = tol_n
 )
 ```
 
@@ -212,19 +208,19 @@ Additionally, the sample sizes under the point prior are compared.
 testthat::expect_equal(
     sim_n(opt1_os$design, .4, datadist)$n,
     evaluate(ess, opt1_os$design),
-    tolerance = .5
+    tolerance = tol_n
 )
 
 testthat::expect_equal(
     sim_n(opt1_gs$design, .4, datadist)$n,
     evaluate(ess, opt1_gs$design),
-    tolerance = .5
+    tolerance = tol_n
 )
 
 testthat::expect_equal(
     sim_n(opt1_ts$design, .4, datadist)$n,
     evaluate(ess, opt1_ts$design),
-    tolerance = .5
+    tolerance = tol_n
 )
 ```
 
@@ -318,7 +314,7 @@ df_toer2 <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer2$toer <= .025*(1.01)))
+testthat::expect_true(all(df_toer2$toer <= alpha * (1 + tol)))
 
 df_toer2
 ```
@@ -334,7 +330,7 @@ df_pow2 <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_pow2$pow >= .8 * (1 - 0.01)))
+testthat::expect_true(all(df_pow2$pow >= min_power * (1 - tol)))
 
 df_pow2
 ```
@@ -357,7 +353,7 @@ in the worst case.
 testthat::expect_equal(
     sim_n(opt2_ts$design, .0, datadist)$n,
     evaluate(ess_0, opt2_ts$design),
-    tolerance = .5
+    tolerance = tol_n
 )
 ```
 
@@ -367,7 +363,7 @@ Additionally, the sample sizes under the point prior are compared.
 testthat::expect_equal(
     sim_n(opt2_ts$design, .4, datadist)$n,
     evaluate(ess, opt2_ts$design),
-    tolerance = .5
+    tolerance = tol_n
 )
 ```
 
@@ -425,7 +421,6 @@ testthat::expect_true(opt3_ts$nloptr_return$iterations < opts$maxeval)
 
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sim_pr_reject(opt3_ts$design, .0, datadist)
 df_toer3 <- data.frame(
@@ -434,7 +429,7 @@ df_toer3 <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer3$toer <= .025*(1.01)))
+testthat::expect_true(all(df_toer3$toer <= alpha * (1 + tol)))
 
 df_toer3
 ```
@@ -450,7 +445,7 @@ df_pow3 <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_pow3$pow >= .8 * (1 - 0.01)))
+testthat::expect_true(all(df_pow3$pow >= min_power * (1 - tol)))
 
 df_pow3
 ```
@@ -478,7 +473,7 @@ cp_sim <- function(z) {
 
 cp_sim_val <- sapply(x, function(z) cp_sim(z))
 
-testthat::expect_true(all(cp_sim_val >= (0.7) * 0.99))
+testthat::expect_true(all(cp_sim_val >= (0.7) * (1 - tol)))
 ```
 
 

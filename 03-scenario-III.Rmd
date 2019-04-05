@@ -67,7 +67,7 @@ objective <- function(delta) {
 The type one error rate is controlled at $0.025$ on the boundary of the 
 null hypothesis.
 ```{r}
-toer_cstr <- expected(ConditionalPower(datadist, H_0)) <= .025
+toer_cstr <- expected(ConditionalPower(datadist, H_0)) <= .025 
 ```
 
 Expected power $\boldsymbol{Pr}\big[c_2(\mathcal{D}, X_1) < X_2\,|\,\delta\geq 0.0\big]$ must be larger than $0.8$.
@@ -139,7 +139,7 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer < .025))
+testthat::expect_true(all(df_toer$toer <= .025 * (1 + tol)))
 
 df_toer
 ```

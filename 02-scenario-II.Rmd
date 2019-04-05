@@ -57,7 +57,7 @@ ess <- expected(ConditionalSampleSize(datadist, prior))
 The type one error rate is controlled at $0.025$ on the boundary of the 
 null hypothesis.
 ```{r}
-toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= .025
+toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= .025 
 ```
 
 Expected Power (rejection probability for positive effect sizes)
@@ -128,7 +128,6 @@ testthat::expect_true(all(iters < opts$maxeval))
 
 
 Type one error rate constraint is tested for the three designs.
-Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .0, datadist))
@@ -138,7 +137,7 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= .025*(1.01)))
+testthat::expect_true(all(df_toer$toer <= .025 * (1 + tol)))
 
 df_toer
 ```
@@ -216,7 +215,6 @@ testthat::expect_true(opt2_ts$nloptr_return$iterations < opts$maxeval)
 
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sim_pr_reject(opt2_ts$design, .0, datadist)
 df_toer2 <- data.frame(
@@ -225,7 +223,7 @@ df_toer2 <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer2$toer <= .025*(1.01)))
+testthat::expect_true(all(df_toer2$toer <= .025 * (1 + tol)))
 
 df_toer2
 ```
@@ -294,7 +292,6 @@ testthat::expect_true(opt3_ts$nloptr_return$iterations < opts$maxeval)
 
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of $1\%$.
 ```{r}
 tmp     <- sim_pr_reject(opt3_ts$design, .0, datadist)
 df_toer3 <- data.frame(
@@ -303,7 +300,7 @@ df_toer3 <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer3$toer <= .025*(1.01)))
+testthat::expect_true(all(df_toer3$toer <= .025 * (1 + tol)))
 
 df_toer3
 ```
