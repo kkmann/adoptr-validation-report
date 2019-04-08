@@ -101,7 +101,7 @@ optimal_design <- function(delta) {
     minimize(
         objective(delta),
         subject_to(
-            toer_cstr,
+            toer_cnstr,
             ep_cnstr(delta)
         ),
         initial_design = init
