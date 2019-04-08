@@ -1,33 +1,20 @@
 # Scenario III: large effect, uniform prior {#scenarioIII}
 
 
-
 ## Details
 
 This scenario is a variant of Scenario I.
 The purpose is to asses whether placing uniform priors with decreasing 
 width of support centered at the $\delta=0.4$ leads to a sequence of
 optimal designs which converges towards the solution in Case I-1.
-
-
-### Data distribution
-
-Two-armed trial with normally distributed test statistic
 ```{r}
 datadist <- Normal(two_armed = TRUE)
 ```
-
-
-### Null hypothesis
-
-The null hypothesis is $\mathcal{H}_0:\delta \leq 0$
+The null hypothesis is no population mean difference, i.e.
+$\mathcal{H}_0:\delta \leq 0$.
 ```{r}
 H_0 <- PointMassPrior(.0, 1)
 ```
-
-
-### Prior assumptions
-
 In this scenario we consider a sequence of uniform distributions
 $\delta\sim\operatorname{Unif}(0.4 - \Delta_i, 0.4 + \Delta_i)$
 around $0.4$ with $\Delta_i=(3 - i)/10$ for $i=0\ldots 3$. 
@@ -38,6 +25,29 @@ prior <- function(delta) {
         return(PointMassPrior(.4, 1.0))
     a <- .4 - delta; b <- .4 + delta
     ContinuousPrior(function(x) dunif(x, a, b), support = c(a, b))
+}
+```
+Across all variants in this scenario, the one-sided maximal 
+type one error rate is restricted to 
+```{r}
+alpha <- 0.025
+```
+and the expected power at the point alternative of $\delta=0.4$ must
+be at least
+```{r}
+min_power <- 0.8
+```
+I.e. throughout this sceanrio, we always use the two
+constraints
+```{r}
+toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= alpha
+```
+and
+```{r}
+ep_cnstr <- function(delta) {
+    prior     <- prior(delta)
+    cnd_prior <- condition(prior, c(0, bounds(prior)[2]))
+    return( expected(ConditionalPower(datadist, cnd_prior)) >= 0.8 )
 }
 ```
 
@@ -64,21 +74,7 @@ objective <- function(delta) {
 
 ### Constrains
 
-The type one error rate is controlled at $0.025$ on the boundary of the 
-null hypothesis.
-```{r}
-toer_cstr <- expected(ConditionalPower(datadist, H_0)) <= .025 
-```
-
-Expected power $\boldsymbol{Pr}\big[c_2(\mathcal{D}, X_1) < X_2\,|\,\delta\geq 0.0\big]$ must be larger than $0.8$.
-```{r}
-ep_cnstr <- function(delta) {
-    prior     <- prior(delta)
-    cnd_prior <- condition(prior, c(0, bounds(prior)[2]))
-    return( expected(ConditionalPower(datadist, cnd_prior)) >= 0.8 )
-}
-```
-
+The constraints have already been described under details.
 
 ### Optimization problem
 
@@ -105,7 +101,7 @@ optimal_design <- function(delta) {
     minimize(
         objective(delta),
         subject_to(
-            toer_cstr,
+            toer_cnstr,
             ep_cnstr(delta)
         ),
         initial_design = init
@@ -139,7 +135,7 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= .025 * (1 + tol)))
+testthat::expect_true(all(df_toer$toer <= alpha * (1 + tol)))
 
 df_toer
 ```

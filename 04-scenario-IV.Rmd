@@ -1,42 +1,45 @@
 # Scenario IV: smaller effect, point prior {#scenarioIV}
 
-
 ## Details
 
-In this scenario an alternative effect size of $\delta = 0.2$ with
-point prior distribution is investigated. 
-This smaller effect size should lead to larger sample sizes than
-in scenario I.
-The null hypothesis is $\delta \leq 0$.
-Currently, `adoptr` only supports normal distributed data what is widely spread
-in the development of adaptive designs. 
-We protect the one-sided type one error rate at $\alpha = 0.025$ and require
-the power of the design to be at least $1 - \beta = 0.8$ in the first
-case and vary these values in the following cases.
-
-
-
-### Data distribution
-
-Two-armed trial with normally distributed test statistic
+In this scenario, a classical two-arm trial with normal
+test statistic and known variance (w.l.o.g. variance of
+the test statistic is 1).
+This situation corresponds to a classical $z$-test for
+a difference in population means.
 ```{r}
 datadist <- Normal(two_armed = TRUE)
 ```
-
-
-### Null hypothesis
-
-The null hypothesis is $\mathcal{H}_0:\delta \leq 0$
+The null hypothesis is no population mean difference, i.e.
+$\mathcal{H}_0:\delta \leq 0$.
 ```{r}
 H_0 <- PointMassPrior(.0, 1)
 ```
-
-
-### Prior assumptions
-A point mass prior with probability mass on $\delta = 0.2$ is assumed.
+An alternative effect size of $\delta = 0.2$ with
+point prior distribution is assumed. 
 ```{r}
 prior <- PointMassPrior(.2, 1)
 ```
+Across all variants in this scenario, the one-sided maximal 
+type one error rate is restricted to 
+```{r}
+alpha <- 0.025
+```
+and the power at the point alternative of $\delta=0.2$ must
+be at least
+```{r}
+min_power <- 0.8
+```
+I.e. throughout this sceanrio, we always use the two
+constraints
+```{r}
+toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= alpha
+```
+and
+```{r}
+pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= min_power
+```
+
 
 
 
@@ -53,17 +56,7 @@ ess <- expected(ConditionalSampleSize(datadist, prior))
 
 
 ### Constrains
-
-The type one error rate is controlled at $0.025$ on the boundary of the 
-null hypothesis.
-```{r toer-constraint}
-toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= .025 
-```
-
-Power  must be larger than $0.8$.
-```{r power}
-pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= .8 
-```
+No additional constraints are considered in this variant.
 
 
 ### Initial Design
@@ -133,7 +126,7 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= .025 * (1 + tol)))
+testthat::expect_true(all(df_toer$toer <= alpha * (1 + tol)))
 
 df_toer
 ```
@@ -149,7 +142,7 @@ df_pow <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_pow$pow >= .8 * (1 - tol)))
+testthat::expect_true(all(df_pow$pow >= min_power * (1 - tol)))
 
 df_pow
 ```
@@ -241,7 +234,7 @@ The objective remains the same as before.
 
 ### Constrains
 
-The power is increased to $90\%$.
+The minimal required power is increased to $90\%$.
 
 ```{r}
 pow_cnstr_2 <- expected(ConditionalPower(datadist, prior)) >= .9
@@ -310,7 +303,7 @@ df_toer <- data.frame(
 )
 rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= .025 * (1 + tol)))
+testthat::expect_true(all(df_toer$toer <= alpha * (1 + tol)))
 
 df_toer
 ```
