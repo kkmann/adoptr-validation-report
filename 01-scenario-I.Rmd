@@ -6,7 +6,7 @@
 In this scenario, a classical two-arm trial with normal
 test statistic and known variance (w.l.o.g. variance of
 the test statistic is 1).
-This situation corresponds to a classical Z-test for
+This situation corresponds to a classical $z$-test for
 a difference in population means.
 ```{r}
 datadist <- Normal(two_armed = TRUE)
