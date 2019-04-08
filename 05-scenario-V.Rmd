@@ -190,7 +190,7 @@ The previous initial design with order $5$ is applied.
 
 ### Optimization 
 
-The optimal design is computed for two values of $\lambda$: 100 and 200.
+The optimal design is computed for two values of $\lambda$: 200 and 500.
 
 ```{r}
 opt2_design <- function(lambda) {
@@ -205,7 +205,7 @@ opt2_design <- function(lambda) {
     )
 }
 
-opt2 <- lapply(c(100, 200), function(x) opt2_design(x))
+opt2 <- lapply(c(200, 500), function(x) opt2_design(x))
 ```
 
 
