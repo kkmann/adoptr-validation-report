@@ -391,7 +391,7 @@ Inspect the plot to see convergence pattern.
 
 All scenarios are run in a single, shared R session.
 Required packages are loaded here,
-the random see is defined and set centrally, and the default number
+the random seed is defined and set centrally, and the default number
 of iteration is increased to make sure that all scenarios 
 converge properly.
 Additionally R scripts with convenience functions are sourced here as well.
@@ -419,10 +419,10 @@ for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
 # define seed value
 seed <- 42
 
-# define relative tolerance for error rates of 1%
+# define relative tolerance for error rates as 1%
 tol <- 0.01
 
-# define absolute tolerance for sample sizes of 0.5
+# define absolute tolerance for sample sizes as 0.5
 tol_n <- 0.5
 
 # define custom tolerance and iteration limit for nloptr

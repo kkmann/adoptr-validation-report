@@ -17,7 +17,7 @@ $\mathcal{H}_0:\delta \leq 0$.
 H_0 <- PointMassPrior(.0, 1)
 ```
 A Gaussian prior on the effect size 
-$\delta \sim \mathcal{N} ( 0.4, 0.2^2)$ is assumed 
+$\delta \sim \mathcal{N} ( 0.4, 0.2^2)$ is assumed.
 ```{r}
 prior <- ContinuousPrior(function(delta) dnorm(delta, mean = .4, sd = .2),
                          support = c(-5, 5),

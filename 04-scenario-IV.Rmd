@@ -136,7 +136,7 @@ The power constraint can also be tested via simulation.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .2, datadist))
-df_pow <- data.frame(
+df_pow  <- data.frame(
     pow  = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
 )
@@ -313,7 +313,7 @@ The power constraint can also be tested via simulation.
 ```{r}
 tmp     <- sapply(list(opt2_ts, opt2_gs, opt2_os),  
                   function(x) sim_pr_reject(x$design, .2, datadist))
-df_pow <- data.frame(
+df_pow  <- data.frame(
     pow  = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
 )
@@ -488,7 +488,7 @@ The power constraint can also be tested via simulation.
 ```{r}
 tmp     <- sapply(list(opt3_ts, opt3_gs, opt3_os),  
                   function(x) sim_pr_reject(x$design, .2, datadist))
-df_pow <- data.frame(
+df_pow  <- data.frame(
     pow  = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
 )

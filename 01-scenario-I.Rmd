@@ -136,7 +136,7 @@ The power constraint can also be tested via simulation.
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .4, datadist))
-df_pow <- data.frame(
+df_pow  <- data.frame(
     pow  = as.numeric(tmp[1, ]),
     se   = as.numeric(tmp[2, ])
 )
@@ -246,7 +246,7 @@ The constraints remain the same as before.
 ### Initial Design
 
 For runtime issues the previous initial design has to be updated.
-It turns out that a constant $c_2$-starting value is much more efficient
+It turns out that a constant $c_2$-starting vector is much more efficient
 in this case.
 Furthermore, a more strict upper-boundary design than the default one needs
 to be defined because stopping for efficacy would otherwise only happen

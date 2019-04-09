@@ -72,10 +72,16 @@ quantile of the normal distribution.
 ```{r}
 init_design <- function(order) {
     TwoStageDesign(
-        n1 = ceiling(pwr::pwr.t.test(d = .3, sig.level = .025, power = .8, alternative = "greater")$n) / 2,
+        n1 = ceiling(pwr::pwr.t.test(d = .3, 
+                                     sig.level = .025, 
+                                     power = .8, 
+                                     alternative = "greater")$n) / 2,
         c1f = 0,
         c1e = qnorm( 1 - 0.025),
-        n2 = ceiling(pwr::pwr.t.test(d = .3, sig.level = .025, power = .8, alternative = "greater")$n) / 2,
+        n2 = ceiling(pwr::pwr.t.test(d = .3, 
+                                     sig.level = .025, 
+                                     power = .8, 
+                                     alternative = "greater")$n) / 2,
         c2 = qnorm(1 - 0.025),
         order = order
 )
@@ -133,7 +139,7 @@ df_toer
 Check the power constraint.
 ```{r}
 tmp     <- sapply(opt1, function(x) sim_pr_reject(x$design, .3, datadist))
-df_pow <- data.frame(
+df_pow  <- data.frame(
     power = as.numeric(tmp[1, ]),
     se    = as.numeric(tmp[2, ])
 )
