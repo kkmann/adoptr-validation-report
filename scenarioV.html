@@ -25,7 +25,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
 
 
-<meta name="date" content="2019-04-08">
+<meta name="date" content="2019-04-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -332,10 +332,16 @@ The starting values for the efficacy stop and for <span class="math inline">\(c_
 quantile of the normal distribution.</p>
 <pre class="sourceCode r"><code class="sourceCode r">init_design &lt;-<span class="st"> </span><span class="cf">function</span>(order) {
     <span class="kw">TwoStageDesign</span>(
-        <span class="dt">n1 =</span> <span class="kw">ceiling</span>(pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">d =</span> <span class="fl">.3</span>, <span class="dt">sig.level =</span> <span class="fl">.025</span>, <span class="dt">power =</span> <span class="fl">.8</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="op">$</span>n) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,
+        <span class="dt">n1 =</span> <span class="kw">ceiling</span>(pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">d =</span> <span class="fl">.3</span>, 
+                                     <span class="dt">sig.level =</span> <span class="fl">.025</span>, 
+                                     <span class="dt">power =</span> <span class="fl">.8</span>, 
+                                     <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="op">$</span>n) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,
         <span class="dt">c1f =</span> <span class="dv">0</span>,
         <span class="dt">c1e =</span> <span class="kw">qnorm</span>( <span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.025</span>),
-        <span class="dt">n2 =</span> <span class="kw">ceiling</span>(pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">d =</span> <span class="fl">.3</span>, <span class="dt">sig.level =</span> <span class="fl">.025</span>, <span class="dt">power =</span> <span class="fl">.8</span>, <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="op">$</span>n) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,
+        <span class="dt">n2 =</span> <span class="kw">ceiling</span>(pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">d =</span> <span class="fl">.3</span>, 
+                                     <span class="dt">sig.level =</span> <span class="fl">.025</span>, 
+                                     <span class="dt">power =</span> <span class="fl">.8</span>, 
+                                     <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="op">$</span>n) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,
         <span class="dt">c2 =</span> <span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.025</span>),
         <span class="dt">order =</span> order
 )
@@ -392,7 +398,7 @@ df_toer</code></pre>
 ## 3 0.024950 0.0001559728</code></pre>
 <p>Check the power constraint.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.3</span>, datadist))
-df_pow &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+df_pow  &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
     <span class="dt">power =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
     <span class="dt">se    =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
 )

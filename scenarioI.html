@@ -25,7 +25,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
 
 
-<meta name="date" content="2019-04-08">
+<meta name="date" content="2019-04-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -382,7 +382,7 @@ df_toer</code></pre>
 <p>The power constraint can also be tested via simulation.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt1_ts, opt1_gs, opt1_os),  
                   <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.4</span>, datadist))
-df_pow &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+df_pow  &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
     <span class="dt">pow  =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
     <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
 )
@@ -471,7 +471,7 @@ testthat<span class="op">::</span><span class="kw">expect_equal</span>(
 <div id="initial-design-1" class="section level3">
 <h3><span class="header-section-number">2.3.3</span> Initial Design</h3>
 <p>For runtime issues the previous initial design has to be updated.
-It turns out that a constant <span class="math inline">\(c_2\)</span>-starting value is much more efficient
+It turns out that a constant <span class="math inline">\(c_2\)</span>-starting vector is much more efficient
 in this case.
 Furthermore, a more strict upper-boundary design than the default one needs
 to be defined because stopping for efficacy would otherwise only happen

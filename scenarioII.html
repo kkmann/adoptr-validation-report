@@ -25,7 +25,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
 
 
-<meta name="date" content="2019-04-08">
+<meta name="date" content="2019-04-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -294,7 +294,7 @@ a difference in population means.</p>
 <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">H_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)</code></pre>
 <p>A Gaussian prior on the effect size
-<span class="math inline">\(\delta \sim \mathcal{N} ( 0.4, 0.2^2)\)</span> is assumed</p>
+<span class="math inline">\(\delta \sim \mathcal{N} ( 0.4, 0.2^2)\)</span> is assumed.</p>
 <pre class="sourceCode r"><code class="sourceCode r">prior &lt;-<span class="st"> </span><span class="kw">ContinuousPrior</span>(<span class="cf">function</span>(delta) <span class="kw">dnorm</span>(delta, <span class="dt">mean =</span> <span class="fl">.4</span>, <span class="dt">sd =</span> <span class="fl">.2</span>),
                          <span class="dt">support =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>),
                          <span class="dt">tighten_support =</span> <span class="ot">TRUE</span>)</code></pre>

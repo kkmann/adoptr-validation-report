@@ -125,7 +125,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-04-08}
+    \date{2019-04-10}
 
 \usepackage{booktabs}
 
@@ -804,7 +804,7 @@ Inspect the plot to see convergence pattern.
 
 All scenarios are run in a single, shared R session.
 Required packages are loaded here,
-the random see is defined and set centrally, and the default number
+the random seed is defined and set centrally, and the default number
 of iteration is increased to make sure that all scenarios
 converge properly.
 Additionally R scripts with convenience functions are sourced here as well.
@@ -834,10 +834,10 @@ This corresponds to a maximal deviation of 1 subject per group due to rounding.
 \CommentTok{# define seed value}
 \NormalTok{seed <-}\StringTok{ }\DecValTok{42}
 
-\CommentTok{# define relative tolerance for error rates of 1%}
+\CommentTok{# define relative tolerance for error rates as 1%}
 \NormalTok{tol <-}\StringTok{ }\FloatTok{0.01}
 
-\CommentTok{# define absolute tolerance for sample sizes of 0.5}
+\CommentTok{# define absolute tolerance for sample sizes as 0.5}
 \NormalTok{tol_n <-}\StringTok{ }\FloatTok{0.5}
 
 \CommentTok{# define custom tolerance and iteration limit for nloptr}
@@ -1047,7 +1047,7 @@ The power constraint can also be tested via simulation.
 \begin{Highlighting}[]
 \NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt1_ts, opt1_gs, opt1_os),  }
                   \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sim_pr_reject}\NormalTok{(x}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist))}
-\NormalTok{df_pow <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
+\NormalTok{df_pow  <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
     \DataTypeTok{pow  =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]),}
     \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ])}
 \NormalTok{)}
@@ -1173,7 +1173,7 @@ The constraints remain the same as before.
 \subsection{Initial Design}\label{initial-design-1}}
 
 For runtime issues the previous initial design has to be updated.
-It turns out that a constant \(c_2\)-starting value is much more efficient
+It turns out that a constant \(c_2\)-starting vector is much more efficient
 in this case.
 Furthermore, a more strict upper-boundary design than the default one needs
 to be defined because stopping for efficacy would otherwise only happen
@@ -1535,7 +1535,7 @@ The null hypothesis is no population mean difference, i.e.
 \end{Shaded}
 
 A Gaussian prior on the effect size
-\(\delta \sim \mathcal{N} ( 0.4, 0.2^2)\) is assumed
+\(\delta \sim \mathcal{N} ( 0.4, 0.2^2)\) is assumed.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2440,7 +2440,7 @@ The power constraint can also be tested via simulation.
 \begin{Highlighting}[]
 \NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt1_ts, opt1_gs, opt1_os),  }
                   \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sim_pr_reject}\NormalTok{(x}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist))}
-\NormalTok{df_pow <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
+\NormalTok{df_pow  <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
     \DataTypeTok{pow  =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]),}
     \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ])}
 \NormalTok{)}
@@ -2663,7 +2663,7 @@ The power constraint can also be tested via simulation.
 \begin{Highlighting}[]
 \NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt2_ts, opt2_gs, opt2_os),  }
                   \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sim_pr_reject}\NormalTok{(x}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist))}
-\NormalTok{df_pow <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
+\NormalTok{df_pow  <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
     \DataTypeTok{pow  =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]),}
     \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ])}
 \NormalTok{)}
@@ -2887,7 +2887,7 @@ The power constraint can also be tested via simulation.
 \begin{Highlighting}[]
 \NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt3_ts, opt3_gs, opt3_os),  }
                   \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sim_pr_reject}\NormalTok{(x}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist))}
-\NormalTok{df_pow <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
+\NormalTok{df_pow  <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
     \DataTypeTok{pow  =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]),}
     \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ])}
 \NormalTok{)}
@@ -3105,10 +3105,16 @@ quantile of the normal distribution.
 \begin{Highlighting}[]
 \NormalTok{init_design <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(order) \{}
     \KeywordTok{TwoStageDesign}\NormalTok{(}
-        \DataTypeTok{n1 =} \KeywordTok{ceiling}\NormalTok{(pwr}\OperatorTok{::}\KeywordTok{pwr.t.test}\NormalTok{(}\DataTypeTok{d =} \FloatTok{.3}\NormalTok{, }\DataTypeTok{sig.level =} \FloatTok{.025}\NormalTok{, }\DataTypeTok{power =} \FloatTok{.8}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{)}\OperatorTok{$}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\DecValTok{2}\NormalTok{,}
+        \DataTypeTok{n1 =} \KeywordTok{ceiling}\NormalTok{(pwr}\OperatorTok{::}\KeywordTok{pwr.t.test}\NormalTok{(}\DataTypeTok{d =} \FloatTok{.3}\NormalTok{, }
+                                     \DataTypeTok{sig.level =} \FloatTok{.025}\NormalTok{, }
+                                     \DataTypeTok{power =} \FloatTok{.8}\NormalTok{, }
+                                     \DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{)}\OperatorTok{$}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\DecValTok{2}\NormalTok{,}
         \DataTypeTok{c1f =} \DecValTok{0}\NormalTok{,}
         \DataTypeTok{c1e =} \KeywordTok{qnorm}\NormalTok{( }\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{0.025}\NormalTok{),}
-        \DataTypeTok{n2 =} \KeywordTok{ceiling}\NormalTok{(pwr}\OperatorTok{::}\KeywordTok{pwr.t.test}\NormalTok{(}\DataTypeTok{d =} \FloatTok{.3}\NormalTok{, }\DataTypeTok{sig.level =} \FloatTok{.025}\NormalTok{, }\DataTypeTok{power =} \FloatTok{.8}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{)}\OperatorTok{$}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\DecValTok{2}\NormalTok{,}
+        \DataTypeTok{n2 =} \KeywordTok{ceiling}\NormalTok{(pwr}\OperatorTok{::}\KeywordTok{pwr.t.test}\NormalTok{(}\DataTypeTok{d =} \FloatTok{.3}\NormalTok{, }
+                                     \DataTypeTok{sig.level =} \FloatTok{.025}\NormalTok{, }
+                                     \DataTypeTok{power =} \FloatTok{.8}\NormalTok{, }
+                                     \DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{)}\OperatorTok{$}\NormalTok{n) }\OperatorTok{/}\StringTok{ }\DecValTok{2}\NormalTok{,}
         \DataTypeTok{c2 =} \KeywordTok{qnorm}\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{0.025}\NormalTok{),}
         \DataTypeTok{order =}\NormalTok{ order}
 \NormalTok{)}
@@ -3203,7 +3209,7 @@ Check the power constraint.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(opt1, }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sim_pr_reject}\NormalTok{(x}\OperatorTok{$}\NormalTok{design, }\FloatTok{.3}\NormalTok{, datadist))}
-\NormalTok{df_pow <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
+\NormalTok{df_pow  <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
     \DataTypeTok{power =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]),}
     \DataTypeTok{se    =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ])}
 \NormalTok{)}
