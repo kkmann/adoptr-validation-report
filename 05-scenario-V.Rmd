@@ -33,11 +33,11 @@ min_power <- 0.8
 I.e. throughout this sceanrio, we always use the two
 constraints
 ```{r}
-toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= alpha
+toer_cnstr <- Power(datadist, H_0) <= alpha
 ```
 and
 ```{r}
-pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= min_power
+pow_cnstr <- Power(datadist, prior) >= min_power
 ```
 
 
@@ -49,7 +49,7 @@ pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= min_power
 Expected sample size under the respective prior is minimized, i.e.,
 $\boldsymbol{E}\big[n(\mathcal{D})\big]$.
 ```{r}
-ess <- expected(ConditionalSampleSize(datadist, prior))
+ess <- ExpectedSampleSize(datadist, prior)
 ```
 
 
@@ -172,11 +172,10 @@ df_ess
 In this case, a utility function consisting of expected sample size and
 power is minimized.
 ```{r}
-pow <- expected(ConditionalPower(datadist, prior))
+pow <- Power(datadist, prior)
 
 obj <- function(lambda) {
-    expected(ConditionalSampleSize(datadist, prior)) +  
-        (-lambda) * pow
+    compose({ExpectedSampleSize(datadist, prior) - lambda * pow})
 }
 ```
 
@@ -301,7 +300,7 @@ $n_1$ is minimized.
 N1 <- N1()
 
 obj3 <- function(lambda) {
-    ess + lambda * N1
+  compose({ess + lambda * n1})
 }
 ```
 
@@ -418,7 +417,7 @@ average of $n_2$ is minimized.
 avn2 <- AverageN2()
 
 obj4 <- function(lambda) {
-    ess + lambda * avn2
+  compose({ess + lambda * avn2})
 }
 ```
 

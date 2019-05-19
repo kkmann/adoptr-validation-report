@@ -34,11 +34,11 @@ min_power <- 0.8
 I.e. throughout this sceanrio, we always use the two
 constraints
 ```{r}
-toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= alpha
+toer_cnstr <- Power(datadist, H_0) <= alpha
 ```
 and
 ```{r}
-pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= min_power
+pow_cnstr <- Power(datadist, prior) >= min_power
 ```
 
 
@@ -50,7 +50,7 @@ pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= min_power
 Expected sample size under the respective prior is minimized, i.e.,
 $\boldsymbol{E}\big[n(\mathcal{D})\big]$.
 ```{r}
-ess <- expected(ConditionalSampleSize(datadist, prior))
+ess <- ExpectedSampleSize(datadist, prior)
 ```
 
 
@@ -235,7 +235,7 @@ testthat::expect_equal(
 
 Expected sample size under the null hypothesis prior is minimized, i.e.,
 ```{r}
-ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
+ess_0 <- ExpectedSampleSize(datadist, H_0)
 ```
 
 
