@@ -170,7 +170,7 @@ testthat::expect_gte(
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of `adoptr::evaluate()`.
 ```{r}
-ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
+ess_0 <- ExpectedSampleSize(datadist, H_0)
 
 testthat::expect_equal(
     sim_n(opt1_os$design, .0, datadist)$n,
@@ -522,7 +522,7 @@ testthat::expect_gte(
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of `adoptr::evaluate()`.
 ```{r}
-ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
+ess_0 <- ExpectedSampleSize(datadist, H_0)
 
 testthat::expect_equal(
     sim_n(opt3_os$design, .0, datadist)$n,
