@@ -1,6 +1,5 @@
 Type: Website
 Depends:
-    adoptr,
     devtools,
     tidyverse, 
     bookdown,
