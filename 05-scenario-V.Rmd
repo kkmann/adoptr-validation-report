@@ -173,9 +173,10 @@ In this case, a utility function consisting of expected sample size and
 power is minimized.
 ```{r}
 pow <- Power(datadist, prior)
+ess <- ExpectedSampleSize(datadist, prior)
 
 obj <- function(lambda) {
-    compose({ExpectedSampleSize(datadist, prior) - lambda * pow})
+  compose({expr(ess - lambda * pow)})
 }
 ```
 
