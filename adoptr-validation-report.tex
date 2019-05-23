@@ -21,7 +21,6 @@
 \usepackage{microtype}
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
             pdftitle={Validation Report for adoptr package},
@@ -125,7 +124,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-04-23}
+    \date{2019-05-23}
 
 \usepackage{booktabs}
 
@@ -908,7 +907,7 @@ constraints
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
 \end{Highlighting}
 \end{Shaded}
 
@@ -916,7 +915,7 @@ and
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
+\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
 \end{Highlighting}
 \end{Shaded}
 
@@ -931,7 +930,7 @@ Expected sample size under the respective prior is minimized, i.e.,
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, prior))}
+\NormalTok{ess <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, prior)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1104,7 +1103,7 @@ to the outomce of \texttt{adoptr::evaluate()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{))}
+\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
@@ -1160,7 +1159,7 @@ Expected sample size under the null hypothesis prior is minimized, i.e.,
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{))}
+\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1216,8 +1215,7 @@ The optimal two-stage design is computed.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess_0, subject_to(toer_cnstr, pow_cnstr),
-## initial_design = init_design_2, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-1}{%
@@ -1387,8 +1385,7 @@ The optimal two-stage design is computed.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr, cp_cnstr),
-## initial_design = init_design, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-2}{%
@@ -1568,7 +1565,7 @@ constraints
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1576,7 +1573,7 @@ and
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
+\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1591,7 +1588,7 @@ Expected sample size under the prior is minimized, i.e.,
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, prior))}
+\NormalTok{ess <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, prior)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1647,8 +1644,7 @@ The input only differs with regard to the initial design.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = initial_design, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \begin{Shaded}
@@ -1659,8 +1655,7 @@ The input only differs with regard to the initial design.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = initial_design, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-3}{%
@@ -1738,7 +1733,7 @@ Expected sample size conditioned on negative effect sizes is minimized, i.e.,
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, }\KeywordTok{condition}\NormalTok{(prior, }\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{3}\NormalTok{, }\DecValTok{0}\NormalTok{))))}
+\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, }\KeywordTok{condition}\NormalTok{(prior, }\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{3}\NormalTok{, }\DecValTok{0}\NormalTok{)))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1777,8 +1772,7 @@ optimal two-stage design are computed.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess_0, subject_to(toer_cnstr, pow_cnstr),
-## initial_design = initial_design, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \begin{Shaded}
@@ -1788,8 +1782,7 @@ optimal two-stage design are computed.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess_0, subject_to(toer_cnstr, pow_cnstr),
-## initial_design = initial_design, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-4}{%
@@ -1896,8 +1889,7 @@ The optimal two-stage design is computed.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr, cp_cnstr),
-## initial_design = init_design, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-5}{%
@@ -2041,7 +2033,7 @@ constraints
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2052,7 +2044,7 @@ and
 \NormalTok{ep_cnstr <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(delta) \{}
 \NormalTok{    prior     <-}\StringTok{ }\KeywordTok{prior}\NormalTok{(delta)}
 \NormalTok{    cnd_prior <-}\StringTok{ }\KeywordTok{condition}\NormalTok{(prior, }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\KeywordTok{bounds}\NormalTok{(prior)[}\DecValTok{2}\NormalTok{]))}
-    \KeywordTok{return}\NormalTok{( }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, cnd_prior)) }\OperatorTok{>=}\StringTok{ }\FloatTok{0.8}\NormalTok{ )}
+    \KeywordTok{return}\NormalTok{( }\KeywordTok{Power}\NormalTok{(datadist, cnd_prior) }\OperatorTok{>=}\StringTok{ }\FloatTok{0.8}\NormalTok{ )}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2072,7 +2064,7 @@ Expected sample size under the respective prior is minimized, i.e.,
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{objective <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(delta) \{}
-    \KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, }\KeywordTok{prior}\NormalTok{(delta)))}
+    \KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, }\KeywordTok{prior}\NormalTok{(delta))}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2298,7 +2290,7 @@ constraints
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2306,7 +2298,7 @@ and
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
+\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2321,7 +2313,7 @@ Expected sample size under the respective prior is minimized, i.e.,
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, prior))}
+\NormalTok{ess <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, prior)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2375,8 +2367,7 @@ compute the optimal two-stage design.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = initial_design, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \begin{Shaded}
@@ -2485,7 +2476,7 @@ to the outomce of \texttt{adoptr::evaluate()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{))}
+\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
@@ -2558,7 +2549,7 @@ The minimal required power is increased to \(90\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pow_cnstr_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\FloatTok{.9}
+\NormalTok{pow_cnstr_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior) }\OperatorTok{>=}\StringTok{ }\FloatTok{.9}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2604,8 +2595,7 @@ The optimal two-stage design is computed.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr_2),
-## initial_design = initial_design, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-8}{%
@@ -2708,7 +2698,7 @@ to the outomce of \texttt{adoptr::evaluate()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{))}
+\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
@@ -2782,7 +2772,7 @@ The maximal type one error rate is increased to \(5\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{toer_cnstr_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\FloatTok{.05}
+\NormalTok{toer_cnstr_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{) }\OperatorTok{<=}\StringTok{ }\FloatTok{.05}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2828,8 +2818,7 @@ The optimal two-stage design is computed.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess, subject_to(toer_cnstr_2, pow_cnstr_2),
-## initial_design = initial_design, : initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-9}{%
@@ -2932,7 +2921,7 @@ to the outomce of \texttt{adoptr::evaluate()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{))}
+\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
@@ -3057,7 +3046,7 @@ constraints
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3065,7 +3054,7 @@ and
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
+\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3080,7 +3069,7 @@ Expected sample size under the respective prior is minimized, i.e.,
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ess <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, prior))}
+\NormalTok{ess <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, prior)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3147,14 +3136,9 @@ and 11.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = init_design(order), : initial design is infeasible!
-
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = init_design(order), : initial design is infeasible!
-
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = init_design(order), : initial design is infeasible!
+## initial design is infeasible!
+## initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-10}{%
@@ -3261,11 +3245,11 @@ power is minimized.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pow <-}\StringTok{ }\KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior))}
+\NormalTok{pow <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior)}
+\NormalTok{ess <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, prior)}
 
 \NormalTok{obj <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(lambda) \{}
-    \KeywordTok{expected}\NormalTok{(}\KeywordTok{ConditionalSampleSize}\NormalTok{(datadist, prior)) }\OperatorTok{+}\StringTok{  }
-\StringTok{        }\NormalTok{(}\OperatorTok{-}\NormalTok{lambda) }\OperatorTok{*}\StringTok{ }\NormalTok{pow}
+  \KeywordTok{composite}\NormalTok{(\{ess }\OperatorTok{-}\StringTok{ }\NormalTok{lambda }\OperatorTok{*}\StringTok{ }\NormalTok{pow\})}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -3307,11 +3291,8 @@ The optimal design is computed for two values of \(\lambda\): 200 and 500.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(obj(lambda), subject_to(toer_cnstr), initial_design =
-## init_design(5), : initial design is infeasible!
-
-## Warning in minimize(obj(lambda), subject_to(toer_cnstr), initial_design =
-## init_design(5), : initial design is infeasible!
+## initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-11}{%
@@ -3392,7 +3373,7 @@ In this case, a mixed criterion consisting of expected sample size and
 \NormalTok{N1 <-}\StringTok{ }\KeywordTok{N1}\NormalTok{()}
 
 \NormalTok{obj3 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(lambda) \{}
-\NormalTok{    ess }\OperatorTok{+}\StringTok{ }\NormalTok{lambda }\OperatorTok{*}\StringTok{ }\NormalTok{N1}
+  \KeywordTok{composite}\NormalTok{(\{ess }\OperatorTok{+}\StringTok{ }\NormalTok{lambda }\OperatorTok{*}\StringTok{ }\NormalTok{N1\})}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -3432,11 +3413,8 @@ The optimal design is computed for two values of \(\lambda\): 0.05 and 0.2.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(obj3(lambda), subject_to(toer_cnstr, pow_cnstr),
-## initial_design = init_design(5), : initial design is infeasible!
-
-## Warning in minimize(obj3(lambda), subject_to(toer_cnstr, pow_cnstr),
-## initial_design = init_design(5), : initial design is infeasible!
+## initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-12}{%
@@ -3501,7 +3479,7 @@ average of \(n_2\) is minimized.
 \NormalTok{avn2 <-}\StringTok{ }\KeywordTok{AverageN2}\NormalTok{()}
 
 \NormalTok{obj4 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(lambda) \{}
-\NormalTok{    ess }\OperatorTok{+}\StringTok{ }\NormalTok{lambda }\OperatorTok{*}\StringTok{ }\NormalTok{avn2}
+  \KeywordTok{composite}\NormalTok{(\{ess }\OperatorTok{+}\StringTok{ }\NormalTok{lambda }\OperatorTok{*}\StringTok{ }\NormalTok{avn2\})}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -3541,11 +3519,8 @@ The optimal design is computed for two values of \(\lambda\): 0.01 and 0.1.
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in minimize(obj4(lambda), subject_to(toer_cnstr, pow_cnstr),
-## initial_design = init_design(5), : initial design is infeasible!
-
-## Warning in minimize(obj4(lambda), subject_to(toer_cnstr, pow_cnstr),
-## initial_design = init_design(5), : initial design is infeasible!
+## initial design is infeasible!
+## initial design is infeasible!
 \end{verbatim}
 
 \hypertarget{test-cases-13}{%

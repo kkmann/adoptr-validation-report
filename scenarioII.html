@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package</title>
-  <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
+  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
@@ -22,14 +21,14 @@
   <meta name="twitter:description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
   
 
-<meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
+<meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-04-23">
+<meta name="date" content="2019-05-23" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
 <link rel="prev" href="scenarioI.html">
@@ -306,9 +305,9 @@ be at least</p>
 <pre class="sourceCode r"><code class="sourceCode r">min_power &lt;-<span class="st"> </span><span class="fl">0.8</span></code></pre>
 <p>I.e. throughout this sceanrio, we always use the two
 constraints</p>
-<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, H_<span class="dv">0</span>)) <span class="op">&lt;=</span><span class="st"> </span>alpha</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span>alpha</code></pre>
 <p>and</p>
-<pre class="sourceCode r"><code class="sourceCode r">pow_cnstr &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, prior)) <span class="op">&gt;=</span><span class="st"> </span>min_power</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">pow_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span>min_power</code></pre>
 </div>
 <div id="variantII_1" class="section level2">
 <h2><span class="header-section-number">3.2</span> Variant II-1: Minimizing Expected Sample Size under Point Prior</h2>
@@ -316,7 +315,7 @@ constraints</p>
 <h3><span class="header-section-number">3.2.1</span> Objective</h3>
 <p>Expected sample size under the prior is minimized, i.e.,
 <span class="math inline">\(\boldsymbol{E}\big[n(\mathcal{D})\big]\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">ess &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, prior))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)</code></pre>
 </div>
 <div id="constrains-3" class="section level3">
 <h3><span class="header-section-number">3.2.2</span> Constrains</h3>
@@ -355,12 +354,10 @@ The input only differs with regard to the initial design.</p>
 }
 
 opt1_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_gs)</code></pre>
-<pre><code>## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = initial_design, : initial design is infeasible!</code></pre>
+<pre><code>## initial design is infeasible!</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">opt1_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">300</span>, <span class="fl">2.0</span>))
 opt1_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">TwoStageDesign</span>(opt1_gs<span class="op">$</span>design))</code></pre>
-<pre><code>## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = initial_design, : initial design is infeasible!</code></pre>
+<pre><code>## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-3" class="section level3">
 <h3><span class="header-section-number">3.2.5</span> Test Cases</h3>
@@ -404,7 +401,7 @@ testthat<span class="op">::</span><span class="kw">expect_gte</span>(
 <div id="objective-4" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> Objective</h3>
 <p>Expected sample size conditioned on negative effect sizes is minimized, i.e.,</p>
-<pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, <span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>))))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, <span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>)))</code></pre>
 </div>
 <div id="constrains-4" class="section level3">
 <h3><span class="header-section-number">3.3.2</span> Constrains</h3>
@@ -431,11 +428,9 @@ optimal two-stage design are computed.</p>
 }
 
 opt2_gs &lt;-<span class="st"> </span><span class="kw">opt2</span>(init_design_gs)</code></pre>
-<pre><code>## Warning in minimize(ess_0, subject_to(toer_cnstr, pow_cnstr),
-## initial_design = initial_design, : initial design is infeasible!</code></pre>
+<pre><code>## initial design is infeasible!</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">opt2_ts &lt;-<span class="st"> </span><span class="kw">opt2</span>(<span class="kw">TwoStageDesign</span>(opt2_gs<span class="op">$</span>design))</code></pre>
-<pre><code>## Warning in minimize(ess_0, subject_to(toer_cnstr, pow_cnstr),
-## initial_design = initial_design, : initial design is infeasible!</code></pre>
+<pre><code>## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-4" class="section level3">
 <h3><span class="header-section-number">3.3.5</span> Test Cases</h3>
@@ -496,8 +491,7 @@ cp_cnstr &lt;-<span class="st"> </span>cp <span class="op">&gt;=</span><span cla
         <span class="dt">initial_design =</span> init_design,
         <span class="dt">opts =</span> opts
 )</code></pre>
-<pre><code>## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr, cp_cnstr),
-## initial_design = init_design, : initial design is infeasible!</code></pre>
+<pre><code>## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-5" class="section level3">
 <h3><span class="header-section-number">3.4.5</span> Test Cases</h3>

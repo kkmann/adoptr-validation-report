@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Scenario III: large effect, uniform prior | Validation Report for adoptr package</title>
-  <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
+  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Scenario III: large effect, uniform prior | Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
@@ -22,14 +21,14 @@
   <meta name="twitter:description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
   
 
-<meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
+<meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-04-23">
+<meta name="date" content="2019-05-23" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
 <link rel="prev" href="scenarioII.html">
@@ -310,12 +309,12 @@ be at least</p>
 <pre class="sourceCode r"><code class="sourceCode r">min_power &lt;-<span class="st"> </span><span class="fl">0.8</span></code></pre>
 <p>I.e. throughout this sceanrio, we always use the two
 constraints</p>
-<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, H_<span class="dv">0</span>)) <span class="op">&lt;=</span><span class="st"> </span>alpha</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span>alpha</code></pre>
 <p>and</p>
 <pre class="sourceCode r"><code class="sourceCode r">ep_cnstr &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {
     prior     &lt;-<span class="st"> </span><span class="kw">prior</span>(delta)
     cnd_prior &lt;-<span class="st"> </span><span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">bounds</span>(prior)[<span class="dv">2</span>]))
-    <span class="kw">return</span>( <span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, cnd_prior)) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.8</span> )
+    <span class="kw">return</span>( <span class="kw">Power</span>(datadist, cnd_prior) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.8</span> )
 }</code></pre>
 </div>
 <div id="variantIII_1" class="section level2">
@@ -327,7 +326,7 @@ concentrated at a point mass.</p>
 <p>Expected sample size under the respective prior is minimized, i.e.,
 <span class="math inline">\(\boldsymbol{E}\big[n(\mathcal{D})\big]\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">objective &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {
-    <span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, <span class="kw">prior</span>(delta)))
+    <span class="kw">ExpectedSampleSize</span>(datadist, <span class="kw">prior</span>(delta))
 }</code></pre>
 </div>
 <div id="constrains-6" class="section level3">

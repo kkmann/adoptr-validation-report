@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Scenario V: Single-arm design, medium effect size | Validation Report for adoptr package</title>
-  <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
+  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Scenario V: Single-arm design, medium effect size | Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
@@ -22,14 +21,14 @@
   <meta name="twitter:description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
   
 
-<meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz">
+<meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-04-23">
+<meta name="date" content="2019-05-23" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
 <link rel="prev" href="scenarioIV.html">
@@ -304,9 +303,9 @@ be at least</p>
 <pre class="sourceCode r"><code class="sourceCode r">min_power &lt;-<span class="st"> </span><span class="fl">0.8</span></code></pre>
 <p>I.e. throughout this sceanrio, we always use the two
 constraints</p>
-<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, H_<span class="dv">0</span>)) <span class="op">&lt;=</span><span class="st"> </span>alpha</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span>alpha</code></pre>
 <p>and</p>
-<pre class="sourceCode r"><code class="sourceCode r">pow_cnstr &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, prior)) <span class="op">&gt;=</span><span class="st"> </span>min_power</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">pow_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span>min_power</code></pre>
 </div>
 <div id="variantV_1" class="section level2">
 <h2><span class="header-section-number">6.2</span> Variant V-1, sensitivity to integration order</h2>
@@ -314,7 +313,7 @@ constraints</p>
 <h3><span class="header-section-number">6.2.1</span> Objective</h3>
 <p>Expected sample size under the respective prior is minimized, i.e.,
 <span class="math inline">\(\boldsymbol{E}\big[n(\mathcal{D})\big]\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">ess &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, prior))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)</code></pre>
 </div>
 <div id="constrains-10" class="section level3">
 <h3><span class="header-section-number">6.2.2</span> Constrains</h3>
@@ -364,14 +363,9 @@ and 11.</p>
 }
 
 opt1 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>), <span class="cf">function</span>(x) <span class="kw">opt_design</span>(x))</code></pre>
-<pre><code>## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = init_design(order), : initial design is infeasible!
-
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = init_design(order), : initial design is infeasible!
-
-## Warning in minimize(ess, subject_to(toer_cnstr, pow_cnstr), initial_design
-## = init_design(order), : initial design is infeasible!</code></pre>
+<pre><code>## initial design is infeasible!
+## initial design is infeasible!
+## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-10" class="section level3">
 <h3><span class="header-section-number">6.2.5</span> Test cases</h3>
@@ -432,11 +426,11 @@ df_ess</code></pre>
 <h3><span class="header-section-number">6.3.1</span> Objective</h3>
 <p>In this case, a utility function consisting of expected sample size and
 power is minimized.</p>
-<pre class="sourceCode r"><code class="sourceCode r">pow &lt;-<span class="st"> </span><span class="kw">expected</span>(<span class="kw">ConditionalPower</span>(datadist, prior))
+<pre class="sourceCode r"><code class="sourceCode r">pow &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior)
+ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)
 
 obj &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
-    <span class="kw">expected</span>(<span class="kw">ConditionalSampleSize</span>(datadist, prior)) <span class="op">+</span><span class="st">  </span>
-<span class="st">        </span>(<span class="op">-</span>lambda) <span class="op">*</span><span class="st"> </span>pow
+  <span class="kw">composite</span>({ess <span class="op">-</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>pow})
 }</code></pre>
 </div>
 <div id="constrains-11" class="section level3">
@@ -466,11 +460,8 @@ objective utility function.</p>
 }
 
 opt2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">500</span>), <span class="cf">function</span>(x) <span class="kw">opt2_design</span>(x))</code></pre>
-<pre><code>## Warning in minimize(obj(lambda), subject_to(toer_cnstr), initial_design =
-## init_design(5), : initial design is infeasible!
-
-## Warning in minimize(obj(lambda), subject_to(toer_cnstr), initial_design =
-## init_design(5), : initial design is infeasible!</code></pre>
+<pre><code>## initial design is infeasible!
+## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-11" class="section level3">
 <h3><span class="header-section-number">6.3.5</span> Test cases</h3>
@@ -514,7 +505,7 @@ comparison.</p>
 <pre class="sourceCode r"><code class="sourceCode r">N1 &lt;-<span class="st"> </span><span class="kw">N1</span>()
 
 obj3 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
-    ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>N1
+  <span class="kw">composite</span>({ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>N1})
 }</code></pre>
 </div>
 <div id="constrains-12" class="section level3">
@@ -542,11 +533,8 @@ obj3 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
 }
 
 opt3 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(.<span class="dv">05</span>, <span class="fl">.2</span>), <span class="cf">function</span>(x) <span class="kw">opt3_design</span>(x))</code></pre>
-<pre><code>## Warning in minimize(obj3(lambda), subject_to(toer_cnstr, pow_cnstr),
-## initial_design = init_design(5), : initial design is infeasible!
-
-## Warning in minimize(obj3(lambda), subject_to(toer_cnstr, pow_cnstr),
-## initial_design = init_design(5), : initial design is infeasible!</code></pre>
+<pre><code>## initial design is infeasible!
+## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-12" class="section level3">
 <h3><span class="header-section-number">6.4.5</span> Test cases</h3>
@@ -583,7 +571,7 @@ average of <span class="math inline">\(n_2\)</span> is minimized.</p>
 <pre class="sourceCode r"><code class="sourceCode r">avn2 &lt;-<span class="st"> </span><span class="kw">AverageN2</span>()
 
 obj4 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
-    ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>avn2
+  <span class="kw">composite</span>({ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>avn2})
 }</code></pre>
 </div>
 <div id="constrains-13" class="section level3">
@@ -611,11 +599,8 @@ obj4 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
 }
 
 opt4 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(.<span class="dv">01</span>, <span class="fl">.1</span>), <span class="cf">function</span>(x) <span class="kw">opt4_design</span>(x))</code></pre>
-<pre><code>## Warning in minimize(obj4(lambda), subject_to(toer_cnstr, pow_cnstr),
-## initial_design = init_design(5), : initial design is infeasible!
-
-## Warning in minimize(obj4(lambda), subject_to(toer_cnstr, pow_cnstr),
-## initial_design = init_design(5), : initial design is infeasible!</code></pre>
+<pre><code>## initial design is infeasible!
+## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-13" class="section level3">
 <h3><span class="header-section-number">6.5.5</span> Test cases</h3>
