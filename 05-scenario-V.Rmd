@@ -176,7 +176,7 @@ pow <- Power(datadist, prior)
 ess <- ExpectedSampleSize(datadist, prior)
 
 obj <- function(lambda) {
-  compose({expr(ess - lambda * pow)})
+  composite({ess - lambda * pow})
 }
 ```
 
@@ -301,7 +301,7 @@ $n_1$ is minimized.
 N1 <- N1()
 
 obj3 <- function(lambda) {
-  compose({ess + lambda * n1})
+  composite({ess + lambda * n1})
 }
 ```
 
@@ -418,7 +418,7 @@ average of $n_2$ is minimized.
 avn2 <- AverageN2()
 
 obj4 <- function(lambda) {
-  compose({ess + lambda * avn2})
+  composite({ess + lambda * avn2})
 }
 ```
 
