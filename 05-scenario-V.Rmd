@@ -301,7 +301,7 @@ $n_1$ is minimized.
 N1 <- N1()
 
 obj3 <- function(lambda) {
-  composite({ess + lambda * n1})
+  composite({ess + lambda * N1})
 }
 ```
 
