@@ -40,14 +40,14 @@ min_power <- 0.8
 I.e. throughout this sceanrio, we always use the two
 constraints
 ```{r}
-toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= alpha
+toer_cnstr <- Power(datadist, H_0) <= alpha
 ```
 and
 ```{r}
 ep_cnstr <- function(delta) {
     prior     <- prior(delta)
     cnd_prior <- condition(prior, c(0, bounds(prior)[2]))
-    return( expected(ConditionalPower(datadist, cnd_prior)) >= 0.8 )
+    return( Power(datadist, cnd_prior) >= 0.8 )
 }
 ```
 
@@ -67,7 +67,7 @@ Expected sample size under the respective prior is minimized, i.e.,
 $\boldsymbol{E}\big[n(\mathcal{D})\big]$.
 ```{r}
 objective <- function(delta) {
-    expected(ConditionalSampleSize(datadist, prior(delta)))
+    ExpectedSampleSize(datadist, prior(delta))
 }
 ```
 

@@ -33,11 +33,11 @@ min_power <- 0.8
 I.e. throughout this sceanrio, we always use the two
 constraints
 ```{r}
-toer_cnstr <- expected(ConditionalPower(datadist, H_0)) <= alpha
+toer_cnstr <- Power(datadist, H_0) <= alpha
 ```
 and
 ```{r}
-pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= min_power
+pow_cnstr <- Power(datadist, prior) >= min_power
 ```
 
 
@@ -51,7 +51,7 @@ pow_cnstr <- expected(ConditionalPower(datadist, prior)) >= min_power
 Expected sample size under the respective prior is minimized, i.e.,
 $\boldsymbol{E}\big[n(\mathcal{D})\big]$.
 ```{r objective}
-ess <- expected(ConditionalSampleSize(datadist, prior))
+ess <- ExpectedSampleSize(datadist, prior)
 ```
 
 
@@ -170,7 +170,7 @@ testthat::expect_gte(
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of `adoptr::evaluate()`.
 ```{r}
-ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
+ess_0 <- ExpectedSampleSize(datadist, H_0)
 
 testthat::expect_equal(
     sim_n(opt1_os$design, .0, datadist)$n,
@@ -237,7 +237,7 @@ The objective remains the same as before.
 The minimal required power is increased to $90\%$.
 
 ```{r}
-pow_cnstr_2 <- expected(ConditionalPower(datadist, prior)) >= .9
+pow_cnstr_2 <- Power(datadist, prior) >= .9
 ```
 
 
@@ -347,7 +347,7 @@ testthat::expect_gte(
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of `adoptr::evaluate()`.
 ```{r}
-ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
+ess_0 <- ExpectedSampleSize(datadist, H_0)
 
 testthat::expect_equal(
     sim_n(opt2_os$design, .0, datadist)$n,
@@ -415,7 +415,7 @@ defined.
 The maximal type one error rate is increased to $5\%$.
 
 ```{r}
-toer_cnstr_2 <- expected(ConditionalPower(datadist, H_0)) <= .05
+toer_cnstr_2 <- Power(datadist, H_0) <= .05
 ```
 
 ### Initial Design
@@ -522,7 +522,7 @@ testthat::expect_gte(
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of `adoptr::evaluate()`.
 ```{r}
-ess_0 <- expected(ConditionalSampleSize(datadist, H_0))
+ess_0 <- ExpectedSampleSize(datadist, H_0)
 
 testthat::expect_equal(
     sim_n(opt3_os$design, .0, datadist)$n,
