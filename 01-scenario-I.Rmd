@@ -8,37 +8,26 @@ test statistic and known variance (w.l.o.g. variance of
 the test statistic is 1).
 This situation corresponds to a classical $z$-test for
 a difference in population means.
-```{r}
-datadist <- Normal(two_armed = TRUE)
-```
 The null hypothesis is no population mean difference, i.e.
 $\mathcal{H}_0:\delta \leq 0$.
-```{r}
-H_0 <- PointMassPrior(.0, 1)
-```
 An alternative effect size of $\delta = 0.4$ with
 point prior distribution is assumed. 
-```{r}
-prior <- PointMassPrior(.4, 1)
-```
 Across all variants in this scenario, the one-sided maximal 
-type one error rate is restricted to 
-```{r}
-alpha <- 0.025
-```
+type one error rate is restricted to $\alpha=0.025$ 
 and the power at the point alternative of $\delta=0.4$ must
-be at least
+be at least $0.8$.
+
 ```{r}
-min_power <- 0.8
-```
-I.e. throughout this sceanrio, we always use the two
-constraints
-```{r}
+# data distribution and hypotheses
+datadist   <- Normal(two_armed = TRUE)
+H_0        <- PointMassPrior(.0, 1)
+prior      <- PointMassPrior(.4, 1)
+
+# define constraints
+alpha      <- 0.025
+min_power  <- 0.8
 toer_cnstr <- Power(datadist, H_0) <= alpha
-```
-and
-```{r}
-pow_cnstr <- Power(datadist, prior) >= min_power
+pow_cnstr  <- Power(datadist, prior) >= min_power
 ```
 
 
@@ -79,9 +68,8 @@ init_design    <- TwoStageDesign(init_design_gs)
 
 ### Optimization 
 
-The optimal design is computed in three variants: two-stage, group-sequential
-and one-stage.
-The input only differs with regard to the initial design.
+The optimal design is computed in three variants: as generic two-stage, 
+group-sequential and one-stage design respectively.
 
 ```{r}
 opt_design <- function(initial_design) {
