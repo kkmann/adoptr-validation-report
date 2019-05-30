@@ -30,8 +30,8 @@ rpact_design <- function(
 
     char <- rpact::getDesignCharacteristics(design_rp)
 
-    n1 <- res$numberOfPatientsGroup1[1,]
-    n2 <- res$numberOfPatientsGroup1[2,]
+    n1 <- res$numberOfSubjects1[1,]
+    n2 <- res$numberOfSubjects1[2,]
 
     c2_rp <- function(z){
         w1 <- 1 / sqrt(2)
@@ -41,7 +41,7 @@ rpact_design <- function(
     }
 
     c1f <- stats::qnorm(char$futilityProbabilities) +
-        sqrt(res$numberOfPatientsGroup1[1]) * effect / ifelse(two_armed, sqrt(2), 1)
+        sqrt(res$numberOfSubjects1[1]) * effect / ifelse(two_armed, sqrt(2), 1)
     c1e <- design_rp$criticalValues[1]
 
 

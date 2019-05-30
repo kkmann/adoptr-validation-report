@@ -139,7 +139,7 @@ df_pow
 The $n_2$ function of the optimal two-stage design is expected to be 
 monotonously decreasing.
 ```{r}
-testthat::expect_equal(
+testthat::expect_delta_within(
     sign(diff(opt1_ts$design@n2_pivots)),
     rep(-1, (order - 1))
 )
@@ -171,44 +171,44 @@ to the outomce of `adoptr::evaluate()`.
 ```{r}
 ess_0 <- ExpectedSampleSize(datadist, H_0)
 
-testthat::expect_equal(
+testthat::expect_delta_within(
     sim_n(opt1_os$design, .0, datadist)$n,
     evaluate(ess_0, opt1_os$design),
-    tolerance = tol_n
+    abs_tol = tol_n
 )
 
-testthat::expect_equal(
+testthat::expect_delta_within(
     sim_n(opt1_gs$design, .0, datadist)$n,
     evaluate(ess_0, opt1_gs$design),
-    tolerance = tol_n
+    abs_tol = tol_n
 )
 
-testthat::expect_equal(
+testthat::expect_delta_within(
     sim_n(opt1_ts$design, .0, datadist)$n,
     evaluate(ess_0, opt1_ts$design),
-    tolerance = tol_n
+    abs_tol = tol_n
 )
 ```
 
 
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
-testthat::expect_equal(
+testthat::expect_delta_within(
     sim_n(opt1_os$design, .4, datadist)$n,
     evaluate(ess, opt1_os$design),
-    tolerance = tol_n
+    abs_tol = tol_n
 )
 
-testthat::expect_equal(
+testthat::expect_delta_within(
     sim_n(opt1_gs$design, .4, datadist)$n,
     evaluate(ess, opt1_gs$design),
-    tolerance = tol_n
+    abs_tol = tol_n
 )
 
-testthat::expect_equal(
+testthat::expect_delta_within(
     sim_n(opt1_ts$design, .4, datadist)$n,
     evaluate(ess, opt1_ts$design),
-    tolerance = tol_n
+    abs_tol = tol_n
 )
 ```
 
@@ -285,7 +285,7 @@ testthat::expect_true(opt2_ts$nloptr_return$iterations < opts$maxeval)
 The $n_2$ function of the optimal two-stage design is expected to be 
 monotnously increasing.
 ```{r}
-testthat::expect_equal(
+testthat::expect_delta_within(
     sign(diff(opt2_ts$design@n2_pivots)),
     rep(1, (order - 1))
 )
@@ -335,23 +335,23 @@ testthat::expect_gte(
 
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of `adoptr::evaluate()`.
-The tolerance is set to $0.5$ what is due to rounding one patient per group
+The abs_tol is set to $0.5$ what is due to rounding one patient per group
 in the worst case.
 ```{r}
-testthat::expect_equal(
+testthat::expect_delta_within(
     sim_n(opt2_ts$design, .0, datadist)$n,
     evaluate(ess_0, opt2_ts$design),
-    tolerance = tol_n
+    abs_tol = tol_n
 )
 ```
 
 
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
-testthat::expect_equal(
+testthat::expect_delta_within(
     sim_n(opt2_ts$design, .4, datadist)$n,
     evaluate(ess, opt2_ts$design),
-    tolerance = tol_n
+    abs_tol = tol_n
 )
 ```
 
@@ -451,7 +451,7 @@ testthat::expect_true(all(cp_val >= 0.7 * (1 - tol)))
 
 
 Simulate conditional power at the three pivots and check if the 
-constraint is fullfilled with a relative tolerance of $1\%$.
+constraint is fullfilled with a relative abs_tol of $1\%$.
 ```{r}
 cp_sim <- function(z) {
   z2  <- simulate(datadist, 10^6, n2(opt3_ts$design, z), .4, 42)
