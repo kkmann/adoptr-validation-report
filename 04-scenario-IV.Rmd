@@ -172,19 +172,19 @@ to the outomce of `adoptr::evaluate()`.
 ```{r}
 ess_0 <- ExpectedSampleSize(datadist, H_0)
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt1_os$design, .0, datadist)$n,
     evaluate(ess_0, opt1_os$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt1_gs$design, .0, datadist)$n,
     evaluate(ess_0, opt1_gs$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt1_ts$design, .0, datadist)$n,
     evaluate(ess_0, opt1_ts$design),
     abs_tol = tol_n
@@ -194,19 +194,19 @@ testthat::expect_delta_within(
 
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt1_os$design, .2, datadist)$n,
     evaluate(ess, opt1_os$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt1_gs$design, .2, datadist)$n,
     evaluate(ess, opt1_gs$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt1_ts$design, .2, datadist)$n,
     evaluate(ess, opt1_ts$design),
     abs_tol = tol_n
@@ -349,19 +349,19 @@ to the outomce of `adoptr::evaluate()`.
 ```{r}
 ess_0 <- ExpectedSampleSize(datadist, H_0)
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt2_os$design, .0, datadist)$n,
     evaluate(ess_0, opt2_os$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt2_gs$design, .0, datadist)$n,
     evaluate(ess_0, opt2_gs$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt2_ts$design, .0, datadist)$n,
     evaluate(ess_0, opt2_ts$design),
     abs_tol = tol_n
@@ -371,19 +371,19 @@ testthat::expect_delta_within(
 
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt2_os$design, .2, datadist)$n,
     evaluate(ess, opt2_os$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt2_gs$design, .2, datadist)$n,
     evaluate(ess, opt2_gs$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt2_ts$design, .2, datadist)$n,
     evaluate(ess, opt2_ts$design),
     abs_tol = tol_n
@@ -524,19 +524,19 @@ to the outomce of `adoptr::evaluate()`.
 ```{r}
 ess_0 <- ExpectedSampleSize(datadist, H_0)
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt3_os$design, .0, datadist)$n,
     evaluate(ess_0, opt3_os$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt3_gs$design, .0, datadist)$n,
     evaluate(ess_0, opt3_gs$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt3_ts$design, .0, datadist)$n,
     evaluate(ess_0, opt3_ts$design),
     abs_tol = tol_n
@@ -546,19 +546,19 @@ testthat::expect_delta_within(
 
 Additionally, the sample sizes under the point prior are compared.
 ```{r}
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt3_os$design, .2, datadist)$n,
     evaluate(ess, opt3_os$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt3_gs$design, .2, datadist)$n,
     evaluate(ess, opt3_gs$design),
     abs_tol = tol_n
 )
 
-testthat::expect_delta_within(
+expect_delta_within(
     sim_n(opt3_ts$design, .2, datadist)$n,
     evaluate(ess, opt3_ts$design),
     abs_tol = tol_n
