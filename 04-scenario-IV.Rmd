@@ -217,7 +217,7 @@ The $n_2$ function of the optimal two-stage design is expected to be
 monotonously decreasing.
 
 ```{r}
-testthat::expect_delta_within(
+testthat::expect_equal(
     sign(diff(opt1_ts$design@n2_pivots)),
     rep(-1, (order - 1))
 )
@@ -395,7 +395,7 @@ The $n_2$ function of the optimal two-stage design is expected to be
 monotonously decreasing.
 
 ```{r}
-testthat::expect_delta_within(
+testthat::expect_equal(
     sign(diff(opt2_ts$design@n2_pivots)),
     rep(-1, (order - 1))
 )
@@ -570,7 +570,7 @@ The $n_2$ function of the optimal two-stage design is expected to be
 monotonously decreasing.
 
 ```{r}
-testthat::expect_delta_within(
+testthat::expect_equal(
     sign(diff(opt3_ts$design@n2_pivots)),
     rep(-1, (order - 1))
 )
