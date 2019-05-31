@@ -349,9 +349,8 @@ compute the optimal two-stage design.</p>
 }
 
 opt1_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_gs)
-opt1_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">TwoStageDesign</span>(opt1_gs<span class="op">$</span>design))</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">opt1_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>))</code></pre>
+opt1_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">TwoStageDesign</span>(opt1_gs<span class="op">$</span>design))
+opt1_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>))</code></pre>
 </div>
 <div id="test-cases-7" class="section level3">
 <h3><span class="header-section-number">5.2.5</span> Test Cases</h3>
@@ -413,40 +412,46 @@ testthat<span class="op">::</span><span class="kw">expect_gte</span>(
 to the outomce of <code>adoptr::evaluate()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, H_<span class="dv">0</span>)
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_os<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_gs<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 <p>Additionally, the sample sizes under the point prior are compared.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_delta_within</span>(
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt1_os<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt1_gs<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt1_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 <p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
 monotonously decreasing.</p>
@@ -495,7 +500,6 @@ init_design_<span class="dv">2</span>    &lt;-<span class="st"> </span><span cla
 opt2_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">2</span>)
 opt2_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">2</span>_gs)
 opt2_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>))</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-8" class="section level3">
 <h3><span class="header-section-number">5.3.5</span> Test Cases</h3>
@@ -557,40 +561,46 @@ testthat<span class="op">::</span><span class="kw">expect_gte</span>(
 to the outomce of <code>adoptr::evaluate()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, H_<span class="dv">0</span>)
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt2_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_os<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt2_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_gs<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 <p>Additionally, the sample sizes under the point prior are compared.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_delta_within</span>(
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt2_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt2_os<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt2_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt2_gs<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt2_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 <p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
 monotonously decreasing.</p>
@@ -640,7 +650,6 @@ init_design_<span class="dv">3</span>    &lt;-<span class="st"> </span><span cla
 opt3_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">3</span>)
 opt3_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">3</span>_gs)
 opt3_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>))</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-9" class="section level3">
 <h3><span class="header-section-number">5.4.5</span> Test Cases</h3>
@@ -702,40 +711,46 @@ testthat<span class="op">::</span><span class="kw">expect_gte</span>(
 to the outomce of <code>adoptr::evaluate()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, H_<span class="dv">0</span>)
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt3_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt3_os<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt3_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt3_gs<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt3_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 <p>Additionally, the sample sizes under the point prior are compared.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_delta_within</span>(
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt3_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt3_os<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt3_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt3_gs<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt3_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 <p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
 monotonously decreasing.</p>

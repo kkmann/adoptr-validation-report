@@ -833,9 +833,6 @@ This corresponds to a maximal deviation of 1 subject per group due to rounding.
 \CommentTok{# define seed value}
 \NormalTok{seed <-}\StringTok{ }\DecValTok{42}
 
-\CommentTok{# define tolerance function for errors}
-\NormalTok{expect_delta_within <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x1, x2, abs_tol) }\KeywordTok{expect_lt}\NormalTok{(}\KeywordTok{abs}\NormalTok{(x1 }\OperatorTok{-}\StringTok{ }\NormalTok{x2), abs_tol)}
-
 \CommentTok{# define relative tolerance for error rates as 1%}
 \NormalTok{tol <-}\StringTok{ }\FloatTok{0.01}
 
@@ -1071,22 +1068,25 @@ to the outomce of \texttt{adoptr::evaluate()}.
 \begin{Highlighting}[]
 \NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1095,22 +1095,25 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1179,10 +1182,6 @@ The optimal two-stage design is computed.
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
 
 \hypertarget{test-cases-1}{%
 \subsection{Test Cases}\label{test-cases-1}}
@@ -1277,15 +1276,16 @@ null of the initial design derived from \texttt{rpact}.
 
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of \texttt{adoptr::evaluate()}.
-The abs\_tol is set to \(0.5\) what is due to rounding one patient per group
+The tolerance is set to \(0.5\) what is due to rounding one patient per group
 in the worst case.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1294,10 +1294,11 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1349,10 +1350,6 @@ The optimal two-stage design is computed.
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
 
 \hypertarget{test-cases-2}{%
 \subsection{Test Cases}\label{test-cases-2}}
@@ -1434,7 +1431,7 @@ Select three points for this and check the constraint.
 \end{Shaded}
 
 Simulate conditional power at the three pivots and check if the
-constraint is fullfilled with a relative abs\_tol of \(1\%\).
+constraint is fullfilled with a relative tolerance of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1606,23 +1603,10 @@ The input only differs with regard to the initial design.
 \NormalTok{\}}
 
 \NormalTok{opt1_gs <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(init_design_gs)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{opt1_os <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{300}\NormalTok{, }\FloatTok{2.0}\NormalTok{))}
 \NormalTok{opt1_ts <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{TwoStageDesign}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design))}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
 
 \hypertarget{test-cases-3}{%
 \subsection{Test Cases}\label{test-cases-3}}
@@ -1734,22 +1718,9 @@ optimal two-stage design are computed.
 \NormalTok{\}}
 
 \NormalTok{opt2_gs <-}\StringTok{ }\KeywordTok{opt2}\NormalTok{(init_design_gs)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{opt2_ts <-}\StringTok{ }\KeywordTok{opt2}\NormalTok{(}\KeywordTok{TwoStageDesign}\NormalTok{(opt2_gs}\OperatorTok{$}\NormalTok{design))}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
 
 \hypertarget{test-cases-4}{%
 \subsection{Test Cases}\label{test-cases-4}}
@@ -1853,10 +1824,6 @@ The optimal two-stage design is computed.
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
 
 \hypertarget{test-cases-5}{%
 \subsection{Test Cases}\label{test-cases-5}}
@@ -2329,15 +2296,6 @@ compute the optimal two-stage design.
 
 \NormalTok{opt1_gs <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(init_design_gs)}
 \NormalTok{opt1_ts <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{TwoStageDesign}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{opt1_os <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{500}\NormalTok{, }\FloatTok{2.0}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -2444,22 +2402,25 @@ to the outomce of \texttt{adoptr::evaluate()}.
 \begin{Highlighting}[]
 \NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2468,22 +2429,25 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2559,10 +2523,6 @@ The optimal two-stage design is computed.
 \NormalTok{opt2_os <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{500}\NormalTok{, }\FloatTok{2.0}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
 
 \hypertarget{test-cases-8}{%
 \subsection{Test Cases}\label{test-cases-8}}
@@ -2666,22 +2626,25 @@ to the outomce of \texttt{adoptr::evaluate()}.
 \begin{Highlighting}[]
 \NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2690,22 +2653,25 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2782,10 +2748,6 @@ The optimal two-stage design is computed.
 \NormalTok{opt3_os <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{500}\NormalTok{, }\FloatTok{2.0}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-\end{verbatim}
 
 \hypertarget{test-cases-9}{%
 \subsection{Test Cases}\label{test-cases-9}}
@@ -2889,22 +2851,25 @@ to the outomce of \texttt{adoptr::evaluate()}.
 \begin{Highlighting}[]
 \NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt3_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt3_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt3_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2913,22 +2878,25 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt3_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt3_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 
-\KeywordTok{expect_delta_within}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt3_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
+    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -3101,12 +3069,6 @@ and 11.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## initial design is infeasible!
-## initial design is infeasible!
-## initial design is infeasible!
-\end{verbatim}
-
 \hypertarget{test-cases-10}{%
 \subsection{Test cases}\label{test-cases-10}}
 
@@ -3256,11 +3218,6 @@ The optimal design is computed for two values of \(\lambda\): 200 and 500.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## initial design is infeasible!
-## initial design is infeasible!
-\end{verbatim}
-
 \hypertarget{test-cases-11}{%
 \subsection{Test cases}\label{test-cases-11}}
 
@@ -3378,11 +3335,6 @@ The optimal design is computed for two values of \(\lambda\): 0.05 and 0.2.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## initial design is infeasible!
-## initial design is infeasible!
-\end{verbatim}
-
 \hypertarget{test-cases-12}{%
 \subsection{Test cases}\label{test-cases-12}}
 
@@ -3483,11 +3435,6 @@ The optimal design is computed for two values of \(\lambda\): 0.01 and 0.1.
 \NormalTok{opt4 <-}\StringTok{ }\KeywordTok{lapply}\NormalTok{(}\KeywordTok{c}\NormalTok{(.}\DecValTok{01}\NormalTok{, }\FloatTok{.1}\NormalTok{), }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{opt4_design}\NormalTok{(x))}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## initial design is infeasible!
-## initial design is infeasible!
-\end{verbatim}
 
 \hypertarget{test-cases-13}{%
 \subsection{Test cases}\label{test-cases-13}}

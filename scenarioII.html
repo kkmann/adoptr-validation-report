@@ -353,11 +353,9 @@ The input only differs with regard to the initial design.</p>
     )
 }
 
-opt1_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_gs)</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">opt1_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">300</span>, <span class="fl">2.0</span>))
+opt1_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_gs)
+opt1_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">300</span>, <span class="fl">2.0</span>))
 opt1_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">TwoStageDesign</span>(opt1_gs<span class="op">$</span>design))</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-3" class="section level3">
 <h3><span class="header-section-number">3.2.5</span> Test Cases</h3>
@@ -427,10 +425,8 @@ optimal two-stage design are computed.</p>
     )
 }
 
-opt2_gs &lt;-<span class="st"> </span><span class="kw">opt2</span>(init_design_gs)</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">opt2_ts &lt;-<span class="st"> </span><span class="kw">opt2</span>(<span class="kw">TwoStageDesign</span>(opt2_gs<span class="op">$</span>design))</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
+opt2_gs &lt;-<span class="st"> </span><span class="kw">opt2</span>(init_design_gs)
+opt2_ts &lt;-<span class="st"> </span><span class="kw">opt2</span>(<span class="kw">TwoStageDesign</span>(opt2_gs<span class="op">$</span>design))</code></pre>
 </div>
 <div id="test-cases-4" class="section level3">
 <h3><span class="header-section-number">3.3.5</span> Test Cases</h3>
@@ -491,7 +487,6 @@ cp_cnstr &lt;-<span class="st"> </span>cp <span class="op">&gt;=</span><span cla
         <span class="dt">initial_design =</span> init_design,
         <span class="dt">opts =</span> opts
 )</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-5" class="section level3">
 <h3><span class="header-section-number">3.4.5</span> Test Cases</h3>

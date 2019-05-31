@@ -418,40 +418,46 @@ testthat<span class="op">::</span><span class="kw">expect_gte</span>(
 to the outomce of <code>adoptr::evaluate()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, H_<span class="dv">0</span>)
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_os<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_gs<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 <p>Additionally, the sample sizes under the point prior are compared.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_delta_within</span>(
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.4</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt1_os<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.4</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt1_gs<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )
 
-<span class="kw">expect_delta_within</span>(
+<span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.4</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt1_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 </div>
 </div>
@@ -499,7 +505,6 @@ ub_design &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(
         <span class="dt">upper_boundary_design =</span> ub_design,
         <span class="dt">opts =</span> opts
 )</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-1" class="section level3">
 <h3><span class="header-section-number">2.3.5</span> Test Cases</h3>
@@ -549,18 +554,20 @@ null of the initial design derived from <code>rpact</code>.</p>
 )</code></pre>
 <p>The expected sample size of the optimal designs is simulated and compared
 to the outomce of <code>adoptr::evaluate()</code>.
-The abs_tol is set to <span class="math inline">\(0.5\)</span> what is due to rounding one patient per group
+The tolerance is set to <span class="math inline">\(0.5\)</span> what is due to rounding one patient per group
 in the worst case.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_delta_within</span>(
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 <p>Additionally, the sample sizes under the point prior are compared.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_delta_within</span>(
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_equal</span>(
     <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.4</span>, datadist)<span class="op">$</span>n,
     <span class="kw">evaluate</span>(ess, opt2_ts<span class="op">$</span>design),
-    <span class="dt">abs_tol =</span> tol_n
+    <span class="dt">tolerance =</span> tol_n,
+    <span class="dt">scale =</span> <span class="dv">1</span>
 )</code></pre>
 </div>
 </div>
@@ -596,7 +603,6 @@ cp_cnstr &lt;-<span class="st"> </span>cp <span class="op">&gt;=</span><span cla
         <span class="dt">initial_design =</span> init_design,
         <span class="dt">opts =</span> opts
 )</code></pre>
-<pre><code>## initial design is infeasible!</code></pre>
 </div>
 <div id="test-cases-2" class="section level3">
 <h3><span class="header-section-number">2.4.5</span> Test Cases</h3>
@@ -639,7 +645,7 @@ cp_val &lt;-<span class="st"> </span><span class="kw">sapply</span>(x, <span cla
 
 testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(cp_val <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.7</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))</code></pre>
 <p>Simulate conditional power at the three pivots and check if the
-constraint is fullfilled with a relative abs_tol of <span class="math inline">\(1\%\)</span>.</p>
+constraint is fullfilled with a relative tolerance of <span class="math inline">\(1\%\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">cp_sim &lt;-<span class="st"> </span><span class="cf">function</span>(z) {
   z2  &lt;-<span class="st"> </span><span class="kw">simulate</span>(datadist, <span class="dv">10</span><span class="op">^</span><span class="dv">6</span>, <span class="kw">n2</span>(opt3_ts<span class="op">$</span>design, z), <span class="fl">.4</span>, <span class="dv">42</span>)
   rej &lt;-<span class="st"> </span><span class="kw">ifelse</span>(z2 <span class="op">&gt;</span><span class="st"> </span><span class="kw">c2</span>(opt3_ts<span class="op">$</span>design, z), <span class="dv">1</span>, <span class="dv">0</span>)

@@ -731,9 +731,6 @@ This corresponds to a maximal deviation of 1 subject per group due to rounding.<
 <span class="co"># define seed value</span>
 seed &lt;-<span class="st"> </span><span class="dv">42</span>
 
-<span class="co"># define tolerance function for errors</span>
-expect_delta_within &lt;-<span class="st"> </span><span class="cf">function</span>(x1, x2, abs_tol) <span class="kw">expect_lt</span>(<span class="kw">abs</span>(x1 <span class="op">-</span><span class="st"> </span>x2), abs_tol)
-
 <span class="co"># define relative tolerance for error rates as 1%</span>
 tol &lt;-<span class="st"> </span><span class="fl">0.01</span>
 
