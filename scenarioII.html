@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package</title>
   <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
-  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-05-23" />
+<meta name="date" content="2019-05-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -366,7 +366,7 @@ opt1_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span c
                 <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
 
 <span class="kw">print</span>(iters)</code></pre>
-<pre><code>## [1] 1290  504   23</code></pre>
+<pre><code>## [1] 1239  459   23</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
 <p>Type one error rate constraint is tested for the three designs.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt1_ts, opt1_gs, opt1_os),  
@@ -381,8 +381,8 @@ testthat<span class="op">::</span><span class="kw">expect_true</span>(<span clas
 
 df_toer</code></pre>
 <pre><code>##       toer           se
-## 1 0.024989 0.0001560916
-## 2 0.024907 0.0001558418
+## 1 0.024987 0.0001560855
+## 2 0.024908 0.0001558448
 ## 3 0.025116 0.0001564775</code></pre>
 <p>The expected sample sizes should be ordered in a specific way.</p>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
@@ -436,7 +436,7 @@ opt2_gs &lt;-<span class="st"> </span><span class="kw">opt2</span>(init_design_g
 <h3><span class="header-section-number">3.3.5</span> Test Cases</h3>
 <p>Check if the optimization algorithm converged.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(opt2_ts<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)</code></pre>
-<pre><code>## [1] 2985</code></pre>
+<pre><code>## [1] 831</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(opt2_ts<span class="op">$</span>nloptr_return<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval)</code></pre>
 <p>Type one error rate constraint is tested for the optimal design.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sim_pr_reject</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)
@@ -450,7 +450,7 @@ testthat<span class="op">::</span><span class="kw">expect_true</span>(<span clas
 
 df_toer2</code></pre>
 <pre><code>##       toer           se
-## 1 0.024858 0.0001556923</code></pre>
+## 1 0.024827 0.0001555977</code></pre>
 <p>The expected sample size under the null hypothesis should be lower
 than of the design from variant II.1 where expected sample size under
 the full prior was minimized.</p>
@@ -497,7 +497,7 @@ cp_cnstr &lt;-<span class="st"> </span>cp <span class="op">&gt;=</span><span cla
 <h3><span class="header-section-number">3.4.5</span> Test Cases</h3>
 <p>Check if the optimization algorithm converged.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(opt3_ts<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)</code></pre>
-<pre><code>## [1] 3040</code></pre>
+<pre><code>## [1] 1339</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(opt3_ts<span class="op">$</span>nloptr_return<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval)</code></pre>
 <p>Type one error rate constraint is tested for the optimal design.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sim_pr_reject</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)
@@ -511,7 +511,7 @@ testthat<span class="op">::</span><span class="kw">expect_true</span>(<span clas
 
 df_toer3</code></pre>
 <pre><code>##       toer           se
-## 1 0.025016 0.0001561737</code></pre>
+## 1 0.025017 0.0001561767</code></pre>
 <p>The conditional power constraint needs to be tested.
 Select three points for this and check the constraint.</p>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>adoptr<span class="op">:::</span><span class="kw">scaled_integration_pivots</span>(opt3_ts<span class="op">$</span>design)[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)]
@@ -531,7 +531,7 @@ in the case without the constraint that was analyzed in II.1.</p>
 <h2><span class="header-section-number">3.5</span> Plot Two-Stage Designs</h2>
 <p>The optimal two-stage designs stemming from the different variants
 are plotted together.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
 
 </div>
 </div>

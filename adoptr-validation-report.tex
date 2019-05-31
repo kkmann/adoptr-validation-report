@@ -124,7 +124,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-05-23}
+    \date{2019-05-31}
 
 \usepackage{booktabs}
 
@@ -833,6 +833,9 @@ This corresponds to a maximal deviation of 1 subject per group due to rounding.
 \CommentTok{# define seed value}
 \NormalTok{seed <-}\StringTok{ }\DecValTok{42}
 
+\CommentTok{# define tolerance function for errors}
+\NormalTok{expect_delta_within <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x1, x2, abs_tol) }\KeywordTok{expect_lt}\NormalTok{(}\KeywordTok{abs}\NormalTok{(x1 }\OperatorTok{-}\StringTok{ }\NormalTok{x2), abs_tol)}
+
 \CommentTok{# define relative tolerance for error rates as 1%}
 \NormalTok{tol <-}\StringTok{ }\FloatTok{0.01}
 
@@ -859,63 +862,27 @@ test statistic and known variance (w.l.o.g. variance of
 the test statistic is 1).
 This situation corresponds to a classical \(z\)-test for
 a difference in population means.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{datadist <-}\StringTok{ }\KeywordTok{Normal}\NormalTok{(}\DataTypeTok{two_armed =} \OtherTok{TRUE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 The null hypothesis is no population mean difference, i.e.
 \(\mathcal{H}_0:\delta \leq 0\).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{H_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 An alternative effect size of \(\delta = 0.4\) with
 point prior distribution is assumed.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{prior <-}\StringTok{ }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 Across all variants in this scenario, the one-sided maximal
-type one error rate is restricted to
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{alpha <-}\StringTok{ }\FloatTok{0.025}
-\end{Highlighting}
-\end{Shaded}
-
+type one error rate is restricted to \(\alpha=0.025\)
 and the power at the point alternative of \(\delta=0.4\) must
-be at least
+be at least \(0.8\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{min_power <-}\StringTok{ }\FloatTok{0.8}
-\end{Highlighting}
-\end{Shaded}
+\CommentTok{# data distribution and hypotheses}
+\NormalTok{datadist   <-}\StringTok{ }\KeywordTok{Normal}\NormalTok{(}\DataTypeTok{two_armed =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{H_}\DecValTok{0}\NormalTok{        <-}\StringTok{ }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{prior      <-}\StringTok{ }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{)}
 
-I.e. throughout this sceanrio, we always use the two
-constraints
-
-\begin{Shaded}
-\begin{Highlighting}[]
+\CommentTok{# define constraints}
+\NormalTok{alpha      <-}\StringTok{ }\FloatTok{0.025}
+\NormalTok{min_power  <-}\StringTok{ }\FloatTok{0.8}
 \NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
-\end{Highlighting}
-\end{Shaded}
-
-and
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{pow_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
+\NormalTok{pow_cnstr  <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
 \end{Highlighting}
 \end{Shaded}
 
@@ -967,9 +934,8 @@ be converted to a \texttt{TwoStageDesign}.
 \hypertarget{optimization}{%
 \subsection{Optimization}\label{optimization}}
 
-The optimal design is computed in three variants: two-stage, group-sequential
-and one-stage.
-The input only differs with regard to the initial design.
+The optimal design is computed in three variants: as generic two-stage,
+group-sequential and one-stage design respectively.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1006,7 +972,7 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3402  985   24
+## [1] 4140 1380   24
 \end{verbatim}
 
 \begin{Shaded}
@@ -1035,7 +1001,7 @@ Type one error rate constraint is tested for the three designs.
 
 \begin{verbatim}
 ##       toer           se
-## 1 0.024951 0.0001559759
+## 1 0.024953 0.0001559820
 ## 2 0.024978 0.0001560581
 ## 3 0.025116 0.0001564775
 \end{verbatim}
@@ -1060,7 +1026,7 @@ The power constraint can also be tested via simulation.
 
 \begin{verbatim}
 ##        pow           se
-## 1 0.798641 0.0004010159
+## 1 0.798647 0.0004010114
 ## 2 0.799669 0.0004002482
 ## 3 0.799317 0.0004005115
 \end{verbatim}
@@ -1070,7 +1036,7 @@ monotonously decreasing.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sign}\NormalTok{(}\KeywordTok{diff}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{n2_pivots)),}
     \KeywordTok{rep}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{, (order }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{))}
 \NormalTok{)}
@@ -1105,22 +1071,22 @@ to the outomce of \texttt{adoptr::evaluate()}.
 \begin{Highlighting}[]
 \NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1129,22 +1095,22 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1230,7 +1196,7 @@ Check if the optimization algorithm converged.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 20640
+## [1] 17044
 \end{verbatim}
 
 \begin{Shaded}
@@ -1244,7 +1210,7 @@ monotnously increasing.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sign}\NormalTok{(}\KeywordTok{diff}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{n2_pivots)),}
     \KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, (order }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{))}
 \NormalTok{)}
@@ -1293,8 +1259,8 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \end{Shaded}
 
 \begin{verbatim}
-##       pow           se
-## 1 0.80175 0.0003986817
+##        pow           se
+## 1 0.801759 0.0003986749
 \end{verbatim}
 
 The expected sample size under the null should be lower than the ess under the
@@ -1311,15 +1277,15 @@ null of the initial design derived from \texttt{rpact}.
 
 The expected sample size of the optimal designs is simulated and compared
 to the outomce of \texttt{adoptr::evaluate()}.
-The tolerance is set to \(0.5\) what is due to rounding one patient per group
+The abs\_tol is set to \(0.5\) what is due to rounding one patient per group
 in the worst case.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1328,10 +1294,10 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1400,7 +1366,7 @@ Check if the optimization algorithm converged.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3316
+## [1] 4059
 \end{verbatim}
 
 \begin{Shaded}
@@ -1451,7 +1417,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 
 \begin{verbatim}
 ##        pow           se
-## 1 0.798916 0.0004008109
+## 1 0.798917 0.0004008102
 \end{verbatim}
 
 The conditional power constraint needs to be tested.
@@ -1468,7 +1434,7 @@ Select three points for this and check the constraint.
 \end{Shaded}
 
 Simulate conditional power at the three pivots and check if the
-constraint is fullfilled with a relative tolerance of \(1\%\).
+constraint is fullfilled with a relative abs\_tol of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1502,7 +1468,7 @@ in the case without the constraint that was analyzed in I.1.
 The optimal two-stage designs stemming from the different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-37-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-31-1.pdf}
 
 \hypertarget{scenarioII}{%
 \chapter{Scenario II: Large effect, Gaussian prior}\label{scenarioII}}
@@ -1673,7 +1639,7 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1290  504   23
+## [1] 1239  459   23
 \end{verbatim}
 
 \begin{Shaded}
@@ -1702,8 +1668,8 @@ Type one error rate constraint is tested for the three designs.
 
 \begin{verbatim}
 ##       toer           se
-## 1 0.024989 0.0001560916
-## 2 0.024907 0.0001558418
+## 1 0.024987 0.0001560855
+## 2 0.024908 0.0001558448
 ## 3 0.025116 0.0001564775
 \end{verbatim}
 
@@ -1797,7 +1763,7 @@ Check if the optimization algorithm converged.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 2985
+## [1] 831
 \end{verbatim}
 
 \begin{Shaded}
@@ -1825,7 +1791,7 @@ Type one error rate constraint is tested for the optimal design.
 
 \begin{verbatim}
 ##       toer           se
-## 1 0.024858 0.0001556923
+## 1 0.024827 0.0001555977
 \end{verbatim}
 
 The expected sample size under the null hypothesis should be lower
@@ -1904,7 +1870,7 @@ Check if the optimization algorithm converged.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3040
+## [1] 1339
 \end{verbatim}
 
 \begin{Shaded}
@@ -1932,7 +1898,7 @@ Type one error rate constraint is tested for the optimal design.
 
 \begin{verbatim}
 ##       toer           se
-## 1 0.025016 0.0001561737
+## 1 0.025017 0.0001561767
 \end{verbatim}
 
 The conditional power constraint needs to be tested.
@@ -1966,7 +1932,7 @@ in the case without the constraint that was analyzed in II.1.
 The optimal two-stage designs stemming from the different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-62-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-56-1.pdf}
 
 \hypertarget{scenarioIII}{%
 \chapter{Scenario III: large effect, uniform prior}\label{scenarioIII}}
@@ -2229,7 +2195,7 @@ Plot and assess for convergence
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-76-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-70-1.pdf}
 
 \hypertarget{scenarioIV}{%
 \chapter{Scenario IV: smaller effect, point prior}\label{scenarioIV}}
@@ -2391,7 +2357,7 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 1960  912   20
+## [1] 2131  915   20
 \end{verbatim}
 
 \begin{Shaded}
@@ -2445,8 +2411,8 @@ The power constraint can also be tested via simulation.
 
 \begin{verbatim}
 ##        pow           se
-## 1 0.799799 0.0004001509
-## 2 0.799670 0.0004002475
+## 1 0.799800 0.0004001501
+## 2 0.799669 0.0004002482
 ## 3 0.799317 0.0004005115
 \end{verbatim}
 
@@ -2478,22 +2444,22 @@ to the outomce of \texttt{adoptr::evaluate()}.
 \begin{Highlighting}[]
 \NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2502,22 +2468,22 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2613,7 +2579,7 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3008 1168   30
+## [1] 2988 1349   30
 \end{verbatim}
 
 \begin{Shaded}
@@ -2667,7 +2633,7 @@ The power constraint can also be tested via simulation.
 
 \begin{verbatim}
 ##        pow           se
-## 1 0.900126 0.0002998321
+## 1 0.900131 0.0002998254
 ## 2 0.899828 0.0003002293
 ## 3 0.899523 0.0003006351
 \end{verbatim}
@@ -2700,22 +2666,22 @@ to the outomce of \texttt{adoptr::evaluate()}.
 \begin{Highlighting}[]
 \NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2724,22 +2690,22 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2836,7 +2802,7 @@ Check if the optimization algorithm converged in all cases.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3294  880   27
+## [1] 2833 1124   27
 \end{verbatim}
 
 \begin{Shaded}
@@ -2866,7 +2832,7 @@ Type one error rate constraint is tested for the three designs.
 \begin{verbatim}
 ##       toer           se
 ## 1 0.050175 0.0002183060
-## 2 0.049981 0.0002179058
+## 2 0.049980 0.0002179038
 ## 3 0.050150 0.0002182545
 \end{verbatim}
 
@@ -2890,8 +2856,8 @@ The power constraint can also be tested via simulation.
 
 \begin{verbatim}
 ##        pow           se
-## 1 0.900057 0.0002999241
-## 2 0.900318 0.0002995757
+## 1 0.900059 0.0002999215
+## 2 0.900317 0.0002995770
 ## 3 0.899606 0.0003005248
 \end{verbatim}
 
@@ -2923,22 +2889,22 @@ to the outomce of \texttt{adoptr::evaluate()}.
 \begin{Highlighting}[]
 \NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt3_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt3_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt3_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2947,22 +2913,22 @@ Additionally, the sample sizes under the point prior are compared.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt3_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt3_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\KeywordTok{expect_delta_within}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess, opt3_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n}
+    \DataTypeTok{abs_tol =}\NormalTok{ tol_n}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2985,7 +2951,7 @@ monotonously decreasing.
 The optimal two-stage designs stemming from the three different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-113-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-107-1.pdf}
 
 \hypertarget{scenarioV}{%
 \chapter{Scenario V: Single-arm design, medium effect size}\label{scenarioV}}
@@ -3355,7 +3321,7 @@ Check if the power of the design with higher \(\lambda\) is larger.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-133-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-127-1.pdf}
 
 \hypertarget{variantV_3}{%
 \section{Variant V-3, n1-penalty}\label{variantV_3}}
@@ -3460,7 +3426,7 @@ Check if the n1 regularizer of the design with higher \(\lambda\) is lower.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-138-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-132-1.pdf}
 
 \hypertarget{variantV_4}{%
 \section{Variant V-4, n2-penalty}\label{variantV_4}}
@@ -3567,7 +3533,7 @@ higher \(\lambda\) is lower.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-143-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-137-1.pdf}
 
 \bibliography{book.bib,packages.bib}
 
