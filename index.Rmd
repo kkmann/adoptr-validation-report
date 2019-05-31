@@ -419,9 +419,6 @@ for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
 # define seed value
 seed <- 42
 
-# define tolerance function for errors
-expect_delta_within <- function(x1, x2, abs_tol) expect_lt(abs(x1 - x2), abs_tol)
-
 # define relative tolerance for error rates as 1%
 tol <- 0.01
 
