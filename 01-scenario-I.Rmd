@@ -150,7 +150,7 @@ to the outcome of `adoptr::evaluate()`.
 ess_0 <- ExpectedSampleSize(datadist, H_0)
 ess_0_values <- sapply(
   list(OS = opt1_os, GS = opt1_gs, TS = opt1_ts), 
-  function(x) evaluate(ess0, x$design))
+  function(x) evaluate(ess_0, x$design))
 expect_equal(
     sim_n(opt1_os$design, .0, datadist)$n,
     evaluate(ess_0, opt1_os$design),
