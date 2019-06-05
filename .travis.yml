@@ -9,7 +9,6 @@ CRAN: https://cloud.r-project.org
 before_script:
     - chmod +x ./_build.sh
     - chmod +x ./_deploy.sh
-    - R -e 'devtools::install_github("kkmann/adoptr")'
 
 script:
     - set -e
