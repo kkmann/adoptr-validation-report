@@ -3,19 +3,17 @@
 
 ## Details
 
-In this scenario, a classical two-arm trial with normal
-test statistic and known variance (w.l.o.g. variance of
-the test statistic is 1).
-This situation corresponds to a classical $z$-test for
-a difference in population means.
-The null hypothesis is no population mean difference, i.e.
+In this scenario, a classical two-arm trial with normal test statistic and
+known variance (w.l.o.g. variance of the test statistic is 1).
+This situation corresponds to a classical $z$-test for a difference in 
+population means.
+The null hypothesis is no population mean difference, i.e., 
 $\mathcal{H}_0:\delta \leq 0$.
-An alternative effect size of $\delta = 0.4$ with
-point prior distribution is assumed. 
-Across all variants in this scenario, the one-sided maximal 
-type one error rate is restricted to $\alpha=0.025$ 
-and the power at the point alternative of $\delta=0.4$ must
-be at least $0.8$.
+An alternative effect size of $\delta = 0.4$ with point prior distribution is 
+assumed. 
+Across all variants in this scenario, the one-sided maximal type one error rate 
+is kept constant at $\alpha=0.025$ and the power at the point alternative of 
+$\delta=0.4$ must be at least $0.8$.
 
 ```{r}
 # data distribution and hypotheses
@@ -53,23 +51,19 @@ No additional constraints are considered in this variant.
 `adoptr` requires the definition of an initial design for optimization. 
 We start with a group-sequential design from the package `rpact` that
 fulfills these constraints and is used later for comparison.
-The order of integration is set to
 ```{r}
-order <- 7L
-```
-For usage as two-stage design with variable sample size, it has to
-be converted to a `TwoStageDesign`.
-```{r}
+order          <- 7L
 init_design_gs <- rpact_design(0.4, 0.025, 0.8, TRUE, order)
-
-init_design    <- TwoStageDesign(init_design_gs)
 ```
 
 
 ### Optimization 
 
-The optimal design is computed in three variants: as generic two-stage, 
-group-sequential and one-stage design respectively.
+The optimal design is computed in three variants:
+
+1. one-stage design respectively
+2. group-sequential (constant stage-two sample size)
+3. generic two-stage
 
 ```{r}
 opt_design <- function(initial_design) {
@@ -84,60 +78,50 @@ opt_design <- function(initial_design) {
     )
 }
 
-opt1_ts <- opt_design(init_design)
-opt1_gs <- opt_design(init_design_gs)
+# one stage design:
 opt1_os <- opt_design(OneStageDesign(200, 2.0))
+
+# group sequential design:
+opt1_gs <- opt_design(init_design_gs)
+
+# generic two-stage design:
+opt1_ts <- opt_design(TwoStageDesign(init_design_gs))
 ```
 
 
 
 ### Test Cases
 
-Check if the optimization algorithm converged in all cases.
+
+Check if the optimization algorithm converged in all cases:
 ```{r}
-iters <- sapply(list(opt1_ts, opt1_gs, opt1_os), 
-                function(x) x$nloptr_return$iterations)
-
-print(iters)
-
+iters <- sapply(list(opt1_ts, opt1_gs, opt1_os), function(x) x$nloptr_return$iterations)
 testthat::expect_true(all(iters < opts$maxeval))
+print(iters)
 ```
 
 
-Type one error rate constraint is tested for the three designs.
+Simulate type-one-error-rate for all three designs and check vs. constraint:
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .0, datadist))
-df_toer <- data.frame(
-    toer = as.numeric(tmp[1, ]),
-    se   = as.numeric(tmp[2, ])
-)
-rm(tmp)
-
+df_toer <- data.frame(toer = as.numeric(tmp[1, ]), se = as.numeric(tmp[2, ]))
 testthat::expect_true(all(df_toer$toer <= alpha * (1 + tol)))
-
-df_toer
+print(df_toer)
 ```
 
 
-The power constraint can also be tested via simulation.
+Simulate power and make sure constraint is satisfied ina ll cases:
 ```{r}
 tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
                   function(x) sim_pr_reject(x$design, .4, datadist))
-df_pow  <- data.frame(
-    pow  = as.numeric(tmp[1, ]),
-    se   = as.numeric(tmp[2, ])
-)
-rm(tmp)
-
+df_pow  <- data.frame(pow  = as.numeric(tmp[1, ]), se   = as.numeric(tmp[2, ]))
 testthat::expect_true(all(df_pow$pow >= min_power * (1 - tol)))
-
-df_pow
+print(df_pow)
 ```
 
 
-The $n_2$ function of the optimal two-stage design is expected to be 
-monotonously decreasing.
+The $n_2$ function of the optimal two-stage design is monotonously decreasing:
 ```{r}
 expect_equal(
     sign(diff(opt1_ts$design@n2_pivots)),
@@ -147,30 +131,26 @@ expect_equal(
 
 
 
-The expected sample sizes should be ordered in a specific way.
+The expected sample sizes of the optimal designs must be decreasing with 
+increasing flexibility: one-stage > group-sequential > generic two-stage:
 ```{r}
-testthat::expect_gte(
-    evaluate(ess, opt1_os$design),
-    evaluate(ess, opt1_gs$design)
-)
-
-testthat::expect_gte(
-    evaluate(ess, init_design_gs),
-    evaluate(ess, opt1_gs$design)
-)
-
-testthat::expect_gte(
-    evaluate(ess, opt1_gs$design),
-    evaluate(ess, opt1_ts$design)
-)
+ess_values <- sapply(
+  list(OS = opt1_os, GS = opt1_gs, TS = opt1_ts), 
+  function(x) evaluate(ess, x$design))
+testthat::expect_true(all(diff(ess_values) <= 0))
+ess_values
 ```
 
 
+
+Check simulated sample size vs. computed:
 The expected sample size of the optimal designs is simulated and compared
-to the outomce of `adoptr::evaluate()`.
+to the outcome of `adoptr::evaluate()`.
 ```{r}
 ess_0 <- ExpectedSampleSize(datadist, H_0)
-
+ess_0_values <- sapply(
+  list(OS = opt1_os, GS = opt1_gs, TS = opt1_ts), 
+  function(x) evaluate(ess0, x$design))
 expect_equal(
     sim_n(opt1_os$design, .0, datadist)$n,
     evaluate(ess_0, opt1_os$design),
@@ -239,7 +219,7 @@ The constraints remain the same as before.
 
 ### Initial Design
 
-For runtime issues the previous initial design has to be updated.
+For run time issues the previous initial design has to be updated.
 It turns out that a constant $c_2$-starting vector is much more efficient
 in this case.
 Furthermore, a more strict upper-boundary design than the default one needs
@@ -289,7 +269,7 @@ testthat::expect_true(opt2_ts$nloptr_return$iterations < opts$maxeval)
 ```
 
 The $n_2$ function of the optimal two-stage design is expected to be 
-monotnously increasing.
+monotonously increasing.
 ```{r}
 expect_equal(
     sign(diff(opt2_ts$design@n2_pivots)),
@@ -299,7 +279,7 @@ expect_equal(
 
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of $1\%$.
+Due to numerical issues we allow a relative error of $1\%$.
 ```{r}
 tmp     <- sim_pr_reject(opt2_ts$design, .0, datadist)
 df_toer2 <- data.frame(
@@ -315,7 +295,7 @@ df_toer2
 
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of $1\%$.
+Due to numerical issues we allow a relative error of $1\%$.
 ```{r}
 tmp     <- sim_pr_reject(opt2_ts$design, .4, datadist)
 df_pow2 <- data.frame(
@@ -329,7 +309,7 @@ testthat::expect_true(all(df_pow2$pow >= min_power * (1 - tol)))
 df_pow2
 ```
 
-The expected sample size under the null should be lower than the ess under the
+The expected sample size under the null should be lower than the ESS under the
 null of the initial design derived from `rpact`.
 ```{r}
 testthat::expect_gte(
@@ -340,7 +320,7 @@ testthat::expect_gte(
 
 
 The expected sample size of the optimal designs is simulated and compared
-to the outomce of `adoptr::evaluate()`.
+to the outcome of `adoptr::evaluate()`.
 The tolerance is set to $0.5$ what is due to rounding one patient per group
 in the worst case.
 ```{r}
@@ -432,7 +412,7 @@ df_toer3
 
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of $1\%$.
+Due to numerical issues we allow a relative error of $1\%$.
 ```{r}
 tmp     <- sim_pr_reject(opt3_ts$design, .4, datadist)
 df_pow3 <- data.frame(
@@ -459,7 +439,7 @@ testthat::expect_true(all(cp_val >= 0.7 * (1 - tol)))
 
 
 Simulate conditional power at the three pivots and check if the 
-constraint is fullfilled with a relative tolerance of $1\%$.
+constraint is fulfilled with a relative tolerance of $1\%$.
 ```{r}
 cp_sim <- function(z) {
   z2  <- simulate(datadist, 10^6, n2(opt3_ts$design, z), .4, 42)
