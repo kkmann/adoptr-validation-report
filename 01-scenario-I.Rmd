@@ -227,7 +227,7 @@ to be defined because stopping for efficacy would otherwise only happen
 for very large values of $x_1$ due to optimization under the null hypothesis.
 
 ```{r}
-init_design_2 <- init_design
+init_design_2 <- TwoStageDesign(init_design_gs)
 init_design_2@c2_pivots <- rep(2, order)
 
 
@@ -313,7 +313,7 @@ The expected sample size under the null should be lower than the ESS under the
 null of the initial design derived from `rpact`.
 ```{r}
 testthat::expect_gte(
-    evaluate(ess_0, init_design),
+    evaluate(ess_0, TwoStageDesign(init_design_gs)),
     evaluate(ess_0, opt2_ts$design)
 )
 ```
@@ -379,7 +379,7 @@ opt3_ts <- minimize(
             pow_cnstr,
             cp_cnstr
         ),
-        initial_design = init_design,
+        initial_design = TwoStageDesign(init_design_gs),
         opts = opts
 )
 ```
