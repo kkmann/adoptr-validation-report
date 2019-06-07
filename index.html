@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-05-31" />
+<meta name="date" content="2019-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -282,32 +282,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Validation Report for <strong>adoptr</strong> package</h1>
 <p class="author"><em>Kevin Kunzmann &amp; Maximilian Pilz</em></p>
-<p class="date"><em>2019-05-31</em></p>
+<p class="date"><em>2019-06-07</em></p>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>This work is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC-BY-SA 4.0 license</a></p>
 <div id="concept" class="section level2">
 <h2><span class="header-section-number">1.1</span> Concept</h2>
-<p>R package validation for regulatory environments is a tedious endevour.
-Note that there is no such thing as a ‘validated R package’:
+<p>R package validation for regulatory environments is a tedious endeavour.
+The authors firmly believe that under the current regulation,
+there is no such thing as a ‘validated R package’:
 validation is by definition a process conducted by the <em>user</em>.
-This valdation report may thus only be seen as a means to facilitate
-validation of <strong><a href="https://github.com/kkmann/adoptr">adoptr</a></strong> as much as possible.
+This validation report merely aims at facilitating
+validation of <strong><a href="https://github.com/kkmann/adoptr">adoptr</a></strong> as much as
+possible.
 No warranty whatsoever as to the correctness of <strong>adoptr</strong> not the
-completeness of the validation report are given by the authors!</p>
+completeness of the validation report are given by the authors.</p>
 <p>We assume that the reader is familiar with the notation an theoretical
 background of <strong>adoptr</strong>.
-Otherwise, the resources linked at <a href="https://github.com/kkmann/adoptr" class="uri">https://github.com/kkmann/adoptr</a> might
-be a good starting point.
-A good overview on adaptive designs is given in <span class="citation">(Bauer et al. <a href="#ref-Bauer2015">2015</a>)</span> or much more
-detailed in the book <span class="citation">(Wassmer and Brannath <a href="#ref-Wassmer2016">2016</a>)</span>.
-The report explores a variety of essential scenarios and both formally
-tests results (wherever possible) using <strong>testthat</strong> <span class="citation">(Wickham, Studio, and Team <a href="#ref-R-testthat">2018</a>)</span>.
-Detailed results are also printed in the report itself.
+Otherwise, the resources linked at <a href="https://github.com/kkmann/adoptr" class="uri">https://github.com/kkmann/adoptr</a> are a good
+starting point.
+A general overview on adaptive designs is given in <span class="citation">(Bauer et al. <a href="#ref-Bauer2015">2015</a>)</span> or much more
+detailed in <span class="citation">(Wassmer and Brannath <a href="#ref-Wassmer2016">2016</a>)</span>.</p>
+<p><strong>adoptr</strong> itself already makes extensive use of unittesting to make sure that
+all functions work as intended.
+Due to constraints on the build-time for an R package, the range of scenarios
+covered in the unittests of <strong>adoptr</strong> is rather limited though.
+This report explores a variety of essential scenarios and both formally
+tests results wherever possible using <strong>testthat</strong> <span class="citation">(Wickham, Studio, and Team <a href="#ref-R-testthat">2018</a>)</span> and
+provides detailed results printed in the report itself for visual/manual
+inspection.
 Any failure of the integrated formal tests will cause the build status
 of the validation report to switch from ‘passing’ to ‘failed’.
-An overview of the respective test scenarios is given in <a href="index.html#validation-scenarios">Validation Scenarios</a>.</p>
+An overview of the respective test scenarios is given in the following.</p>
 <p>The online version of this report can be found at
 <a href="https://kkmann.github.io/adoptr-validation-report/" class="uri">https://kkmann.github.io/adoptr-validation-report/</a> and is automatically
 rebuild and redeployed on a daily basis using Travis-CI.
@@ -337,7 +344,7 @@ The source code repository of this report can be found at
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>All three <strong>adoptr</strong> variants (two-stage, group-sequential, one-stage)
 comply with constraints. Internally validated by testing vs. simulated
@@ -365,7 +372,7 @@ obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Validate constraint compliance by testing vs. simulated
 values of the power curve at respective points.</li>
@@ -389,7 +396,7 @@ obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Check <span class="math inline">\(Power\)</span> and <span class="math inline">\(TOER\)</span> constraints with simulation.
 Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
@@ -423,7 +430,7 @@ same as the ones obtained by using numerical integration via
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>All designs comply with type one error rate constraints (tested via
 simulation).</li>
@@ -444,7 +451,7 @@ optimal one-stage design.</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Does the design comply with <span class="math inline">\(TOER\)</span> constraint (via simulation)?</li>
 <li>Is <span class="math inline">\(ESS\)</span> lower than expected sample size under the null hypothesis
@@ -465,7 +472,7 @@ for all <span class="math inline">\(x_1\in(c_1^f, c_1^e)\)</span></li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Check <span class="math inline">\(TOER\)</span> constraint with simulation.</li>
 <li>Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
@@ -497,7 +504,7 @@ I.e., for <span class="math inline">\(\Delta_3=0\)</span> reduces to a point pri
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Simulated type one error rate is compared to <span class="math inline">\(TOER\)</span> constraint for each
 design.</li>
@@ -522,10 +529,10 @@ Inspect the plot to see convergence pattern.</p>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>All three adoptr variants (two-stage, group-sequential, one-stage)
-comply with costraints. Internally validated by testing vs. simulated
+comply with constraints. Internally validated by testing vs. simulated
 values of the power curve at respective points.</li>
 <li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
 group-sequential one and that is in turn lower than the one of the
@@ -551,11 +558,11 @@ continuation area?</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Does the design respect all constraints (via simulation)?</li>
 <li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
-group-sequential one and that is in tunr lower than the one of the
+group-sequential one and that is in turn lower than the one of the
 optimal one-stage design.</li>
 <li><span class="math inline">\(ESS\)</span> of optimal group-sequential design is lower than <span class="math inline">\(ESS\)</span> of
 externally computed group-sequential design using the <a href="https://rpact.org/">rpact</a> package.</li>
@@ -578,11 +585,11 @@ continuation area?</li>
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Does the design respect all constraints (via simulation)?</li>
 <li><span class="math inline">\(ESS\)</span> of optimal two-stage design is lower than <span class="math inline">\(ESS\)</span> of optimal
-group-sequential one and that is in tunr lower than the one of the
+group-sequential one and that is in turn lower than the one of the
 optimal one-stage design.</li>
 <li><span class="math inline">\(ESS\)</span> of optimal group-sequential design is lower than <span class="math inline">\(ESS\)</span> of
 externally computed group-sequential design using the <a href="https://rpact.org/">rpact</a> package.</li>
@@ -629,9 +636,9 @@ for <span class="math inline">\(\lambda = 200\)</span> and <span class="math inl
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
-<li>Do both desings respect the type one error rate constraint (via simulation)?</li>
+<li>Do both designs respect the type one error rate constraint (via simulation)?</li>
 <li>Is the power of the design with larger <span class="math inline">\(\lambda\)</span> larger?</li>
 </ol></li>
 </ul>
@@ -648,7 +655,7 @@ for <span class="math inline">\(\lambda = 0.05\)</span> and <span class="math in
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Is <span class="math inline">\(n_1\)</span> for the optimal design smaller than the order-5 design in V.1?</li>
 </ol></li>
@@ -666,7 +673,7 @@ for <span class="math inline">\(\lambda = 0.01\)</span> and <span class="math in
 </ol></li>
 <li><strong>Formal tests:</strong>
 <ol style="list-style-type: decimal">
-<li>Number of iterations are checked agaist default maximum to ensure proper
+<li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Is the <code>AverageN2</code> for the optimal design smaller than for the order-5
 design in V.1?</li>
@@ -689,10 +696,9 @@ in the notation of <strong>adoptr</strong>.
 <code>sim_pr_reject</code> and <code>sim_n</code> allow to simulate rejection probabilities
 and expected sample sizes respectively by the <strong>adoptr</strong> routine <code>simulate</code>.
 Furthermore, global tolerances for the validation are set.
-For error rates as type one error or power, a relative deviation of <span class="math inline">\(1\%\)</span> to
-the target value is allowed.
-Sample sizes deviation is upperbounded by an absolute value of <span class="math inline">\(0.5\)</span>.
-This corresponds to a maximal deviation of 1 subject per group due to rounding.</p>
+For error rates, a relative deviation of <span class="math inline">\(1\%\)</span> from the target value is
+accepted.
+(Expected) Sample sizes deviations are more liberally accepted up to <span class="math inline">\(0.5\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(adoptr)
 <span class="kw">library</span>(tidyverse)</code></pre>
 <pre><code>## Registered S3 methods overwritten by &#39;ggplot2&#39;:
@@ -702,7 +708,7 @@ This corresponds to a maximal deviation of 1 subject per group due to rounding.<
 ##   print.quosures rlang</code></pre>
 <pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.1.1     ✔ purrr   0.3.2
-## ✔ tibble  2.1.2     ✔ dplyr   0.8.1
+## ✔ tibble  2.1.3     ✔ dplyr   0.8.1
 ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
 ## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
 <pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
@@ -729,12 +735,12 @@ This corresponds to a maximal deviation of 1 subject per group due to rounding.<
    <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))
 
 <span class="co"># define seed value</span>
-seed &lt;-<span class="st"> </span><span class="dv">42</span>
+seed  &lt;-<span class="st"> </span><span class="dv">42</span>
 
-<span class="co"># define relative tolerance for error rates as 1%</span>
-tol &lt;-<span class="st"> </span><span class="fl">0.01</span>
+<span class="co"># define absolute tolerance for error rates</span>
+tol   &lt;-<span class="st"> </span><span class="fl">0.01</span>
 
-<span class="co"># define absolute tolerance for sample sizes as 0.5</span>
+<span class="co"># define absolute tolerance for sample sizes</span>
 tol_n &lt;-<span class="st"> </span><span class="fl">0.5</span>
 
 <span class="co"># define custom tolerance and iteration limit for nloptr</span>

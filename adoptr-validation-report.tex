@@ -124,7 +124,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-05-31}
+    \date{2019-06-07}
 
 \usepackage{booktabs}
 
@@ -143,26 +143,34 @@ This work is licensed under the \href{https://creativecommons.org/licenses/by-sa
 \hypertarget{concept}{%
 \section{Concept}\label{concept}}
 
-R package validation for regulatory environments is a tedious endevour.
-Note that there is no such thing as a `validated R package':
+R package validation for regulatory environments is a tedious endeavour.
+The authors firmly believe that under the current regulation,
+there is no such thing as a `validated R package':
 validation is by definition a process conducted by the \emph{user}.
-This valdation report may thus only be seen as a means to facilitate
-validation of \textbf{\href{https://github.com/kkmann/adoptr}{adoptr}} as much as possible.
+This validation report merely aims at facilitating
+validation of \textbf{\href{https://github.com/kkmann/adoptr}{adoptr}} as much as
+possible.
 No warranty whatsoever as to the correctness of \textbf{adoptr} not the
-completeness of the validation report are given by the authors!
+completeness of the validation report are given by the authors.
 
 We assume that the reader is familiar with the notation an theoretical
 background of \textbf{adoptr}.
-Otherwise, the resources linked at \url{https://github.com/kkmann/adoptr} might
-be a good starting point.
-A good overview on adaptive designs is given in \citep{Bauer2015} or much more
-detailed in the book \citep{Wassmer2016}.
-The report explores a variety of essential scenarios and both formally
-tests results (wherever possible) using \textbf{testthat} \citep{R-testthat}.
-Detailed results are also printed in the report itself.
+Otherwise, the resources linked at \url{https://github.com/kkmann/adoptr} are a good
+starting point.
+A general overview on adaptive designs is given in \citep{Bauer2015} or much more
+detailed in \citep{Wassmer2016}.
+
+\textbf{adoptr} itself already makes extensive use of unittesting to make sure that
+all functions work as intended.
+Due to constraints on the build-time for an R package, the range of scenarios
+covered in the unittests of \textbf{adoptr} is rather limited though.
+This report explores a variety of essential scenarios and both formally
+tests results wherever possible using \textbf{testthat} \citep{R-testthat} and
+provides detailed results printed in the report itself for visual/manual
+inspection.
 Any failure of the integrated formal tests will cause the build status
 of the validation report to switch from `passing' to `failed'.
-An overview of the respective test scenarios is given in \protect\hyperlink{validation-scenarios}{Validation Scenarios}.
+An overview of the respective test scenarios is given in the following.
 
 The online version of this report can be found at
 \url{https://kkmann.github.io/adoptr-validation-report/} and is automatically
@@ -216,7 +224,7 @@ This is the default scenario.
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     All three \textbf{adoptr} variants (two-stage, group-sequential, one-stage)
@@ -263,7 +271,7 @@ This is the default scenario.
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     Validate constraint compliance by testing vs.~simulated
@@ -306,7 +314,7 @@ This is the default scenario.
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     Check \(Power\) and \(TOER\) constraints with simulation.
@@ -364,7 +372,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     All designs comply with type one error rate constraints (tested via
@@ -401,7 +409,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     Does the design comply with \(TOER\) constraint (via simulation)?
@@ -439,7 +447,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     Check \(TOER\) constraint with simulation.
@@ -493,7 +501,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on \(\delta
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     Simulated type one error rate is compared to \(TOER\) constraint for each
@@ -536,11 +544,11 @@ Inspect the plot to see convergence pattern.
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     All three adoptr variants (two-stage, group-sequential, one-stage)
-    comply with costraints. Internally validated by testing vs.~simulated
+    comply with constraints. Internally validated by testing vs.~simulated
     values of the power curve at respective points.
   \item
     \(ESS\) of optimal two-stage design is lower than \(ESS\) of optimal
@@ -585,13 +593,13 @@ Inspect the plot to see convergence pattern.
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     Does the design respect all constraints (via simulation)?
   \item
     \(ESS\) of optimal two-stage design is lower than \(ESS\) of optimal
-    group-sequential one and that is in tunr lower than the one of the
+    group-sequential one and that is in turn lower than the one of the
     optimal one-stage design.
   \item
     \(ESS\) of optimal group-sequential design is lower than \(ESS\) of
@@ -632,13 +640,13 @@ Inspect the plot to see convergence pattern.
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     Does the design respect all constraints (via simulation)?
   \item
     \(ESS\) of optimal two-stage design is lower than \(ESS\) of optimal
-    group-sequential one and that is in tunr lower than the one of the
+    group-sequential one and that is in turn lower than the one of the
     optimal one-stage design.
   \item
     \(ESS\) of optimal group-sequential design is lower than \(ESS\) of
@@ -722,10 +730,10 @@ Inspect the plot to see convergence pattern.
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
-    Do both desings respect the type one error rate constraint (via simulation)?
+    Do both designs respect the type one error rate constraint (via simulation)?
   \item
     Is the power of the design with larger \(\lambda\) larger?
   \end{enumerate}
@@ -757,7 +765,7 @@ Inspect the plot to see convergence pattern.
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     Is \(n_1\) for the optimal design smaller than the order-5 design in V.1?
@@ -790,7 +798,7 @@ Inspect the plot to see convergence pattern.
   \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    Number of iterations are checked agaist default maximum to ensure proper
+    Number of iterations are checked against default maximum to ensure proper
     convergence.
   \item
     Is the \texttt{AverageN2} for the optimal design smaller than for the order-5
@@ -813,10 +821,9 @@ in the notation of \textbf{adoptr}.
 \texttt{sim\_pr\_reject} and \texttt{sim\_n} allow to simulate rejection probabilities
 and expected sample sizes respectively by the \textbf{adoptr} routine \texttt{simulate}.
 Furthermore, global tolerances for the validation are set.
-For error rates as type one error or power, a relative deviation of \(1\%\) to
-the target value is allowed.
-Sample sizes deviation is upperbounded by an absolute value of \(0.5\).
-This corresponds to a maximal deviation of 1 subject per group due to rounding.
+For error rates, a relative deviation of \(1\%\) from the target value is
+accepted.
+(Expected) Sample sizes deviations are more liberally accepted up to \(0.5\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -831,12 +838,12 @@ This corresponds to a maximal deviation of 1 subject per group due to rounding.
    \KeywordTok{source}\NormalTok{(}\KeywordTok{file.path}\NormalTok{(}\StringTok{"R"}\NormalTok{, nm))}
 
 \CommentTok{# define seed value}
-\NormalTok{seed <-}\StringTok{ }\DecValTok{42}
+\NormalTok{seed  <-}\StringTok{ }\DecValTok{42}
 
-\CommentTok{# define relative tolerance for error rates as 1%}
-\NormalTok{tol <-}\StringTok{ }\FloatTok{0.01}
+\CommentTok{# define absolute tolerance for error rates}
+\NormalTok{tol   <-}\StringTok{ }\FloatTok{0.01}
 
-\CommentTok{# define absolute tolerance for sample sizes as 0.5}
+\CommentTok{# define absolute tolerance for sample sizes}
 \NormalTok{tol_n <-}\StringTok{ }\FloatTok{0.5}
 
 \CommentTok{# define custom tolerance and iteration limit for nloptr}
@@ -854,19 +861,17 @@ This corresponds to a maximal deviation of 1 subject per group due to rounding.
 \hypertarget{details}{%
 \section{Details}\label{details}}
 
-In this scenario, a classical two-arm trial with normal
-test statistic and known variance (w.l.o.g. variance of
-the test statistic is 1).
-This situation corresponds to a classical \(z\)-test for
-a difference in population means.
-The null hypothesis is no population mean difference, i.e.
+In this scenario, a classical two-arm trial with normal test statistic and
+known variance (w.l.o.g. variance of the test statistic is 1).
+This situation corresponds to a classical \(z\)-test for a difference in
+population means.
+The null hypothesis is no population mean difference, i.e.,
 \(\mathcal{H}_0:\delta \leq 0\).
-An alternative effect size of \(\delta = 0.4\) with
-point prior distribution is assumed.
-Across all variants in this scenario, the one-sided maximal
-type one error rate is restricted to \(\alpha=0.025\)
-and the power at the point alternative of \(\delta=0.4\) must
-be at least \(0.8\).
+An alternative effect size of \(\delta = 0.4\) with point prior distribution is
+assumed.
+Across all variants in this scenario, the one-sided maximal type one error rate
+is kept constant at \(\alpha=0.025\) and the power at the point alternative of
+\(\delta=0.4\) must be at least \(0.8\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -909,30 +914,29 @@ No additional constraints are considered in this variant.
 \texttt{adoptr} requires the definition of an initial design for optimization.
 We start with a group-sequential design from the package \texttt{rpact} that
 fulfills these constraints and is used later for comparison.
-The order of integration is set to
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{order <-}\StringTok{ }\NormalTok{7L}
-\end{Highlighting}
-\end{Shaded}
-
-For usage as two-stage design with variable sample size, it has to
-be converted to a \texttt{TwoStageDesign}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
+\NormalTok{order          <-}\StringTok{ }\NormalTok{7L}
 \NormalTok{init_design_gs <-}\StringTok{ }\KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.4}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order)}
-
-\NormalTok{init_design    <-}\StringTok{ }\KeywordTok{TwoStageDesign}\NormalTok{(init_design_gs)}
 \end{Highlighting}
 \end{Shaded}
 
 \hypertarget{optimization}{%
 \subsection{Optimization}\label{optimization}}
 
-The optimal design is computed in three variants: as generic two-stage,
-group-sequential and one-stage design respectively.
+The optimal design is computed in three variants:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  one-stage design respectively
+\item
+  group-sequential (constant stage-two sample size)
+\item
+  generic two-stage
+\end{enumerate}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -948,22 +952,26 @@ group-sequential and one-stage design respectively.
 \NormalTok{    )}
 \NormalTok{\}}
 
-\NormalTok{opt1_ts <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(init_design)}
-\NormalTok{opt1_gs <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(init_design_gs)}
+\CommentTok{# one stage design:}
 \NormalTok{opt1_os <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{200}\NormalTok{, }\FloatTok{2.0}\NormalTok{))}
+
+\CommentTok{# group sequential design:}
+\NormalTok{opt1_gs <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(init_design_gs)}
+
+\CommentTok{# generic two-stage design:}
+\NormalTok{opt1_ts <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{TwoStageDesign}\NormalTok{(init_design_gs))}
 \end{Highlighting}
 \end{Shaded}
 
 \hypertarget{test-cases}{%
 \subsection{Test Cases}\label{test-cases}}
 
-Check if the optimization algorithm converged in all cases.
+Check if the optimization algorithm converged in all cases:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{iters <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt1_ts, opt1_gs, opt1_os), }
-                \ControlFlowTok{function}\NormalTok{(x) x}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations)}
-
+\NormalTok{iters <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt1_ts, opt1_gs, opt1_os), }\ControlFlowTok{function}\NormalTok{(x) x}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations)}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(iters }\OperatorTok{<}\StringTok{ }\NormalTok{opts}\OperatorTok{$}\NormalTok{maxeval))}
 \KeywordTok{print}\NormalTok{(iters)}
 \end{Highlighting}
 \end{Shaded}
@@ -972,27 +980,15 @@ Check if the optimization algorithm converged in all cases.
 ## [1] 4140 1380   24
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(iters }\OperatorTok{<}\StringTok{ }\NormalTok{opts}\OperatorTok{$}\NormalTok{maxeval))}
-\end{Highlighting}
-\end{Shaded}
-
-Type one error rate constraint is tested for the three designs.
+Simulate type-one-error-rate for all three designs and check vs.~constraint:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt1_ts, opt1_gs, opt1_os),  }
                   \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sim_pr_reject}\NormalTok{(x}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist))}
-\NormalTok{df_toer <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
-    \DataTypeTok{toer =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]),}
-    \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ])}
-\NormalTok{)}
-\KeywordTok{rm}\NormalTok{(tmp)}
-
+\NormalTok{df_toer <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{toer =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]), }\DataTypeTok{se =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ]))}
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
-
-\NormalTok{df_toer}
+\KeywordTok{print}\NormalTok{(df_toer)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1003,21 +999,15 @@ Type one error rate constraint is tested for the three designs.
 ## 3 0.025116 0.0001564775
 \end{verbatim}
 
-The power constraint can also be tested via simulation.
+Simulate power and make sure constraint is satisfied ina ll cases:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt1_ts, opt1_gs, opt1_os),  }
                   \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sim_pr_reject}\NormalTok{(x}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist))}
-\NormalTok{df_pow  <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
-    \DataTypeTok{pow  =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]),}
-    \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ])}
-\NormalTok{)}
-\KeywordTok{rm}\NormalTok{(tmp)}
-
+\NormalTok{df_pow  <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{pow  =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]), }\DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ]))}
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
-
-\NormalTok{df_pow}
+\KeywordTok{print}\NormalTok{(df_pow)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1028,8 +1018,7 @@ The power constraint can also be tested via simulation.
 ## 3 0.799317 0.0004005115
 \end{verbatim}
 
-The \(n_2\) function of the optimal two-stage design is expected to be
-monotonously decreasing.
+The \(n_2\) function of the optimal two-stage design is monotonously decreasing:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1040,34 +1029,34 @@ monotonously decreasing.
 \end{Highlighting}
 \end{Shaded}
 
-The expected sample sizes should be ordered in a specific way.
+The expected sample sizes of the optimal designs must be decreasing with
+increasing flexibility: one-stage \textgreater{} group-sequential \textgreater{} generic two-stage:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_gte}\NormalTok{(}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design)}
-\NormalTok{)}
-
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_gte}\NormalTok{(}
-    \KeywordTok{evaluate}\NormalTok{(ess, init_design_gs),}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design)}
-\NormalTok{)}
-
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_gte}\NormalTok{(}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt1_ts}\OperatorTok{$}\NormalTok{design)}
-\NormalTok{)}
+\NormalTok{ess_values <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}
+  \KeywordTok{list}\NormalTok{(}\DataTypeTok{OS =}\NormalTok{ opt1_os, }\DataTypeTok{GS =}\NormalTok{ opt1_gs, }\DataTypeTok{TS =}\NormalTok{ opt1_ts), }
+  \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{evaluate}\NormalTok{(ess, x}\OperatorTok{$}\NormalTok{design))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(}\KeywordTok{diff}\NormalTok{(ess_values) }\OperatorTok{<=}\StringTok{ }\DecValTok{0}\NormalTok{))}
+\NormalTok{ess_values}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+##       OS       GS       TS 
+## 98.00000 80.89317 79.62139
+\end{verbatim}
+
+Check simulated sample size vs.~computed:
 The expected sample size of the optimal designs is simulated and compared
-to the outomce of \texttt{adoptr::evaluate()}.
+to the outcome of \texttt{adoptr::evaluate()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
-
+\NormalTok{ess_}\DecValTok{0}\NormalTok{_values <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}
+  \KeywordTok{list}\NormalTok{(}\DataTypeTok{OS =}\NormalTok{ opt1_os, }\DataTypeTok{GS =}\NormalTok{ opt1_gs, }\DataTypeTok{TS =}\NormalTok{ opt1_ts), }
+  \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, x}\OperatorTok{$}\NormalTok{design))}
 \KeywordTok{expect_equal}\NormalTok{(}
     \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_os}\OperatorTok{$}\NormalTok{design),}
@@ -1140,7 +1129,7 @@ The constraints remain the same as before.
 \hypertarget{initial-design-1}{%
 \subsection{Initial Design}\label{initial-design-1}}
 
-For runtime issues the previous initial design has to be updated.
+For run time issues the previous initial design has to be updated.
 It turns out that a constant \(c_2\)-starting vector is much more efficient
 in this case.
 Furthermore, a more strict upper-boundary design than the default one needs
@@ -1149,7 +1138,7 @@ for very large values of \(x_1\) due to optimization under the null hypothesis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{init_design_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\NormalTok{init_design}
+\NormalTok{init_design_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{TwoStageDesign}\NormalTok{(init_design_gs)}
 \NormalTok{init_design_}\DecValTok{2}\OperatorTok{@}\NormalTok{c2_pivots <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, order)}
 
 
@@ -1205,7 +1194,7 @@ Check if the optimization algorithm converged.
 \end{Shaded}
 
 The \(n_2\) function of the optimal two-stage design is expected to be
-monotnously increasing.
+monotonously increasing.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1217,7 +1206,7 @@ monotnously increasing.
 \end{Shaded}
 
 Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a realtive error of \(1\%\).
+Due to numerical issues we allow a relative error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1240,7 +1229,7 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 \end{verbatim}
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of \(1\%\).
+Due to numerical issues we allow a relative error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1262,20 +1251,20 @@ Due to numerical issues we allow a realtive error of \(1\%\).
 ## 1 0.801759 0.0003986749
 \end{verbatim}
 
-The expected sample size under the null should be lower than the ess under the
+The expected sample size under the null should be lower than the ESS under the
 null of the initial design derived from \texttt{rpact}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_gte}\NormalTok{(}
-    \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, init_design),}
+    \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, }\KeywordTok{TwoStageDesign}\NormalTok{(init_design_gs)),}
     \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_ts}\OperatorTok{$}\NormalTok{design)}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 The expected sample size of the optimal designs is simulated and compared
-to the outomce of \texttt{adoptr::evaluate()}.
+to the outcome of \texttt{adoptr::evaluate()}.
 The tolerance is set to \(0.5\) what is due to rounding one patient per group
 in the worst case.
 
@@ -1345,7 +1334,7 @@ The optimal two-stage design is computed.
 \NormalTok{            pow_cnstr,}
 \NormalTok{            cp_cnstr}
 \NormalTok{        ),}
-        \DataTypeTok{initial_design =}\NormalTok{ init_design,}
+        \DataTypeTok{initial_design =} \KeywordTok{TwoStageDesign}\NormalTok{(init_design_gs),}
         \DataTypeTok{opts =}\NormalTok{ opts}
 \NormalTok{)}
 \end{Highlighting}
@@ -1395,7 +1384,7 @@ Type one error rate constraint is tested for the optimal design.
 \end{verbatim}
 
 The power constraint can also be tested via simulation.
-Due to numerical issues we allow a realtive error of \(1\%\).
+Due to numerical issues we allow a relative error of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1431,7 +1420,7 @@ Select three points for this and check the constraint.
 \end{Shaded}
 
 Simulate conditional power at the three pivots and check if the
-constraint is fullfilled with a relative tolerance of \(1\%\).
+constraint is fulfilled with a relative tolerance of \(1\%\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1465,7 +1454,7 @@ in the case without the constraint that was analyzed in I.1.
 The optimal two-stage designs stemming from the different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-31-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-30-1.pdf}
 
 \hypertarget{scenarioII}{%
 \chapter{Scenario II: Large effect, Gaussian prior}\label{scenarioII}}
@@ -1899,7 +1888,7 @@ in the case without the constraint that was analyzed in II.1.
 The optimal two-stage designs stemming from the different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-56-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-55-1.pdf}
 
 \hypertarget{scenarioIII}{%
 \chapter{Scenario III: large effect, uniform prior}\label{scenarioIII}}
@@ -2162,7 +2151,7 @@ Plot and assess for convergence
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-70-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-69-1.pdf}
 
 \hypertarget{scenarioIV}{%
 \chapter{Scenario IV: smaller effect, point prior}\label{scenarioIV}}
@@ -2919,7 +2908,7 @@ monotonously decreasing.
 The optimal two-stage designs stemming from the three different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-107-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-106-1.pdf}
 
 \hypertarget{scenarioV}{%
 \chapter{Scenario V: Single-arm design, medium effect size}\label{scenarioV}}
@@ -3278,7 +3267,7 @@ Check if the power of the design with higher \(\lambda\) is larger.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-127-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-126-1.pdf}
 
 \hypertarget{variantV_3}{%
 \section{Variant V-3, n1-penalty}\label{variantV_3}}
@@ -3378,7 +3367,7 @@ Check if the n1 regularizer of the design with higher \(\lambda\) is lower.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-132-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-131-1.pdf}
 
 \hypertarget{variantV_4}{%
 \section{Variant V-4, n2-penalty}\label{variantV_4}}
@@ -3480,7 +3469,7 @@ higher \(\lambda\) is lower.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-137-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-136-1.pdf}
 
 \bibliography{book.bib,packages.bib}
 
