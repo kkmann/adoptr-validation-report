@@ -44,26 +44,34 @@ This work is licensed under the [CC-BY-SA 4.0 license](https://creativecommons.o
 
 ## Concept
 
-R package validation for regulatory environments is a tedious endevour.
-Note that there is no such thing as a 'validated R package':
+R package validation for regulatory environments is a tedious endeavour.
+The authors firmly believe that under the current regulation,
+there is no such thing as a 'validated R package':
 validation is by definition a process conducted by the *user*.
-This valdation report may thus only be seen as a means to facilitate 
-validation of **[adoptr](https://github.com/kkmann/adoptr)** as much as possible.
+This validation report merely aims at facilitating 
+validation of **[adoptr](https://github.com/kkmann/adoptr)** as much as 
+possible.
 No warranty whatsoever as to the correctness of **adoptr** not the
-completeness of the validation report are given by the authors!
+completeness of the validation report are given by the authors.
 
 We assume that the reader is familiar with the notation an theoretical
 background of **adoptr**.
-Otherwise, the resources linked at https://github.com/kkmann/adoptr might
-be a good starting point.
-A good overview on adaptive designs is given in [@Bauer2015] or much more 
-detailed in the book [@Wassmer2016].
-The report explores a variety of essential scenarios and both formally
-tests results (wherever possible) using **testthat** [@R-testthat].
-Detailed results are also printed in the report itself.
+Otherwise, the resources linked at https://github.com/kkmann/adoptr are a good 
+starting point.
+A general overview on adaptive designs is given in [@Bauer2015] or much more 
+detailed in [@Wassmer2016].
+
+**adoptr** itself already makes extensive use of unittesting to make sure that
+all functions work as intended. 
+Due to constraints on the build-time for an R package, the range of scenarios 
+covered in the unittests of **adoptr** is rather limited though.
+This report explores a variety of essential scenarios and both formally
+tests results wherever possible using **testthat** [@R-testthat] and
+provides detailed results printed in the report itself for visual/manual 
+inspection.
 Any failure of the integrated formal tests will cause the build status
 of the validation report to switch from 'passing' to 'failed'.
-An overview of the respective test scenarios is given in [Validation Scenarios].
+An overview of the respective test scenarios is given in the following.
 
 The online version of this report can be found at 
 https://kkmann.github.io/adoptr-validation-report/ and is automatically
@@ -95,7 +103,7 @@ This is the default scenario.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. All three **adoptr** variants (two-stage, group-sequential, one-stage) 
         comply with constraints. Internally validated by testing vs. simulated 
@@ -118,7 +126,7 @@ This is the default scenario.
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.4\big] \geq 0.8$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Validate constraint compliance by testing vs. simulated 
         values of the power curve at respective points.
@@ -138,7 +146,7 @@ This is the default scenario.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. $CP := \color{red}{\boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.4, X_1 = x_1\big] \geq 0.7}$ for all $x_1\in(c_1^f, c_1^e)$
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Check $Power$ and $TOER$ constraints with simulation.
         Check $CP$ constraint on three different values of $x_1$ in 
@@ -172,7 +180,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. All designs comply with type one error rate constraints (tested via
       simulation).
@@ -189,7 +197,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta> 0.0\big] \geq 0.8$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Does the design comply with $TOER$ constraint (via simulation)?
     3. Is $ESS$ lower than expected sample size under the null hypothesis 
@@ -206,7 +214,7 @@ Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$
     3. $CP := \color{red}{\boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta> 0.0, X_1 = x_1\big] \geq 0.7}$
        for all $x_1\in(c_1^f, c_1^e)$
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Check $TOER$ constraint with simulation.
     3. Check $CP$ constraint on three different values of $x_1$ in 
@@ -236,7 +244,7 @@ I.e., for $\Delta_3=0$ reduces to a point prior on $\delta=0.4$.
     1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta>0.0\big] \geq 0.8$
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Simulated type one error rate is compared to $TOER$ constraint for each
       design.
@@ -261,10 +269,10 @@ Inspect the plot to see convergence pattern.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. All three adoptr variants (two-stage, group-sequential, one-stage) 
-        comply with costraints. Internally validated by testing vs. simulated 
+        comply with constraints. Internally validated by testing vs. simulated 
         values of the power curve at respective points.
     3. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
         group-sequential one and that is in turn lower than the one of the
@@ -286,11 +294,11 @@ Inspect the plot to see convergence pattern.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Does the design respect all constraints (via simulation)?
     3. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
-        group-sequential one and that is in tunr lower than the one of the
+        group-sequential one and that is in turn lower than the one of the
         optimal one-stage design.
     4. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
         externally computed group-sequential design using the [rpact](https://rpact.org/) package.
@@ -310,11 +318,11 @@ Inspect the plot to see convergence pattern.
     2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq \color{red}{0.05}$
     3. Three variants: two-stage, group-sequential, one-stage. 
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Does the design respect all constraints (via simulation)?
     3. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
-        group-sequential one and that is in tunr lower than the one of the
+        group-sequential one and that is in turn lower than the one of the
         optimal one-stage design.
     4. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
         externally computed group-sequential design using the [rpact](https://rpact.org/) package.
@@ -352,9 +360,9 @@ Inspect the plot to see convergence pattern.
 * **Constraints:** 
     1. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
-    2. Do both desings respect the type one error rate constraint (via simulation)?
+    2. Do both designs respect the type one error rate constraint (via simulation)?
     3. Is the power of the design with larger $\lambda$ larger?
     
     
@@ -366,7 +374,7 @@ Inspect the plot to see convergence pattern.
     1. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     2. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] \geq 0.8$
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Is $n_1$ for the optimal design smaller than the order-5 design in V.1?
 
@@ -379,7 +387,7 @@ Inspect the plot to see convergence pattern.
     1. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
     2. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] \geq 0.8$
 * **Formal tests:**
-    1. Number of iterations are checked agaist default maximum to ensure proper
+    1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Is the `AverageN2` for the optimal design smaller than for the order-5 
     design in V.1?
@@ -401,11 +409,10 @@ in the notation of **adoptr**.
 `sim_pr_reject` and `sim_n` allow to simulate rejection probabilities
 and expected sample sizes respectively by the **adoptr** routine `simulate`.
 Furthermore, global tolerances for the validation are set. 
-For error rates as type one error or power, a relative deviation of $1\%$ to 
-the target value is allowed. 
-Sample sizes deviation is upperbounded by an absolute value of $0.5$. 
-This corresponds to a maximal deviation of 1 subject per group due to rounding.
-```{r setup}
+For error rates, a relative deviation of $1\%$ from the target value is 
+accepted. 
+(Expected) Sample sizes deviations are more liberally accepted up to $0.5$. 
+```{r setup, results='hide'}
 library(adoptr)
 library(tidyverse)
 library(rpact)
@@ -417,12 +424,12 @@ for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
    source(file.path("R", nm))
 
 # define seed value
-seed <- 42
+seed  <- 42
 
-# define relative tolerance for error rates as 1%
-tol <- 0.01
+# define absolute tolerance for error rates
+tol   <- 0.01
 
-# define absolute tolerance for sample sizes as 0.5
+# define absolute tolerance for sample sizes
 tol_n <- 0.5
 
 # define custom tolerance and iteration limit for nloptr
