@@ -318,7 +318,7 @@ testthat::expect_gte(
 
 ### Objective
 
-Same as in (#variantI_1), i.e., expected sample size under the 
+Same as in [I-1](#variantI_1), i.e., expected sample size under the 
 alternative point prior is minimized.
 
 
@@ -334,7 +334,7 @@ cp_cnstr <- cp >= .7
 
 ### Initial Design
 
-The same initial (generic two-stage) design as in (#variantI_1) is used.
+The same initial (generic two-stage) design as in [I-1](#variantI_1) is used.
 
 
 ### Optimization 
@@ -435,7 +435,7 @@ tibble(
 ```
 
 Finally, the expected sample size under the alternative prior should 
-be larger than in the case without the constraint (#variantI_1).
+be larger than in the case without the constraint [I-1](#variantI_1).
 
 ```{r}
 testthat::expect_gte(
