@@ -461,7 +461,7 @@ The effect of the conditional power constraint (CP not below 0.7) is
 clearly visible and the very different characteristics between
 optimizing under the null or the alternative are clearly visible.
 
-```{r, echo = FALSE}
+```{r, echo=FALSE}
 x1 <- seq(0, 3.5, by = .01)
 
 tibble(
