@@ -140,44 +140,139 @@
 
 This work is licensed under the \href{https://creativecommons.org/licenses/by-sa/4.0/deed.en}{CC-BY-SA 4.0 license}
 
-\hypertarget{concept}{%
-\section{Concept}\label{concept}}
+\hypertarget{preliminaries}{%
+\section{Preliminaries}\label{preliminaries}}
 
-R package validation for regulatory environments is a tedious endeavour.
+R package validation for regulatory environments can be a
+tedious endeavour.
 The authors firmly believe that under the current regulation,
 there is no such thing as a `validated R package':
 validation is by definition a process conducted by the \emph{user}.
 This validation report merely aims at facilitating
-validation of \textbf{\href{https://github.com/kkmann/adoptr}{adoptr}} as much as
-possible.
-No warranty whatsoever as to the correctness of \textbf{adoptr} not the
+validation of \textbf{\href{https://github.com/kkmann/adoptr}{adoptr}} as
+much as possible.
+No warranty whatsoever as to the correctness of \textbf{adoptr} nor the
 completeness of the validation report are given by the authors.
 
 We assume that the reader is familiar with the notation an theoretical
 background of \textbf{adoptr}.
-Otherwise, the resources linked at \url{https://github.com/kkmann/adoptr} are a good
-starting point.
-A general overview on adaptive designs is given in \citep{Bauer2015} or much more
-detailed in \citep{Wassmer2016}.
+Otherwise, the following resources might be of help:
 
-\textbf{adoptr} itself already makes extensive use of unittesting to make sure that
-all functions work as intended.
-Due to constraints on the build-time for an R package, the range of scenarios
-covered in the unittests of \textbf{adoptr} is rather limited though.
-This report explores a variety of essential scenarios and both formally
-tests results wherever possible using \textbf{testthat} \citep{R-testthat} and
-provides detailed results printed in the report itself for visual/manual
-inspection.
+\begin{itemize}
+\tightlist
+\item
+  \textbf{adoptr} online documentation at \url{https://kkmann.github.io/adoptr/}
+\item
+  paper on the theoretical background of the core \textbf{adoptr} functionality {[}?????{]}
+\item
+  a general overview on adaptive designs is given in \citep{Bauer2015}
+\item
+  a mote extensive treatment of the subject in \citep{Wassmer2016}.
+\end{itemize}
+
+\hypertarget{scope}{%
+\section{Scope}\label{scope}}
+
+\textbf{adoptr} itself already makes extensive use of unittesting to
+ensure correctness of all implemented functions.
+Yet, due to constraints on the build-time for an R package,
+the range of scenarios covered in the unittests of \textbf{adoptr} is
+rather limited.
+Furthermore, the current R unittesting framework does not permit
+an easy generation of a human-readable report of the test cases
+to acertain coverage and test quality.
+Therefore, \textbf{adoptr} splits testing in two parts: technical
+correctness is ensured via an extensive unittesting suit in \textbf{adoptr}
+itself (aiming to maintain a 100\% code coverage).
+
+The validation report, however, runs through a wide range of possible
+application scenarios and ensures plausibility of results as well
+as consistency with existing methods wherever possible.
+The report itself is implemented as a collection of Rmarkown documents
+allowing to show both the underlying code as well as the corresponding
+output in a hman-readable format.
+
+The online version of the report is dynamically re-generated on a
+daily basis using the Travis-CI service based on the respective
+most current version of \textbf{adoptr} on CRAN.
+The result of this daily build is available at \url{https://kkmann.github.io/adoptr-validation-report/}.
+To ensure early warning in case of any test-case failures,
+formal tests are implemented using the \textbf{testthat} package
+\citep{R-testthat}.
+I.e., the combination of using a unittesting framework, a continuous
+integration, and continuous deployment service leads to an always
+up-to-date validation report (build on the current R release on Linux).
 Any failure of the integrated formal tests will cause the build status
-of the validation report to switch from `passing' to `failed'.
-An overview of the respective test scenarios is given in the following.
+of the validation report to switch from `passing' to `failed' and
+the respective maintainer will be notified immediately.
 
-The online version of this report can be found at
-\url{https://kkmann.github.io/adoptr-validation-report/} and is automatically
-rebuild and redeployed on a daily basis using Travis-CI.
-It uses the respective most current CRAN version of \textbf{adoptr}.
-The source code repository of this report can be found at
-\url{https://github.com/kkmann/adoptr-validation-report}.
+\hypertarget{validating-a-local-installation-of-adoptr}{%
+\subsection{Validating a local installation of adoptr}\label{validating-a-local-installation-of-adoptr}}
+
+Note that, strictly speaking, the online version of the validation
+report only provides evidence of the correctness on the respective
+Travis-CI cloud virtual machine infrastructure using the respective
+most recent release of R and the most recent versions of the
+dependencies available on CRAN.
+In some instances it might therefore be desireable to conduct a
+local validaton of \textbf{adoptr}.
+
+To do so, one should install \textbf{adoptr} with the \texttt{INSTALL\_opts} option
+to include tests and invoke the test suit locally via
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"adoptr"}\NormalTok{, }\DataTypeTok{INSTALL_opts =} \KeywordTok{c}\NormalTok{(}\StringTok{"--install-tests"}\NormalTok{))}
+\NormalTok{tools}\OperatorTok{::}\KeywordTok{testInstalledPackage}\NormalTok{(}\StringTok{"adoptr"}\NormalTok{, }\DataTypeTok{types =} \KeywordTok{c}\NormalTok{(}\StringTok{"examples"}\NormalTok{, }\StringTok{"tests"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Upon passing the test suit successfully, the validation report
+can be build locally.
+To do so, first clone the entire source directory and switch
+to the newly created folder
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ clone https://github.com/kkmann/adoptr-validation-report.git}
+\BuiltInTok{cd}\NormalTok{ adoptr-validation-report}
+\end{Highlighting}
+\end{Shaded}
+
+Make sure that all packages requied for building the report are
+available, i.e., install all dependencies listed in the top-level
+\texttt{DESCRIPTION} file, e.g.,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\KeywordTok{c}\NormalTok{(}
+    \StringTok{"adoptr"}\NormalTok{, }
+    \StringTok{"tidyverse"}\NormalTok{, }
+    \StringTok{"bookdown"}\NormalTok{, }
+    \StringTok{"rpact"}\NormalTok{, }
+    \StringTok{"testthat"}\NormalTok{, }
+    \StringTok{"pwr"}\NormalTok{ ) )}
+\end{Highlighting}
+\end{Shaded}
+
+The book can then be build using the terminal command
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{Rscript}\NormalTok{ -e }\StringTok{'bookdown::render_book("index.Rmd", output_format = "all")'}
+\end{Highlighting}
+\end{Shaded}
+
+or directly from R via
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bookdown}\OperatorTok{::}\KeywordTok{render_book}\NormalTok{(}\StringTok{"index.Rmd"}\NormalTok{, }\DataTypeTok{output_format =} \StringTok{"all"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+This produces a new folderr \texttt{\_book} with the html and pdf versions
+of the report.
 
 \hypertarget{validation-scenarios}{%
 \section{Validation Scenarios}\label{validation-scenarios}}

@@ -132,15 +132,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#concept"><i class="fa fa-check"></i><b>1.1</b> Concept</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#validation-scenarios"><i class="fa fa-check"></i><b>1.2</b> Validation Scenarios</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#scenario-i-large-effect-point-prior"><i class="fa fa-check"></i><b>1.2.1</b> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#scenario-ii-large-effect-gaussian-prior"><i class="fa fa-check"></i><b>1.2.2</b> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></a></li>
-<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#scenario-iii-large-effect-uniform-prior"><i class="fa fa-check"></i><b>1.2.3</b> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></a></li>
-<li class="chapter" data-level="1.2.4" data-path="index.html"><a href="index.html#scenario-iv-smaller-effect-size-larger-trials"><i class="fa fa-check"></i><b>1.2.4</b> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></a></li>
-<li class="chapter" data-level="1.2.5" data-path="index.html"><a href="index.html#scenario-v-single-arm-design-medium-effect-size"><i class="fa fa-check"></i><b>1.2.5</b> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#preliminaries"><i class="fa fa-check"></i><b>1.1</b> Preliminaries</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#scope"><i class="fa fa-check"></i><b>1.2</b> Scope</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#validating-a-local-installation-of-adoptr"><i class="fa fa-check"></i><b>1.2.1</b> Validating a local installation of adoptr</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#technical-setup"><i class="fa fa-check"></i><b>1.3</b> Technical Setup</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#validation-scenarios"><i class="fa fa-check"></i><b>1.3</b> Validation Scenarios</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#scenario-i-large-effect-point-prior"><i class="fa fa-check"></i><b>1.3.1</b> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#scenario-ii-large-effect-gaussian-prior"><i class="fa fa-check"></i><b>1.3.2</b> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#scenario-iii-large-effect-uniform-prior"><i class="fa fa-check"></i><b>1.3.3</b> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></a></li>
+<li class="chapter" data-level="1.3.4" data-path="index.html"><a href="index.html#scenario-iv-smaller-effect-size-larger-trials"><i class="fa fa-check"></i><b>1.3.4</b> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></a></li>
+<li class="chapter" data-level="1.3.5" data-path="index.html"><a href="index.html#scenario-v-single-arm-design-medium-effect-size"><i class="fa fa-check"></i><b>1.3.5</b> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#technical-setup"><i class="fa fa-check"></i><b>1.4</b> Technical Setup</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="scenarioI.html"><a href="scenarioI.html"><i class="fa fa-check"></i><b>2</b> Scenario I: large effect, point prior</a><ul>
 <li class="chapter" data-level="2.1" data-path="scenarioI.html"><a href="scenarioI.html#details"><i class="fa fa-check"></i><b>2.1</b> Details</a></li>
@@ -287,45 +290,101 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>This work is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC-BY-SA 4.0 license</a></p>
-<div id="concept" class="section level2">
-<h2><span class="header-section-number">1.1</span> Concept</h2>
-<p>R package validation for regulatory environments is a tedious endeavour.
+<div id="preliminaries" class="section level2">
+<h2><span class="header-section-number">1.1</span> Preliminaries</h2>
+<p>R package validation for regulatory environments can be a
+tedious endeavour.
 The authors firmly believe that under the current regulation,
 there is no such thing as a ‘validated R package’:
 validation is by definition a process conducted by the <em>user</em>.
 This validation report merely aims at facilitating
-validation of <strong><a href="https://github.com/kkmann/adoptr">adoptr</a></strong> as much as
-possible.
-No warranty whatsoever as to the correctness of <strong>adoptr</strong> not the
+validation of <strong><a href="https://github.com/kkmann/adoptr">adoptr</a></strong> as
+much as possible.
+No warranty whatsoever as to the correctness of <strong>adoptr</strong> nor the
 completeness of the validation report are given by the authors.</p>
 <p>We assume that the reader is familiar with the notation an theoretical
 background of <strong>adoptr</strong>.
-Otherwise, the resources linked at <a href="https://github.com/kkmann/adoptr" class="uri">https://github.com/kkmann/adoptr</a> are a good
-starting point.
-A general overview on adaptive designs is given in <span class="citation">(Bauer et al. <a href="#ref-Bauer2015">2015</a>)</span> or much more
-detailed in <span class="citation">(Wassmer and Brannath <a href="#ref-Wassmer2016">2016</a>)</span>.</p>
-<p><strong>adoptr</strong> itself already makes extensive use of unittesting to make sure that
-all functions work as intended.
-Due to constraints on the build-time for an R package, the range of scenarios
-covered in the unittests of <strong>adoptr</strong> is rather limited though.
-This report explores a variety of essential scenarios and both formally
-tests results wherever possible using <strong>testthat</strong> <span class="citation">(Wickham, Studio, and Team <a href="#ref-R-testthat">2018</a>)</span> and
-provides detailed results printed in the report itself for visual/manual
-inspection.
+Otherwise, the following resources might be of help:</p>
+<ul>
+<li><strong>adoptr</strong> online documentation at <a href="https://kkmann.github.io/adoptr/" class="uri">https://kkmann.github.io/adoptr/</a></li>
+<li>paper on the theoretical background of the core <strong>adoptr</strong> functionality [?????]</li>
+<li>a general overview on adaptive designs is given in <span class="citation">(Bauer et al. <a href="#ref-Bauer2015">2015</a>)</span></li>
+<li>a mote extensive treatment of the subject in <span class="citation">(Wassmer and Brannath <a href="#ref-Wassmer2016">2016</a>)</span>.</li>
+</ul>
+</div>
+<div id="scope" class="section level2">
+<h2><span class="header-section-number">1.2</span> Scope</h2>
+<p><strong>adoptr</strong> itself already makes extensive use of unittesting to
+ensure correctness of all implemented functions.
+Yet, due to constraints on the build-time for an R package,
+the range of scenarios covered in the unittests of <strong>adoptr</strong> is
+rather limited.
+Furthermore, the current R unittesting framework does not permit
+an easy generation of a human-readable report of the test cases
+to acertain coverage and test quality.
+Therefore, <strong>adoptr</strong> splits testing in two parts: technical
+correctness is ensured via an extensive unittesting suit in <strong>adoptr</strong>
+itself (aiming to maintain a 100% code coverage).</p>
+<p>The validation report, however, runs through a wide range of possible
+application scenarios and ensures plausibility of results as well
+as consistency with existing methods wherever possible.
+The report itself is implemented as a collection of Rmarkown documents
+allowing to show both the underlying code as well as the corresponding
+output in a hman-readable format.</p>
+<p>The online version of the report is dynamically re-generated on a
+daily basis using the Travis-CI service based on the respective
+most current version of <strong>adoptr</strong> on CRAN.
+The result of this daily build is available at <a href="https://kkmann.github.io/adoptr-validation-report/" class="uri">https://kkmann.github.io/adoptr-validation-report/</a>.
+To ensure early warning in case of any test-case failures,
+formal tests are implemented using the <strong>testthat</strong> package
+<span class="citation">(Wickham, Studio, and Team <a href="#ref-R-testthat">2018</a>)</span>.
+I.e., the combination of using a unittesting framework, a continuous
+integration, and continuous deployment service leads to an always
+up-to-date validation report (build on the current R release on Linux).
 Any failure of the integrated formal tests will cause the build status
-of the validation report to switch from ‘passing’ to ‘failed’.
-An overview of the respective test scenarios is given in the following.</p>
-<p>The online version of this report can be found at
-<a href="https://kkmann.github.io/adoptr-validation-report/" class="uri">https://kkmann.github.io/adoptr-validation-report/</a> and is automatically
-rebuild and redeployed on a daily basis using Travis-CI.
-It uses the respective most current CRAN version of <strong>adoptr</strong>.
-The source code repository of this report can be found at
-<a href="https://github.com/kkmann/adoptr-validation-report" class="uri">https://github.com/kkmann/adoptr-validation-report</a>.</p>
+of the validation report to switch from ‘passing’ to ‘failed’ and
+the respective maintainer will be notified immediately.</p>
+<div id="validating-a-local-installation-of-adoptr" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Validating a local installation of adoptr</h3>
+<p>Note that, strictly speaking, the online version of the validation
+report only provides evidence of the correctness on the respective
+Travis-CI cloud virtual machine infrastructure using the respective
+most recent release of R and the most recent versions of the
+dependencies available on CRAN.
+In some instances it might therefore be desireable to conduct a
+local validaton of <strong>adoptr</strong>.</p>
+<p>To do so, one should install <strong>adoptr</strong> with the <code>INSTALL_opts</code> option
+to include tests and invoke the test suit locally via</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;adoptr&quot;</span>, <span class="dt">INSTALL_opts =</span> <span class="kw">c</span>(<span class="st">&quot;--install-tests&quot;</span>))
+tools<span class="op">::</span><span class="kw">testInstalledPackage</span>(<span class="st">&quot;adoptr&quot;</span>, <span class="dt">types =</span> <span class="kw">c</span>(<span class="st">&quot;examples&quot;</span>, <span class="st">&quot;tests&quot;</span>))</code></pre>
+<p>Upon passing the test suit successfully, the validation report
+can be build locally.
+To do so, first clone the entire source directory and switch
+to the newly created folder</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone https://github.com/kkmann/adoptr-validation-report.git
+<span class="bu">cd</span> adoptr-validation-report</code></pre>
+<p>Make sure that all packages requied for building the report are
+available, i.e., install all dependencies listed in the top-level
+<code>DESCRIPTION</code> file, e.g.,</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(
+    <span class="st">&quot;adoptr&quot;</span>, 
+    <span class="st">&quot;tidyverse&quot;</span>, 
+    <span class="st">&quot;bookdown&quot;</span>, 
+    <span class="st">&quot;rpact&quot;</span>, 
+    <span class="st">&quot;testthat&quot;</span>, 
+    <span class="st">&quot;pwr&quot;</span> ) )</code></pre>
+<p>The book can then be build using the terminal command</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">Rscript</span> -e <span class="st">&#39;bookdown::render_book(&quot;index.Rmd&quot;, output_format = &quot;all&quot;)&#39;</span></code></pre>
+<p>or directly from R via</p>
+<pre class="sourceCode r"><code class="sourceCode r">bookdown<span class="op">::</span><span class="kw">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>, <span class="dt">output_format =</span> <span class="st">&quot;all&quot;</span>)</code></pre>
+<p>This produces a new folderr <code>_book</code> with the html and pdf versions
+of the report.</p>
+</div>
 </div>
 <div id="validation-scenarios" class="section level2">
-<h2><span class="header-section-number">1.2</span> Validation Scenarios</h2>
+<h2><span class="header-section-number">1.3</span> Validation Scenarios</h2>
 <div id="scenario-i-large-effect-point-prior" class="section level3">
-<h3><span class="header-section-number">1.2.1</span> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></h3>
+<h3><span class="header-section-number">1.3.1</span> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></h3>
 <p>This is the default scenario.</p>
 <ul>
 <li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
@@ -333,7 +392,7 @@ The source code repository of this report can be found at
 <li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
 </ul>
 <div id="variant-i.1-minimizing-expected-sample-size-under-the-alternative" class="section level4">
-<h4><span class="header-section-number">1.2.1.1</span> <a href="scenarioI.html#variantI_1">Variant I.1: Minimizing Expected Sample Size under the Alternative</a></h4>
+<h4><span class="header-section-number">1.3.1.1</span> <a href="scenarioI.html#variantI_1">Variant I.1: Minimizing Expected Sample Size under the Alternative</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -362,7 +421,7 @@ obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
 </ul>
 </div>
 <div id="variant-i.2-minimizing-expected-sample-size-under-the-null-hypothesis" class="section level4">
-<h4><span class="header-section-number">1.2.1.2</span> <a href="scenarioI.html#variantI_2">Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis</a></h4>
+<h4><span class="header-section-number">1.3.1.2</span> <a href="scenarioI.html#variantI_2">Variant I.2: Minimizing Expected Sample Size under the Null Hypothesis</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta=0.0}\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -385,7 +444,7 @@ obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
 </ul>
 </div>
 <div id="variant-i.3-condtional-power-constraint" class="section level4">
-<h4><span class="header-section-number">1.2.1.3</span> <a href="scenarioI.html#variantI_3">Variant I.3: Condtional Power Constraint</a></h4>
+<h4><span class="header-section-number">1.3.1.3</span> <a href="scenarioI.html#variantI_3">Variant I.3: Condtional Power Constraint</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.4\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -411,7 +470,7 @@ same as the ones obtained by using numerical integration via
 </div>
 </div>
 <div id="scenario-ii-large-effect-gaussian-prior" class="section level3">
-<h3><span class="header-section-number">1.2.2</span> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></h3>
+<h3><span class="header-section-number">1.3.2</span> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></h3>
 <p>Similar in scope to Scenario I, but with a continuous Gaussian prior on <span class="math inline">\(\delta\)</span>.</p>
 <ul>
 <li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
@@ -419,7 +478,7 @@ same as the ones obtained by using numerical integration via
 <li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
 </ul>
 <div id="variant-ii.1-minimizing-expected-sample-size" class="section level4">
-<h4><span class="header-section-number">1.2.2.1</span> <a href="scenarioII.html#variantII_1">Variant II.1: Minimizing Expected Sample Size</a></h4>
+<h4><span class="header-section-number">1.3.2.1</span> <a href="scenarioII.html#variantII_1">Variant II.1: Minimizing Expected Sample Size</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -441,7 +500,7 @@ optimal one-stage design.</li>
 </ul>
 </div>
 <div id="variant-ii.2-minimizing-expected-sample-size-under-the-null-hypothesis" class="section level4">
-<h4><span class="header-section-number">1.2.2.2</span> <a href="scenarioII.html#variantII_2">Variant II.2: Minimizing Expected Sample Size under the Null hypothesis</a></h4>
+<h4><span class="header-section-number">1.3.2.2</span> <a href="scenarioII.html#variantII_2">Variant II.2: Minimizing Expected Sample Size under the Null hypothesis</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\color{red}{\delta\leq 0}\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -460,7 +519,7 @@ for the optimal two stage design from Variant II-1?</li>
 </ul>
 </div>
 <div id="variant-ii.3-condtional-power-constraint" class="section level4">
-<h4><span class="header-section-number">1.2.2.3</span> <a href="scenarioII.html#variantII_3">Variant II.3: Condtional Power Constraint</a></h4>
+<h4><span class="header-section-number">1.3.2.3</span> <a href="scenarioII.html#variantII_3">Variant II.3: Condtional Power Constraint</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -484,7 +543,7 @@ convergence.</li>
 </div>
 </div>
 <div id="scenario-iii-large-effect-uniform-prior" class="section level3">
-<h3><span class="header-section-number">1.2.3</span> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></h3>
+<h3><span class="header-section-number">1.3.3</span> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></h3>
 <ul>
 <li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
 <li><strong>Prior:</strong> sequence of uniform distributions
@@ -494,7 +553,7 @@ I.e., for <span class="math inline">\(\Delta_3=0\)</span> reduces to a point pri
 <li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
 </ul>
 <div id="variant-iii.1-convergence-under-prior-concentration" class="section level4">
-<h4><span class="header-section-number">1.2.3.1</span> <a href="scenarioIII.html#variantIII_1">Variant III.1: Convergence under Prior Concentration</a></h4>
+<h4><span class="header-section-number">1.3.3.1</span> <a href="scenarioIII.html#variantIII_1">Variant III.1: Convergence under Prior Concentration</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -516,9 +575,9 @@ Inspect the plot to see convergence pattern.</p>
 </div>
 </div>
 <div id="scenario-iv-smaller-effect-size-larger-trials" class="section level3">
-<h3><span class="header-section-number">1.2.4</span> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></h3>
+<h3><span class="header-section-number">1.3.4</span> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></h3>
 <div id="variant-iv.1-minimizing-expected-sample-size-under-the-alternative" class="section level4">
-<h4><span class="header-section-number">1.2.4.1</span> <a href="scenarioIV.html#variantIV_1">Variant IV.1: Minimizing Expected Sample Size under the Alternative</a></h4>
+<h4><span class="header-section-number">1.3.4.1</span> <a href="scenarioIV.html#variantIV_1">Variant IV.1: Minimizing Expected Sample Size under the Alternative</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -547,7 +606,7 @@ continuation area?</li>
 </ul>
 </div>
 <div id="variant-iv.2-increasing-power" class="section level4">
-<h4><span class="header-section-number">1.2.4.2</span> <a href="scenarioIV.html#variantIV_2">Variant IV.2: Increasing Power</a></h4>
+<h4><span class="header-section-number">1.3.4.2</span> <a href="scenarioIV.html#variantIV_2">Variant IV.2: Increasing Power</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -574,7 +633,7 @@ continuation area?</li>
 </ul>
 </div>
 <div id="variant-iv.3-increasing-maximal-type-one-error-rate" class="section level4">
-<h4><span class="header-section-number">1.2.4.3</span> <a href="scenarioIV.html#variantIV_3">Variant IV.3: Increasing Maximal Type One Error Rate</a></h4>
+<h4><span class="header-section-number">1.3.4.3</span> <a href="scenarioIV.html#variantIV_3">Variant IV.3: Increasing Maximal Type One Error Rate</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -602,14 +661,14 @@ continuation area?</li>
 </div>
 </div>
 <div id="scenario-v-single-arm-design-medium-effect-size" class="section level3">
-<h3><span class="header-section-number">1.2.5</span> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></h3>
+<h3><span class="header-section-number">1.3.5</span> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></h3>
 <ul>
 <li><strong>Data distribution:</strong>  trial with normally distributed test statistic</li>
 <li><strong>Prior:</strong> <span class="math inline">\(\delta\sim\delta_{0.3}\)</span></li>
 <li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
 </ul>
 <div id="variant-v.1-sensitivity-to-integration-order" class="section level4">
-<h4><span class="header-section-number">1.2.5.1</span> <a href="scenarioV.html#variantV_1">Variant V.1: Sensitivity to Integration Order</a></h4>
+<h4><span class="header-section-number">1.3.5.1</span> <a href="scenarioV.html#variantV_1">Variant V.1: Sensitivity to Integration Order</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big]\)</span></li>
 <li><strong>Constraints:</strong>
@@ -626,7 +685,7 @@ continuation area?</li>
 </ul>
 </div>
 <div id="variant-v.2-utility-maximization" class="section level4">
-<h4><span class="header-section-number">1.2.5.2</span> <a href="scenarioV.html#variantV_2">Variant V.2: Utility Maximization</a></h4>
+<h4><span class="header-section-number">1.3.5.2</span> <a href="scenarioV.html#variantV_2">Variant V.2: Utility Maximization</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(\lambda\, Power - ESS := \lambda\, \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.3\big] - \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big].\)</span>
 for <span class="math inline">\(\lambda = 200\)</span> and <span class="math inline">\(500\)</span></li>
@@ -644,7 +703,7 @@ convergence.</li>
 </ul>
 </div>
 <div id="variant-v.3-n_1-penalty" class="section level4">
-<h4><span class="header-section-number">1.2.5.3</span> <a href="scenarioV.html#variantV_3">Variant V.3: <span class="math inline">\(n_1\)</span> penalty</a></h4>
+<h4><span class="header-section-number">1.3.5.3</span> <a href="scenarioV.html#variantV_3">Variant V.3: <span class="math inline">\(n_1\)</span> penalty</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda \, n_1\)</span>
 for <span class="math inline">\(\lambda = 0.05\)</span> and <span class="math inline">\(0.2\)</span>.</li>
@@ -662,7 +721,7 @@ convergence.</li>
 </ul>
 </div>
 <div id="variant-v.4-n_2-penalty" class="section level4">
-<h4><span class="header-section-number">1.2.5.4</span> <a href="scenarioV.html#variantV_4">Variant V.4: <span class="math inline">\(n_2\)</span> penalty</a></h4>
+<h4><span class="header-section-number">1.3.5.4</span> <a href="scenarioV.html#variantV_4">Variant V.4: <span class="math inline">\(n_2\)</span> penalty</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big] + \lambda\)</span> <code>AverageN2</code>
 for <span class="math inline">\(\lambda = 0.01\)</span> and <span class="math inline">\(0.1\)</span>.</li>
@@ -683,7 +742,7 @@ design in V.1?</li>
 </div>
 </div>
 <div id="technical-setup" class="section level2">
-<h2><span class="header-section-number">1.3</span> Technical Setup</h2>
+<h2><span class="header-section-number">1.4</span> Technical Setup</h2>
 <p>All scenarios are run in a single, shared R session.
 Required packages are loaded here,
 the random seed is defined and set centrally, and the default number
