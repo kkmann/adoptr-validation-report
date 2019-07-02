@@ -565,7 +565,7 @@ the expected sample size of the inital <code>rpact</code> group-sequential desig
 <h2><span class="header-section-number">2.4</span> Variant I-3: Conditional Power Constraint</h2>
 <div id="objective-2" class="section level3">
 <h3><span class="header-section-number">2.4.1</span> Objective</h3>
-<p>Same as in (#variantI_1), i.e., expected sample size under the
+<p>Same as in <a href="scenarioI.html#variantI_1">I-1</a>, i.e., expected sample size under the
 alternative point prior is minimized.</p>
 </div>
 <div id="constrains-2" class="section level3">
@@ -577,7 +577,7 @@ cp_cnstr &lt;-<span class="st"> </span>cp <span class="op">&gt;=</span><span cla
 </div>
 <div id="initial-design-1" class="section level3">
 <h3><span class="header-section-number">2.4.3</span> Initial Design</h3>
-<p>The same initial (generic two-stage) design as in (#variantI_1) is used.</p>
+<p>The same initial (generic two-stage) design as in <a href="scenarioI.html#variantI_1">I-1</a> is used.</p>
 </div>
 <div id="optimization-2" class="section level3">
 <h3><span class="header-section-number">2.4.4</span> Optimization</h3>
@@ -680,7 +680,7 @@ integration).</p>
 ## 10 1.37  0.718  0.718
 ## # … with 15 more rows</code></pre>
 <p>Finally, the expected sample size under the alternative prior should
-be larger than in the case without the constraint (#variantI_1).</p>
+be larger than in the case without the constraint <a href="scenarioI.html#variantI_1">I-1</a>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
     <span class="kw">evaluate</span>(ess, opt_cp<span class="op">$</span>design),
     <span class="kw">evaluate</span>(
