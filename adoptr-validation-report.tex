@@ -124,7 +124,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-06-27}
+    \date{2019-07-02}
 
 \usepackage{booktabs}
 
@@ -861,17 +861,19 @@ accepted.
 \hypertarget{details}{%
 \section{Details}\label{details}}
 
-In this scenario, a classical two-arm trial with normal test statistic and
-known variance (w.l.o.g. variance of the test statistic is 1).
-This situation corresponds to a classical \(z\)-test for a difference in
-population means.
-The null hypothesis is no population mean difference, i.e.,
+In this scenario, a classical two-arm trial with normal
+test statistic and known variance (w.l.o.g. variance of
+the test statistic is 1).
+This situation corresponds to a classical \(z\)-test for
+a difference in population means.
+The null hypothesis is no population mean difference, i.e.
 \(\mathcal{H}_0:\delta \leq 0\).
-An alternative effect size of \(\delta = 0.4\) with point prior distribution is
-assumed.
-Across all variants in this scenario, the one-sided maximal type one error rate
-is kept constant at \(\alpha=0.025\) and the power at the point alternative of
-\(\delta=0.4\) must be at least \(0.8\).
+An alternative effect size of \(\delta = 0.4\) with
+point prior distribution is assumed.
+Across all variants in this scenario, the one-sided maximal
+type one error rate is restricted to \(\alpha=0.025\)
+and the power at the point alternative of \(\delta=0.4\) must
+be at least \(0.8\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -883,7 +885,7 @@ is kept constant at \(\alpha=0.025\) and the power at the point alternative of
 \CommentTok{# define constraints}
 \NormalTok{alpha      <-}\StringTok{ }\FloatTok{0.025}
 \NormalTok{min_power  <-}\StringTok{ }\FloatTok{0.8}
-\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{) }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)   }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
 \NormalTok{pow_cnstr  <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
 \end{Highlighting}
 \end{Shaded}
@@ -894,7 +896,8 @@ is kept constant at \(\alpha=0.025\) and the power at the point alternative of
 \hypertarget{objective}{%
 \subsection{Objective}\label{objective}}
 
-Expected sample size under the respective prior is minimized, i.e.,
+Firtly, expected sample size under the alternative (pointprior)
+is minimized, i.e.,
 \(\boldsymbol{E}\big[n(\mathcal{D})\big]\).
 
 \begin{Shaded}
@@ -906,206 +909,167 @@ Expected sample size under the respective prior is minimized, i.e.,
 \hypertarget{constrains}{%
 \subsection{Constrains}\label{constrains}}
 
-No additional constraints are considered in this variant.
+No additional constraints besides type one error rate and power
+are considered in this variant.
 
-\hypertarget{initial-design}{%
-\subsection{Initial Design}\label{initial-design}}
+\hypertarget{initial-designs}{%
+\subsection{Initial Designs}\label{initial-designs}}
 
-\texttt{adoptr} requires the definition of an initial design for optimization.
-We start with a group-sequential design from the package \texttt{rpact} that
-fulfills these constraints and is used later for comparison.
+For this example, the optimal one-stage, group-sequential, and generic
+two-stage designs are computed.
+The initial design for the one-stage case is determined heuristically
+(cf. ??? for stability of initial values).
+Both the group sequential and the generic two-stage designs are
+optimized starting from the corresponding group-sequential design as
+computed by the \texttt{rpact} package.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{order          <-}\StringTok{ }\NormalTok{7L}
-\NormalTok{init_design_gs <-}\StringTok{ }\KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.4}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order)}
+\NormalTok{order <-}\StringTok{ }\NormalTok{7L}
+\CommentTok{# data frame of initial designs }
+\NormalTok{tbl_designs <-}\StringTok{ }\KeywordTok{tibble}\NormalTok{(}
+    \DataTypeTok{type    =} \KeywordTok{c}\NormalTok{(}\StringTok{"one-stage"}\NormalTok{, }\StringTok{"group-sequential"}\NormalTok{, }\StringTok{"two-stage"}\NormalTok{),}
+    \DataTypeTok{initial =} \KeywordTok{list}\NormalTok{(}
+        \KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{200}\NormalTok{, }\FloatTok{2.0}\NormalTok{),}
+        \KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.4}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
+        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.4}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
 \end{Highlighting}
 \end{Shaded}
+
+The order of integration is set to 7.
 
 \hypertarget{optimization}{%
 \subsection{Optimization}\label{optimization}}
 
-The optimal design is computed in three variants:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  one-stage design respectively
-\item
-  group-sequential (constant stage-two sample size)
-\item
-  generic two-stage
-\end{enumerate}
-
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{opt_design <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(initial_design) \{}
-    \KeywordTok{minimize}\NormalTok{(}
-\NormalTok{        ess,}
-        \KeywordTok{subject_to}\NormalTok{(}
-\NormalTok{            toer_cnstr,}
-\NormalTok{            pow_cnstr}
-\NormalTok{        ),}
-        \DataTypeTok{initial_design =}\NormalTok{ initial_design,}
-        \DataTypeTok{opts =}\NormalTok{ opts}
-\NormalTok{    )}
-\NormalTok{\}}
-
-\CommentTok{# one stage design:}
-\NormalTok{opt1_os <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{200}\NormalTok{, }\FloatTok{2.0}\NormalTok{))}
-
-\CommentTok{# group sequential design:}
-\NormalTok{opt1_gs <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(init_design_gs)}
-
-\CommentTok{# generic two-stage design:}
-\NormalTok{opt1_ts <-}\StringTok{ }\KeywordTok{opt_design}\NormalTok{(}\KeywordTok{TwoStageDesign}\NormalTok{(init_design_gs))}
+\NormalTok{tbl_designs <-}\StringTok{ }\NormalTok{tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}
+       \DataTypeTok{optimal =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(initial, }\OperatorTok{~}\KeywordTok{minimize}\NormalTok{(}
+         
+\NormalTok{          ess,}
+          \KeywordTok{subject_to}\NormalTok{(}
+\NormalTok{              toer_cnstr,}
+\NormalTok{              pow_cnstr}
+\NormalTok{          ),}
+          
+          \DataTypeTok{initial_design =}\NormalTok{ ., }
+          \DataTypeTok{opts           =}\NormalTok{ opts)) )}
 \end{Highlighting}
 \end{Shaded}
 
 \hypertarget{test-cases}{%
 \subsection{Test Cases}\label{test-cases}}
 
-Check if the optimization algorithm converged in all cases:
+To avoid improper solutions, it is first verified that the maximum
+number of iterations was not exceeded in any of the three cases.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{iters <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt1_ts, opt1_gs, opt1_os), }\ControlFlowTok{function}\NormalTok{(x) x}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations)}
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(iters }\OperatorTok{<}\StringTok{ }\NormalTok{opts}\OperatorTok{$}\NormalTok{maxeval))}
-\KeywordTok{print}\NormalTok{(iters)}
+\NormalTok{tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{transmute}\NormalTok{(}
+\NormalTok{      type, }
+      \DataTypeTok{iterations =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map_int}\NormalTok{(tbl_designs}\OperatorTok{$}\NormalTok{optimal, }
+                                  \OperatorTok{~}\NormalTok{.}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations) ) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{\{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{iterations }\OperatorTok{<}\StringTok{ }\NormalTok{opts}\OperatorTok{$}\NormalTok{maxeval))\}}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 4140 1380   24
+## # A tibble: 3 x 2
+##   type             iterations
+##   <chr>                 <int>
+## 1 one-stage                24
+## 2 group-sequential       1380
+## 3 two-stage              4140
 \end{verbatim}
 
-Simulate type-one-error-rate for all three designs and check vs.~constraint:
+Next, the type-one-error-rate and power constraints are verified
+for all three designs by simulation:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt1_ts, opt1_gs, opt1_os),  }
-                  \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sim_pr_reject}\NormalTok{(x}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist))}
-\NormalTok{df_toer <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{toer =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]), }\DataTypeTok{se =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ]))}
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
-\KeywordTok{print}\NormalTok{(df_toer)}
+\NormalTok{tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{transmute}\NormalTok{(}
+\NormalTok{      type, }
+      \DataTypeTok{toer  =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(tbl_designs}\OperatorTok{$}\NormalTok{optimal, }
+                         \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob), }
+      \DataTypeTok{power =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(tbl_designs}\OperatorTok{$}\NormalTok{optimal, }
+                         \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
+\NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer  }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
+\NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{power }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) \}}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##       toer           se
-## 1 0.024953 0.0001559820
-## 2 0.024978 0.0001560581
-## 3 0.025116 0.0001564775
+## # A tibble: 3 x 3
+##   type               toer power
+##   <chr>             <dbl> <dbl>
+## 1 one-stage        0.0251 0.799
+## 2 group-sequential 0.0250 0.800
+## 3 two-stage        0.0250 0.799
 \end{verbatim}
 
-Simulate power and make sure constraint is satisfied ina ll cases:
+The \(n_2\) function of the optimal two-stage design is expected to be
+monotonously decreasing:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(opt1_ts, opt1_gs, opt1_os),  }
-                  \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sim_pr_reject}\NormalTok{(x}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist))}
-\NormalTok{df_pow  <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{pow  =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{, ]), }\DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{, ]))}
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
-\KeywordTok{print}\NormalTok{(df_pow)}
+\KeywordTok{expect_true}\NormalTok{(}
+    \KeywordTok{all}\NormalTok{(}\KeywordTok{diff}\NormalTok{(}
+        \CommentTok{# get optimal two-stage design n2 pivots}
+\NormalTok{        tbl_designs }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(type }\OperatorTok{==}\StringTok{ "two-stage"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{           }\NormalTok{\{.[[}\StringTok{"optimal"}\NormalTok{]][[}\DecValTok{1}\NormalTok{]]}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{n2_pivots\} }
+\NormalTok{        ) }\OperatorTok{<}\StringTok{ }\DecValTok{0}\NormalTok{) )}
+\end{Highlighting}
+\end{Shaded}
+
+Since the degrees of freedom of the three design classes are ordered as
+`two-stage' \textgreater{} `group-sequential' \textgreater{} `one-stage',
+the expected sample sizes (under the alternative) should be ordered
+in reverse (`two-stage' smallest).
+Additionally, expected sample sizes under both null and alternative
+are computed both via \texttt{evaluate()} and simulation-based.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ess0 <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
+
+\NormalTok{tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}
+        \DataTypeTok{ess      =} \KeywordTok{map_dbl}\NormalTok{(optimal,}
+                           \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(ess, .}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{ess_sim  =} \KeywordTok{map_dbl}\NormalTok{(optimal,}
+                           \OperatorTok{~}\KeywordTok{sim_n}\NormalTok{(.}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n ),}
+        \DataTypeTok{ess0     =} \KeywordTok{map_dbl}\NormalTok{(optimal,}
+                           \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(ess0, .}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{ess0_sim =} \KeywordTok{map_dbl}\NormalTok{(optimal,}
+                           \OperatorTok{~}\KeywordTok{sim_n}\NormalTok{(.}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n ) ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
+    \CommentTok{# sim/evaluate same under alternative?}
+\NormalTok{    testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(.}\OperatorTok{$}\NormalTok{ess, .}\OperatorTok{$}\NormalTok{ess_sim, }
+                           \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+                           \DataTypeTok{scale =} \DecValTok{1}\NormalTok{)}
+    \CommentTok{# sim/evaluate same under null?}
+\NormalTok{    testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(.}\OperatorTok{$}\NormalTok{ess0, .}\OperatorTok{$}\NormalTok{ess0_sim, }
+                           \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+                           \DataTypeTok{scale =} \DecValTok{1}\NormalTok{)}
+    \CommentTok{# monotonicity with respect to degrees of freedom}
+\NormalTok{    testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(}\KeywordTok{diff}\NormalTok{(.}\OperatorTok{$}\NormalTok{ess) }\OperatorTok{<}\StringTok{ }\DecValTok{0}\NormalTok{)) \}}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##        pow           se
-## 1 0.798647 0.0004010114
-## 2 0.799669 0.0004002482
-## 3 0.799317 0.0004005115
+## # A tibble: 3 x 7
+##   type             initial    optimal      ess ess_sim  ess0 ess0_sim
+##   <chr>            <list>     <list>     <dbl>   <dbl> <dbl>    <dbl>
+## 1 one-stage        <OnStgDsg> <list [3]>  98      98    98       98  
+## 2 group-sequential <GrpSqntD> <list [3]>  80.9    80.9  68.5     68.5
+## 3 two-stage        <TwStgDsg> <list [3]>  79.6    79.7  68.9     68.9
 \end{verbatim}
-
-The \(n_2\) function of the optimal two-stage design is monotonously decreasing:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sign}\NormalTok{(}\KeywordTok{diff}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{n2_pivots)),}
-    \KeywordTok{rep}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{, (order }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{))}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-The expected sample sizes of the optimal designs must be decreasing with
-increasing flexibility: one-stage \textgreater{} group-sequential \textgreater{} generic two-stage:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ess_values <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}
-  \KeywordTok{list}\NormalTok{(}\DataTypeTok{OS =}\NormalTok{ opt1_os, }\DataTypeTok{GS =}\NormalTok{ opt1_gs, }\DataTypeTok{TS =}\NormalTok{ opt1_ts), }
-  \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{evaluate}\NormalTok{(ess, x}\OperatorTok{$}\NormalTok{design))}
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(}\KeywordTok{diff}\NormalTok{(ess_values) }\OperatorTok{<=}\StringTok{ }\DecValTok{0}\NormalTok{))}
-\NormalTok{ess_values}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##       OS       GS       TS 
-## 98.00000 80.89317 79.62139
-\end{verbatim}
-
-Check simulated sample size vs.~computed:
-The expected sample size of the optimal designs is simulated and compared
-to the outcome of \texttt{adoptr::evaluate()}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
-\NormalTok{ess_}\DecValTok{0}\NormalTok{_values <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}
-  \KeywordTok{list}\NormalTok{(}\DataTypeTok{OS =}\NormalTok{ opt1_os, }\DataTypeTok{GS =}\NormalTok{ opt1_gs, }\DataTypeTok{TS =}\NormalTok{ opt1_ts), }
-  \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, x}\OperatorTok{$}\NormalTok{design))}
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
-    \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
-    \DataTypeTok{scale =} \DecValTok{1}
-\NormalTok{)}
-
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
-    \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
-    \DataTypeTok{scale =} \DecValTok{1}
-\NormalTok{)}
-
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
-    \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
-    \DataTypeTok{scale =} \DecValTok{1}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-Additionally, the sample sizes under the point prior are compared.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sim_n}\NormalTok{(opt1_os}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt1_os}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
-    \DataTypeTok{scale =} \DecValTok{1}
-\NormalTok{)}
-
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sim_n}\NormalTok{(opt1_gs}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt1_gs}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
-    \DataTypeTok{scale =} \DecValTok{1}
-\NormalTok{)}
-
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sim_n}\NormalTok{(opt1_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt1_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
-    \DataTypeTok{scale =} \DecValTok{1}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \hypertarget{variantI_2}{%
 \section{Variant I-2: Minimizing Expected Sample Size under Null Hypothesis}\label{variantI_2}}
@@ -1113,38 +1077,38 @@ Additionally, the sample sizes under the point prior are compared.
 \hypertarget{objective-1}{%
 \subsection{Objective}\label{objective-1}}
 
-Expected sample size under the null hypothesis prior is minimized, i.e.,
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ess_}\DecValTok{0}\NormalTok{ <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+Expected sample size under the null hypothesis prior is minimized,
+i.e., \texttt{ess0}.
 
 \hypertarget{constrains-1}{%
 \subsection{Constrains}\label{constrains-1}}
 
-The constraints remain the same as before.
+The constraints remain unchanged from the base case.
 
-\hypertarget{initial-design-1}{%
-\subsection{Initial Design}\label{initial-design-1}}
+\hypertarget{initial-design}{%
+\subsection{Initial Design}\label{initial-design}}
 
-For run time issues the previous initial design has to be updated.
-It turns out that a constant \(c_2\)-starting vector is much more efficient
-in this case.
-Furthermore, a more strict upper-boundary design than the default one needs
-to be defined because stopping for efficacy would otherwise only happen
-for very large values of \(x_1\) due to optimization under the null hypothesis.
+Since optimization under the null favours an entirely different
+(monotonically increasing) sample size function,
+and thus also a different shape of the \(c_2\) function,
+the \texttt{rpact} initial design is a suboptimal starting point.
+Instead, we start with a constant \(c_2\) function by heuristically
+setting it to \(2\) on the continuation area.
+Also, optimizing under the null favours extremely conservative
+boundaries for early efficacy stopping and we thus impose as fairly
+liberal upper bound of \(3\) for early efficacy stopping.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{init_design_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{TwoStageDesign}\NormalTok{(init_design_gs)}
-\NormalTok{init_design_}\DecValTok{2}\OperatorTok{@}\NormalTok{c2_pivots <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, order)}
-
+\NormalTok{init_design_h0 <-}\StringTok{ }\NormalTok{tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\KeywordTok{filter}\NormalTok{(type }\OperatorTok{==}\StringTok{ "two-stage"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\KeywordTok{pull}\NormalTok{(initial) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\NormalTok{.[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{init_design_h0}\OperatorTok{@}\NormalTok{c2_pivots <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, order)}
 
 \NormalTok{ub_design <-}\StringTok{ }\KeywordTok{TwoStageDesign}\NormalTok{(}
-\NormalTok{    opt1_os}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{n1,}
-\NormalTok{    opt1_os}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{c1f,}
+    \DecValTok{3}\OperatorTok{*}\NormalTok{init_design_h0}\OperatorTok{@}\NormalTok{n1,}
+    \DecValTok{2}\NormalTok{,}
     \DecValTok{3}\NormalTok{,}
     \KeywordTok{rep}\NormalTok{(}\DecValTok{300}\NormalTok{, order),}
     \KeywordTok{rep}\NormalTok{(}\FloatTok{3.0}\NormalTok{, order)}
@@ -1159,136 +1123,122 @@ The optimal two-stage design is computed.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{opt2_ts <-}\StringTok{ }\KeywordTok{minimize}\NormalTok{(}
-\NormalTok{        ess_}\DecValTok{0}\NormalTok{,}
-        \KeywordTok{subject_to}\NormalTok{(}
-\NormalTok{            toer_cnstr,}
-\NormalTok{            pow_cnstr}
-\NormalTok{        ),}
-        \DataTypeTok{initial_design =}\NormalTok{ init_design_}\DecValTok{2}\NormalTok{,}
-        \DataTypeTok{upper_boundary_design =}\NormalTok{ ub_design,}
-        \DataTypeTok{opts =}\NormalTok{ opts}
-\NormalTok{)}
+\NormalTok{opt_h0 <-}\StringTok{ }\KeywordTok{minimize}\NormalTok{(}
+  
+\NormalTok{    ess0,}
+    
+    \KeywordTok{subject_to}\NormalTok{(}
+\NormalTok{        toer_cnstr,}
+\NormalTok{        pow_cnstr}
+\NormalTok{    ),}
+    
+    \DataTypeTok{initial_design        =}\NormalTok{ init_design_h0,}
+    \DataTypeTok{upper_boundary_design =}\NormalTok{ ub_design,}
+    \DataTypeTok{opts =}\NormalTok{ opts )}
 \end{Highlighting}
 \end{Shaded}
 
 \hypertarget{test-cases-1}{%
 \subsection{Test Cases}\label{test-cases-1}}
 
-Check if the optimization algorithm converged.
+Make sure that the optimization algorithm converged within the set
+maximum number of iterations:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{print}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations)}
+\NormalTok{opt_h0}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\NormalTok{\{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(. }\OperatorTok{<}\StringTok{ }\NormalTok{opts}\OperatorTok{$}\NormalTok{maxeval)\}}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 17044
+## [1] 17876
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations }\OperatorTok{<}\StringTok{ }\NormalTok{opts}\OperatorTok{$}\NormalTok{maxeval)}
-\end{Highlighting}
-\end{Shaded}
 
 The \(n_2\) function of the optimal two-stage design is expected to be
-monotonously increasing.
+monotnously increasing.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sign}\NormalTok{(}\KeywordTok{diff}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{n2_pivots)),}
-    \KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, (order }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{))}
-\NormalTok{)}
+\KeywordTok{expect_true}\NormalTok{(}
+    \KeywordTok{all}\NormalTok{(}\KeywordTok{diff}\NormalTok{(opt_h0}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{n2_pivots) }\OperatorTok{>}\StringTok{ }\DecValTok{0}\NormalTok{) )}
 \end{Highlighting}
 \end{Shaded}
 
-Type one error rate constraint is tested for the optimal design.
-Due to numerical issues we allow a relative error of \(1\%\).
+Next, the type-one-error-rate and power constraints are tested.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sim_pr_reject}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}
-\NormalTok{df_toer2 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
-    \DataTypeTok{toer =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{]),}
-    \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{])}
-\NormalTok{)}
-\KeywordTok{rm}\NormalTok{(tmp)}
+\NormalTok{tbl_performance <-}\StringTok{ }\KeywordTok{tibble}\NormalTok{(}
+    \DataTypeTok{delta =} \KeywordTok{c}\NormalTok{(.}\DecValTok{0}\NormalTok{, }\FloatTok{.4}\NormalTok{) ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}
+        \DataTypeTok{power     =} \KeywordTok{map}\NormalTok{(}
+\NormalTok{            delta, }
+            \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}
+                \KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(., }\DecValTok{1}\NormalTok{)), }
+\NormalTok{                opt_h0}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{power_sim =} \KeywordTok{map}\NormalTok{(}
+\NormalTok{            delta, }
+            \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(opt_h0}\OperatorTok{$}\NormalTok{design, ., datadist)}\OperatorTok{$}\NormalTok{prob),}
+        \DataTypeTok{ess       =} \KeywordTok{map}\NormalTok{(}
+\NormalTok{            delta, }
+            \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{ExpectedSampleSize}\NormalTok{(}
+\NormalTok{                    datadist, }
+                    \KeywordTok{PointMassPrior}\NormalTok{(., }\DecValTok{1}\NormalTok{) ), }
+\NormalTok{                opt_h0}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{ess_sim   =} \KeywordTok{map}\NormalTok{(}
+\NormalTok{            delta, }
+            \OperatorTok{~}\KeywordTok{sim_n}\NormalTok{(opt_h0}\OperatorTok{$}\NormalTok{design, . ,datadist)}\OperatorTok{$}\NormalTok{n ) ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\NormalTok{unnest}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer2}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
-
-\NormalTok{df_toer2}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##       toer           se
-## 1 0.024971 0.0001560368
-\end{verbatim}
-
-The power constraint can also be tested via simulation.
-Due to numerical issues we allow a relative error of \(1\%\).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sim_pr_reject}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}
-\NormalTok{df_pow2 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
-    \DataTypeTok{pow  =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{]),}
-    \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{])}
-\NormalTok{)}
-\KeywordTok{rm}\NormalTok{(tmp)}
-
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow2}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
-
-\NormalTok{df_pow2}
+\KeywordTok{print}\NormalTok{(tbl_performance)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##        pow           se
-## 1 0.801759 0.0003986749
+## # A tibble: 2 x 5
+##   delta  power power_sim   ess ess_sim
+##   <dbl>  <dbl>     <dbl> <dbl>   <dbl>
+## 1   0   0.0250    0.0250  57.2    57.3
+## 2   0.4 0.800     0.802  117.    118.
 \end{verbatim}
 
-The expected sample size under the null should be lower than the ESS under the
-null of the initial design derived from \texttt{rpact}.
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_lte}\NormalTok{(}
+\NormalTok{    tbl_performance }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(delta }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pull}\NormalTok{(power_sim),}
+\NormalTok{    alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol) )}
+
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_gte}\NormalTok{(}
+\NormalTok{    tbl_performance }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(delta }\OperatorTok{==}\StringTok{ }\FloatTok{0.4}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pull}\NormalTok{(power_sim),}
+\NormalTok{    min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol) )}
+
+\CommentTok{# make sure that evaluate() leads to same results}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\NormalTok{    tbl_performance}\OperatorTok{$}\NormalTok{power, tbl_performance}\OperatorTok{$}\NormalTok{power_sim, }
+    \DataTypeTok{tol   =}\NormalTok{ tol,}
+    \DataTypeTok{scale =} \DecValTok{1}\NormalTok{ )}
+
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\NormalTok{    tbl_performance}\OperatorTok{$}\NormalTok{ess, tbl_performance}\OperatorTok{$}\NormalTok{ess_sim, }
+    \DataTypeTok{tol   =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+The expected sample size under the null must be lower or equal than
+the expected sample size of the inital \texttt{rpact} group-sequential design.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_gte}\NormalTok{(}
-    \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, }\KeywordTok{TwoStageDesign}\NormalTok{(init_design_gs)),}
-    \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_ts}\OperatorTok{$}\NormalTok{design)}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-The expected sample size of the optimal designs is simulated and compared
-to the outcome of \texttt{adoptr::evaluate()}.
-The tolerance is set to \(0.5\) what is due to rounding one patient per group
-in the worst case.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
-    \KeywordTok{evaluate}\NormalTok{(ess_}\DecValTok{0}\NormalTok{, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
-    \DataTypeTok{scale =} \DecValTok{1}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-Additionally, the sample sizes under the point prior are compared.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{expect_equal}\NormalTok{(}
-    \KeywordTok{sim_n}\NormalTok{(opt2_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n,}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt2_ts}\OperatorTok{$}\NormalTok{design),}
-    \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
-    \DataTypeTok{scale =} \DecValTok{1}
-\NormalTok{)}
+    \KeywordTok{evaluate}\NormalTok{(ess0, }
+\NormalTok{             tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                }\KeywordTok{filter}\NormalTok{(type }\OperatorTok{==}\StringTok{ "two-stage"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                }\KeywordTok{pull}\NormalTok{(initial) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                }\NormalTok{.[[}\DecValTok{1}\NormalTok{]] ),}
+    \KeywordTok{evaluate}\NormalTok{(ess0, opt_h0}\OperatorTok{$}\NormalTok{design) )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1298,45 +1248,46 @@ Additionally, the sample sizes under the point prior are compared.
 \hypertarget{objective-2}{%
 \subsection{Objective}\label{objective-2}}
 
-Expected sample size under the point prior is minimized and has already been
-defined.
+Same as in (\#variantI\_1), i.e., expected sample size under the
+alternative point prior is minimized.
 
 \hypertarget{constrains-2}{%
 \subsection{Constrains}\label{constrains-2}}
 
-The constraints remain the same as before, additionally to a constraint
-on conditional power.
+Besides the previous global type-one-error rate and power constraints,
+an additional constraint on \emph{conditional} power is imposed.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{cp <-}\StringTok{ }\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)}
-
+\NormalTok{cp       <-}\StringTok{ }\KeywordTok{ConditionalPower}\NormalTok{(datadist, prior)}
 \NormalTok{cp_cnstr <-}\StringTok{ }\NormalTok{cp }\OperatorTok{>=}\StringTok{ }\FloatTok{.7}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{initial-design-2}{%
-\subsection{Initial Design}\label{initial-design-2}}
+\hypertarget{initial-design-1}{%
+\subsection{Initial Design}\label{initial-design-1}}
 
-The previous initial design can still be applied.
+The same initial (generic two-stage) design as in (\#variantI\_1) is used.
 
 \hypertarget{optimization-2}{%
 \subsection{Optimization}\label{optimization-2}}
 
-The optimal two-stage design is computed.
-
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{opt3_ts <-}\StringTok{ }\KeywordTok{minimize}\NormalTok{(}
-\NormalTok{        ess,}
-        \KeywordTok{subject_to}\NormalTok{(}
-\NormalTok{            toer_cnstr,}
-\NormalTok{            pow_cnstr,}
-\NormalTok{            cp_cnstr}
-\NormalTok{        ),}
-        \DataTypeTok{initial_design =} \KeywordTok{TwoStageDesign}\NormalTok{(init_design_gs),}
-        \DataTypeTok{opts =}\NormalTok{ opts}
-\NormalTok{)}
+\NormalTok{opt_cp <-}\StringTok{ }\KeywordTok{minimize}\NormalTok{(}
+      
+\NormalTok{    ess,}
+    \KeywordTok{subject_to}\NormalTok{(}
+\NormalTok{        toer_cnstr,}
+\NormalTok{        pow_cnstr,}
+\NormalTok{        cp_cnstr }\CommentTok{# new constraint}
+\NormalTok{    ),}
+
+    \DataTypeTok{initial_design =}\NormalTok{ tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{        }\KeywordTok{filter}\NormalTok{(type }\OperatorTok{==}\StringTok{ "two-stage"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{        }\KeywordTok{pull}\NormalTok{(initial) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{        }\NormalTok{.[[}\DecValTok{1}\NormalTok{]],}
+    \DataTypeTok{opts =}\NormalTok{ opts )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1347,7 +1298,9 @@ Check if the optimization algorithm converged.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{print}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations)}
+\NormalTok{opt_cp}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\NormalTok{\{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(. }\OperatorTok{<}\StringTok{ }\NormalTok{opts}\OperatorTok{$}\NormalTok{maxeval)\}}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1355,106 +1308,132 @@ Check if the optimization algorithm converged.
 ## [1] 4059
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations }\OperatorTok{<}\StringTok{ }\NormalTok{opts}\OperatorTok{$}\NormalTok{maxeval)}
-\end{Highlighting}
-\end{Shaded}
-
-Type one error rate constraint is tested for the optimal design.
+Check constraints.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sim_pr_reject}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}
-\NormalTok{df_toer3 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
-    \DataTypeTok{toer =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{]),}
-    \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{])}
-\NormalTok{)}
-\KeywordTok{rm}\NormalTok{(tmp)}
+\NormalTok{tbl_performance <-}\StringTok{ }\KeywordTok{tibble}\NormalTok{(}
+    \DataTypeTok{delta =} \KeywordTok{c}\NormalTok{(.}\DecValTok{0}\NormalTok{, }\FloatTok{.4}\NormalTok{) ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}
+        \DataTypeTok{power     =} \KeywordTok{map}\NormalTok{(}
+\NormalTok{            delta, }
+            \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}
+                \KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(., }\DecValTok{1}\NormalTok{)), }
+\NormalTok{                opt_cp}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{power_sim =} \KeywordTok{map}\NormalTok{(}
+\NormalTok{            delta, }
+            \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(opt_cp}\OperatorTok{$}\NormalTok{design, ., datadist)}\OperatorTok{$}\NormalTok{prob),}
+        \DataTypeTok{ess       =} \KeywordTok{map}\NormalTok{(}
+\NormalTok{            delta, }
+            \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{ExpectedSampleSize}\NormalTok{(}
+\NormalTok{                    datadist, }
+                    \KeywordTok{PointMassPrior}\NormalTok{(., }\DecValTok{1}\NormalTok{) ), }
+\NormalTok{                opt_cp}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{ess_sim   =} \KeywordTok{map}\NormalTok{(}
+\NormalTok{            delta, }
+            \OperatorTok{~}\KeywordTok{sim_n}\NormalTok{(opt_cp}\OperatorTok{$}\NormalTok{design, . ,datadist)}\OperatorTok{$}\NormalTok{n ) ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\NormalTok{unnest}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_toer3}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
-
-\NormalTok{df_toer3}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##      toer           se
-## 1 0.02496 0.0001560033
-\end{verbatim}
-
-The power constraint can also be tested via simulation.
-Due to numerical issues we allow a relative error of \(1\%\).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{tmp     <-}\StringTok{ }\KeywordTok{sim_pr_reject}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, }\FloatTok{.4}\NormalTok{, datadist)}
-\NormalTok{df_pow3 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}
-    \DataTypeTok{pow  =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{1}\NormalTok{]),}
-    \DataTypeTok{se   =} \KeywordTok{as.numeric}\NormalTok{(tmp[}\DecValTok{2}\NormalTok{])}
-\NormalTok{)}
-\KeywordTok{rm}\NormalTok{(tmp)}
-
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(df_pow3}\OperatorTok{$}\NormalTok{pow }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
-
-\NormalTok{df_pow3}
+\KeywordTok{print}\NormalTok{(tbl_performance)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##        pow           se
-## 1 0.798917 0.0004008102
+## # A tibble: 2 x 5
+##   delta  power power_sim   ess ess_sim
+##   <dbl>  <dbl>     <dbl> <dbl>   <dbl>
+## 1   0   0.0250    0.0250  68.9    69.0
+## 2   0.4 0.800     0.799   79.7    79.8
 \end{verbatim}
 
-The conditional power constraint needs to be tested.
-Select three points for this and check the constraint.
-
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x <-}\StringTok{ }\NormalTok{adoptr}\OperatorTok{:::}\KeywordTok{scaled_integration_pivots}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design)[}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{)]}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_lte}\NormalTok{(}
+\NormalTok{    tbl_performance }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(delta }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pull}\NormalTok{(power_sim),}
+\NormalTok{    alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol) )}
 
-\NormalTok{cp_val <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, }\ControlFlowTok{function}\NormalTok{(z) }\KeywordTok{evaluate}\NormalTok{(cp, opt3_ts}\OperatorTok{$}\NormalTok{design, z))}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_gte}\NormalTok{(}
+\NormalTok{    tbl_performance }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(delta }\OperatorTok{==}\StringTok{ }\FloatTok{0.4}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{pull}\NormalTok{(power_sim),}
+\NormalTok{    min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol) )}
 
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(cp_val }\OperatorTok{>=}\StringTok{ }\FloatTok{0.7} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
+\CommentTok{# make sure that evaluate() leads to same results}
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\NormalTok{    tbl_performance}\OperatorTok{$}\NormalTok{power, tbl_performance}\OperatorTok{$}\NormalTok{power_sim, }
+    \DataTypeTok{tol   =}\NormalTok{ tol,}
+    \DataTypeTok{scale =} \DecValTok{1}\NormalTok{ )}
+
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(}
+\NormalTok{    tbl_performance}\OperatorTok{$}\NormalTok{ess, tbl_performance}\OperatorTok{$}\NormalTok{ess_sim, }
+    \DataTypeTok{tol   =}\NormalTok{ tol_n,}
+    \DataTypeTok{scale =} \DecValTok{1}\NormalTok{ )}
 \end{Highlighting}
 \end{Shaded}
 
-Simulate conditional power at the three pivots and check if the
-constraint is fulfilled with a relative tolerance of \(1\%\).
+The conditional power constraint is evaluated and tested on a
+grid over the continuation region (both simulated an via numerical
+integration).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{cp_sim <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(z) \{}
-\NormalTok{  z2  <-}\StringTok{ }\KeywordTok{simulate}\NormalTok{(datadist, }\DecValTok{10}\OperatorTok{^}\DecValTok{6}\NormalTok{, }\KeywordTok{n2}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, z), }\FloatTok{.4}\NormalTok{, }\DecValTok{42}\NormalTok{)}
-\NormalTok{  rej <-}\StringTok{ }\KeywordTok{ifelse}\NormalTok{(z2 }\OperatorTok{>}\StringTok{ }\KeywordTok{c2}\NormalTok{(opt3_ts}\OperatorTok{$}\NormalTok{design, z), }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)}
-  \KeywordTok{return}\NormalTok{(}\KeywordTok{mean}\NormalTok{(rej))}
-\NormalTok{\}}
-
-\NormalTok{cp_sim_val <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(x, }\ControlFlowTok{function}\NormalTok{(z) }\KeywordTok{cp_sim}\NormalTok{(z))}
-
-\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(cp_sim_val }\OperatorTok{>=}\StringTok{ }\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
+\KeywordTok{tibble}\NormalTok{(}
+    \DataTypeTok{x1     =} \KeywordTok{seq}\NormalTok{(opt_cp}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{c1f, opt_cp}\OperatorTok{$}\NormalTok{design}\OperatorTok{@}\NormalTok{c1e, }\DataTypeTok{length.out =} \DecValTok{25}\NormalTok{),}
+    \DataTypeTok{cp     =} \KeywordTok{map_dbl}\NormalTok{(x1, }\OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(cp, opt_cp}\OperatorTok{$}\NormalTok{design, .)),}
+    \DataTypeTok{cp_sim =} \KeywordTok{map_dbl}\NormalTok{(x1, }\ControlFlowTok{function}\NormalTok{(x1) \{}
+\NormalTok{        x2  <-}\StringTok{ }\KeywordTok{simulate}\NormalTok{(datadist, }\DecValTok{10}\OperatorTok{^}\DecValTok{6}\NormalTok{, }\KeywordTok{n2}\NormalTok{(opt_cp}\OperatorTok{$}\NormalTok{design, x1), }\FloatTok{.4}\NormalTok{, }\DecValTok{42}\NormalTok{)}
+\NormalTok{        rej <-}\StringTok{ }\KeywordTok{ifelse}\NormalTok{(x2 }\OperatorTok{>}\StringTok{ }\KeywordTok{c2}\NormalTok{(opt_cp}\OperatorTok{$}\NormalTok{design, x1), }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+        \KeywordTok{return}\NormalTok{(}\KeywordTok{mean}\NormalTok{(rej))}
+\NormalTok{    \}) ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
+\NormalTok{      testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{cp     }\OperatorTok{>=}\StringTok{ }\FloatTok{0.7} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol)))}
+\NormalTok{      testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{cp_sim }\OperatorTok{>=}\StringTok{ }\FloatTok{0.7} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) }
+\NormalTok{      testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(}\KeywordTok{abs}\NormalTok{(.}\OperatorTok{$}\NormalTok{cp }\OperatorTok{-}\StringTok{ }\NormalTok{.}\OperatorTok{$}\NormalTok{cp_sim) }\OperatorTok{<=}\StringTok{ }\NormalTok{tol)) \}}
 \end{Highlighting}
 \end{Shaded}
 
-The expected sample size under the prior should be higher than
-in the case without the constraint that was analyzed in I.1.
+\begin{verbatim}
+## # A tibble: 25 x 3
+##       x1    cp cp_sim
+##    <dbl> <dbl>  <dbl>
+##  1 0.810 0.701  0.701
+##  2 0.872 0.698  0.699
+##  3 0.934 0.701  0.701
+##  4 0.995 0.698  0.698
+##  5 1.06  0.700  0.700
+##  6 1.12  0.702  0.703
+##  7 1.18  0.699  0.699
+##  8 1.24  0.703  0.703
+##  9 1.30  0.713  0.713
+## 10 1.37  0.718  0.718
+## # ... with 15 more rows
+\end{verbatim}
+
+Finally, the expected sample size under the alternative prior should
+be larger than in the case without the constraint (\#variantI\_1).
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_gte}\NormalTok{(}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt3_ts}\OperatorTok{$}\NormalTok{design),}
-    \KeywordTok{evaluate}\NormalTok{(ess, opt1_ts}\OperatorTok{$}\NormalTok{design)}
-\NormalTok{)}
+    \KeywordTok{evaluate}\NormalTok{(ess, opt_cp}\OperatorTok{$}\NormalTok{design),}
+    \KeywordTok{evaluate}\NormalTok{(}
+\NormalTok{        ess, }
+\NormalTok{        tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{            }\KeywordTok{filter}\NormalTok{(type }\OperatorTok{==}\StringTok{ "two-stage"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{            }\KeywordTok{pull}\NormalTok{(optimal) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{            }\NormalTok{.[[}\DecValTok{1}\NormalTok{]] }\OperatorTok{%>%}\StringTok{ }
+\StringTok{            }\NormalTok{.}\OperatorTok{$}\NormalTok{design ) )}
 \end{Highlighting}
 \end{Shaded}
 
 \hypertarget{plot-two-stage-designs}{%
 \section{Plot Two-Stage Designs}\label{plot-two-stage-designs}}
 
-The optimal two-stage designs stemming from the different variants
-are plotted together.
+The following figure shows the three optimal two-stage designs side by
+side.
+The effect of the conditional power constraint (CP not below 0.7) is
+clearly visible and the very different characteristics between
+optimizing under the null or the alternative are clearly visible.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-30-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-21-1.pdf}
 
 \hypertarget{scenarioII}{%
 \chapter{Scenario II: Large effect, Gaussian prior}\label{scenarioII}}
@@ -1549,8 +1528,8 @@ Expected sample size under the prior is minimized, i.e.,
 
 No additional constraints are considered in this variant.
 
-\hypertarget{initial-design-3}{%
-\subsection{Initial Design}\label{initial-design-3}}
+\hypertarget{initial-design-2}{%
+\subsection{Initial Design}\label{initial-design-2}}
 
 \texttt{adoptr} requires the definition of an initial design for optimization.
 We start with a group-sequential design from the package \texttt{rpact} that
@@ -1681,8 +1660,8 @@ Expected sample size conditioned on negative effect sizes is minimized, i.e.,
 
 No additional constraints are considered in this variant.
 
-\hypertarget{initial-design-4}{%
-\subsection{Initial Design}\label{initial-design-4}}
+\hypertarget{initial-design-3}{%
+\subsection{Initial Design}\label{initial-design-3}}
 
 The previous initial design can still be applied.
 
@@ -1789,8 +1768,8 @@ on conditional power.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{initial-design-5}{%
-\subsection{Initial Design}\label{initial-design-5}}
+\hypertarget{initial-design-4}{%
+\subsection{Initial Design}\label{initial-design-4}}
 
 The previous initial design can still be applied.
 
@@ -1888,7 +1867,7 @@ in the case without the constraint that was analyzed in II.1.
 The optimal two-stage designs stemming from the different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-55-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-46-1.pdf}
 
 \hypertarget{scenarioIII}{%
 \chapter{Scenario III: large effect, uniform prior}\label{scenarioIII}}
@@ -2151,7 +2130,7 @@ Plot and assess for convergence
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-69-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-60-1.pdf}
 
 \hypertarget{scenarioIV}{%
 \chapter{Scenario IV: smaller effect, point prior}\label{scenarioIV}}
@@ -2244,8 +2223,8 @@ Expected sample size under the respective prior is minimized, i.e.,
 
 No additional constraints are considered in this variant.
 
-\hypertarget{initial-design-6}{%
-\subsection{Initial Design}\label{initial-design-6}}
+\hypertarget{initial-design-5}{%
+\subsection{Initial Design}\label{initial-design-5}}
 
 \texttt{adoptr} requires the definition of an initial design for optimization.
 We start with a group-sequential design from the package \texttt{rpact} that
@@ -2472,8 +2451,8 @@ The minimal required power is increased to \(90\%\).
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{initial-design-7}{%
-\subsection{Initial Design}\label{initial-design-7}}
+\hypertarget{initial-design-6}{%
+\subsection{Initial Design}\label{initial-design-6}}
 
 The initial design is updated to a group-sequential design that fulfills
 the new power constraint.
@@ -2697,8 +2676,8 @@ The maximal type one error rate is increased to \(5\%\).
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{initial-design-8}{%
-\subsection{Initial Design}\label{initial-design-8}}
+\hypertarget{initial-design-7}{%
+\subsection{Initial Design}\label{initial-design-7}}
 
 The initial design is updated to a group-sequential design that fulfills
 the new type one error rate constraint.
@@ -2908,7 +2887,7 @@ monotonously decreasing.
 The optimal two-stage designs stemming from the three different variants
 are plotted together.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-106-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-97-1.pdf}
 
 \hypertarget{scenarioV}{%
 \chapter{Scenario V: Single-arm design, medium effect size}\label{scenarioV}}
@@ -3001,8 +2980,8 @@ Expected sample size under the respective prior is minimized, i.e.,
 
 No additional constraints are considered in this variant.
 
-\hypertarget{initial-design-9}{%
-\subsection{Initial Design}\label{initial-design-9}}
+\hypertarget{initial-design-8}{%
+\subsection{Initial Design}\label{initial-design-8}}
 
 A fixed design for these parameters would require
 176
@@ -3179,8 +3158,8 @@ null hypothesis. Hence, the previous inequality can still be used.
 There is no constraint on power anymore because power is part of the
 objective utility function.
 
-\hypertarget{initial-design-10}{%
-\subsection{Initial Design}\label{initial-design-10}}
+\hypertarget{initial-design-9}{%
+\subsection{Initial Design}\label{initial-design-9}}
 
 The previous initial design with order \(5\) is applied.
 
@@ -3267,7 +3246,7 @@ Check if the power of the design with higher \(\lambda\) is larger.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-126-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-117-1.pdf}
 
 \hypertarget{variantV_3}{%
 \section{Variant V-3, n1-penalty}\label{variantV_3}}
@@ -3295,8 +3274,8 @@ In this case, a mixed criterion consisting of expected sample size and
 
 The inequalities from variant V.1 can still be used.
 
-\hypertarget{initial-design-11}{%
-\subsection{Initial Design}\label{initial-design-11}}
+\hypertarget{initial-design-10}{%
+\subsection{Initial Design}\label{initial-design-10}}
 
 The previous initial design with order \(5\) is applied.
 
@@ -3367,7 +3346,7 @@ Check if the n1 regularizer of the design with higher \(\lambda\) is lower.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-131-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-122-1.pdf}
 
 \hypertarget{variantV_4}{%
 \section{Variant V-4, n2-penalty}\label{variantV_4}}
@@ -3396,8 +3375,8 @@ average of \(n_2\) is minimized.
 
 The inequalities from variant V.1 can still be used.
 
-\hypertarget{initial-design-12}{%
-\subsection{Initial Design}\label{initial-design-12}}
+\hypertarget{initial-design-11}{%
+\subsection{Initial Design}\label{initial-design-11}}
 
 The previous initial design with order \(5\) is applied.
 
@@ -3469,7 +3448,7 @@ higher \(\lambda\) is lower.
 Finally the three designs computed so far are plotted together to allow
 comparison.
 
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-136-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-127-1.pdf}
 
 \bibliography{book.bib,packages.bib}
 
