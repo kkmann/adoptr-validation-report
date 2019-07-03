@@ -3,17 +3,19 @@
 
 ## Details
 
-This scenario is a variant of Scenario I.
+This scenario covers a similar setting as [Scenario I](#scenarioI).
 The purpose is to asses whether placing uniform priors with decreasing 
 width of support centered at the $\delta=0.4$ leads to a sequence of
-optimal designs which converges towards the solution in Case I-1.
+optimal designs which converges towards the solution in [variant I-1](#variantI.1).
+
+The trial is still considered to be two-armed with normally distribtuted outcomes
+and the type one error rate under the null hypothesis 
+$\mathcal{H}_0:\delta \leq 0$ is to be protected at $\alpha = 0.025$.
 ```{r}
 datadist <- Normal(two_armed = TRUE)
-```
-The null hypothesis is no population mean difference, i.e.
-$\mathcal{H}_0:\delta \leq 0$.
-```{r}
 H_0 <- PointMassPrior(.0, 1)
+alpha <- 0.025
+toer_cnstr <- Power(datadist, H_0) <= alpha
 ```
 In this scenario we consider a sequence of uniform distributions
 $\delta\sim\operatorname{Unif}(0.4 - \Delta_i, 0.4 + \Delta_i)$
@@ -27,22 +29,10 @@ prior <- function(delta) {
     ContinuousPrior(function(x) dunif(x, a, b), support = c(a, b))
 }
 ```
-Across all variants in this scenario, the one-sided maximal 
-type one error rate is restricted to 
-```{r}
-alpha <- 0.025
-```
-and the expected power at the point alternative of $\delta=0.4$ must
-be at least
-```{r}
-min_power <- 0.8
-```
-I.e. throughout this sceanrio, we always use the two
-constraints
-```{r}
-toer_cnstr <- Power(datadist, H_0) <= alpha
-```
-and
+Across all variants in this scenario, the expected power under the respective
+prior conditioned on $\delta > 0$ must be at least $0.8$.
+I.e., throughout this scenario, we always use the following constraint on
+expected power.
 ```{r}
 ep_cnstr <- function(delta) {
     prior     <- prior(delta)
@@ -57,8 +47,8 @@ ep_cnstr <- function(delta) {
 
 ## Variant III.1: Convergence under prior concentration {#variantIII_1}
 
-Make sure that the optimal solution converges as the prior is more and more 
-concentrated at a point mass.
+The goal of this variant is to make sure that the optimal solution 
+converges as the prior is more and more concentrated at a point mass.
 
 
 ### Objective
@@ -72,7 +62,7 @@ objective <- function(delta) {
 ```
 
 
-### Constrains
+### Constraints
 
 The constraints have already been described under details.
 
@@ -80,7 +70,7 @@ The constraints have already been described under details.
 
 The optimization problem depending on $\Delta_i$ is defined below.
 The default optimization paramters, 5 pivot points, and a fixed initial design
-is used. 
+are used. 
 The initial design is chosen such that the error constraints are
 fulfilled. Early stopping for futility is applied if the effect shows 
 in the opponent direction to the alternative, i.e. $c_1^f=0$. 
@@ -107,10 +97,8 @@ optimal_design <- function(delta) {
         initial_design = init
     )
 }
-```
 
-Compute the sequence of optimal designs
-```{r}
+# compute the sequence of optimal designs
 deltas  <- 3:0/10
 results <- lapply(deltas, optimal_design)
 ```
@@ -119,14 +107,15 @@ results <- lapply(deltas, optimal_design)
 
 Check that iteration limit was not exceeded in any case.
 ```{r}
-iters <- sapply(results, function(x) x$nloptr_return$iterations)
-
-print(iters)
-
-testthat::expect_true(all(iters <= 10000))
+results %>%
+  transmute(
+      iterations = purrr::map_int(results, 
+                                  ~.$nloptr_return$iterations) ) %>%
+  {print(.); .} %>% 
+  {testthat::expect_true(all(.$iterations < opts$maxeval))}
 ```
 
-Check type one error rate control
+Check type one error rate control.
 ```{r}
 tmp     <- sapply(results, function(x) sim_pr_reject(x$design, .0, datadist))
 df_toer <- data.frame(

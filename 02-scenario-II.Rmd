@@ -3,47 +3,67 @@
 
 ## Details
 
-In this scenario, a classical two-arm trial with normal
-test statistic and known variance (w.l.o.g. variance of
-the test statistic is 1).
-This situation corresponds to a classical $z$-test for
-a difference in population means.
-```{r}
-datadist <- Normal(two_armed = TRUE)
+In this scenario, we revisit the case from [Scenario I](#scenarioI), but
+are not assuming a point prior any more.
+Instead, a Gaussian prior with mean $\vartheta = 0.4$ and 
+variance $\tau^2 = 0.2^2$ on the effect size is assumed, i.e. 
+$\delta \sim \mathcal{N} (0.4, 0.2^2)$.
+
+In order to fulfill regulartory considerations, the type one error rate
+is still protected under the point prior $\delta = 0$ at the level
+of significance $\alpha = 0.025$. 
+
+The power constraint, however, needs to be modified. 
+It is not senseful to compute the power as rejection probability under 
+the full prior, because effect sizes less than a minimal clinically relevant
+effect do not show (sufficient) evidence againt the null hypothesis.
+Therefore, we assume a minimal clinically relevant effect size 
+$\delta_{\text} = 0.0$ and condition the prior to compute expected power.
+In the following, the expected power should be at least $0.8$.
+```{r setup, results='hide'}
+library(adoptr)
+library(tidyverse)
+library(rpact)
+library(pwr)
+library(testthat)
+
+# load custom functions in folder subfolder '/R'
+for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
+   source(file.path("R", nm))
+
+# define seed value
+seed  <- 42
+
+# define absolute tolerance for error rates
+tol   <- 0.01
+
+# define absolute tolerance for sample sizes
+tol_n <- 0.5
+
+# define custom tolerance and iteration limit for nloptr
+opts = list(
+    algorithm = "NLOPT_LN_COBYLA",
+    xtol_rel  = 1e-5,
+    maxeval   = 100000
+)
 ```
-The null hypothesis is no population mean difference, i.e.
-$\mathcal{H}_0:\delta \leq 0$.
+
+
 ```{r}
-H_0 <- PointMassPrior(.0, 1)
-```
-A Gaussian prior on the effect size 
-$\delta \sim \mathcal{N} ( 0.4, 0.2^2)$ is assumed.
-```{r}
-prior <- ContinuousPrior(function(delta) dnorm(delta, mean = .4, sd = .2),
-                         support = c(-5, 5),
-                         tighten_support = TRUE)
-```
-Across all variants in this scenario, the one-sided maximal 
-type one error rate is restricted to 
-```{r}
-alpha <- 0.025
-```
-and the power at the point alternative of $\delta=0.4$ must
-be at least
-```{r}
-min_power <- 0.8
-```
-I.e. throughout this sceanrio, we always use the two
-constraints
-```{r}
+# data distribution and priors
+datadist   <- Normal(two_armed = TRUE)
+H_0        <- PointMassPrior(.0, 1)
+prior      <- ContinuousPrior(function(delta) dnorm(delta, mean = .4, sd = .2),
+                              support = c(-5, 5),
+                              tighten_support = TRUE)
+
+# define constraints on type one error rate and expected power
+alpha      <- 0.025
+min_epower <- 0.8
 toer_cnstr <- Power(datadist, H_0) <= alpha
-```
-and
-```{r}
-pow_cnstr <- Power(datadist, prior) >= min_power
-```
+epow_cnstr <- Power(datadist, condition(prior, c(0.0, prior@support[2]))) >= min_epower
 
-
+```
 
 
 
@@ -51,106 +71,121 @@ pow_cnstr <- Power(datadist, prior) >= min_power
 
 ### Objective
 
-Expected sample size under the prior is minimized, i.e.,
+Expected sample size under the full prior is minimized, i.e.,
 $\boldsymbol{E}\big[n(\mathcal{D})\big]$.
+
 ```{r}
 ess <- ExpectedSampleSize(datadist, prior)
 ```
 
 
-### Constrains
+### Constraints
 
 No additional constraints are considered in this variant.
 
 
 ### Initial Design
 
-`adoptr` requires the definition of an initial design for optimization. 
-We start with a group-sequential design from the package `rpact` that
-fulfills the type-one error rate constraint and the power
-constraint for a point effect size at $\delta = 0.4$.
-The order of integration is set to $5$.
-For usage as two-stage design with variable sample size, it has to
-be converted to a `TwoStageDesign`.
+For this example, the optimal one-stage, group-sequential, and generic
+two-stage designs are computed.
+While the initial design for the one-stage case is determined heuristically,
+both the group sequential and the generic two-stage designs are 
+optimized starting from the a group-sequential design that is computed by 
+the `rpact` package to fulfill the type one error rate constraint and
+that fulfills the power constraint at the prior mean $\delta = 0.4$.
 
 ```{r}
-order <- 5L 
-
-init_design_gs <- rpact_design(0.4, 0.025, 0.8, TRUE, order)
-
-init_design    <- TwoStageDesign(init_design_gs)
+order <- 6L
+# data frame of initial designs 
+tbl_designs <- tibble(
+    type    = c("one-stage", "group-sequential", "two-stage"),
+    initial = list(
+        OneStageDesign(250, 2.0),
+        rpact_design(0.4, 0.025, 0.8, TRUE, order),
+        TwoStageDesign(rpact_design(0.4, 0.025, 0.8, TRUE, order))) )
 ```
+
+The order of integration is set to `r order`.
 
 
 ### Optimization 
 
-The optimal design is computed in three variants: two-stage,
-group-sequential, and one-stage.
-The input only differs with regard to the initial design.
+For all these three initial designs, the resulting optimal designs are 
+computed. 
 
 ```{r}
-opt_design <- function(initial_design) {
-    minimize(
-        ess,
-        subject_to(
-            toer_cnstr,
-            pow_cnstr
-        ),
-        initial_design = initial_design,
-        opts = opts
-    )
-}
-
-opt1_gs <- opt_design(init_design_gs)
-opt1_os <- opt_design(OneStageDesign(300, 2.0))
-opt1_ts <- opt_design(TwoStageDesign(opt1_gs$design))
+tbl_designs <- tbl_designs %>% 
+    mutate(
+       optimal = purrr::map(initial, ~minimize(
+         
+          ess,
+          subject_to(
+              toer_cnstr,
+              epow_cnstr
+          ),
+          
+          initial_design = ., 
+          opts           = opts)) )
 ```
 
 
 
 ### Test Cases
 
-Check if the optimization algorithm converged in all cases.
+Firstly, it is checked that the maximum number of iterations was not reached
+in all these cases.
+
 ```{r}
-iters <- sapply(list(opt1_ts, opt1_gs, opt1_os), 
-                function(x) x$nloptr_return$iterations)
+tbl_designs %>% 
+  transmute(
+      type, 
+      iterations = purrr::map_int(tbl_designs$optimal, 
+                                  ~.$nloptr_return$iterations) ) %>%
+  {print(.); .} %>% 
+  {testthat::expect_true(all(.$iterations < opts$maxeval))}
+```
 
-print(iters)
+Since type one error rate is defined under the point effect size $\delta=0$,
+the type one error rate constraint can be tested for all three optimal designs.
 
-testthat::expect_true(all(iters < opts$maxeval))
+```{r}
+tbl_designs %>% 
+  transmute(
+      type, 
+      toer = purrr::map(tbl_designs$optimal, 
+                        ~sim_pr_reject(.[[1]], .0, datadist)$prob) ) %>% 
+  unnest() %>% 
+  {print(.); .} %>% {
+  testthat::expect_true(all(.$toer <= alpha * (1 + tol))) }
 ```
 
 
-Type one error rate constraint is tested for the three designs.
+Since the optimal two-stage design is more flexible than the optimal
+group-sequential design (constant $n_2$ function) and this is 
+more flexible than the optimal one-stage design (no second stage),
+the expected sample sizes under the prior should be ordered in the opposite way.
+Additionally, expected sample sizes under the null hypothesis
+is computed both via `evaluate()` and simulation-based.
+
 ```{r}
-tmp     <- sapply(list(opt1_ts, opt1_gs, opt1_os),  
-                  function(x) sim_pr_reject(x$design, .0, datadist))
-df_toer <- data.frame(
-    toer = as.numeric(tmp[1, ]),
-    se   = as.numeric(tmp[2, ])
-)
-rm(tmp)
+essh0 <- ExpectedSampleSize(datadist, H_0)
 
-testthat::expect_true(all(df_toer$toer <= alpha * (1 + tol)))
-
-df_toer
+tbl_designs %>% 
+    mutate(
+        ess       = map_dbl(optimal,
+                            ~evaluate(ess, .$design) ),
+        essh0     = map_dbl(optimal,
+                            ~evaluate(essh0, .$design) ),
+        essh0_sim = map_dbl(optimal,
+                            ~sim_n(.$design, .0, datadist)$n ) ) %>% 
+    {print(.); .} %>% {
+    # sim/evaluate same under null?
+    testthat::expect_equal(.$essh0, .$essh0_sim, 
+                           tolerance = tol_n,
+                           scale = 1)
+    # monotonicity with respect to degrees of freedom
+    testthat::expect_true(all(diff(.$ess) < 0)) }
 ```
-
-
-
-The expected sample sizes should be ordered in a specific way.
-```{r}
-testthat::expect_gte(
-    evaluate(ess, opt1_os$design),
-    evaluate(ess, opt1_gs$design)
-)
-
-testthat::expect_gte(
-    evaluate(ess, opt1_gs$design),
-    evaluate(ess, opt1_ts$design)
-)
-```
-
 
 
 
@@ -160,76 +195,100 @@ testthat::expect_gte(
 ### Objective
 
 Expected sample size conditioned on negative effect sizes is minimized, i.e.,
+
 ```{r}
-ess_0 <- ExpectedSampleSize(datadist, condition(prior, c(-3, 0)))
+ess_0 <- ExpectedSampleSize(datadist, condition(prior, c(bounds(prior)[1], 0)))
 ```
 
 
-### Constrains
+### Constraints
 
-No additional constraints are considered in this variant.
+No additional constraints besides type one error rate and expected power
+are considered in this variant.
 
 ### Initial Design
 
-The previous initial design can still be applied.
+As in [Variant I.2](#variantI.2) another initial design is more appropriate
+for optimization under the null hypothesis.
+In this situation, one may expect a different (increasing) sample size function,
+and thus also a different shape of the $c_2$ function.
+Therefore, the `rpact` initial design is a suboptimal starting point.
+Instead, we start with a constant $c_2$ function by heuristically
+setting it to $2$ on the continuation area.
+
+```{r}
+init_design_h0 <- tbl_designs %>% 
+    filter(type == "two-stage") %>% 
+    pull(initial) %>% 
+    .[[1]]
+init_design_h0@c2_pivots <- rep(2, order)
+```
 
 
 ### Optimization 
 
-The optimal group-sequential design and based on this the
-optimal two-stage design are computed. 
+The optimal two-stage design is computed. 
 
 ```{r}
-opt2 <- function(initial_design) {
-    minimize(
+opt_neg <- minimize(
+  
         ess_0,
+        
         subject_to(
+          
             toer_cnstr,
-            pow_cnstr
+            epow_cnstr
         ),
-        initial_design = initial_design,
+        
+        initial_design = init_design_h0,
         opts = opts
-    )
-}
-
-opt2_gs <- opt2(init_design_gs)
-opt2_ts <- opt2(TwoStageDesign(opt2_gs$design))
+)
 ```
 
 
 
 ### Test Cases
 
-Check if the optimization algorithm converged.
-```{r}
-print(opt2_ts$nloptr_return$iterations)
 
-testthat::expect_true(opt2_ts$nloptr_return$iterations < opts$maxeval)
+First of all, check if the optimization algorithm converged.
+To avoid improper solutions, it is first verified that the maximum
+number of iterations was not exceeded in any of the three cases.
+```{r}
+testthat::expect_true(opt_neg$nloptr_return$iterations < opts$maxeval)
+print(opt_neg$nloptr_return$iterations)
 ```
 
 
-Type one error rate constraint is tested for the optimal design.
+Again, the type one error rate under the point null hypothesis $\delta = 0$
+can be tested by simulation.
+
 ```{r}
-tmp     <- sim_pr_reject(opt2_ts$design, .0, datadist)
-df_toer2 <- data.frame(
-    toer = as.numeric(tmp[1]),
-    se   = as.numeric(tmp[2])
+tbl_toer <- tibble(
+  toer     = evaluate(Power(datadist, H_0), opt_neg$design),
+  toer_sim = sim_pr_reject(opt_neg$design, .0, datadist)$prob
 )
-rm(tmp)
 
-testthat::expect_true(all(df_toer2$toer <= alpha * (1 + tol)))
+print(tbl_toer)
 
-df_toer2
+testthat::expect_true(tbl_toer$toer <= alpha * (1 + tol))
+testthat::expect_true(tbl_toer$toer_sim <= alpha * (1 + tol))
 ```
 
-The expected sample size under the null hypothesis should be lower
-than of the design from variant II.1 where expected sample size under
-the full prior was minimized.
+Furthermore, the expected sample size under the prior conditioned on negative
+effect sizes ($\delta \leg 0$) should be lower for the optimal design derived
+in this variant than for the optimal design from [Variant II.1](#variantII_1)
+where expected sample size under the full prior was minimized.
 
 ```{r}
 testthat::expect_lte(
-    evaluate(ess_0, opt2_ts$design),
-    evaluate(ess_0, opt1_ts$design)
+    evaluate(ess_0, opt_neg$design),
+    evaluate(
+        ess_0, 
+        tbl_designs %>% 
+            filter(type == "two-stage") %>% 
+            pull(optimal) %>% 
+            .[[1]] %>% 
+            .$design )
 )
 ```
 
@@ -240,35 +299,38 @@ testthat::expect_lte(
 
 ### Objective
 
-Expected sample size under the prior is minimized and has already been defined.
+As in [Variant II.1](#variantII.1), expected sample size under the full prior 
+is minimized.
 
-### Constrains
+### Constraints
 
-The constraints remain the same as before, additionally to a constraint
-on conditional power.
+In addition to the constraints on type one error rate and expected power,
+a constraint on conditional power to be larger than $0.7$ is included.
+
 ```{r}
-cp <- ConditionalPower(datadist, condition(prior, c(0, 3)))
+cp <- ConditionalPower(datadist, condition(prior, c(0, prior@support[2])))
 
-cp_cnstr <- cp >= .7
+cp_cnstr <- cp >= 0.7
 ```
 
 ### Initial Design
 
 The previous initial design can still be applied.
 
+
 ### Optimization 
 
 The optimal two-stage design is computed. 
 
 ```{r}
-opt3_ts <- minimize(
+opt_cp <- minimize(
         ess,
         subject_to(
             toer_cnstr,
-            pow_cnstr,
+            epow_cnstr,
             cp_cnstr
         ),
-        initial_design = init_design,
+        initial_design = tbl_designs$initial[[3]],
         opts = opts
 )
 ```
@@ -277,49 +339,58 @@ opt3_ts <- minimize(
 
 ### Test Cases
 
-Check if the optimization algorithm converged.
+We start checking whether the maximum number of iterations was not reached.
 ```{r}
-print(opt3_ts$nloptr_return$iterations)
+print(opt_cp$nloptr_return$iterations)
 
-testthat::expect_true(opt3_ts$nloptr_return$iterations < opts$maxeval)
+testthat::expect_true(opt_cp$nloptr_return$iterations < opts$maxeval)
 ```
 
+The type one error rate is tested via simulation and compared
+to the value obtained by `evaluate()`.
 
-Type one error rate constraint is tested for the optimal design.
 ```{r}
-tmp     <- sim_pr_reject(opt3_ts$design, .0, datadist)
-df_toer3 <- data.frame(
-    toer = as.numeric(tmp[1]),
-    se   = as.numeric(tmp[2])
+tbl_toer <- tibble(
+  toer     = evaluate(Power(datadist, H_0), opt_cp$design),
+  toer_sim = sim_pr_reject(opt_cp$design, .0, datadist)$prob
 )
-rm(tmp)
 
-testthat::expect_true(all(df_toer3$toer <= alpha * (1 + tol)))
+print(tbl_toer)
 
-df_toer3
+testthat::expect_true(tbl_toer$toer <= alpha * (1 + tol))
+testthat::expect_true(tbl_toer$toer_sim <= alpha * (1 + tol))
 ```
 
+The conditional power is evaluated via numerical integration on several points
+inside the continuation region and it is tested whether the constraint is 
+fulfilled on all these points.
 
-
-The conditional power constraint needs to be tested. 
-Select three points for this and check the constraint.
 ```{r}
-x <- adoptr:::scaled_integration_pivots(opt3_ts$design)[c(1, 3, 5)]
-
-cp_val <- sapply(x, function(z) evaluate(cp, opt3_ts$design, z))
-
-testthat::expect_true(all(cp_val >= 0.7 * (1 - tol)))
+tibble(
+    x1 = seq(opt_cp$design@c1f, opt_cp$design@c1e, length.out = 25),
+    cp = map_dbl(x1, ~evaluate(cp, opt_cp$design, .)) ) %>% 
+  {print(.); .} %>% {
+      testthat::expect_true(all(.$cp >= 0.7 * (1 - tol))) }
 ```
 
 
-The expected sample size under the prior should be higher than
-in the case without the constraint that was analyzed in II.1.
+Due to the additional constraint in comparison to [Variant II.1](#variantII.1),
+Variant II.3 should show a larger expected sample size under the prior than
+Variant II.1
+
 ```{r}
 testthat::expect_gte(
-    evaluate(ess, opt3_ts$design),
-    evaluate(ess, opt1_ts$design)
+    evaluate(ess, opt_cp$design),
+    evaluate(
+        ess, 
+        tbl_designs %>% 
+            filter(type == "two-stage") %>% 
+            pull(optimal) %>% 
+            .[[1]] %>% 
+            .$design )
 )
 ```
+
 
 
 
@@ -329,40 +400,43 @@ The optimal two-stage designs stemming from the different variants
 are plotted together. 
 
 
-```{r, echo = FALSE}
-z1 <- seq(0, 4, by = .01)
+```{r, echo=FALSE}
+x1 <- seq(0, 4, by = .01)
 
 tibble(
-    type  = c("ESS under Prior", "ESS under Null", "ESS under Prior with CP constraint"), 
-    design = list(opt1_ts$design, opt2_ts$design, opt3_ts$design)
-) %>% 
+    type  = c(
+        "ESS under prior", 
+        "ESS under null", 
+        "ESS under prior + CP constraint" ), 
+    design = list(
+        tbl_designs %>% 
+            filter(type == "two-stage") %>% 
+            pull(optimal) %>% 
+            .[[1]] %>% 
+            .$design, 
+        opt_neg$design, 
+        opt_cp$design ) ) %>% 
     group_by(type) %>% 
     do(
-        z1 = z1,
-        n  = adoptr::n(.$design[[1]], z1),
-        c2 = c2(.$design[[1]], z1),
-        cp = evaluate(cp, .$design[[1]], z1)
-    ) %>% 
+        x1 = x1,
+        n  = adoptr::n(.$design[[1]], x1),
+        c2 = c2(.$design[[1]], x1),
+        CP = evaluate(cp, .$design[[1]], x1) ) %>% 
     unnest() %>% 
     mutate(
         section = ifelse(
             is.finite(c2), 
             "continuation", 
-            ifelse(c2 == -Inf, "efficacy", "futility")
-        )
-    ) %>% 
-    gather(variable, value, n, c2, cp) %>% 
-    ggplot(aes(z1, value, color = type)) +
+            ifelse(c2 == -Inf, "efficacy", "futility") ) ) %>% 
+    gather(variable, value, n, c2, CP) %>% 
+    ggplot(aes(x1, value, color = type)) +
         geom_line(aes(group = interaction(section, type))) + 
         facet_wrap(~variable, scales = "free_y") +
+        labs(y = "", x = expression(x[1])) +
+        scale_color_discrete("") +
         theme_bw() +
-        scale_color_manual(
-          values = c(rgb(0,74,111, maxColorValue = 255),
-                                    rgb(0,159,227, maxColorValue = 255),
-                                    rgb(230,121,0, maxColorValue = 255))) +
         theme(
-            panel.grid = element_blank(),
-            legend.position = "bottom"
-        )
+            panel.grid      = element_blank(),
+            legend.position = "bottom" )
 ```
 
