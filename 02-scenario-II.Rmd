@@ -247,7 +247,7 @@ testthat::expect_true(tbl_toer$toer_sim <= alpha * (1 + tol))
 ```
 
 Furthermore, the expected sample size under the prior conditioned on negative
-effect sizes ($\delta \leg 0$) should be lower for the optimal design derived
+effect sizes ($\delta \leq 0$) should be lower for the optimal design derived
 in this variant than for the optimal design from [Variant II.1](#variantII_1)
 where expected sample size under the full prior was minimized.
 
