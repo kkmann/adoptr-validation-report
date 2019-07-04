@@ -18,7 +18,7 @@ It is not senseful to compute the power as rejection probability under
 the full prior, because effect sizes less than a minimal clinically relevant
 effect do not show (sufficient) evidence againt the null hypothesis.
 Therefore, we assume a minimal clinically relevant effect size 
-$\delta_{\text} = 0.0$ and condition the prior to compute expected power.
+$\delta = 0.0$ and condition the prior to compute expected power.
 In the following, the expected power should be at least $0.8$.
 
 ```{r}
