@@ -36,7 +36,7 @@ pow_cnstr  <- Power(datadist, prior) >= min_power
 
 ### Objective
 
-Firtly, expected sample size under the alternative (pointprior) 
+Firstly, expected sample size under the alternative (point prior) 
 is minimized, i.e.,
 $\boldsymbol{E}\big[n(\mathcal{D})\big]$.
 
@@ -45,9 +45,9 @@ ess <- ExpectedSampleSize(datadist, prior)
 ```
 
 
-### Constrains
+### Constraints
 
-No additional constraints  besides type one error rate and power 
+No additional constraints besides type one error rate and power 
 are considered in this variant.
 
 
@@ -56,7 +56,8 @@ are considered in this variant.
 For this example, the optimal one-stage, group-sequential, and generic
 two-stage designs are computed.
 The initial design for the one-stage case is determined heuristically
-(cf. ??? for stability of initial values).
+(cf. [Scenario III](#scenarioIII) where another initial design is applied
+on the same situation for stability of initial values).
 Both the group sequential and the generic two-stage designs are 
 optimized starting from the corresponding group-sequential design as
 computed by the `rpact` package.
@@ -70,6 +71,7 @@ tbl_designs <- tibble(
         rpact_design(0.4, 0.025, 0.8, TRUE, order),
         TwoStageDesign(rpact_design(0.4, 0.025, 0.8, TRUE, order))) )
 ```
+
 The order of integration is set to `r order`.
 
 
@@ -107,7 +109,7 @@ tbl_designs %>%
 ```
 
 
-Next, the type-one-error-rate and power constraints are verified 
+Next, the type one error rate and power constraints are verified 
 for all three designs by simulation:
 ```{r}
 tbl_designs %>% 
@@ -178,7 +180,7 @@ Expected sample size under the null hypothesis prior is minimized,
 i.e., `ess0`.
 
 
-### Constrains
+### Constraints
 
 The constraints remain unchanged from the base case.
 
@@ -249,7 +251,7 @@ expect_true(
     all(diff(opt_h0$design@n2_pivots) > 0) )
 ```
 
-Next, the type-one-error-rate and power constraints are tested.
+Next, the type one error rate and power constraints are tested.
 ```{r}
 tbl_performance <- tibble(
     delta = c(.0, .4) ) %>% 
@@ -322,9 +324,9 @@ Same as in [I-1](#variantI_1), i.e., expected sample size under the
 alternative point prior is minimized.
 
 
-### Constrains
+### Constraints
 
-Besides the previous global type-one-error rate and power constraints,
+Besides the previous global type one error rate and power constraints,
 an additional constraint on *conditional* power is imposed.
 ```{r}
 cp       <- ConditionalPower(datadist, prior)

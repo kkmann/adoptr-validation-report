@@ -55,7 +55,7 @@ ess <- ExpectedSampleSize(datadist, prior)
 ```
 
 
-### Constrains
+### Constraints
 No additional constraints are considered in this variant.
 
 
@@ -238,7 +238,7 @@ testthat::expect_equal(
 
 The objective remains the same as before. 
 
-### Constrains
+### Constraints
 
 The minimal required power is increased to $90\%$.
 
@@ -422,7 +422,7 @@ testthat::expect_equal(
 Expected sample size under the point prior is minimized and has already been
 defined.
 
-### Constrains
+### Constraints
 
 The maximal type one error rate is increased to $5\%$.
 

@@ -85,14 +85,15 @@ itself (aiming to maintain a 100% code coverage).
 The validation report, however, runs through a wide range of possible
 application scenarios and ensures plausibility of results as well
 as consistency with existing methods wherever possible.
-The report itself is implemented as a collection of Rmarkown documents
+The report itself is implemented as a collection of Rmarkdown documents
 allowing to show both the underlying code as well as the corresponding 
-output in a hman-readable format.
+output in a human-readable format.
 
 The online version of the report is dynamically re-generated on a 
 daily basis using the Travis-CI service based on the respective 
 most current version of **adoptr** on CRAN.
-The result of this daily build is available at https://kkmann.github.io/adoptr-validation-report/.
+The result of this daily build is available at 
+https://kkmann.github.io/adoptr-validation-report/.
 To ensure early warning in case of any test-case failures, 
 formal tests are implemented using the **testthat** package 
 [@R-testthat].
@@ -149,7 +150,7 @@ or directly from R via
 ```r
 bookdown::render_book("index.Rmd", output_format = "all")
 ```
-This produces a new folderr `_book` with the html and pdf versions
+This produces a new folder `_book` with the html and pdf versions
 of the report.
 
 
