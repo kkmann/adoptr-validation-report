@@ -64,17 +64,17 @@ While the initial design for the one-stage case is determined heuristically,
 both the group sequential and the generic two-stage designs are 
 optimized starting from the a group-sequential design that is computed by 
 the `rpact` package to fulfill the type one error rate constraint and
-that fulfills the power constraint at the prior mean $\delta = 0.4$.
+that fulfills the power constraint at an effect size of $\delta = 0.3$.
 
 ```{r}
-order <- 6L
+order <- 5L
 # data frame of initial designs 
 tbl_designs <- tibble(
     type    = c("one-stage", "group-sequential", "two-stage"),
     initial = list(
         OneStageDesign(250, 2.0),
-        rpact_design(0.4, 0.025, 0.8, TRUE, order),
-        TwoStageDesign(rpact_design(0.4, 0.025, 0.8, TRUE, order))) )
+        rpact_design(0.3, 0.025, 0.8, TRUE, order),
+        TwoStageDesign(rpact_design(0.3, 0.025, 0.8, TRUE, order))) )
 ```
 
 The order of integration is set to `r order`.
