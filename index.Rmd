@@ -64,7 +64,7 @@ Otherwise, the following resources might be of help:
 * **adoptr** online documentation at https://kkmann.github.io/adoptr/
 * paper on the theoretical background of the core **adoptr** functionality [@variational]
 * a general overview on adaptive designs is given in [@Bauer2015] 
-* a mote extensive treatment of the subject in [@Wassmer2016].
+* a more extensive treatment of the subject in [@Wassmer2016].
 
 
 
