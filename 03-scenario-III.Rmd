@@ -12,9 +12,9 @@ The trial is still considered to be two-armed with normally distribtuted outcome
 and the type one error rate under the null hypothesis 
 $\mathcal{H}_0:\delta \leq 0$ is to be protected at $\alpha = 0.025$.
 ```{r}
-datadist <- Normal(two_armed = TRUE)
-H_0 <- PointMassPrior(.0, 1)
-alpha <- 0.025
+datadist   <- Normal(two_armed = TRUE)
+H_0        <- PointMassPrior(.0, 1)
+alpha      <- 0.025
 toer_cnstr <- Power(datadist, H_0) <= alpha
 ```
 In this scenario we consider a sequence of uniform distributions
@@ -69,7 +69,7 @@ The constraints have already been described under details.
 ### Optimization problem
 
 The optimization problem depending on $\Delta_i$ is defined below.
-The default optimization paramters, 5 pivot points, and a fixed initial design
+The default optimization parameters, 5 pivot points, and a fixed initial design
 are used. 
 The initial design is chosen such that the error constraints are
 fulfilled. Early stopping for futility is applied if the effect shows 
@@ -107,26 +107,23 @@ results <- lapply(deltas, optimal_design)
 
 Check that iteration limit was not exceeded in any case.
 ```{r}
-results %>%
-  transmute(
-      iterations = purrr::map_int(results, 
-                                  ~.$nloptr_return$iterations) ) %>%
-  {print(.); .} %>% 
-  {testthat::expect_true(all(.$iterations < opts$maxeval))}
+iters <- sapply(results, function(x) x$nloptr_return$iterations)
+print(iters)
+testthat::expect_true(all(iters <= opts$maxeval))
 ```
 
-Check type one error rate control.
+Check type one error rate control by simulation and by calling `evaluate()`.
 ```{r}
-tmp     <- sapply(results, function(x) sim_pr_reject(x$design, .0, datadist))
-df_toer <- data.frame(
-    toer = as.numeric(tmp[1, ]),
-    se   = as.numeric(tmp[2, ])
+df_toer <- tibble(
+  delta    = deltas,
+  toer     = sapply(results, function(x) evaluate(Power(datadist, H_0), x$design)),
+  toer_sim = sapply(results, function(x) sim_pr_reject(x$design, .0, datadist)$prob)
 )
-rm(tmp)
 
-testthat::expect_true(all(df_toer$toer <= alpha * (1 + tol)))
+testthat::expect_true(all(df_toer$toer     <= alpha * (1 + tol)))
+testthat::expect_true(all(df_toer$toer_sim <= alpha * (1 + tol)))
 
-df_toer
+print(df_toer)
 ```
 
 Check that expected sample size decreases with decreasing prior variance.
