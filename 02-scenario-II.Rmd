@@ -187,6 +187,10 @@ and thus also a different shape of the $c_2$ function.
 Therefore, the `rpact` initial design is a suboptimal starting point.
 Instead, we start with a constant $c_2$ function by heuristically
 setting it to $2$ on the continuation area.
+Since optimization under the null hypothesis favours extremely conservative 
+boundaries for early efficacy stopping we impose as fairly liberal upper bound 
+of $3$ for early efficacy stopping.
+
 
 ```{r}
 init_design_h0 <- tbl_designs %>% 
@@ -194,6 +198,14 @@ init_design_h0 <- tbl_designs %>%
     pull(initial) %>% 
     .[[1]]
 init_design_h0@c2_pivots <- rep(2, order)
+
+ub_design <- TwoStageDesign(
+    3*init_design_h0@n1,
+    2,
+    3,
+    rep(600, order),
+    rep(3.0, order)
+)
 ```
 
 
@@ -213,6 +225,7 @@ opt_neg <- minimize(
         ),
         
         initial_design = init_design_h0,
+        upper_boundary_design = ub_design,
         opts = opts
 )
 ```
