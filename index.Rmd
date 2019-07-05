@@ -449,7 +449,9 @@ Inspect the plot to see convergence pattern.
 * **Formal tests:**
     1. Number of iterations are checked against default maximum to ensure proper
       convergence.
-    2. Is $n_1$ for the optimal design smaller than the order-5 design in V.1?
+    2. Do both designs respect the type one error rate
+      and power constraints (via simulation)?
+    3. Is $n_1$ for the optimal design smaller than the order-5 design in V.1?
 
 
 #### [Variant V.4: $n_2$ penalty](#variantV_4)
@@ -462,7 +464,9 @@ Inspect the plot to see convergence pattern.
 * **Formal tests:**
     1. Number of iterations are checked against default maximum to ensure proper
       convergence.
-    2. Is the `AverageN2` for the optimal design smaller than for the order-5 
+    2. Do both designs respect the type one error rate and power
+      constraints (via simulation)?
+    3. Is the `AverageN2` for the optimal design smaller than for the order-5 
     design in V.1?
 
 
