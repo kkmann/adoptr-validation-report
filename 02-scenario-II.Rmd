@@ -180,7 +180,7 @@ are considered in this variant.
 
 ### Initial Design
 
-As in [Variant I.2](#variantI.2) another initial design is more appropriate
+As in [Variant I.2](#variantI_2) another initial design is more appropriate
 for optimization under the null hypothesis.
 In this situation, one may expect a different (increasing) sample size function,
 and thus also a different shape of the $c_2$ function.
@@ -271,7 +271,7 @@ testthat::expect_lte(
 
 ### Objective
 
-As in [Variant II.1](#variantII.1), expected sample size under the full prior 
+As in [Variant II-1](#variantII_1), expected sample size under the full prior 
 is minimized.
 
 ### Constraints
@@ -346,7 +346,7 @@ tibble(
 ```
 
 
-Due to the additional constraint in comparison to [Variant II.1](#variantII.1),
+Due to the additional constraint in comparison to [Variant II.1](#variantII_1),
 Variant II.3 should show a larger expected sample size under the prior than
 Variant II.1
 
