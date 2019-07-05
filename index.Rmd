@@ -77,7 +77,7 @@ the range of scenarios covered in the unittests of **adoptr** is
 rather limited.
 Furthermore, the current R unittesting framework does not permit 
 an easy generation of a human-readable report of the test cases
-to acertain coverage and test quality.
+to ascertain coverage and test quality.
 Therefore, **adoptr** splits testing in two parts: technical 
 correctness is ensured via an extensive unittesting suit in **adoptr**
 itself (aiming to maintain a 100% code coverage).
@@ -488,7 +488,8 @@ and expected sample sizes respectively by the **adoptr** routine `simulate`.
 Furthermore, global tolerances for the validation are set. 
 For error rates, a relative deviation of $1\%$ from the target value is 
 accepted. 
-(Expected) Sample sizes deviations are more liberally accepted up to $0.5$. 
+(Expected) Sample sizes deviations are more liberally accepted up to an 
+absolute deviation of $0.5$. 
 ```{r setup, results='hide'}
 library(adoptr)
 library(tidyverse)
