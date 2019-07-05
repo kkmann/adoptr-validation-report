@@ -1,53 +1,40 @@
-# Scenario V: Single-arm design, medium effect size {#scenarioV}
+# Scenario V: single-arm design, medium effect size {#scenarioV}
 
 ## Details
 
-In this scenario, a classical two-arm trial with normal
-test statistic and known variance (w.l.o.g. variance of
-the test statistic is 1).
-This situation corresponds to a classical $z$-test for
-a difference in population means.
+In this scenario, again a point prior is analyzed. 
+The null hypothesis is $\delta \leq 0$ and we assume an alternative effect size
+of $\delta = 0.3$
+Type one error rate should be protected at 2.5\% and the design's power should
+be at least 80\%.
+Differently than in the previous scenarios, we are assuming a single-arm
+design in throughout this scenario.
+
 ```{r}
-datadist <- Normal(two_armed = TRUE)
-```
-The null hypothesis is no population mean difference, i.e.
-$\mathcal{H}_0:\delta \leq 0$.
-```{r}
-H_0 <- PointMassPrior(.0, 1)
-```
-An alternative effect size of $\delta = 0.3$ with
-point prior distribution is assumed. 
-```{r}
-prior <- PointMassPrior(.3, 1)
-```
-Across all variants in this scenario, the one-sided maximal 
-type one error rate is restricted to 
-```{r}
-alpha <- 0.025
-```
-and the power at the point alternative of $\delta=0.3$ must
-be at least
-```{r}
-min_power <- 0.8
-```
-I.e. throughout this sceanrio, we always use the two
-constraints
-```{r}
-toer_cnstr <- Power(datadist, H_0) <= alpha
-```
-and
-```{r}
-pow_cnstr <- Power(datadist, prior) >= min_power
+# data distribution and hypotheses
+datadist   <- Normal(two_armed = FALSE)
+H_0        <- PointMassPrior(.0, 1)
+prior      <- PointMassPrior(.3, 1)
+
+# define constraints
+alpha      <- 0.025
+min_power  <- 0.8
+toer_cnstr <- Power(datadist, H_0)   <= alpha
+pow_cnstr  <- Power(datadist, prior) >= min_power
 ```
 
 
 
 ## Variant V-1, sensitivity to integration order {#variantV_1}
 
+In this variant, the sensitivity of the optimization with respect to the
+integration order is investigated. 
+We apply three different integration orders: 5, 8, and 11.
+
 ### Objective
 
-Expected sample size under the respective prior is minimized, i.e.,
-$\boldsymbol{E}\big[n(\mathcal{D})\big]$.
+Expected sample size under the alternative point mass prior $\delta = 0.3$
+is minimized.
 ```{r}
 ess <- ExpectedSampleSize(datadist, prior)
 ```
@@ -60,6 +47,8 @@ No additional constraints are considered in this variant.
 
 ### Initial Design
 
+In order to vary the initial design, `rpact` is not used in this variant.
+Instead, the following heuristical considerations are made. 
 A fixed design for these parameters would require
 `r ceiling(pwr::pwr.t.test(d = .3, sig.level = .025, power = .8, alternative = "greater")$n)` 
 subjects per group. We use the half of this as initial values for the 
@@ -108,60 +97,48 @@ opt_design <- function(order) {
     )
 }
 
-opt1 <- lapply(c(5, 8, 11), function(x) opt_design(x))
+opt <- tibble(
+  order  = c(5, 8, 11),
+  design = lapply(c(5, 8, 11), function(x) opt_design(x))
+)
 ```
 
 ### Test cases
 
 Check if the optimization algorithm converged in all cases.
 ```{r}
-iters <- sapply(opt1, function(x) x$nloptr_return$iterations)
-
-print(iters)
-
-testthat::expect_true(all(iters < opts$maxeval))
+opt %>% 
+  transmute(
+      order, 
+      iterations = purrr::map_int(opt$design, 
+                                  ~.$nloptr_return$iterations) ) %>%
+  {print(.); .} %>% 
+  {testthat::expect_true(all(.$iterations < opts$maxeval))}
 ```
 
-Check type one error rate control.
+Test the constraints on type one error rate and power by simulation and 
+compare the results to the outcome of `evaluate()`.
+
 ```{r}
-tmp     <- sapply(opt1, function(x) sim_pr_reject(x$design, .0, datadist))
-df_toer <- data.frame(
-    toer = as.numeric(tmp[1, ]),
-    se   = as.numeric(tmp[2, ])
-)
-rm(tmp)
-
-testthat::expect_true(all(df_toer$toer <= alpha * (1 + tol)))
-
-df_toer
+opt %>% 
+  transmute(
+      order, 
+      toer      = map_dbl(design,
+                           ~evaluate(Power(datadist, PointMassPrior(.0, 1)), .$design) ),
+      toer_sim  = purrr::map(opt$design, 
+                         ~sim_pr_reject(.[[1]], .0, datadist)$prob), 
+      power     = map_dbl(design,
+                          ~evaluate(Power(datadist, PointMassPrior(.3, 1)), .$design) ),
+      power_sim = purrr::map(opt$design, 
+                         ~sim_pr_reject(.[[1]], .3, datadist)$prob) ) %>% 
+  unnest() %>% 
+  {print(.); .} %>% {
+  testthat::expect_true(all(.$toer      <= alpha * (1 + tol)))
+  testthat::expect_true(all(.$toer_sim  <= alpha * (1 + tol)))
+  testthat::expect_true(all(.$power     >= min_power * (1 - tol)))
+  testthat::expect_true(all(.$power_sim >= min_power * (1 - tol))) }
 ```
 
-Check the power constraint.
-```{r}
-tmp     <- sapply(opt1, function(x) sim_pr_reject(x$design, .3, datadist))
-df_pow  <- data.frame(
-    power = as.numeric(tmp[1, ]),
-    se    = as.numeric(tmp[2, ])
-)
-rm(tmp)
-
-testthat::expect_true(all(df_pow$pow >= min_power * (1 - tol)))
-
-df_pow
-```
-
-
-Check expected sample size under the prior.
-```{r}
-tmp    <- sapply(opt1, function(x) sim_n(x$design, .3, datadist))
-df_ess <- data.frame(
-    n  = as.numeric(tmp[1, ]),
-    se = as.numeric(tmp[2, ])
-)
-rm(tmp)
-
-df_ess
-```
 
 
 ## Variant V-2, utility maximization {#variantV_2}
@@ -169,8 +146,11 @@ df_ess
 
 ### Objective
 
-In this case, a utility function consisting of expected sample size and
+In this variant, a utility function consisting of expected sample size and
 power is minimized.
+The parameter $\lambda$ that is describing the ratio between expected
+sample size and power is varied. 
+
 ```{r}
 pow <- Power(datadist, prior)
 ess <- ExpectedSampleSize(datadist, prior)
@@ -185,7 +165,7 @@ obj <- function(lambda) {
 
 The type one error rate is controlled at `r alpha` on the boundary of the 
 null hypothesis. Hence, the previous inequality can still be used.
-There is no constraint on power anymore because power is part of the 
+There is no constraint on power any more because power is part of the 
 objective utility function.
 
 
@@ -196,96 +176,114 @@ The previous initial design with order $5$ is applied.
 
 ### Optimization 
 
-The optimal design is computed for two values of $\lambda$: 200 and 500.
+The optimal design is computed for two values of $\lambda$: 100 and 200.
 
 ```{r}
-opt2_design <- function(lambda) {
+opt_utility <- tibble(
+  lambda = c(100, 200)
+) %>%
+  mutate(
+    design = purrr::map(lambda, ~minimize(
+          obj(.),
+          subject_to(
+              toer_cnstr
+          ),
+          
+          initial_design = init_design(5), 
+          opts           = opts)) 
+)
 
-    minimize(
-        obj(lambda),
-        subject_to(
-            toer_cnstr
-        ),
-        initial_design = init_design(5),
-        opts = opts
-    )
-}
-
-opt2 <- lapply(c(200, 500), function(x) opt2_design(x))
 ```
 
 
 ### Test cases
 
-Check if the optimization algorithm converged in all cases.
+Firstly, it is checked whether the maximum number of iterations was not 
+exceeded in both flavours.
 ```{r}
-iters <- sapply(opt2, function(x) x$nloptr_return$iterations)
-
-print(iters)
-
-testthat::expect_true(all(iters < opts$maxeval))
+opt_utility %>% 
+  transmute(
+      lambda, 
+      iterations = purrr::map_int(opt_utility$design, 
+                                  ~.$nloptr_return$iterations) ) %>%
+  {print(.); .} %>% 
+  {testthat::expect_true(all(.$iterations < opts$maxeval))}
 ```
 
-Check type one error rate control for both designs via simulation.
+Type one error rate control is tested for both designs by simulation and by 
+`adoptr`'s function `evaluate`.
+In addition, it is tested if the design with larger $\lambda$ (i.e.,
+stronger focus on power), shows the larger overall power.
 ```{r}
-tmp     <- sapply(opt2, function(x) sim_pr_reject(x$design, 0, datadist))
-df_toer <- data.frame(
-    toer = as.numeric(tmp[1, ]),
-    se   = as.numeric(tmp[2, ])
-)
-rm(tmp)
-
-testthat::expect_true(all(df_toer$toer <= alpha * (1 + tol)))
-
-df_toer
+opt_utility %>% 
+  transmute(
+      lambda, 
+      toer      = map_dbl(design,
+                           ~evaluate(Power(datadist, PointMassPrior(.0, 1)), .$design) ),
+      toer_sim  = purrr::map(opt_utility$design, 
+                         ~sim_pr_reject(.[[1]], .0, datadist)$prob), 
+      power     = map_dbl(design,
+                          ~evaluate(Power(datadist, PointMassPrior(.3, 1)), .$design) ),
+      power_sim = purrr::map(opt_utility$design, 
+                         ~sim_pr_reject(.[[1]], .3, datadist)$prob) ) %>% 
+  unnest() %>% 
+  {print(.); .} %>% {
+  testthat::expect_true(all(.$toer     <= alpha * (1 + tol)))
+  testthat::expect_true(all(.$toer_sim <= alpha * (1 + tol)))
+  testthat::expect_lte(.$power[1], .$power[2]) }
 ```
 
-Check if the power of the design with higher $\lambda$ is larger.
-```{r}
-testthat::expect_gte(
-    evaluate(pow, opt2[[2]]$design),
-    evaluate(pow, opt2[[1]]$design)
-)
-```
 
 
-Finally the three designs computed so far are plotted together to allow 
+Finally, the three designs computed so far are plotted together to allow 
 comparison.
 
-```{r, echo = FALSE}
-z1 <- seq(0, 3, by = .01)
+```{r, echo=FALSE}
+x1 <- seq(0, 3.5, by = .01)
 
 tibble(
-    type  = c("Power inequality", "Utility with lambda = 200", "Utility with lambda = 500"), 
-    design = list(opt1[[1]]$design, opt2[[1]]$design, opt2[[2]]$design)
-) %>% 
+    type  = c(
+        "Power constraint", 
+        "Utility maximization with lambda = 100", 
+        "Utility maximization with lambda = 200" ), 
+    design = list(
+        opt %>% 
+            filter(order == 11) %>% 
+            pull(design) %>% 
+            .[[1]] %>% 
+            .$design, 
+        opt_utility %>% 
+            filter(lambda == 100) %>% 
+            pull(design) %>% 
+            .[[1]] %>% 
+            .$design, 
+        opt_utility %>% 
+            filter(lambda == 200) %>% 
+            pull(design) %>% 
+            .[[1]] %>% 
+            .$design ) ) %>% 
     group_by(type) %>% 
     do(
-        z1 = z1,
-        n  = adoptr::n(.$design[[1]], z1),
-        c2 = c2(.$design[[1]], z1)
-    ) %>% 
+        x1 = x1,
+        n  = adoptr::n(.$design[[1]], x1),
+        c2 = c2(.$design[[1]], x1),
+        CP = evaluate(ConditionalPower(datadist, prior), .$design[[1]], x1) ) %>% 
     unnest() %>% 
     mutate(
         section = ifelse(
             is.finite(c2), 
             "continuation", 
-            ifelse(c2 == -Inf, "efficacy", "futility")
-        )
-    ) %>% 
-    gather(variable, value, n, c2) %>% 
-    ggplot(aes(z1, value, color = type)) +
+            ifelse(c2 == -Inf, "efficacy", "futility") ) ) %>% 
+    gather(variable, value, n, c2, CP) %>% 
+    ggplot(aes(x1, value, color = type)) +
         geom_line(aes(group = interaction(section, type))) + 
         facet_wrap(~variable, scales = "free_y") +
+        labs(y = "", x = expression(x[1])) +
+        scale_color_discrete("") +
         theme_bw() +
-        scale_color_manual(
-          values = c(rgb(0,74,111, maxColorValue = 255),
-                                    rgb(0,159,227, maxColorValue = 255),
-                                    rgb(230,121,0, maxColorValue = 255))) +
         theme(
-            panel.grid = element_blank(),
-            legend.position = "bottom"
-        )
+            panel.grid      = element_blank(),
+            legend.position = "bottom" )
 ```
 
 

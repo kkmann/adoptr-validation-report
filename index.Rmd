@@ -429,7 +429,7 @@ Inspect the plot to see convergence pattern.
 #### [Variant V.2: Utility Maximization](#variantV_2)
 
 * **Objective:** $\lambda\, Power - ESS := \lambda\,  \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.3\big] - \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big].$
-  for $\lambda = 200$ and $500$
+  for $\lambda = 100$ and $200$
 * **Constraints:** 
     1. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
 * **Formal tests:**

@@ -1,4 +1,4 @@
-# Scenario II: Large effect, Gaussian prior {#scenarioII}
+# Scenario II: large effect, Gaussian prior {#scenarioII}
 
 
 ## Details
