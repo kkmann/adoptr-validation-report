@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-07-04" />
+<meta name="date" content="2019-07-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -286,36 +286,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">5</span> Scenario IV: smaller effect, point prior</h1>
 <div id="details-3" class="section level2">
 <h2><span class="header-section-number">5.1</span> Details</h2>
-<p>In this scenario, a classical two-arm trial with normal
-test statistic and known variance (w.l.o.g. variance of
-the test statistic is 1).
-This situation corresponds to a classical <span class="math inline">\(z\)</span>-test for
-a difference in population means.</p>
-<pre class="sourceCode r"><code class="sourceCode r">datadist &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">TRUE</span>)</code></pre>
-<p>The null hypothesis is no population mean difference, i.e.
-<span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">H_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)</code></pre>
-<p>An alternative effect size of <span class="math inline">\(\delta = 0.2\)</span> with
-point prior distribution is assumed.</p>
-<pre class="sourceCode r"><code class="sourceCode r">prior &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">2</span>, <span class="dv">1</span>)</code></pre>
-<p>Across all variants in this scenario, the one-sided maximal
-type one error rate is restricted to</p>
-<pre class="sourceCode r"><code class="sourceCode r">alpha &lt;-<span class="st"> </span><span class="fl">0.025</span></code></pre>
-<p>and the power at the point alternative of <span class="math inline">\(\delta=0.2\)</span> must
-be at least</p>
-<pre class="sourceCode r"><code class="sourceCode r">min_power &lt;-<span class="st"> </span><span class="fl">0.8</span></code></pre>
-<p>I.e. throughout this sceanrio, we always use the two
-constraints</p>
-<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span>alpha</code></pre>
-<p>and</p>
-<pre class="sourceCode r"><code class="sourceCode r">pow_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span>min_power</code></pre>
+<p>In this scenario, we return to point priors as investigated in
+<a href="scenarioI.html#scenarioI">Scenario I</a>.
+The main goal is to validate <code>adoptr</code>’s sensitivity with regards to
+the assumed effect size and the constraints on power and type one error rate.</p>
+<p>Therefore, we still assume a two-armed trial with normally distributed outcomes.
+The assumed effect size becomes <span class="math inline">\(\delta = 0.2\)</span> in this setting.
+Type one error rate is protected at <span class="math inline">\(2.5\%\)</span> and the power should be at least
+<span class="math inline">\(80\%\)</span>. We will vary these values in the variants <a href="#variantIV.2">IV.2</a> and
+<a href="#variantIV.3">IV.3</a></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data distribution and hypotheses</span>
+datadist   &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">TRUE</span>)
+H_<span class="dv">0</span>        &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)
+prior      &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">2</span>, <span class="dv">1</span>)
+
+<span class="co"># constraints</span>
+alpha      &lt;-<span class="st"> </span><span class="fl">0.025</span>
+min_power  &lt;-<span class="st"> </span><span class="fl">0.8</span>
+toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>)   <span class="op">&lt;=</span><span class="st"> </span>alpha
+pow_cnstr  &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span>min_power</code></pre>
 </div>
 <div id="variantIV_1" class="section level2">
 <h2><span class="header-section-number">5.2</span> Variant IV-1: Minimizing Expected Sample Size under Point Prior</h2>
 <div id="objective-7" class="section level3">
 <h3><span class="header-section-number">5.2.1</span> Objective</h3>
-<p>Expected sample size under the respective prior is minimized, i.e.,
-<span class="math inline">\(\boldsymbol{E}\big[n(\mathcal{D})\big]\)</span>.</p>
+<p>Expected sample size under the alternative point prior <span class="math inline">\(\delta = 0.2\)</span>
+is minimized.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)</code></pre>
 </div>
 <div id="constraints-7" class="section level3">
@@ -324,450 +320,354 @@ constraints</p>
 </div>
 <div id="initial-design-5" class="section level3">
 <h3><span class="header-section-number">5.2.3</span> Initial Design</h3>
-<p><code>adoptr</code> requires the definition of an initial design for optimization.
-We start with a group-sequential design from the package <code>rpact</code> that
-fulfills these constraints and is used later for comparison.
+<p>For this example, the optimal one-stage, group-sequential, and generic
+two-stage designs are computed.
+The initial design that is used as starting value of optimization is defined
+as a group-sequential design by the package <code>rpact</code> that fulfills
+type one error rate and power constraints in the case of group-sequential and
+two-stage design.
+The initial one-stage design is chosen heuristically.
 The order of integration is set to <span class="math inline">\(5\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">order &lt;-<span class="st"> </span>5L 
 
-init_design_gs &lt;-<span class="st"> </span><span class="kw">rpact_design</span>(<span class="fl">0.2</span>, <span class="fl">0.025</span>, <span class="fl">0.8</span>, <span class="ot">TRUE</span>, order)</code></pre>
+tbl_designs &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+    <span class="dt">type    =</span> <span class="kw">c</span>(<span class="st">&quot;one-stage&quot;</span>, <span class="st">&quot;group-sequential&quot;</span>, <span class="st">&quot;two-stage&quot;</span>),
+    <span class="dt">initial =</span> <span class="kw">list</span>(
+        <span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>),
+        <span class="kw">rpact_design</span>(<span class="fl">0.2</span>, <span class="fl">0.025</span>, <span class="fl">0.8</span>, <span class="ot">TRUE</span>, order),
+        <span class="kw">TwoStageDesign</span>(<span class="kw">rpact_design</span>(<span class="fl">0.2</span>, <span class="fl">0.025</span>, <span class="fl">0.8</span>, <span class="ot">TRUE</span>, order))) )</code></pre>
 </div>
 <div id="optimization-6" class="section level3">
 <h3><span class="header-section-number">5.2.4</span> Optimization</h3>
-<p>The optimal design is computed in three variants: two-stage, group-sequential
-and one-stage.
-The input only differs with regard to the initial design.
-The optimal group-sequential design is used as initial design to
-compute the optimal two-stage design.</p>
-<pre class="sourceCode r"><code class="sourceCode r">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
-    <span class="kw">minimize</span>(
-        ess,
-        <span class="kw">subject_to</span>(
-            toer_cnstr,
-            pow_cnstr
-        ),
-        <span class="dt">initial_design =</span> initial_design,
-        <span class="dt">opts =</span> opts
-    )
-}
-
-opt1_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_gs)
-opt1_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">TwoStageDesign</span>(opt1_gs<span class="op">$</span>design))
-opt1_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs &lt;-<span class="st"> </span>tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+       <span class="dt">optimal =</span> purrr<span class="op">::</span><span class="kw">map</span>(initial, <span class="op">~</span><span class="kw">minimize</span>(
+         
+          ess,
+          <span class="kw">subject_to</span>(
+              toer_cnstr,
+              pow_cnstr
+          ),
+          
+          <span class="dt">initial_design =</span> ., 
+          <span class="dt">opts           =</span> opts)) )</code></pre>
 </div>
 <div id="test-cases-7" class="section level3">
 <h3><span class="header-section-number">5.2.5</span> Test Cases</h3>
-<p>Check if the optimization algorithm converged in all cases.</p>
-<pre class="sourceCode r"><code class="sourceCode r">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt1_ts, opt1_gs, opt1_os), 
-                <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
-
-<span class="kw">print</span>(iters)</code></pre>
-<pre><code>## [1] 2131  915   20</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>Type one error rate constraint is tested for the three designs.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt1_ts, opt1_gs, opt1_os),  
-                  <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.0</span>, datadist))
-df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
-
-df_toer</code></pre>
-<pre><code>##       toer           se
-## 1 0.024975 0.0001560489
-## 2 0.024978 0.0001560581
-## 3 0.025116 0.0001564775</code></pre>
-<p>The power constraint can also be tested via simulation.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt1_ts, opt1_gs, opt1_os),  
-                  <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.2</span>, datadist))
-df_pow  &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">pow  =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_pow<span class="op">$</span>pow <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))
-
-df_pow</code></pre>
-<pre><code>##        pow           se
-## 1 0.799800 0.0004001501
-## 2 0.799669 0.0004002482
-## 3 0.799317 0.0004005115</code></pre>
-<p>The expected sample sizes should be ordered in a specific way.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, opt1_os<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(ess, opt1_gs<span class="op">$</span>design)
-)
-
-testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, init_design_gs),
-    <span class="kw">evaluate</span>(ess, opt1_gs<span class="op">$</span>design)
-)
-
-testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, opt1_gs<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(ess, opt1_ts<span class="op">$</span>design)
-)</code></pre>
-<p>The expected sample size of the optimal designs is simulated and compared
-to the outomce of <code>adoptr::evaluate()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, H_<span class="dv">0</span>)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_os<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_gs<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt1_ts<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)</code></pre>
-<p>Additionally, the sample sizes under the point prior are compared.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess, opt1_os<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess, opt1_gs<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt1_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess, opt1_ts<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)</code></pre>
-<p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
-monotonously decreasing.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sign</span>(<span class="kw">diff</span>(opt1_ts<span class="op">$</span>design<span class="op">@</span>n2_pivots)),
-    <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, (order <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
-)</code></pre>
+<p>Firstly, it is checked whether the maximum number of iterations was
+not exceeded in all three cases.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      type, 
+      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(tbl_designs<span class="op">$</span>optimal, 
+                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   type             iterations
+##   &lt;chr&gt;                 &lt;int&gt;
+## 1 one-stage                20
+## 2 group-sequential        915
+## 3 two-stage              2207</code></pre>
+<p>Now, the constraints on type one error rate and power are tested via simulation.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      type, 
+      <span class="dt">toer  =</span> purrr<span class="op">::</span><span class="kw">map</span>(tbl_designs<span class="op">$</span>optimal, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), 
+      <span class="dt">power =</span> purrr<span class="op">::</span><span class="kw">map</span>(tbl_designs<span class="op">$</span>optimal, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.2</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   type               toer power
+##   &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;
+## 1 one-stage        0.0251 0.799
+## 2 group-sequential 0.0250 0.800
+## 3 two-stage        0.0250 0.800</code></pre>
+<p>Due to increasing degrees of freedom, the expected sample sizes under the
+alternative should be ordered as ‘one-stage &gt; group-sequential &gt; two-stage’.
+They are evaluated by simulation as well as by <code>evaluate()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">ess      =</span> <span class="kw">map_dbl</span>(optimal,
+                           <span class="op">~</span><span class="kw">evaluate</span>(ess, .<span class="op">$</span>design) ),
+        <span class="dt">ess_sim  =</span> <span class="kw">map_dbl</span>(optimal,
+                           <span class="op">~</span><span class="kw">sim_n</span>(.<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n ) ) <span class="op">%&gt;%</span>
+<span class="st">    </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+    <span class="co"># sim/evaluate same under alternative?</span>
+    testthat<span class="op">::</span><span class="kw">expect_equal</span>(.<span class="op">$</span>ess, .<span class="op">$</span>ess_sim, 
+                           <span class="dt">tolerance =</span> tol_n,
+                           <span class="dt">scale =</span> <span class="dv">1</span>)
+    <span class="co"># monotonicity with respect to degrees of freedom</span>
+    testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(<span class="kw">diff</span>(.<span class="op">$</span>ess) <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)) }</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   type             initial    optimal      ess ess_sim
+##   &lt;chr&gt;            &lt;list&gt;     &lt;list&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 one-stage        &lt;OnStgDsg&gt; &lt;list [3]&gt;  392     392 
+## 2 group-sequential &lt;GrpSqntD&gt; &lt;list [3]&gt;  324.    323.
+## 3 two-stage        &lt;TwStgDsg&gt; &lt;list [3]&gt;  319.    319.</code></pre>
+<p>Furthermore, the expected sample size under the alternative of the
+optimal group-sequential design should be lower than for the
+group-sequential design by <code>rpact</code> that is based on the inverse normal
+combination test.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs <span class="op">%&gt;%</span>
+<span class="st">             </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;group-sequential&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">             </span>{ <span class="kw">expect_lte</span>(
+                 <span class="kw">evaluate</span>(ess, {.[[<span class="st">&quot;optimal&quot;</span>]][[<span class="dv">1</span>]]<span class="op">$</span>design}),
+                 <span class="kw">evaluate</span>(ess, {.[[<span class="st">&quot;initial&quot;</span>]][[<span class="dv">1</span>]]})
+             ) }</code></pre>
+<p>Finally, the <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
+monotonously decreasing:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_true</span>(
+    <span class="kw">all</span>(<span class="kw">diff</span>(
+        <span class="co"># get optimal two-stage design n2 pivots</span>
+        tbl_designs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;two-stage&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">           </span>{.[[<span class="st">&quot;optimal&quot;</span>]][[<span class="dv">1</span>]]<span class="op">$</span>design<span class="op">@</span>n2_pivots} 
+        ) <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) )</code></pre>
 </div>
 </div>
 <div id="variantIV_2" class="section level2">
 <h2><span class="header-section-number">5.3</span> Variant IV-2: Increase Power</h2>
 <div id="objective-8" class="section level3">
 <h3><span class="header-section-number">5.3.1</span> Objective</h3>
-<p>The objective remains the same as before.</p>
+<p>The objective remains expected sample size under the alternative <span class="math inline">\(\delta = 0.2\)</span>.</p>
 </div>
 <div id="constraints-8" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> Constraints</h3>
 <p>The minimal required power is increased to <span class="math inline">\(90\%\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">pow_cnstr_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">.9</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">min_power_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="fl">0.9</span>
+pow_cnstr_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span>min_power_<span class="dv">2</span></code></pre>
 </div>
 <div id="initial-design-6" class="section level3">
 <h3><span class="header-section-number">5.3.3</span> Initial Design</h3>
-<p>The initial design is updated to a group-sequential design that fulfills
-the new power constraint.</p>
-<pre class="sourceCode r"><code class="sourceCode r">order &lt;-<span class="st"> </span>5L 
-
-init_design_<span class="dv">2</span>_gs &lt;-<span class="st"> </span><span class="kw">rpact_design</span>(<span class="fl">0.2</span>, <span class="fl">0.025</span>, <span class="fl">0.9</span>, <span class="ot">TRUE</span>, order)
-
-init_design_<span class="dv">2</span>    &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(init_design_<span class="dv">2</span>_gs)</code></pre>
+<p>For both flavours with two stages (group-sequential, generic two-stage)
+the initial design is created by <code>rpact</code> to fulfill the error rate constraints.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">9</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+    <span class="dt">type    =</span> <span class="kw">c</span>(<span class="st">&quot;one-stage&quot;</span>, <span class="st">&quot;group-sequential&quot;</span>, <span class="st">&quot;two-stage&quot;</span>),
+    <span class="dt">initial =</span> <span class="kw">list</span>(
+        <span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>),
+        <span class="kw">rpact_design</span>(<span class="fl">0.2</span>, <span class="fl">0.025</span>, <span class="fl">0.9</span>, <span class="ot">TRUE</span>, order),
+        <span class="kw">TwoStageDesign</span>(<span class="kw">rpact_design</span>(<span class="fl">0.2</span>, <span class="fl">0.025</span>, <span class="fl">0.9</span>, <span class="ot">TRUE</span>, order))) )</code></pre>
 </div>
 <div id="optimization-7" class="section level3">
 <h3><span class="header-section-number">5.3.4</span> Optimization</h3>
-<p>The optimal two-stage design is computed.</p>
-<pre class="sourceCode r"><code class="sourceCode r">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
-    <span class="kw">minimize</span>(
-        ess,
-        <span class="kw">subject_to</span>(
-            toer_cnstr,
-            pow_cnstr_<span class="dv">2</span>
-        ),
-        <span class="dt">initial_design =</span> initial_design,
-        <span class="dt">opts =</span> opts
-    )
-}
-
-opt2_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">2</span>)
-opt2_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">2</span>_gs)
-opt2_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">9</span> &lt;-<span class="st"> </span>tbl_designs_<span class="dv">9</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+       <span class="dt">optimal =</span> purrr<span class="op">::</span><span class="kw">map</span>(initial, <span class="op">~</span><span class="kw">minimize</span>(
+         
+          ess,
+          <span class="kw">subject_to</span>(
+              toer_cnstr,
+              pow_cnstr_<span class="dv">2</span>
+          ),
+          
+          <span class="dt">initial_design =</span> ., 
+          <span class="dt">opts           =</span> opts)) )</code></pre>
 </div>
 <div id="test-cases-8" class="section level3">
 <h3><span class="header-section-number">5.3.5</span> Test Cases</h3>
-<p>Check if the optimization algorithm converged in all cases.</p>
-<pre class="sourceCode r"><code class="sourceCode r">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt2_ts, opt2_gs, opt2_os), 
-                <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
-
-<span class="kw">print</span>(iters)</code></pre>
-<pre><code>## [1] 2988 1349   30</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>Type one error rate constraint is tested for the three designs.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt2_ts, opt2_gs, opt2_os),  
-                  <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.0</span>, datadist))
-df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
-
-df_toer</code></pre>
-<pre><code>##       toer           se
-## 1 0.024980 0.0001560642
-## 2 0.024946 0.0001559606
-## 3 0.025116 0.0001564775</code></pre>
-<p>The power constraint can also be tested via simulation.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt2_ts, opt2_gs, opt2_os),  
-                  <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.2</span>, datadist))
-df_pow  &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">pow  =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_pow<span class="op">$</span>pow <span class="op">&gt;=</span><span class="st"> </span><span class="fl">.9</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))
-
-df_pow</code></pre>
-<pre><code>##        pow           se
-## 1 0.900131 0.0002998254
-## 2 0.899828 0.0003002293
-## 3 0.899523 0.0003006351</code></pre>
-<p>The expected sample sizes should be ordered in a specific way.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, opt2_os<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(ess, opt2_gs<span class="op">$</span>design)
-)
-
-testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, init_design_<span class="dv">2</span>_gs),
-    <span class="kw">evaluate</span>(ess, opt2_gs<span class="op">$</span>design)
-)
-
-testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, opt2_gs<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(ess, opt2_ts<span class="op">$</span>design)
-)</code></pre>
-<p>The expected sample size of the optimal designs is simulated and compared
-to the outomce of <code>adoptr::evaluate()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, H_<span class="dv">0</span>)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_os<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_gs<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt2_ts<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)</code></pre>
-<p>Additionally, the sample sizes under the point prior are compared.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess, opt2_os<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess, opt2_gs<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt2_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess, opt2_ts<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)</code></pre>
-<p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
-monotonously decreasing.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sign</span>(<span class="kw">diff</span>(opt2_ts<span class="op">$</span>design<span class="op">@</span>n2_pivots)),
-    <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, (order <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
-)</code></pre>
+<p>We start checking if the maximum number of iterations was not exceeded in all
+three cases.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">9</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      type, 
+      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(tbl_designs_<span class="dv">9</span><span class="op">$</span>optimal, 
+                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   type             iterations
+##   &lt;chr&gt;                 &lt;int&gt;
+## 1 one-stage                30
+## 2 group-sequential       1349
+## 3 two-stage              2988</code></pre>
+<p>The type one error rate and pwoer constraints are evaluated by simulation.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">9</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      type, 
+      <span class="dt">toer  =</span> purrr<span class="op">::</span><span class="kw">map</span>(tbl_designs_<span class="dv">9</span><span class="op">$</span>optimal, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), 
+      <span class="dt">power =</span> purrr<span class="op">::</span><span class="kw">map</span>(tbl_designs_<span class="dv">9</span><span class="op">$</span>optimal, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.2</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power <span class="op">&gt;=</span><span class="st"> </span>min_power_<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   type               toer power
+##   &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;
+## 1 one-stage        0.0251 0.900
+## 2 group-sequential 0.0249 0.900
+## 3 two-stage        0.0250 0.900</code></pre>
+<p>Due to increasing degrees of freedom, the expected sample sizes under the
+alternative should be ordered as ‘one-stage &gt; group-sequential &gt; two-stage’.
+This is tested by simulation as well as by <code>evaluate()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">9</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">ess      =</span> <span class="kw">map_dbl</span>(optimal,
+                           <span class="op">~</span><span class="kw">evaluate</span>(ess, .<span class="op">$</span>design) ),
+        <span class="dt">ess_sim  =</span> <span class="kw">map_dbl</span>(optimal,
+                           <span class="op">~</span><span class="kw">sim_n</span>(.<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n ) ) <span class="op">%&gt;%</span>
+<span class="st">    </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+    <span class="co"># sim/evaluate same under alternative?</span>
+    testthat<span class="op">::</span><span class="kw">expect_equal</span>(.<span class="op">$</span>ess, .<span class="op">$</span>ess_sim, 
+                           <span class="dt">tolerance =</span> tol_n,
+                           <span class="dt">scale =</span> <span class="dv">1</span>)
+    <span class="co"># monotonicity with respect to degrees of freedom</span>
+    testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(<span class="kw">diff</span>(.<span class="op">$</span>ess)     <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)) 
+    testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(<span class="kw">diff</span>(.<span class="op">$</span>ess_sim) <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>))}</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   type             initial    optimal      ess ess_sim
+##   &lt;chr&gt;            &lt;list&gt;     &lt;list&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 one-stage        &lt;OnStgDsg&gt; &lt;list [3]&gt;  525     525 
+## 2 group-sequential &lt;GrpSqntD&gt; &lt;list [3]&gt;  405.    405.
+## 3 two-stage        &lt;TwStgDsg&gt; &lt;list [3]&gt;  397.    397.</code></pre>
+<p>Comparing with the inverse-normal based group-sequential design created
+by <code>rpact</code>, the optimal group-sequential design should show
+a lower expected sample size under the point alternative.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">9</span> <span class="op">%&gt;%</span>
+<span class="st">             </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;group-sequential&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">             </span>{ <span class="kw">expect_lte</span>(
+                 <span class="kw">evaluate</span>(ess, {.[[<span class="st">&quot;optimal&quot;</span>]][[<span class="dv">1</span>]]<span class="op">$</span>design}),
+                 <span class="kw">evaluate</span>(ess, {.[[<span class="st">&quot;initial&quot;</span>]][[<span class="dv">1</span>]]})
+             ) }</code></pre>
+<p>Since a point prior is regarded, the <span class="math inline">\(n_2\)</span> function of the optimal
+two-stage design is expected to be monotonously decreasing:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_true</span>(
+    <span class="kw">all</span>(<span class="kw">diff</span>(
+        <span class="co"># get optimal two-stage design n2 pivots</span>
+        tbl_designs_<span class="dv">9</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;two-stage&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">           </span>{.[[<span class="st">&quot;optimal&quot;</span>]][[<span class="dv">1</span>]]<span class="op">$</span>design<span class="op">@</span>n2_pivots} 
+        ) <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) )</code></pre>
 </div>
 </div>
 <div id="variantIV_3" class="section level2">
 <h2><span class="header-section-number">5.4</span> Variant IV-3: Increase Type One Error rate</h2>
 <div id="objective-9" class="section level3">
 <h3><span class="header-section-number">5.4.1</span> Objective</h3>
-<p>Expected sample size under the point prior is minimized and has already been
-defined.</p>
+<p>As in variants <a href="scenarioIV.html#variantIV_1">IV.1</a> and <a href="scenarioIV.html#variantIV_2">IV-2</a>,
+expected sample size under the point alternative is minimized.</p>
 </div>
 <div id="constraints-9" class="section level3">
 <h3><span class="header-section-number">5.4.2</span> Constraints</h3>
-<p>The maximal type one error rate is increased to <span class="math inline">\(5\%\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.05</span></code></pre>
+<p>While the power is still lower bounded by <span class="math inline">\(90\%\)</span> as in variant <a href="scenarioIV.html#variantIV_2">II</a>,
+the maximal type one error rate is increased to <span class="math inline">\(5\%\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">alpha_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="fl">.05</span>
+toer_cnstr_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span>alpha_<span class="dv">2</span></code></pre>
 </div>
 <div id="initial-design-7" class="section level3">
 <h3><span class="header-section-number">5.4.3</span> Initial Design</h3>
-<p>The initial design is updated to a group-sequential design that fulfills
-the new type one error rate constraint.</p>
-<pre class="sourceCode r"><code class="sourceCode r">order &lt;-<span class="st"> </span>5L 
-
-init_design_<span class="dv">3</span>_gs &lt;-<span class="st"> </span><span class="kw">rpact_design</span>(<span class="fl">0.2</span>, <span class="fl">0.05</span>, <span class="fl">0.9</span>, <span class="ot">TRUE</span>, order)
-
-init_design_<span class="dv">3</span>    &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(init_design_<span class="dv">3</span>_gs)</code></pre>
+<p>Again, a design computed by means of the <code>rpact</code>-package to fulfill
+the updated error rate constraints is applied as initial design for the
+optimal group-sequential and generic two-stage designs.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+    <span class="dt">type    =</span> <span class="kw">c</span>(<span class="st">&quot;one-stage&quot;</span>, <span class="st">&quot;group-sequential&quot;</span>, <span class="st">&quot;two-stage&quot;</span>),
+    <span class="dt">initial =</span> <span class="kw">list</span>(
+        <span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>),
+        <span class="kw">rpact_design</span>(<span class="fl">0.2</span>, <span class="fl">0.05</span>, <span class="fl">0.9</span>, <span class="ot">TRUE</span>, order),
+        <span class="kw">TwoStageDesign</span>(<span class="kw">rpact_design</span>(<span class="fl">0.2</span>, <span class="fl">0.05</span>, <span class="fl">0.9</span>, <span class="ot">TRUE</span>, order))) )</code></pre>
 </div>
 <div id="optimization-8" class="section level3">
 <h3><span class="header-section-number">5.4.4</span> Optimization</h3>
-<p>The optimal two-stage design is computed.</p>
-<pre class="sourceCode r"><code class="sourceCode r">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(initial_design) {
-    <span class="kw">minimize</span>(
-        ess,
-        <span class="kw">subject_to</span>(
-            toer_cnstr_<span class="dv">2</span>,
-            pow_cnstr_<span class="dv">2</span>
-        ),
-        <span class="dt">initial_design =</span> initial_design,
-        <span class="dt">opts =</span> opts
-    )
-}
-
-opt3_ts &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">3</span>)
-opt3_gs &lt;-<span class="st"> </span><span class="kw">opt_design</span>(init_design_<span class="dv">3</span>_gs)
-opt3_os &lt;-<span class="st"> </span><span class="kw">opt_design</span>(<span class="kw">OneStageDesign</span>(<span class="dv">500</span>, <span class="fl">2.0</span>))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">5</span> &lt;-<span class="st"> </span>tbl_designs_<span class="dv">5</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+       <span class="dt">optimal =</span> purrr<span class="op">::</span><span class="kw">map</span>(initial, <span class="op">~</span><span class="kw">minimize</span>(
+         
+          ess,
+          <span class="kw">subject_to</span>(
+              toer_cnstr_<span class="dv">2</span>,
+              pow_cnstr_<span class="dv">2</span>
+          ),
+          
+          <span class="dt">initial_design =</span> ., 
+          <span class="dt">opts           =</span> opts)) )</code></pre>
 </div>
 <div id="test-cases-9" class="section level3">
 <h3><span class="header-section-number">5.4.5</span> Test Cases</h3>
-<p>Check if the optimization algorithm converged in all cases.</p>
-<pre class="sourceCode r"><code class="sourceCode r">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt3_ts, opt3_gs, opt3_os), 
-                <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
-
-<span class="kw">print</span>(iters)</code></pre>
-<pre><code>## [1] 2833 1124   27</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>Type one error rate constraint is tested for the three designs.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt3_ts, opt3_gs, opt3_os),  
-                  <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.0</span>, datadist))
-df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer <span class="op">&lt;=</span><span class="st"> </span><span class="fl">.05</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
-
-df_toer</code></pre>
-<pre><code>##       toer           se
-## 1 0.050175 0.0002183060
-## 2 0.049980 0.0002179038
-## 3 0.050150 0.0002182545</code></pre>
-<p>The power constraint can also be tested via simulation.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">list</span>(opt3_ts, opt3_gs, opt3_os),  
-                  <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.2</span>, datadist))
-df_pow  &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">pow  =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_pow<span class="op">$</span>pow <span class="op">&gt;=</span><span class="st"> </span><span class="fl">.9</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))
-
-df_pow</code></pre>
-<pre><code>##        pow           se
-## 1 0.900059 0.0002999215
-## 2 0.900317 0.0002995770
-## 3 0.899606 0.0003005248</code></pre>
-<p>The expected sample sizes should be ordered in a specific way.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, opt3_os<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(ess, opt3_gs<span class="op">$</span>design)
-)
-
-testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, init_design_<span class="dv">3</span>_gs),
-    <span class="kw">evaluate</span>(ess, opt3_gs<span class="op">$</span>design)
-)
-
-testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(ess, opt3_gs<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(ess, opt3_ts<span class="op">$</span>design)
-)</code></pre>
-<p>The expected sample size of the optimal designs is simulated and compared
-to the outomce of <code>adoptr::evaluate()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">ess_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, H_<span class="dv">0</span>)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_os<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt3_os<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_gs<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt3_gs<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess_<span class="dv">0</span>, opt3_ts<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)</code></pre>
-<p>Additionally, the sample sizes under the point prior are compared.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_os<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess, opt3_os<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_gs<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess, opt3_gs<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)
-
-<span class="kw">expect_equal</span>(
-    <span class="kw">sim_n</span>(opt3_ts<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n,
-    <span class="kw">evaluate</span>(ess, opt3_ts<span class="op">$</span>design),
-    <span class="dt">tolerance =</span> tol_n,
-    <span class="dt">scale =</span> <span class="dv">1</span>
-)</code></pre>
-<p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
-monotonously decreasing.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_equal</span>(
-    <span class="kw">sign</span>(<span class="kw">diff</span>(opt3_ts<span class="op">$</span>design<span class="op">@</span>n2_pivots)),
-    <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, (order <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
-)</code></pre>
+<p>The convergence of the optimization algorithm is tested by checking if the
+maximum number of iterations was not exceeded.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">5</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      type, 
+      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(tbl_designs_<span class="dv">5</span><span class="op">$</span>optimal, 
+                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   type             iterations
+##   &lt;chr&gt;                 &lt;int&gt;
+## 1 one-stage                27
+## 2 group-sequential       1124
+## 3 two-stage              2833</code></pre>
+<p>By simulation, the constraints on the error rates (type one error and power)
+are tested.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">5</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      type, 
+      <span class="dt">toer  =</span> purrr<span class="op">::</span><span class="kw">map</span>(tbl_designs_<span class="dv">5</span><span class="op">$</span>optimal, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), 
+      <span class="dt">power =</span> purrr<span class="op">::</span><span class="kw">map</span>(tbl_designs_<span class="dv">5</span><span class="op">$</span>optimal, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.2</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer  <span class="op">&lt;=</span><span class="st"> </span>alpha_<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power <span class="op">&gt;=</span><span class="st"> </span>min_power_<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   type               toer power
+##   &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;
+## 1 one-stage        0.0502 0.900
+## 2 group-sequential 0.0500 0.900
+## 3 two-stage        0.0502 0.900</code></pre>
+<p>Due to increasing degrees of freedom, the expected sample sizes under the
+alternative should be ordered as ‘one-stage &gt; group-sequential &gt; two-stage’.
+They are tested by simulation as well as by calling <code>evaluate()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">5</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">ess      =</span> <span class="kw">map_dbl</span>(optimal,
+                           <span class="op">~</span><span class="kw">evaluate</span>(ess, .<span class="op">$</span>design) ),
+        <span class="dt">ess_sim  =</span> <span class="kw">map_dbl</span>(optimal,
+                           <span class="op">~</span><span class="kw">sim_n</span>(.<span class="op">$</span>design, <span class="fl">.2</span>, datadist)<span class="op">$</span>n ) ) <span class="op">%&gt;%</span>
+<span class="st">    </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+    <span class="co"># sim/evaluate same under alternative?</span>
+    testthat<span class="op">::</span><span class="kw">expect_equal</span>(.<span class="op">$</span>ess, .<span class="op">$</span>ess_sim, 
+                           <span class="dt">tolerance =</span> tol_n,
+                           <span class="dt">scale =</span> <span class="dv">1</span>)
+    <span class="co"># monotonicity with respect to degrees of freedom</span>
+    testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(<span class="kw">diff</span>(.<span class="op">$</span>ess) <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)) }</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   type             initial    optimal      ess ess_sim
+##   &lt;chr&gt;            &lt;list&gt;     &lt;list&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 one-stage        &lt;OnStgDsg&gt; &lt;list [3]&gt;  428     428 
+## 2 group-sequential &lt;GrpSqntD&gt; &lt;list [3]&gt;  326.    325.
+## 3 two-stage        &lt;TwStgDsg&gt; &lt;list [3]&gt;  319.    319.</code></pre>
+<p>The expected sample size under the alternative that was used as objective criterion
+of the optimal group-sequential design should be lower than for the
+group-sequential design by <code>rpact</code> that is based on the inverse normal
+combination test.</p>
+<pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">5</span> <span class="op">%&gt;%</span>
+<span class="st">             </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;group-sequential&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">             </span>{ <span class="kw">expect_lte</span>(
+                 <span class="kw">evaluate</span>(ess, {.[[<span class="st">&quot;optimal&quot;</span>]][[<span class="dv">1</span>]]<span class="op">$</span>design}),
+                 <span class="kw">evaluate</span>(ess, {.[[<span class="st">&quot;initial&quot;</span>]][[<span class="dv">1</span>]]})
+             ) }</code></pre>
+<p>Also in this variant, the <span class="math inline">\(n_2\)</span> function of the optimal two-stage design
+is expected to be monotonously decreasing:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_true</span>(
+    <span class="kw">all</span>(<span class="kw">diff</span>(
+        <span class="co"># get optimal two-stage design n2 pivots</span>
+        tbl_designs_<span class="dv">5</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;two-stage&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">           </span>{.[[<span class="st">&quot;optimal&quot;</span>]][[<span class="dv">1</span>]]<span class="op">$</span>design<span class="op">@</span>n2_pivots} 
+        ) <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) )</code></pre>
 </div>
 </div>
 <div id="plot-two-stage-designs-2" class="section level2">
 <h2><span class="header-section-number">5.5</span> Plot Two-Stage Designs</h2>
 <p>The optimal two-stage designs stemming from the three different variants
 are plotted together.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
 
 </div>
 </div>
