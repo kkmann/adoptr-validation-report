@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package</title>
+  <title>3 Scenario II: large effect, Gaussian prior | Validation Report for adoptr package</title>
   <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package" />
+  <meta property="og:title" content="3 Scenario II: large effect, Gaussian prior | Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="kkmann/adoptr-validation-report" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3 Scenario II: Large effect, Gaussian prior | Validation Report for adoptr package" />
+  <meta name="twitter:title" content="3 Scenario II: large effect, Gaussian prior | Validation Report for adoptr package" />
   
   <meta name="twitter:description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
   
@@ -170,7 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="scenarioI.html"><a href="scenarioI.html#plot-two-stage-designs"><i class="fa fa-check"></i><b>2.5</b> Plot Two-Stage Designs</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="scenarioII.html"><a href="scenarioII.html"><i class="fa fa-check"></i><b>3</b> Scenario II: Large effect, Gaussian prior</a><ul>
+<li class="chapter" data-level="3" data-path="scenarioII.html"><a href="scenarioII.html"><i class="fa fa-check"></i><b>3</b> Scenario II: large effect, Gaussian prior</a><ul>
 <li class="chapter" data-level="3.1" data-path="scenarioII.html"><a href="scenarioII.html#details-1"><i class="fa fa-check"></i><b>3.1</b> Details</a></li>
 <li class="chapter" data-level="3.2" data-path="scenarioII.html"><a href="scenarioII.html#variantII_1"><i class="fa fa-check"></i><b>3.2</b> Variant II-1: Minimizing Expected Sample Size under Point Prior</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="scenarioII.html"><a href="scenarioII.html#objective-3"><i class="fa fa-check"></i><b>3.2.1</b> Objective</a></li>
@@ -230,7 +230,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="scenarioIV.html"><a href="scenarioIV.html#plot-two-stage-designs-2"><i class="fa fa-check"></i><b>5.5</b> Plot Two-Stage Designs</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="scenarioV.html"><a href="scenarioV.html"><i class="fa fa-check"></i><b>6</b> Scenario V: Single-arm design, medium effect size</a><ul>
+<li class="chapter" data-level="6" data-path="scenarioV.html"><a href="scenarioV.html"><i class="fa fa-check"></i><b>6</b> Scenario V: single-arm design, medium effect size</a><ul>
 <li class="chapter" data-level="6.1" data-path="scenarioV.html"><a href="scenarioV.html#details-4"><i class="fa fa-check"></i><b>6.1</b> Details</a></li>
 <li class="chapter" data-level="6.2" data-path="scenarioV.html"><a href="scenarioV.html#variantV_1"><i class="fa fa-check"></i><b>6.2</b> Variant V-1, sensitivity to integration order</a><ul>
 <li class="chapter" data-level="6.2.1" data-path="scenarioV.html"><a href="scenarioV.html#objective-10"><i class="fa fa-check"></i><b>6.2.1</b> Objective</a></li>
@@ -283,7 +283,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="scenarioII" class="section level1">
-<h1><span class="header-section-number">3</span> Scenario II: Large effect, Gaussian prior</h1>
+<h1><span class="header-section-number">3</span> Scenario II: large effect, Gaussian prior</h1>
 <div id="details-1" class="section level2">
 <h2><span class="header-section-number">3.1</span> Details</h2>
 <p>In this scenario, we revisit the case from <a href="scenarioI.html#scenarioI">Scenario I</a>, but
@@ -446,12 +446,23 @@ In this situation, one may expect a different (increasing) sample size function,
 and thus also a different shape of the <span class="math inline">\(c_2\)</span> function.
 Therefore, the <code>rpact</code> initial design is a suboptimal starting point.
 Instead, we start with a constant <span class="math inline">\(c_2\)</span> function by heuristically
-setting it to <span class="math inline">\(2\)</span> on the continuation area.</p>
+setting it to <span class="math inline">\(2\)</span> on the continuation area.
+Since optimization under the null hypothesis favours extremely conservative
+boundaries for early efficacy stopping we impose as fairly liberal upper bound
+of <span class="math inline">\(3\)</span> for early efficacy stopping.</p>
 <pre class="sourceCode r"><code class="sourceCode r">init_design_h0 &lt;-<span class="st"> </span>tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;two-stage&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">pull</span>(initial) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span>.[[<span class="dv">1</span>]]
-init_design_h0<span class="op">@</span>c2_pivots &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">2</span>, order)</code></pre>
+init_design_h0<span class="op">@</span>c2_pivots &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">2</span>, order)
+
+ub_design &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(
+    <span class="dv">3</span><span class="op">*</span>init_design_h0<span class="op">@</span>n1,
+    <span class="dv">2</span>,
+    <span class="dv">3</span>,
+    <span class="kw">rep</span>(<span class="dv">600</span>, order),
+    <span class="kw">rep</span>(<span class="fl">3.0</span>, order)
+)</code></pre>
 </div>
 <div id="optimization-4" class="section level3">
 <h3><span class="header-section-number">3.3.4</span> Optimization</h3>
@@ -467,6 +478,7 @@ init_design_h0<span class="op">@</span>c2_pivots &lt;-<span class="st"> </span><
         ),
         
         <span class="dt">initial_design =</span> init_design_h0,
+        <span class="dt">upper_boundary_design =</span> ub_design,
         <span class="dt">opts =</span> opts
 )</code></pre>
 </div>
@@ -477,7 +489,7 @@ To avoid improper solutions, it is first verified that the maximum
 number of iterations was not exceeded in any of the three cases.</p>
 <pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(opt_neg<span class="op">$</span>nloptr_return<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval)
 <span class="kw">print</span>(opt_neg<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)</code></pre>
-<pre><code>## [1] 1025</code></pre>
+<pre><code>## [1] 9171</code></pre>
 <p>Again, the type one error rate under the point null hypothesis <span class="math inline">\(\delta = 0\)</span>
 can be tested by simulation.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tbl_toer &lt;-<span class="st"> </span><span class="kw">tibble</span>(

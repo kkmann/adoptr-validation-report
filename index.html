@@ -170,7 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="scenarioI.html"><a href="scenarioI.html#plot-two-stage-designs"><i class="fa fa-check"></i><b>2.5</b> Plot Two-Stage Designs</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="scenarioII.html"><a href="scenarioII.html"><i class="fa fa-check"></i><b>3</b> Scenario II: Large effect, Gaussian prior</a><ul>
+<li class="chapter" data-level="3" data-path="scenarioII.html"><a href="scenarioII.html"><i class="fa fa-check"></i><b>3</b> Scenario II: large effect, Gaussian prior</a><ul>
 <li class="chapter" data-level="3.1" data-path="scenarioII.html"><a href="scenarioII.html#details-1"><i class="fa fa-check"></i><b>3.1</b> Details</a></li>
 <li class="chapter" data-level="3.2" data-path="scenarioII.html"><a href="scenarioII.html#variantII_1"><i class="fa fa-check"></i><b>3.2</b> Variant II-1: Minimizing Expected Sample Size under Point Prior</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="scenarioII.html"><a href="scenarioII.html#objective-3"><i class="fa fa-check"></i><b>3.2.1</b> Objective</a></li>
@@ -230,7 +230,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="scenarioIV.html"><a href="scenarioIV.html#plot-two-stage-designs-2"><i class="fa fa-check"></i><b>5.5</b> Plot Two-Stage Designs</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="scenarioV.html"><a href="scenarioV.html"><i class="fa fa-check"></i><b>6</b> Scenario V: Single-arm design, medium effect size</a><ul>
+<li class="chapter" data-level="6" data-path="scenarioV.html"><a href="scenarioV.html"><i class="fa fa-check"></i><b>6</b> Scenario V: single-arm design, medium effect size</a><ul>
 <li class="chapter" data-level="6.1" data-path="scenarioV.html"><a href="scenarioV.html#details-4"><i class="fa fa-check"></i><b>6.1</b> Details</a></li>
 <li class="chapter" data-level="6.2" data-path="scenarioV.html"><a href="scenarioV.html#variantV_1"><i class="fa fa-check"></i><b>6.2</b> Variant V-1, sensitivity to integration order</a><ul>
 <li class="chapter" data-level="6.2.1" data-path="scenarioV.html"><a href="scenarioV.html#objective-10"><i class="fa fa-check"></i><b>6.2.1</b> Objective</a></li>
@@ -689,7 +689,7 @@ continuation area?</li>
 <h4><span class="header-section-number">1.3.5.2</span> <a href="scenarioV.html#variantV_2">Variant V.2: Utility Maximization</a></h4>
 <ul>
 <li><strong>Objective:</strong> <span class="math inline">\(\lambda\, Power - ESS := \lambda\, \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.3\big] - \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.3\big].\)</span>
-for <span class="math inline">\(\lambda = 200\)</span> and <span class="math inline">\(500\)</span></li>
+for <span class="math inline">\(\lambda = 100\)</span> and <span class="math inline">\(200\)</span></li>
 <li><strong>Constraints:</strong>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(TOER := \boldsymbol{Pr}\big[c_2(X_1) &lt; X_2\,|\,\delta=0.0\big] \leq 0.025\)</span></li>
@@ -717,6 +717,8 @@ for <span class="math inline">\(\lambda = 0.05\)</span> and <span class="math in
 <ol style="list-style-type: decimal">
 <li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
+<li>Do both designs respect the type one error rate
+and power constraints (via simulation)?</li>
 <li>Is <span class="math inline">\(n_1\)</span> for the optimal design smaller than the order-5 design in V.1?</li>
 </ol></li>
 </ul>
@@ -735,6 +737,8 @@ for <span class="math inline">\(\lambda = 0.01\)</span> and <span class="math in
 <ol style="list-style-type: decimal">
 <li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
+<li>Do both designs respect the type one error rate and power
+constraints (via simulation)?</li>
 <li>Is the <code>AverageN2</code> for the optimal design smaller than for the order-5
 design in V.1?</li>
 </ol></li>

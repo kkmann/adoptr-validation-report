@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Scenario V: Single-arm design, medium effect size | Validation Report for adoptr package</title>
+  <title>6 Scenario V: single-arm design, medium effect size | Validation Report for adoptr package</title>
   <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Scenario V: Single-arm design, medium effect size | Validation Report for adoptr package" />
+  <meta property="og:title" content="6 Scenario V: single-arm design, medium effect size | Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="kkmann/adoptr-validation-report" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Scenario V: Single-arm design, medium effect size | Validation Report for adoptr package" />
+  <meta name="twitter:title" content="6 Scenario V: single-arm design, medium effect size | Validation Report for adoptr package" />
   
   <meta name="twitter:description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
   
@@ -170,7 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="scenarioI.html"><a href="scenarioI.html#plot-two-stage-designs"><i class="fa fa-check"></i><b>2.5</b> Plot Two-Stage Designs</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="scenarioII.html"><a href="scenarioII.html"><i class="fa fa-check"></i><b>3</b> Scenario II: Large effect, Gaussian prior</a><ul>
+<li class="chapter" data-level="3" data-path="scenarioII.html"><a href="scenarioII.html"><i class="fa fa-check"></i><b>3</b> Scenario II: large effect, Gaussian prior</a><ul>
 <li class="chapter" data-level="3.1" data-path="scenarioII.html"><a href="scenarioII.html#details-1"><i class="fa fa-check"></i><b>3.1</b> Details</a></li>
 <li class="chapter" data-level="3.2" data-path="scenarioII.html"><a href="scenarioII.html#variantII_1"><i class="fa fa-check"></i><b>3.2</b> Variant II-1: Minimizing Expected Sample Size under Point Prior</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="scenarioII.html"><a href="scenarioII.html#objective-3"><i class="fa fa-check"></i><b>3.2.1</b> Objective</a></li>
@@ -230,7 +230,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="scenarioIV.html"><a href="scenarioIV.html#plot-two-stage-designs-2"><i class="fa fa-check"></i><b>5.5</b> Plot Two-Stage Designs</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="scenarioV.html"><a href="scenarioV.html"><i class="fa fa-check"></i><b>6</b> Scenario V: Single-arm design, medium effect size</a><ul>
+<li class="chapter" data-level="6" data-path="scenarioV.html"><a href="scenarioV.html"><i class="fa fa-check"></i><b>6</b> Scenario V: single-arm design, medium effect size</a><ul>
 <li class="chapter" data-level="6.1" data-path="scenarioV.html"><a href="scenarioV.html#details-4"><i class="fa fa-check"></i><b>6.1</b> Details</a></li>
 <li class="chapter" data-level="6.2" data-path="scenarioV.html"><a href="scenarioV.html#variantV_1"><i class="fa fa-check"></i><b>6.2</b> Variant V-1, sensitivity to integration order</a><ul>
 <li class="chapter" data-level="6.2.1" data-path="scenarioV.html"><a href="scenarioV.html#objective-10"><i class="fa fa-check"></i><b>6.2.1</b> Objective</a></li>
@@ -283,39 +283,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="scenarioV" class="section level1">
-<h1><span class="header-section-number">6</span> Scenario V: Single-arm design, medium effect size</h1>
+<h1><span class="header-section-number">6</span> Scenario V: single-arm design, medium effect size</h1>
 <div id="details-4" class="section level2">
 <h2><span class="header-section-number">6.1</span> Details</h2>
-<p>In this scenario, a classical two-arm trial with normal
-test statistic and known variance (w.l.o.g. variance of
-the test statistic is 1).
-This situation corresponds to a classical <span class="math inline">\(z\)</span>-test for
-a difference in population means.</p>
-<pre class="sourceCode r"><code class="sourceCode r">datadist &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">TRUE</span>)</code></pre>
-<p>The null hypothesis is no population mean difference, i.e.
-<span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">H_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)</code></pre>
-<p>An alternative effect size of <span class="math inline">\(\delta = 0.3\)</span> with
-point prior distribution is assumed.</p>
-<pre class="sourceCode r"><code class="sourceCode r">prior &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)</code></pre>
-<p>Across all variants in this scenario, the one-sided maximal
-type one error rate is restricted to</p>
-<pre class="sourceCode r"><code class="sourceCode r">alpha &lt;-<span class="st"> </span><span class="fl">0.025</span></code></pre>
-<p>and the power at the point alternative of <span class="math inline">\(\delta=0.3\)</span> must
-be at least</p>
-<pre class="sourceCode r"><code class="sourceCode r">min_power &lt;-<span class="st"> </span><span class="fl">0.8</span></code></pre>
-<p>I.e. throughout this sceanrio, we always use the two
-constraints</p>
-<pre class="sourceCode r"><code class="sourceCode r">toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span>alpha</code></pre>
-<p>and</p>
-<pre class="sourceCode r"><code class="sourceCode r">pow_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span>min_power</code></pre>
+<p>In this scenario, again a point prior is analyzed.
+The null hypothesis is <span class="math inline">\(\delta \leq 0\)</span> and we assume an alternative effect size
+of <span class="math inline">\(\delta = 0.3\)</span>
+Type one error rate should be protected at 2.5% and the design’s power should
+be at least 80%.
+Differently than in the previous scenarios, we are assuming a single-arm
+design in throughout this scenario.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data distribution and hypotheses</span>
+datadist   &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">FALSE</span>)
+H_<span class="dv">0</span>        &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)
+prior      &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)
+
+<span class="co"># define constraints</span>
+alpha      &lt;-<span class="st"> </span><span class="fl">0.025</span>
+min_power  &lt;-<span class="st"> </span><span class="fl">0.8</span>
+toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>)   <span class="op">&lt;=</span><span class="st"> </span>alpha
+pow_cnstr  &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span>min_power</code></pre>
 </div>
 <div id="variantV_1" class="section level2">
 <h2><span class="header-section-number">6.2</span> Variant V-1, sensitivity to integration order</h2>
+<p>In this variant, the sensitivity of the optimization with respect to the
+integration order is investigated.
+We apply three different integration orders: 5, 8, and 11.</p>
 <div id="objective-10" class="section level3">
 <h3><span class="header-section-number">6.2.1</span> Objective</h3>
-<p>Expected sample size under the respective prior is minimized, i.e.,
-<span class="math inline">\(\boldsymbol{E}\big[n(\mathcal{D})\big]\)</span>.</p>
+<p>Expected sample size under the alternative point mass prior <span class="math inline">\(\delta = 0.3\)</span>
+is minimized.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)</code></pre>
 </div>
 <div id="constraints-10" class="section level3">
@@ -324,7 +321,9 @@ constraints</p>
 </div>
 <div id="initial-design-8" class="section level3">
 <h3><span class="header-section-number">6.2.3</span> Initial Design</h3>
-<p>A fixed design for these parameters would require
+<p>In order to vary the initial design, <code>rpact</code> is not used in this variant.
+Instead, the following heuristical considerations are made.
+A fixed design for these parameters would require
 176
 subjects per group. We use the half of this as initial values for the
 sample sizes.
@@ -365,67 +364,62 @@ and 11.</p>
     )
 }
 
-opt1 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>), <span class="cf">function</span>(x) <span class="kw">opt_design</span>(x))</code></pre>
+opt &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">order  =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>),
+  <span class="dt">design =</span> <span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>), <span class="cf">function</span>(x) <span class="kw">opt_design</span>(x))
+)</code></pre>
 </div>
 <div id="test-cases-10" class="section level3">
 <h3><span class="header-section-number">6.2.5</span> Test cases</h3>
 <p>Check if the optimization algorithm converged in all cases.</p>
-<pre class="sourceCode r"><code class="sourceCode r">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
-
-<span class="kw">print</span>(iters)</code></pre>
-<pre><code>## [1] 2328 4226 8913</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>Check type one error rate control.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.0</span>, datadist))
-df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
-
-df_toer</code></pre>
-<pre><code>##       toer           se
-## 1 0.024975 0.0001560489
-## 2 0.024956 0.0001559911
-## 3 0.024950 0.0001559728</code></pre>
-<p>Check the power constraint.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.3</span>, datadist))
-df_pow  &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">power =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se    =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_pow<span class="op">$</span>pow <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))
-
-df_pow</code></pre>
-<pre><code>##      power           se
-## 1 0.799791 0.0004001569
-## 2 0.799696 0.0004002280
-## 3 0.799678 0.0004002415</code></pre>
-<p>Check expected sample size under the prior.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp    &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt1, <span class="cf">function</span>(x) <span class="kw">sim_n</span>(x<span class="op">$</span>design, <span class="fl">.3</span>, datadist))
-df_ess &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">n  =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-df_ess</code></pre>
-<pre><code>##          n         se
-## 1 141.9614 0.04874384
-## 2 141.9801 0.04875722
-## 3 141.9822 0.04875670</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">opt <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      order, 
+      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt<span class="op">$</span>design, 
+                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   order iterations
+##   &lt;dbl&gt;      &lt;int&gt;
+## 1     5       2044
+## 2     8       4660
+## 3    11       8826</code></pre>
+<p>Test the constraints on type one error rate and power by simulation and
+compare the results to the outcome of <code>evaluate()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      order, 
+      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,
+                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),
+      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt<span class="op">$</span>design, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), 
+      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,
+                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),
+      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt<span class="op">$</span>design, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   order   toer power toer_sim power_sim
+##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     5 0.0250 0.800   0.0250     0.800
+## 2     8 0.0250 0.800   0.0250     0.800
+## 3    11 0.0250 0.800   0.0250     0.800</code></pre>
 </div>
 </div>
 <div id="variantV_2" class="section level2">
 <h2><span class="header-section-number">6.3</span> Variant V-2, utility maximization</h2>
 <div id="objective-11" class="section level3">
 <h3><span class="header-section-number">6.3.1</span> Objective</h3>
-<p>In this case, a utility function consisting of expected sample size and
-power is minimized.</p>
+<p>In this variant, a utility function consisting of expected sample size and
+power is minimized.
+The parameter <span class="math inline">\(\lambda\)</span> that is describing the ratio between expected
+sample size and power is varied.</p>
 <pre class="sourceCode r"><code class="sourceCode r">pow &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior)
 ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)
 
@@ -437,7 +431,7 @@ obj &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
 <h3><span class="header-section-number">6.3.2</span> Constraints</h3>
 <p>The type one error rate is controlled at 0.025 on the boundary of the
 null hypothesis. Hence, the previous inequality can still be used.
-There is no constraint on power anymore because power is part of the
+There is no constraint on power any more because power is part of the
 objective utility function.</p>
 </div>
 <div id="initial-design-9" class="section level3">
@@ -446,69 +440,84 @@ objective utility function.</p>
 </div>
 <div id="optimization-10" class="section level3">
 <h3><span class="header-section-number">6.3.4</span> Optimization</h3>
-<p>The optimal design is computed for two values of <span class="math inline">\(\lambda\)</span>: 200 and 500.</p>
-<pre class="sourceCode r"><code class="sourceCode r">opt2_design &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
-
-    <span class="kw">minimize</span>(
-        <span class="kw">obj</span>(lambda),
-        <span class="kw">subject_to</span>(
-            toer_cnstr
-        ),
-        <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>),
-        <span class="dt">opts =</span> opts
-    )
-}
-
-opt2 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">500</span>), <span class="cf">function</span>(x) <span class="kw">opt2_design</span>(x))</code></pre>
+<p>The optimal design is computed for two values of <span class="math inline">\(\lambda\)</span>: 100 and 200.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt_utility &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="dv">100</span>, <span class="dv">200</span>)
+) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">design =</span> purrr<span class="op">::</span><span class="kw">map</span>(lambda, <span class="op">~</span><span class="kw">minimize</span>(
+          <span class="kw">obj</span>(.),
+          <span class="kw">subject_to</span>(
+              toer_cnstr
+          ),
+          
+          <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>), 
+          <span class="dt">opts           =</span> opts)) 
+)</code></pre>
 </div>
 <div id="test-cases-11" class="section level3">
 <h3><span class="header-section-number">6.3.5</span> Test cases</h3>
-<p>Check if the optimization algorithm converged in all cases.</p>
-<pre class="sourceCode r"><code class="sourceCode r">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt2, <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
-
-<span class="kw">print</span>(iters)</code></pre>
-<pre><code>## [1]  2062 13606</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>Check type one error rate control for both designs via simulation.</p>
-<pre class="sourceCode r"><code class="sourceCode r">tmp     &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt2, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="dv">0</span>, datadist))
-df_toer &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">toer =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">1</span>, ]),
-    <span class="dt">se   =</span> <span class="kw">as.numeric</span>(tmp[<span class="dv">2</span>, ])
-)
-<span class="kw">rm</span>(tmp)
-
-testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
-
-df_toer</code></pre>
-<pre><code>##       toer           se
-## 1 0.025024 0.0001561980
-## 2 0.024983 0.0001560733</code></pre>
-<p>Check if the power of the design with higher <span class="math inline">\(\lambda\)</span> is larger.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_gte</span>(
-    <span class="kw">evaluate</span>(pow, opt2[[<span class="dv">2</span>]]<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(pow, opt2[[<span class="dv">1</span>]]<span class="op">$</span>design)
-)</code></pre>
-<p>Finally the three designs computed so far are plotted together to allow
+<p>Firstly, it is checked whether the maximum number of iterations was not
+exceeded in both flavours.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt_utility <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      lambda, 
+      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt_utility<span class="op">$</span>design, 
+                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   lambda iterations
+##    &lt;dbl&gt;      &lt;int&gt;
+## 1    100       3378
+## 2    200       3024</code></pre>
+<p>Type one error rate control is tested for both designs by simulation and by
+<code>adoptr</code>’s function <code>evaluate</code>.
+In addition, it is tested if the design with larger <span class="math inline">\(\lambda\)</span> (i.e.,
+stronger focus on power), shows the larger overall power.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt_utility <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      lambda, 
+      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,
+                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),
+      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_utility<span class="op">$</span>design, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), 
+      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,
+                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),
+      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_utility<span class="op">$</span>design, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer     <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_lte</span>(.<span class="op">$</span>power[<span class="dv">1</span>], .<span class="op">$</span>power[<span class="dv">2</span>]) }</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   lambda   toer power toer_sim power_sim
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1    100 0.0250 0.523   0.0250     0.520
+## 2    200 0.0251 0.897   0.0250     0.897</code></pre>
+<p>Finally, the three designs computed so far are plotted together to allow
 comparison.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-95-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
 </div>
 </div>
 <div id="variantV_3" class="section level2">
 <h2><span class="header-section-number">6.4</span> Variant V-3, n1-penalty</h2>
-<p>In this case, the influence of the regularization term <code>N1()</code> is investigated.</p>
+<p>In this variant, the influence of the regularization term <code>N1()</code> is investigated.</p>
 <div id="objective-12" class="section level3">
 <h3><span class="header-section-number">6.4.1</span> Objective</h3>
-<p>In this case, a mixed criterion consisting of expected sample size and
-<span class="math inline">\(n_1\)</span> is minimized.</p>
+<p>In order to analyse the influence of <code>N1()</code>,
+a mixed criterion consisting of expected sample size under the point prior
+and <span class="math inline">\(N1()\)</span> is minimized.</p>
 <pre class="sourceCode r"><code class="sourceCode r">N1 &lt;-<span class="st"> </span><span class="kw">N1</span>()
 
-obj3 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
+obj_n1 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
   <span class="kw">composite</span>({ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>N1})
 }</code></pre>
 </div>
 <div id="constraints-12" class="section level3">
 <h3><span class="header-section-number">6.4.2</span> Constraints</h3>
-<p>The inequalities from variant V.1 can still be used.</p>
+<p>The inequalities from variant <a href="scenarioV.html#variantV_1">V.1</a> can still be used.</p>
 </div>
 <div id="initial-design-10" class="section level3">
 <h3><span class="header-section-number">6.4.3</span> Initial Design</h3>
@@ -517,108 +526,176 @@ obj3 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
 <div id="optimization-11" class="section level3">
 <h3><span class="header-section-number">6.4.4</span> Optimization</h3>
 <p>The optimal design is computed for two values of <span class="math inline">\(\lambda\)</span>: 0.05 and 0.2.</p>
-<pre class="sourceCode r"><code class="sourceCode r">opt3_design &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
-
-    <span class="kw">minimize</span>(
-        <span class="kw">obj3</span>(lambda),
-        <span class="kw">subject_to</span>(
-            toer_cnstr,
-            pow_cnstr
-        ),
-        <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>),
-        <span class="dt">opts =</span> opts
-    )
-}
-
-opt3 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(.<span class="dv">05</span>, <span class="fl">.2</span>), <span class="cf">function</span>(x) <span class="kw">opt3_design</span>(x))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">opt_n1 &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="fl">0.05</span>, <span class="fl">0.2</span>)
+) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">design =</span> purrr<span class="op">::</span><span class="kw">map</span>(lambda, <span class="op">~</span><span class="kw">minimize</span>(
+          <span class="kw">obj_n1</span>(.),
+          <span class="kw">subject_to</span>(
+              toer_cnstr,
+              pow_cnstr
+          ),
+          
+          <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>), 
+          <span class="dt">opts           =</span> opts)) 
+)</code></pre>
 </div>
 <div id="test-cases-12" class="section level3">
 <h3><span class="header-section-number">6.4.5</span> Test cases</h3>
-<p>Check if the optimization algorithm converged in all cases.</p>
-<pre class="sourceCode r"><code class="sourceCode r">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt3, <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
-
-<span class="kw">print</span>(iters)</code></pre>
-<pre><code>## [1] 2233 2478</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>Check if the n1 regularizer of the design with higher <span class="math inline">\(\lambda\)</span> is lower.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_lte</span>(
-    <span class="kw">evaluate</span>(N1, opt3[[<span class="dv">2</span>]]<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(N1, opt3[[<span class="dv">1</span>]]<span class="op">$</span>design)
-)
-
-
-testthat<span class="op">::</span><span class="kw">expect_lte</span>(
-    <span class="kw">evaluate</span>(N1, opt3[[<span class="dv">1</span>]]<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(N1, opt1[[<span class="dv">1</span>]]<span class="op">$</span>design)
-)</code></pre>
-<p>Finally the three designs computed so far are plotted together to allow
-comparison.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
+<p>We start testing if the optimization algorithm converged in both cases</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt_n1 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      lambda, 
+      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt_n1<span class="op">$</span>design, 
+                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   lambda iterations
+##    &lt;dbl&gt;      &lt;int&gt;
+## 1   0.05       2222
+## 2   0.2        2222</code></pre>
+<p>Next, the error rate constraints on type one error rate and power are both
+tested by simulation and by the <code>evaluate</code>-call.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt_n1 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      lambda, 
+      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,
+                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),
+      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n1<span class="op">$</span>design, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), 
+      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,
+                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),
+      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n1<span class="op">$</span>design, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   lambda   toer power toer_sim power_sim
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1   0.05 0.0250 0.800   0.0250     0.801
+## 2   0.2  0.0250 0.800   0.0250     0.800</code></pre>
+<p>Since <span class="math inline">\(n_1\)</span> is penalized in both flavours that are computed in this variant,
+we expect a lower <span class="math inline">\(n_1\)</span> value as larger <span class="math inline">\(\lambda\)</span>.
+Furthermore, <span class="math inline">\(n_1\)</span> should be lower in both cases than in the unpenalized
+situation regarded in variant <a href="scenarioV.html#variantV_1">V.1</a>.
+Finally, these three designs are plotted together to allow graphical comparison.</p>
+<pre><code>## # A tibble: 3 x 3
+##   type                                   design       n_1
+##   &lt;chr&gt;                                  &lt;list&gt;     &lt;dbl&gt;
+## 1 No Penalization on n_1                 &lt;TwStgDsg&gt;    50
+## 2 Penalization on n_1 with lambda = 0.05 &lt;TwStgDsg&gt;    48
+## 3 Penalization on n_1 with lambda = 0.2  &lt;TwStgDsg&gt;    41</code></pre>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
 </div>
 </div>
 <div id="variantV_4" class="section level2">
 <h2><span class="header-section-number">6.5</span> Variant V-4, n2-penalty</h2>
-<p>In this case the average over <span class="math inline">\(n_2\)</span> is penalized by the predefined score
-<code>AverageN2</code>.</p>
+<p>Here, we alter the situation from variant <a href="scenarioV.html#variantV_3">V.3</a> by not penalizing
+<span class="math inline">\(n_1\)</span>, but the average stage-two sample size <span class="math inline">\(n_2\)</span>.
+This can be done by means of the <code>AverageN2()</code>-function.</p>
 <div id="objective-13" class="section level3">
 <h3><span class="header-section-number">6.5.1</span> Objective</h3>
-<p>In this case, a mixed criterion consisting of expected sample size and
-average of <span class="math inline">\(n_2\)</span> is minimized.</p>
+<p>As in variant <a href="scenarioV.html#variantV_3">V.3</a>, a mixed criterion is minimized.
+Here, it consists of expected sample size under the point prior and the
+average of <span class="math inline">\(n_2\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">avn2 &lt;-<span class="st"> </span><span class="kw">AverageN2</span>()
 
-obj4 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
+obj_n2 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
   <span class="kw">composite</span>({ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>avn2})
 }</code></pre>
 </div>
 <div id="constraints-13" class="section level3">
 <h3><span class="header-section-number">6.5.2</span> Constraints</h3>
-<p>The inequalities from variant V.1 can still be used.</p>
+<p>The inequalities from variant <a href="scenarioV.html#variantV_1">V.1</a> can still be used.</p>
 </div>
 <div id="initial-design-11" class="section level3">
 <h3><span class="header-section-number">6.5.3</span> Initial Design</h3>
-<p>The previous initial design with order <span class="math inline">\(5\)</span> is applied.</p>
+<p>The previous initial design with order <span class="math inline">\(5\)</span> is applied.
+However, this case requires the definition of an upper-bound for <span class="math inline">\(c_2\)</span>.
+Otherwise, very small <span class="math inline">\(n_2\)</span>-values and very large <span class="math inline">\(c_2\)</span>-values would
+appear close to the early-futility-stop boundary in order to
+decrease the average <span class="math inline">\(n_2\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">ub_design &lt;-<span class="st"> </span><span class="kw">get_upper_boundary_design</span>(<span class="kw">init_design</span>(<span class="dv">5</span>))
+ub_design<span class="op">@</span>c2_pivots &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">3</span>, order)</code></pre>
 </div>
 <div id="optimization-12" class="section level3">
 <h3><span class="header-section-number">6.5.4</span> Optimization</h3>
 <p>The optimal design is computed for two values of <span class="math inline">\(\lambda\)</span>: 0.01 and 0.1.</p>
-<pre class="sourceCode r"><code class="sourceCode r">opt4_design &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
-    <span class="kw">minimize</span>(
-        <span class="kw">obj4</span>(lambda),
-        <span class="kw">subject_to</span>(
-            toer_cnstr,
-            pow_cnstr
-        ),
-        <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>),
-        <span class="dt">upper_boundary_design =</span> <span class="kw">get_upper_boundary_design</span>(<span class="kw">init_design</span>(<span class="dv">5</span>), <span class="dt">c2_buffer=</span><span class="dv">3</span>),
-        <span class="dt">opts =</span> opts
-    )
-}
-
-opt4 &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">c</span>(.<span class="dv">01</span>, <span class="fl">.1</span>), <span class="cf">function</span>(x) <span class="kw">opt4_design</span>(x))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">opt_n2 &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.1</span>)
+) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">design =</span> purrr<span class="op">::</span><span class="kw">map</span>(lambda, <span class="op">~</span><span class="kw">minimize</span>(
+          <span class="kw">obj_n2</span>(.),
+          <span class="kw">subject_to</span>(
+              toer_cnstr,
+              pow_cnstr
+          ),
+          
+          <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>), 
+          <span class="dt">upper_boundary_design =</span> ub_design,
+          <span class="dt">opts           =</span> opts)) 
+)</code></pre>
 </div>
 <div id="test-cases-13" class="section level3">
 <h3><span class="header-section-number">6.5.5</span> Test cases</h3>
-<p>Check if the optimization algorithm converged in all cases.</p>
-<pre class="sourceCode r"><code class="sourceCode r">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(opt4, <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)
-
-<span class="kw">print</span>(iters)</code></pre>
-<pre><code>## [1] 2196 2376</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</code></pre>
-<p>Check if the average <span class="math inline">\(n_2\)</span> regularizer of the design with
-higher <span class="math inline">\(\lambda\)</span> is lower.</p>
-<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_lte</span>(
-    <span class="kw">evaluate</span>(avn2, opt4[[<span class="dv">2</span>]]<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(avn2, opt4[[<span class="dv">1</span>]]<span class="op">$</span>design)
-)
-
-
-testthat<span class="op">::</span><span class="kw">expect_lte</span>(
-    <span class="kw">evaluate</span>(avn2, opt4[[<span class="dv">1</span>]]<span class="op">$</span>design),
-    <span class="kw">evaluate</span>(avn2, opt1[[<span class="dv">1</span>]]<span class="op">$</span>design)
-)</code></pre>
-<p>Finally the three designs computed so far are plotted together to allow
-comparison.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
+<p>As first step, we check if the maximum number of iterations was not exceeded
+in both cases.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt_n2 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      lambda, 
+      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt_n2<span class="op">$</span>design, 
+                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   lambda iterations
+##    &lt;dbl&gt;      &lt;int&gt;
+## 1   0.01       3527
+## 2   0.1        2275</code></pre>
+<p>As second step, the type one error rate and power restrictions are tested
+by simulation and by calling <code>evaluate</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">opt_n2 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">transmute</span>(
+      lambda, 
+      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,
+                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),
+      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n2<span class="op">$</span>design, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), 
+      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,
+                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),
+      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n2<span class="op">$</span>design, 
+                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))
+  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   lambda   toer power toer_sim power_sim
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1   0.01 0.0250 0.800   0.0250     0.802
+## 2   0.1  0.0250 0.800   0.0250     0.801</code></pre>
+<p>Due to increasing penalization, it is assumed that the optimal design
+computed in variant <a href="scenarioV.html#variantV_1">V.1</a> (no penalization) shows a larger
+averange <span class="math inline">\(n_2\)</span> than the optimal penalized design with <span class="math inline">\(\lambda = 0.01\)</span>
+and this shows a larger average <span class="math inline">\(n_2\)</span> than the optimal design
+with <span class="math inline">\(\lambda = 0.1\)</span>.
+Additionally, these three designs are depicted in a joint plot.</p>
+<pre><code>## # A tibble: 3 x 3
+##   type                                    design     average_n2
+##   &lt;chr&gt;                                   &lt;list&gt;          &lt;dbl&gt;
+## 1 No Penalization on AvN2                 &lt;TwStgDsg&gt;       47.6
+## 2 Penalization on AvN2 with lambda = 0.01 &lt;TwStgDsg&gt;       46.6
+## 3 Penalization on AvN2 with lambda = 0.1  &lt;TwStgDsg&gt;       38.9</code></pre>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
 
 </div>
 </div>
