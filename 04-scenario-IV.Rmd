@@ -237,7 +237,7 @@ tbl_designs_9 %>%
 
 
 
-The type one error rate and pwoer constraints are evaluated by simulation.
+The type one error rate and power constraints are evaluated by simulation.
 
 ```{r}
 tbl_designs_9 %>% 

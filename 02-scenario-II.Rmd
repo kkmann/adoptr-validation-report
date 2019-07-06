@@ -9,7 +9,7 @@ Instead, a Gaussian prior with mean $\vartheta = 0.4$ and
 variance $\tau^2 = 0.2^2$ on the effect size is assumed, i.e. 
 $\delta \sim \mathcal{N} (0.4, 0.2^2)$.
 
-In order to fulfill regulartory considerations, the type one error rate
+In order to fulfill regulatory considerations, the type one error rate
 is still protected under the point prior $\delta = 0$ at the level
 of significance $\alpha = 0.025$. 
 
@@ -137,7 +137,7 @@ group-sequential design (constant $n_2$ function) and this is
 more flexible than the optimal one-stage design (no second stage),
 the expected sample sizes under the prior should be ordered in the opposite way.
 Additionally, expected sample sizes under the null hypothesis
-is computed both via `evaluate()` and simulation-based.
+are computed both via `evaluate()` and simulation-based.
 
 ```{r}
 essh0 <- ExpectedSampleSize(datadist, H_0)

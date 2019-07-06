@@ -245,7 +245,7 @@ opt_h0$nloptr_return$iterations %>%
 ```
 
 The $n_2$ function of the optimal two-stage design is expected to be 
-monotnously increasing.
+monotonously increasing.
 ```{r}
 expect_true(
     all(diff(opt_h0$design@n2_pivots) > 0) )

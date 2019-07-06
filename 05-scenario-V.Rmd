@@ -540,7 +540,7 @@ opt_n2 %>%
 
 Due to increasing penalization, it is assumed that the optimal design 
 computed in variant [V.1](#variantV_1) (no penalization) shows a larger
-averange $n_2$ than the optimal penalized design with $\lambda = 0.01$
+average $n_2$ than the optimal penalized design with $\lambda = 0.01$
 and this shows a larger average $n_2$ than the optimal design
 with $\lambda = 0.1$.
 Additionally, these three designs are depicted in a joint plot.
