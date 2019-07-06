@@ -179,7 +179,8 @@ testthat::expect_lte(
              tbl_designs %>% 
                 filter(type == "group-sequential") %>% 
                 pull(optimal) %>% 
-                .[[1]] ),
+                .[[1]]  %>%
+                .$design ),
     evaluate(ess, 
              tbl_designs %>% 
                 filter(type == "group-sequential") %>% 
