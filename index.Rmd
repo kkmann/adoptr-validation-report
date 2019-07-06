@@ -78,10 +78,10 @@ rather limited.
 Furthermore, the current R unittesting framework does not permit 
 an easy generation of a human-readable report of the test cases
 to ascertain coverage and test quality.
+
 Therefore, **adoptr** splits testing in two parts: technical 
 correctness is ensured via an extensive unittesting suit in **adoptr**
 itself (aiming to maintain a 100% code coverage).
-
 The validation report, however, runs through a wide range of possible
 application scenarios and ensures plausibility of results as well
 as consistency with existing methods wherever possible.
