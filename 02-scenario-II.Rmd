@@ -9,7 +9,7 @@ Instead, a Gaussian prior with mean $\vartheta = 0.4$ and
 variance $\tau^2 = 0.2^2$ on the effect size is assumed, i.e. 
 $\delta \sim \mathcal{N} (0.4, 0.2^2)$.
 
-In order to fulfill regulartory considerations, the type one error rate
+In order to fulfill regulatory considerations, the type one error rate
 is still protected under the point prior $\delta = 0$ at the level
 of significance $\alpha = 0.025$. 
 
@@ -18,7 +18,8 @@ It is not senseful to compute the power as rejection probability under
 the full prior, because effect sizes less than a minimal clinically relevant
 effect do not show (sufficient) evidence againt the null hypothesis.
 Therefore, we assume a minimal clinically relevant effect size 
-$\delta = 0.0$ and condition the prior to compute expected power.
+$\delta = 0.0$ and condition the prior on values $\delta > 0$
+to compute expected power.
 In the following, the expected power should be at least $0.8$.
 
 ```{r}
@@ -137,7 +138,7 @@ group-sequential design (constant $n_2$ function) and this is
 more flexible than the optimal one-stage design (no second stage),
 the expected sample sizes under the prior should be ordered in the opposite way.
 Additionally, expected sample sizes under the null hypothesis
-is computed both via `evaluate()` and simulation-based.
+are computed both via `evaluate()` and simulation-based.
 
 ```{r}
 essh0 <- ExpectedSampleSize(datadist, H_0)
@@ -188,9 +189,8 @@ Therefore, the `rpact` initial design is a suboptimal starting point.
 Instead, we start with a constant $c_2$ function by heuristically
 setting it to $2$ on the continuation area.
 Since optimization under the null hypothesis favours extremely conservative 
-boundaries for early efficacy stopping we impose as fairly liberal upper bound 
+boundaries for early efficacy stopping we impose as quite liberal upper bound 
 of $3$ for early efficacy stopping.
-
 
 ```{r}
 init_design_h0 <- tbl_designs %>% 
@@ -200,7 +200,7 @@ init_design_h0 <- tbl_designs %>%
 init_design_h0@c2_pivots <- rep(2, order)
 
 ub_design <- TwoStageDesign(
-    3*init_design_h0@n1,
+    3 * init_design_h0@n1,
     2,
     3,
     rep(600, order),
@@ -210,8 +210,6 @@ ub_design <- TwoStageDesign(
 
 
 ### Optimization 
-
-The optimal two-stage design is computed. 
 
 ```{r}
 opt_neg <- minimize(
@@ -293,8 +291,7 @@ In addition to the constraints on type one error rate and expected power,
 a constraint on conditional power to be larger than $0.7$ is included.
 
 ```{r}
-cp <- ConditionalPower(datadist, condition(prior, c(0, prior@support[2])))
-
+cp       <- ConditionalPower(datadist, condition(prior, c(0, prior@support[2])))
 cp_cnstr <- cp >= 0.7
 ```
 
@@ -304,8 +301,6 @@ The previous initial design can still be applied.
 
 
 ### Optimization 
-
-The optimal two-stage design is computed. 
 
 ```{r}
 opt_cp <- minimize(

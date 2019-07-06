@@ -170,6 +170,24 @@ tbl_designs %>%
     testthat::expect_true(all(diff(.$ess) < 0)) }
 ```
 
+The expected sample size under the alternative must be lower or equal than
+the expected sample size of the inital `rpact` group-sequential design that
+is based on the inverse normal combination test.
+```{r}
+testthat::expect_lte(
+  evaluate(ess, 
+             tbl_designs %>% 
+                filter(type == "group-sequential") %>% 
+                pull(optimal) %>% 
+                .[[1]]  %>%
+                .$design ),
+    evaluate(ess, 
+             tbl_designs %>% 
+                filter(type == "group-sequential") %>% 
+                pull(initial) %>% 
+                .[[1]] ) )
+```
+
 
 
 ## Variant I-2: Minimizing Expected Sample Size under Null Hypothesis {#variantI_2}
@@ -205,7 +223,7 @@ init_design_h0 <- tbl_designs %>%
 init_design_h0@c2_pivots <- rep(2, order)
 
 ub_design <- TwoStageDesign(
-    3*init_design_h0@n1,
+    3 * init_design_h0@n1,
     2,
     3,
     rep(300, order),
@@ -245,7 +263,7 @@ opt_h0$nloptr_return$iterations %>%
 ```
 
 The $n_2$ function of the optimal two-stage design is expected to be 
-monotnously increasing.
+monotonously increasing.
 ```{r}
 expect_true(
     all(diff(opt_h0$design@n2_pivots) > 0) )

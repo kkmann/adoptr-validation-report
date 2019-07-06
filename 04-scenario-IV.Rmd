@@ -4,11 +4,11 @@
 
 In this scenario, we return to point priors as investigated in 
 [Scenario I](#scenarioI). 
-The main goal is to validate `adoptr`'s sensitivity with regards to 
+The main goal is to validate `adoptr`'s sensitivity with regard to 
 the assumed effect size and the constraints on power and type one error rate.
 
 Therefore, we still assume a two-armed trial with normally distributed outcomes.
-The assumed effect size becomes $\delta = 0.2$ in this setting. 
+The assumed effect size under the alternative is $\delta = 0.2$ in this setting. 
 Type one error rate is protected at $2.5\%$ and the power should be at least
 $80\%$. We will vary these values in the variants [IV.2](#variantIV.2) and
 [IV.3](#variantIV.3)
@@ -237,7 +237,7 @@ tbl_designs_9 %>%
 
 
 
-The type one error rate and pwoer constraints are evaluated by simulation.
+The type one error rate and power constraints are evaluated by simulation.
 
 ```{r}
 tbl_designs_9 %>% 
@@ -314,13 +314,13 @@ While the power is still lower bounded by $90\%$ as in variant [II](#variantIV_2
 the maximal type one error rate is increased to $5\%$.
 
 ```{r}
-alpha_2 <- .05
+alpha_2      <- .05
 toer_cnstr_2 <- Power(datadist, H_0) <= alpha_2
 ```
 
 ### Initial Design
 
-Again, a design computed by means of the `rpact`-package to fulfill
+Again, a design computed by means of the package `rpact` to fulfill
 the updated error rate constraints is applied as initial design for the 
 optimal group-sequential and generic two-stage designs.
 

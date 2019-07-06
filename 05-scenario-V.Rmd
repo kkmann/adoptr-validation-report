@@ -4,11 +4,11 @@
 
 In this scenario, again a point prior is analyzed. 
 The null hypothesis is $\delta \leq 0$ and we assume an alternative effect size
-of $\delta = 0.3$
+of $\delta = 0.3$.
 Type one error rate should be protected at 2.5\% and the design's power should
 be at least 80\%.
 Differently than in the previous scenarios, we are assuming a single-arm
-design in throughout this scenario.
+design throughout this scenario.
 
 ```{r}
 # data distribution and hypotheses
@@ -432,8 +432,9 @@ tibble(
         scale_color_discrete("") +
         theme_bw() +
         theme(
-            panel.grid      = element_blank(),
-            legend.position = "bottom" )
+            panel.grid       = element_blank(),
+            legend.direction = "vertical",
+            legend.position  = "bottom" )
 ```
 
 
@@ -442,7 +443,7 @@ tibble(
 
 Here, we alter the situation from variant [V.3](#variantV_3) by not penalizing
 $n_1$, but the average stage-two sample size $n_2$. 
-This can be done by means of the `AverageN2()`-function.
+This can be done by means of the function `AverageN2()`.
 
 ### Objective
 
@@ -540,7 +541,7 @@ opt_n2 %>%
 
 Due to increasing penalization, it is assumed that the optimal design 
 computed in variant [V.1](#variantV_1) (no penalization) shows a larger
-averange $n_2$ than the optimal penalized design with $\lambda = 0.01$
+average $n_2$ than the optimal penalized design with $\lambda = 0.01$
 and this shows a larger average $n_2$ than the optimal design
 with $\lambda = 0.1$.
 Additionally, these three designs are depicted in a joint plot.
@@ -598,6 +599,7 @@ tibble(
         scale_color_discrete("") +
         theme_bw() +
         theme(
-            panel.grid      = element_blank(),
-            legend.position = "bottom" )
+            panel.grid       = element_blank(),
+            legend.direction = "vertical",
+            legend.position  = "bottom" )
 ```
