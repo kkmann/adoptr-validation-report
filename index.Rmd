@@ -164,7 +164,7 @@ of the report.
 This is the default scenario. 
 
 * **Data distribution:** Two-armed trial with normally distributed test statistic
-* **Prior:** $\delta\sim\delta_{0.4}$
+* **Prior:** $\delta\sim\textbf{1}_{delta=0.4}$
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
@@ -222,9 +222,9 @@ This is the default scenario.
     1. Number of iterations are checked against default maximum to ensure proper
       convergence.
     2. Check $Power$ and $TOER$ constraints with simulation.
-        Check $CP$ constraint on three different values of $x_1$ in 
-        $(c_1^f, c_1^e)$
-    3. Are the $CP$ values at the three test-pivots obtained from simulation the 
+        Check $CP$ constraint on 25 different values of $x_1$ in 
+        $[c_1^f, c_1^e]$
+    3. Are the $CP$ values at the 25 test-pivots obtained from simulation the 
         same as the ones obtained by using numerical integration via 
         `adoptr::evaluate`?
     4. Is $ESS$ of optimal two-stage design with $CP$ constraint higher than 
@@ -237,7 +237,7 @@ This is the default scenario.
 
 ### [Scenario II: Large effect, Gaussian prior](#scenarioII)
 
-Similar in scope to Scenario I, but with a continuous Gaussian prior on $\delta$.
+Similar scope to Scenario I, but with a continuous Gaussian prior on $\delta$.
 
 
 * **Data distribution:** Two-armed trial with normally distributed test statistic

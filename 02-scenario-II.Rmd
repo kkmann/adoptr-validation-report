@@ -18,7 +18,8 @@ It is not senseful to compute the power as rejection probability under
 the full prior, because effect sizes less than a minimal clinically relevant
 effect do not show (sufficient) evidence againt the null hypothesis.
 Therefore, we assume a minimal clinically relevant effect size 
-$\delta = 0.0$ and condition the prior to compute expected power.
+$\delta = 0.0$ and condition the prior on values $\delta > 0$
+to compute expected power.
 In the following, the expected power should be at least $0.8$.
 
 ```{r}
@@ -188,9 +189,8 @@ Therefore, the `rpact` initial design is a suboptimal starting point.
 Instead, we start with a constant $c_2$ function by heuristically
 setting it to $2$ on the continuation area.
 Since optimization under the null hypothesis favours extremely conservative 
-boundaries for early efficacy stopping we impose as fairly liberal upper bound 
+boundaries for early efficacy stopping we impose as quite liberal upper bound 
 of $3$ for early efficacy stopping.
-
 
 ```{r}
 init_design_h0 <- tbl_designs %>% 
@@ -200,7 +200,7 @@ init_design_h0 <- tbl_designs %>%
 init_design_h0@c2_pivots <- rep(2, order)
 
 ub_design <- TwoStageDesign(
-    3*init_design_h0@n1,
+    3 * init_design_h0@n1,
     2,
     3,
     rep(600, order),
@@ -210,8 +210,6 @@ ub_design <- TwoStageDesign(
 
 
 ### Optimization 
-
-The optimal two-stage design is computed. 
 
 ```{r}
 opt_neg <- minimize(
@@ -293,8 +291,7 @@ In addition to the constraints on type one error rate and expected power,
 a constraint on conditional power to be larger than $0.7$ is included.
 
 ```{r}
-cp <- ConditionalPower(datadist, condition(prior, c(0, prior@support[2])))
-
+cp       <- ConditionalPower(datadist, condition(prior, c(0, prior@support[2])))
 cp_cnstr <- cp >= 0.7
 ```
 
@@ -304,8 +301,6 @@ The previous initial design can still be applied.
 
 
 ### Optimization 
-
-The optimal two-stage design is computed. 
 
 ```{r}
 opt_cp <- minimize(
