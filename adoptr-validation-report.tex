@@ -124,7 +124,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-07-05}
+    \date{2019-07-06}
 
 \usepackage{booktabs}
 
@@ -180,7 +180,7 @@ the range of scenarios covered in the unittests of \textbf{adoptr} is
 rather limited.
 Furthermore, the current R unittesting framework does not permit
 an easy generation of a human-readable report of the test cases
-to acertain coverage and test quality.
+to ascertain coverage and test quality.
 Therefore, \textbf{adoptr} splits testing in two parts: technical
 correctness is ensured via an extensive unittesting suit in \textbf{adoptr}
 itself (aiming to maintain a 100\% code coverage).
@@ -925,7 +925,8 @@ and expected sample sizes respectively by the \textbf{adoptr} routine \texttt{si
 Furthermore, global tolerances for the validation are set.
 For error rates, a relative deviation of \(1\%\) from the target value is
 accepted.
-(Expected) Sample sizes deviations are more liberally accepted up to \(0.5\).
+(Expected) Sample sizes deviations are more liberally accepted up to an
+absolute deviation of \(0.5\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1167,11 +1168,11 @@ are computed both via \texttt{evaluate()} and simulation-based.
 
 \begin{verbatim}
 ## # A tibble: 3 x 7
-##   type             initial    optimal      ess ess_sim  ess0 ess0_sim
-##   <chr>            <list>     <list>     <dbl>   <dbl> <dbl>    <dbl>
-## 1 one-stage        <OnStgDsg> <list [3]>  98      98    98       98  
-## 2 group-sequential <GrpSqntD> <list [3]>  80.9    80.9  68.5     68.5
-## 3 two-stage        <TwStgDsg> <list [3]>  79.6    79.7  68.9     68.9
+##   type             initial    optimal            ess ess_sim  ess0 ess0_sim
+##   <chr>            <list>     <list>           <dbl>   <dbl> <dbl>    <dbl>
+## 1 one-stage        <OnStgDsg> <named list [3]>  98      98    98       98  
+## 2 group-sequential <GrpSqntD> <named list [3]>  80.9    80.9  68.5     68.5
+## 3 two-stage        <TwStgDsg> <named list [3]>  79.6    79.7  68.9     68.9
 \end{verbatim}
 
 \hypertarget{variantI_2}{%
@@ -1731,11 +1732,11 @@ is computed both via \texttt{evaluate()} and simulation-based.
 
 \begin{verbatim}
 ## # A tibble: 3 x 6
-##   type             initial    optimal      ess essh0 essh0_sim
-##   <chr>            <list>     <list>     <dbl> <dbl>     <dbl>
-## 1 one-stage        <OnStgDsg> <list [3]>  165   165       165 
-## 2 group-sequential <GrpSqntD> <list [3]>  115.  110.      110.
-## 3 two-stage        <TwStgDsg> <list [3]>  113.  114.      114.
+##   type             initial    optimal            ess essh0 essh0_sim
+##   <chr>            <list>     <list>           <dbl> <dbl>     <dbl>
+## 1 one-stage        <OnStgDsg> <named list [3]>  165   165       165 
+## 2 group-sequential <GrpSqntD> <named list [3]>  115.  110.      110.
+## 3 two-stage        <TwStgDsg> <named list [3]>  113.  114.      114.
 \end{verbatim}
 
 \hypertarget{variantII_2}{%
@@ -2443,11 +2444,11 @@ They are evaluated by simulation as well as by \texttt{evaluate()}.
 
 \begin{verbatim}
 ## # A tibble: 3 x 5
-##   type             initial    optimal      ess ess_sim
-##   <chr>            <list>     <list>     <dbl>   <dbl>
-## 1 one-stage        <OnStgDsg> <list [3]>  392     392 
-## 2 group-sequential <GrpSqntD> <list [3]>  324.    323.
-## 3 two-stage        <TwStgDsg> <list [3]>  319.    319.
+##   type             initial    optimal            ess ess_sim
+##   <chr>            <list>     <list>           <dbl>   <dbl>
+## 1 one-stage        <OnStgDsg> <named list [3]>  392     392 
+## 2 group-sequential <GrpSqntD> <named list [3]>  324.    323.
+## 3 two-stage        <TwStgDsg> <named list [3]>  319.    319.
 \end{verbatim}
 
 Furthermore, the expected sample size under the alternative of the
@@ -2616,11 +2617,11 @@ This is tested by simulation as well as by \texttt{evaluate()}.
 
 \begin{verbatim}
 ## # A tibble: 3 x 5
-##   type             initial    optimal      ess ess_sim
-##   <chr>            <list>     <list>     <dbl>   <dbl>
-## 1 one-stage        <OnStgDsg> <list [3]>  525     525 
-## 2 group-sequential <GrpSqntD> <list [3]>  405.    405.
-## 3 two-stage        <TwStgDsg> <list [3]>  397.    397.
+##   type             initial    optimal            ess ess_sim
+##   <chr>            <list>     <list>           <dbl>   <dbl>
+## 1 one-stage        <OnStgDsg> <named list [3]>  525     525 
+## 2 group-sequential <GrpSqntD> <named list [3]>  405.    405.
+## 3 two-stage        <TwStgDsg> <named list [3]>  397.    397.
 \end{verbatim}
 
 Comparing with the inverse-normal based group-sequential design created
@@ -2791,11 +2792,11 @@ They are tested by simulation as well as by calling \texttt{evaluate()}.
 
 \begin{verbatim}
 ## # A tibble: 3 x 5
-##   type             initial    optimal      ess ess_sim
-##   <chr>            <list>     <list>     <dbl>   <dbl>
-## 1 one-stage        <OnStgDsg> <list [3]>  428     428 
-## 2 group-sequential <GrpSqntD> <list [3]>  326.    325.
-## 3 two-stage        <TwStgDsg> <list [3]>  319.    319.
+##   type             initial    optimal            ess ess_sim
+##   <chr>            <list>     <list>           <dbl>   <dbl>
+## 1 one-stage        <OnStgDsg> <named list [3]>  428     428 
+## 2 group-sequential <GrpSqntD> <named list [3]>  326.    325.
+## 3 two-stage        <TwStgDsg> <named list [3]>  319.    319.
 \end{verbatim}
 
 The expected sample size under the alternative that was used as objective criterion

@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-07-05" />
+<meta name="date" content="2019-07-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -404,11 +404,11 @@ They are evaluated by simulation as well as by <code>evaluate()</code>.</p>
     <span class="co"># monotonicity with respect to degrees of freedom</span>
     testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(<span class="kw">diff</span>(.<span class="op">$</span>ess) <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)) }</code></pre>
 <pre><code>## # A tibble: 3 x 5
-##   type             initial    optimal      ess ess_sim
-##   &lt;chr&gt;            &lt;list&gt;     &lt;list&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-## 1 one-stage        &lt;OnStgDsg&gt; &lt;list [3]&gt;  392     392 
-## 2 group-sequential &lt;GrpSqntD&gt; &lt;list [3]&gt;  324.    323.
-## 3 two-stage        &lt;TwStgDsg&gt; &lt;list [3]&gt;  319.    319.</code></pre>
+##   type             initial    optimal            ess ess_sim
+##   &lt;chr&gt;            &lt;list&gt;     &lt;list&gt;           &lt;dbl&gt;   &lt;dbl&gt;
+## 1 one-stage        &lt;OnStgDsg&gt; &lt;named list [3]&gt;  392     392 
+## 2 group-sequential &lt;GrpSqntD&gt; &lt;named list [3]&gt;  324.    323.
+## 3 two-stage        &lt;TwStgDsg&gt; &lt;named list [3]&gt;  319.    319.</code></pre>
 <p>Furthermore, the expected sample size under the alternative of the
 optimal group-sequential design should be lower than for the
 group-sequential design by <code>rpact</code> that is based on the inverse normal
@@ -520,11 +520,11 @@ This is tested by simulation as well as by <code>evaluate()</code>.</p>
     testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(<span class="kw">diff</span>(.<span class="op">$</span>ess)     <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)) 
     testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(<span class="kw">diff</span>(.<span class="op">$</span>ess_sim) <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>))}</code></pre>
 <pre><code>## # A tibble: 3 x 5
-##   type             initial    optimal      ess ess_sim
-##   &lt;chr&gt;            &lt;list&gt;     &lt;list&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-## 1 one-stage        &lt;OnStgDsg&gt; &lt;list [3]&gt;  525     525 
-## 2 group-sequential &lt;GrpSqntD&gt; &lt;list [3]&gt;  405.    405.
-## 3 two-stage        &lt;TwStgDsg&gt; &lt;list [3]&gt;  397.    397.</code></pre>
+##   type             initial    optimal            ess ess_sim
+##   &lt;chr&gt;            &lt;list&gt;     &lt;list&gt;           &lt;dbl&gt;   &lt;dbl&gt;
+## 1 one-stage        &lt;OnStgDsg&gt; &lt;named list [3]&gt;  525     525 
+## 2 group-sequential &lt;GrpSqntD&gt; &lt;named list [3]&gt;  405.    405.
+## 3 two-stage        &lt;TwStgDsg&gt; &lt;named list [3]&gt;  397.    397.</code></pre>
 <p>Comparing with the inverse-normal based group-sequential design created
 by <code>rpact</code>, the optimal group-sequential design should show
 a lower expected sample size under the point alternative.</p>
@@ -638,11 +638,11 @@ They are tested by simulation as well as by calling <code>evaluate()</code>.</p>
     <span class="co"># monotonicity with respect to degrees of freedom</span>
     testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(<span class="kw">diff</span>(.<span class="op">$</span>ess) <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)) }</code></pre>
 <pre><code>## # A tibble: 3 x 5
-##   type             initial    optimal      ess ess_sim
-##   &lt;chr&gt;            &lt;list&gt;     &lt;list&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-## 1 one-stage        &lt;OnStgDsg&gt; &lt;list [3]&gt;  428     428 
-## 2 group-sequential &lt;GrpSqntD&gt; &lt;list [3]&gt;  326.    325.
-## 3 two-stage        &lt;TwStgDsg&gt; &lt;list [3]&gt;  319.    319.</code></pre>
+##   type             initial    optimal            ess ess_sim
+##   &lt;chr&gt;            &lt;list&gt;     &lt;list&gt;           &lt;dbl&gt;   &lt;dbl&gt;
+## 1 one-stage        &lt;OnStgDsg&gt; &lt;named list [3]&gt;  428     428 
+## 2 group-sequential &lt;GrpSqntD&gt; &lt;named list [3]&gt;  326.    325.
+## 3 two-stage        &lt;TwStgDsg&gt; &lt;named list [3]&gt;  319.    319.</code></pre>
 <p>The expected sample size under the alternative that was used as objective criterion
 of the optimal group-sequential design should be lower than for the
 group-sequential design by <code>rpact</code> that is based on the inverse normal
