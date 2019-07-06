@@ -321,11 +321,11 @@ the range of scenarios covered in the unittests of <strong>adoptr</strong> is
 rather limited.
 Furthermore, the current R unittesting framework does not permit
 an easy generation of a human-readable report of the test cases
-to ascertain coverage and test quality.
-Therefore, <strong>adoptr</strong> splits testing in two parts: technical
+to ascertain coverage and test quality.</p>
+<p>Therefore, <strong>adoptr</strong> splits testing in two parts: technical
 correctness is ensured via an extensive unittesting suit in <strong>adoptr</strong>
-itself (aiming to maintain a 100% code coverage).</p>
-<p>The validation report, however, runs through a wide range of possible
+itself (aiming to maintain a 100% code coverage).
+The validation report, however, runs through a wide range of possible
 application scenarios and ensures plausibility of results as well
 as consistency with existing methods wherever possible.
 The report itself is implemented as a collection of Rmarkdown documents
@@ -338,7 +338,7 @@ The result of this daily build is available at
 <a href="https://kkmann.github.io/adoptr-validation-report/" class="uri">https://kkmann.github.io/adoptr-validation-report/</a>.
 To ensure early warning in case of any test-case failures,
 formal tests are implemented using the <strong>testthat</strong> package
-<span class="citation">(Wickham, Studio, and Team <a href="#ref-R-testthat">2018</a>)</span>.
+<span class="citation">(Wickham, R Studio, and R Core Team <a href="#ref-R-testthat">2018</a>)</span>.
 I.e., the combination of using a unittesting framework, a continuous
 integration, and continuous deployment service leads to an always
 up-to-date validation report (build on the current R release on Linux).
@@ -389,7 +389,7 @@ of the report.</p>
 <p>This is the default scenario.</p>
 <ul>
 <li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
-<li><strong>Prior:</strong> <span class="math inline">\(\delta\sim\delta_{0.4}\)</span></li>
+<li><strong>Prior:</strong> <span class="math inline">\(\delta\sim\textbf{1}_{delta=0.4}\)</span></li>
 <li><strong>Null hypothesis:</strong> <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span></li>
 </ul>
 <div id="variant-i.1-minimizing-expected-sample-size-under-the-alternative" class="section level4">
@@ -459,9 +459,9 @@ obtained by using numerical integration via <code>adoptr::evaluate</code>?</li>
 <li>Number of iterations are checked against default maximum to ensure proper
 convergence.</li>
 <li>Check <span class="math inline">\(Power\)</span> and <span class="math inline">\(TOER\)</span> constraints with simulation.
-Check <span class="math inline">\(CP\)</span> constraint on three different values of <span class="math inline">\(x_1\)</span> in
-<span class="math inline">\((c_1^f, c_1^e)\)</span></li>
-<li>Are the <span class="math inline">\(CP\)</span> values at the three test-pivots obtained from simulation the
+Check <span class="math inline">\(CP\)</span> constraint on 25 different values of <span class="math inline">\(x_1\)</span> in
+<span class="math inline">\([c_1^f, c_1^e]\)</span></li>
+<li>Are the <span class="math inline">\(CP\)</span> values at the 25 test-pivots obtained from simulation the
 same as the ones obtained by using numerical integration via
 <code>adoptr::evaluate</code>?</li>
 <li>Is <span class="math inline">\(ESS\)</span> of optimal two-stage design with <span class="math inline">\(CP\)</span> constraint higher than
@@ -472,7 +472,7 @@ same as the ones obtained by using numerical integration via
 </div>
 <div id="scenario-ii-large-effect-gaussian-prior" class="section level3">
 <h3><span class="header-section-number">1.3.2</span> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></h3>
-<p>Similar in scope to Scenario I, but with a continuous Gaussian prior on <span class="math inline">\(\delta\)</span>.</p>
+<p>Similar scope to Scenario I, but with a continuous Gaussian prior on <span class="math inline">\(\delta\)</span>.</p>
 <ul>
 <li><strong>Data distribution:</strong> Two-armed trial with normally distributed test statistic</li>
 <li><strong>Prior:</strong> <span class="math inline">\(\delta\sim\mathcal{N}(0.4, .3)\)</span></li>
@@ -824,10 +824,10 @@ opts =<span class="st"> </span><span class="kw">list</span>(
 <p>Wassmer, G., and W. Brannath. 2016. <em>Group Sequential and Confirmatory Adaptive Designs in Clinical Trials</em>. Springer Series in Pharmaceutical Statistics -. Springer International Publishing.</p>
 </div>
 <div id="ref-R-rpact">
-<p>Wassmer, Gernot, and Friedrich Pahlke. 2018. <em>Rpact: Confirmatory Adaptive Clinical Trial Design and Analysis</em>. <a href="https://www.rpact.org" class="uri">https://www.rpact.org</a>.</p>
+<p>Wassmer, G., and F. Pahlke. 2018. <em>Rpact: Confirmatory Adaptive Clinical Trial Design and Analysis</em>. <a href="https://www.rpact.org" class="uri">https://www.rpact.org</a>.</p>
 </div>
 <div id="ref-R-testthat">
-<p>Wickham, Hadley, R Studio, and R Core Team. 2018. <em>Testthat: Unit Testing for R</em>. <a href="https://cran.r-project.org/web/packages/testthat/index.html" class="uri">https://cran.r-project.org/web/packages/testthat/index.html</a>.</p>
+<p>Wickham, H., R Studio, and R Core Team. 2018. <em>Testthat: Unit Testing for R</em>. <a href="https://cran.r-project.org/web/packages/testthat/index.html" class="uri">https://cran.r-project.org/web/packages/testthat/index.html</a>.</p>
 </div>
 </div>
             </section>

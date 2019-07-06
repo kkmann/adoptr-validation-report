@@ -438,6 +438,21 @@ tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
 ## 1 one-stage        &lt;OnStgDsg&gt; &lt;named list [3]&gt;  98      98    98       98  
 ## 2 group-sequential &lt;GrpSqntD&gt; &lt;named list [3]&gt;  80.9    80.9  68.5     68.5
 ## 3 two-stage        &lt;TwStgDsg&gt; &lt;named list [3]&gt;  79.6    79.7  68.9     68.9</code></pre>
+<p>The expected sample size under the alternative must be lower or equal than
+the expected sample size of the inital <code>rpact</code> group-sequential design that
+is based on the inverse normal combination test.</p>
+<pre class="sourceCode r"><code class="sourceCode r">testthat<span class="op">::</span><span class="kw">expect_lte</span>(
+  <span class="kw">evaluate</span>(ess, 
+             tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">                </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;group-sequential&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">                </span><span class="kw">pull</span>(optimal) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">                </span>.[[<span class="dv">1</span>]]  <span class="op">%&gt;%</span>
+<span class="st">                </span>.<span class="op">$</span>design ),
+    <span class="kw">evaluate</span>(ess, 
+             tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">                </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;group-sequential&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">                </span><span class="kw">pull</span>(initial) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">                </span>.[[<span class="dv">1</span>]] ) )</code></pre>
 </div>
 </div>
 <div id="variantI_2" class="section level2">
@@ -469,7 +484,7 @@ liberal upper bound of <span class="math inline">\(3\)</span> for early efficacy
 init_design_h0<span class="op">@</span>c2_pivots &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">2</span>, order)
 
 ub_design &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(
-    <span class="dv">3</span><span class="op">*</span>init_design_h0<span class="op">@</span>n1,
+    <span class="dv">3</span> <span class="op">*</span><span class="st"> </span>init_design_h0<span class="op">@</span>n1,
     <span class="dv">2</span>,
     <span class="dv">3</span>,
     <span class="kw">rep</span>(<span class="dv">300</span>, order),
@@ -501,7 +516,7 @@ maximum number of iterations:</p>
 <span class="st">    </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(. <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval)}</code></pre>
 <pre><code>## [1] 17876</code></pre>
 <p>The <span class="math inline">\(n_2\)</span> function of the optimal two-stage design is expected to be
-monotnously increasing.</p>
+monotonously increasing.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">expect_true</span>(
     <span class="kw">all</span>(<span class="kw">diff</span>(opt_h0<span class="op">$</span>design<span class="op">@</span>n2_pivots) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) )</code></pre>
 <p>Next, the type one error rate and power constraints are tested.</p>
@@ -700,7 +715,7 @@ side.
 The effect of the conditional power constraint (CP not below 0.7) is
 clearly visible and the very different characteristics between
 optimizing under the null or the alternative are clearly visible.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 
 </div>
 </div>

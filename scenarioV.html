@@ -288,11 +288,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">6.1</span> Details</h2>
 <p>In this scenario, again a point prior is analyzed.
 The null hypothesis is <span class="math inline">\(\delta \leq 0\)</span> and we assume an alternative effect size
-of <span class="math inline">\(\delta = 0.3\)</span>
+of <span class="math inline">\(\delta = 0.3\)</span>.
 Type one error rate should be protected at 2.5% and the design’s power should
 be at least 80%.
 Differently than in the previous scenarios, we are assuming a single-arm
-design in throughout this scenario.</p>
+design throughout this scenario.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data distribution and hypotheses</span>
 datadist   &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">FALSE</span>)
 H_<span class="dv">0</span>        &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)
@@ -498,7 +498,7 @@ stronger focus on power), shows the larger overall power.</p>
 ## 2    200 0.0251 0.897   0.0250     0.897</code></pre>
 <p>Finally, the three designs computed so far are plotted together to allow
 comparison.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
 </div>
 </div>
 <div id="variantV_3" class="section level2">
@@ -591,14 +591,14 @@ Finally, these three designs are plotted together to allow graphical comparison.
 ## 1 No Penalization on n_1                 &lt;TwStgDsg&gt;    50
 ## 2 Penalization on n_1 with lambda = 0.05 &lt;TwStgDsg&gt;    48
 ## 3 Penalization on n_1 with lambda = 0.2  &lt;TwStgDsg&gt;    41</code></pre>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
 </div>
 </div>
 <div id="variantV_4" class="section level2">
 <h2><span class="header-section-number">6.5</span> Variant V-4, n2-penalty</h2>
 <p>Here, we alter the situation from variant <a href="scenarioV.html#variantV_3">V.3</a> by not penalizing
 <span class="math inline">\(n_1\)</span>, but the average stage-two sample size <span class="math inline">\(n_2\)</span>.
-This can be done by means of the <code>AverageN2()</code>-function.</p>
+This can be done by means of the function <code>AverageN2()</code>.</p>
 <div id="objective-13" class="section level3">
 <h3><span class="header-section-number">6.5.1</span> Objective</h3>
 <p>As in variant <a href="scenarioV.html#variantV_3">V.3</a>, a mixed criterion is minimized.
@@ -685,7 +685,7 @@ by simulation and by calling <code>evaluate</code>.</p>
 ## 2   0.1  0.0250 0.800   0.0250     0.801</code></pre>
 <p>Due to increasing penalization, it is assumed that the optimal design
 computed in variant <a href="scenarioV.html#variantV_1">V.1</a> (no penalization) shows a larger
-averange <span class="math inline">\(n_2\)</span> than the optimal penalized design with <span class="math inline">\(\lambda = 0.01\)</span>
+average <span class="math inline">\(n_2\)</span> than the optimal penalized design with <span class="math inline">\(\lambda = 0.01\)</span>
 and this shows a larger average <span class="math inline">\(n_2\)</span> than the optimal design
 with <span class="math inline">\(\lambda = 0.1\)</span>.
 Additionally, these three designs are depicted in a joint plot.</p>
@@ -695,7 +695,7 @@ Additionally, these three designs are depicted in a joint plot.</p>
 ## 1 No Penalization on AvN2                 &lt;TwStgDsg&gt;       47.6
 ## 2 Penalization on AvN2 with lambda = 0.01 &lt;TwStgDsg&gt;       46.6
 ## 3 Penalization on AvN2 with lambda = 0.1  &lt;TwStgDsg&gt;       38.9</code></pre>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
 
 </div>
 </div>

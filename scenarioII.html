@@ -291,7 +291,7 @@ are not assuming a point prior any more.
 Instead, a Gaussian prior with mean <span class="math inline">\(\vartheta = 0.4\)</span> and
 variance <span class="math inline">\(\tau^2 = 0.2^2\)</span> on the effect size is assumed, i.e.
 <span class="math inline">\(\delta \sim \mathcal{N} (0.4, 0.2^2)\)</span>.</p>
-<p>In order to fulfill regulartory considerations, the type one error rate
+<p>In order to fulfill regulatory considerations, the type one error rate
 is still protected under the point prior <span class="math inline">\(\delta = 0\)</span> at the level
 of significance <span class="math inline">\(\alpha = 0.025\)</span>.</p>
 <p>The power constraint, however, needs to be modified.
@@ -299,7 +299,8 @@ It is not senseful to compute the power as rejection probability under
 the full prior, because effect sizes less than a minimal clinically relevant
 effect do not show (sufficient) evidence againt the null hypothesis.
 Therefore, we assume a minimal clinically relevant effect size
-<span class="math inline">\(\delta = 0.0\)</span> and condition the prior to compute expected power.
+<span class="math inline">\(\delta = 0.0\)</span> and condition the prior on values <span class="math inline">\(\delta &gt; 0\)</span>
+to compute expected power.
 In the following, the expected power should be at least <span class="math inline">\(0.8\)</span>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data distribution and priors</span>
 datadist   &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">TRUE</span>)
@@ -400,7 +401,7 @@ group-sequential design (constant <span class="math inline">\(n_2\)</span> funct
 more flexible than the optimal one-stage design (no second stage),
 the expected sample sizes under the prior should be ordered in the opposite way.
 Additionally, expected sample sizes under the null hypothesis
-is computed both via <code>evaluate()</code> and simulation-based.</p>
+are computed both via <code>evaluate()</code> and simulation-based.</p>
 <pre class="sourceCode r"><code class="sourceCode r">essh0 &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, H_<span class="dv">0</span>)
 
 tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
@@ -448,7 +449,7 @@ Therefore, the <code>rpact</code> initial design is a suboptimal starting point.
 Instead, we start with a constant <span class="math inline">\(c_2\)</span> function by heuristically
 setting it to <span class="math inline">\(2\)</span> on the continuation area.
 Since optimization under the null hypothesis favours extremely conservative
-boundaries for early efficacy stopping we impose as fairly liberal upper bound
+boundaries for early efficacy stopping we impose as quite liberal upper bound
 of <span class="math inline">\(3\)</span> for early efficacy stopping.</p>
 <pre class="sourceCode r"><code class="sourceCode r">init_design_h0 &lt;-<span class="st"> </span>tbl_designs <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">    </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &quot;two-stage&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
@@ -457,7 +458,7 @@ of <span class="math inline">\(3\)</span> for early efficacy stopping.</p>
 init_design_h0<span class="op">@</span>c2_pivots &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">2</span>, order)
 
 ub_design &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(
-    <span class="dv">3</span><span class="op">*</span>init_design_h0<span class="op">@</span>n1,
+    <span class="dv">3</span> <span class="op">*</span><span class="st"> </span>init_design_h0<span class="op">@</span>n1,
     <span class="dv">2</span>,
     <span class="dv">3</span>,
     <span class="kw">rep</span>(<span class="dv">600</span>, order),
@@ -466,7 +467,6 @@ ub_design &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(
 </div>
 <div id="optimization-4" class="section level3">
 <h3><span class="header-section-number">3.3.4</span> Optimization</h3>
-<p>The optimal two-stage design is computed.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt_neg &lt;-<span class="st"> </span><span class="kw">minimize</span>(
   
         ess_<span class="dv">0</span>,
@@ -531,8 +531,7 @@ is minimized.</p>
 <h3><span class="header-section-number">3.4.2</span> Constraints</h3>
 <p>In addition to the constraints on type one error rate and expected power,
 a constraint on conditional power to be larger than <span class="math inline">\(0.7\)</span> is included.</p>
-<pre class="sourceCode r"><code class="sourceCode r">cp &lt;-<span class="st"> </span><span class="kw">ConditionalPower</span>(datadist, <span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="dv">0</span>, prior<span class="op">@</span>support[<span class="dv">2</span>])))
-
+<pre class="sourceCode r"><code class="sourceCode r">cp       &lt;-<span class="st"> </span><span class="kw">ConditionalPower</span>(datadist, <span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="dv">0</span>, prior<span class="op">@</span>support[<span class="dv">2</span>])))
 cp_cnstr &lt;-<span class="st"> </span>cp <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.7</span></code></pre>
 </div>
 <div id="initial-design-4" class="section level3">
@@ -541,7 +540,6 @@ cp_cnstr &lt;-<span class="st"> </span>cp <span class="op">&gt;=</span><span cla
 </div>
 <div id="optimization-5" class="section level3">
 <h3><span class="header-section-number">3.4.4</span> Optimization</h3>
-<p>The optimal two-stage design is computed.</p>
 <pre class="sourceCode r"><code class="sourceCode r">opt_cp &lt;-<span class="st"> </span><span class="kw">minimize</span>(
         ess,
         <span class="kw">subject_to</span>(
@@ -614,7 +612,7 @@ Variant II.1</p>
 <h2><span class="header-section-number">3.5</span> Plot Two-Stage Designs</h2>
 <p>The optimal two-stage designs stemming from the different variants
 are plotted together.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 
 </div>
 </div>

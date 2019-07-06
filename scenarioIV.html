@@ -288,10 +288,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">5.1</span> Details</h2>
 <p>In this scenario, we return to point priors as investigated in
 <a href="scenarioI.html#scenarioI">Scenario I</a>.
-The main goal is to validate <code>adoptr</code>’s sensitivity with regards to
+The main goal is to validate <code>adoptr</code>’s sensitivity with regard to
 the assumed effect size and the constraints on power and type one error rate.</p>
 <p>Therefore, we still assume a two-armed trial with normally distributed outcomes.
-The assumed effect size becomes <span class="math inline">\(\delta = 0.2\)</span> in this setting.
+The assumed effect size under the alternative is <span class="math inline">\(\delta = 0.2\)</span> in this setting.
 Type one error rate is protected at <span class="math inline">\(2.5\%\)</span> and the power should be at least
 <span class="math inline">\(80\%\)</span>. We will vary these values in the variants <a href="#variantIV.2">IV.2</a> and
 <a href="#variantIV.3">IV.3</a></p>
@@ -484,7 +484,7 @@ three cases.</p>
 ## 1 one-stage                30
 ## 2 group-sequential       1349
 ## 3 two-stage              2988</code></pre>
-<p>The type one error rate and pwoer constraints are evaluated by simulation.</p>
+<p>The type one error rate and power constraints are evaluated by simulation.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">9</span> <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">transmute</span>(
       type, 
@@ -555,12 +555,12 @@ expected sample size under the point alternative is minimized.</p>
 <h3><span class="header-section-number">5.4.2</span> Constraints</h3>
 <p>While the power is still lower bounded by <span class="math inline">\(90\%\)</span> as in variant <a href="scenarioIV.html#variantIV_2">II</a>,
 the maximal type one error rate is increased to <span class="math inline">\(5\%\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">alpha_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="fl">.05</span>
+<pre class="sourceCode r"><code class="sourceCode r">alpha_<span class="dv">2</span>      &lt;-<span class="st"> </span><span class="fl">.05</span>
 toer_cnstr_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span>alpha_<span class="dv">2</span></code></pre>
 </div>
 <div id="initial-design-7" class="section level3">
 <h3><span class="header-section-number">5.4.3</span> Initial Design</h3>
-<p>Again, a design computed by means of the <code>rpact</code>-package to fulfill
+<p>Again, a design computed by means of the package <code>rpact</code> to fulfill
 the updated error rate constraints is applied as initial design for the
 optimal group-sequential and generic two-stage designs.</p>
 <pre class="sourceCode r"><code class="sourceCode r">tbl_designs_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(
@@ -667,7 +667,7 @@ is expected to be monotonously decreasing:</p>
 <h2><span class="header-section-number">5.5</span> Plot Two-Stage Designs</h2>
 <p>The optimal two-stage designs stemming from the three different variants
 are plotted together.</p>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
 
 </div>
 </div>
