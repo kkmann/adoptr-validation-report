@@ -475,7 +475,7 @@ decrease the average $n_2$.
 
 ```{r}
 ub_design <- get_upper_boundary_design(init_design(8))
-ub_design@c2_pivots <- rep(2.5, order)
+ub_design@c2_pivots <- rep(2.5, 8)
 ```
 
 
