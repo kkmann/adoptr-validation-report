@@ -467,15 +467,15 @@ The inequalities from variant [V.1](#variantV_1) can still be used.
 
 ### Initial Design
 
-The previous initial design with order $5$ is applied.
+The previous initial design with order $8$ is applied.
 However, this case requires the definition of an upper-bound for $c_2$.
 Otherwise, very small $n_2$-values and very large $c_2$-values would
 appear close to the early-futility-stop boundary in order to 
 decrease the average $n_2$.
 
 ```{r}
-ub_design <- get_upper_boundary_design(init_design(5))
-ub_design@c2_pivots <- rep(3, order)
+ub_design <- get_upper_boundary_design(init_design(8))
+ub_design@c2_pivots <- rep(2.5, order)
 ```
 
 
@@ -495,7 +495,7 @@ opt_n2 <- tibble(
               pow_cnstr
           ),
           
-          initial_design = init_design(5), 
+          initial_design = init_design(8), 
           upper_boundary_design = ub_design,
           opts           = opts)) 
 )
@@ -570,7 +570,7 @@ tibble(
             pull(design) %>% 
             .[[1]] %>% 
             .$design ) ) %>% 
-   # test if n_1 decreases for increasing lambda
+   # test if average_n2 decreases for increasing lambda
     mutate(
       average_n2 = map_dbl(design, ~evaluate(avn2, .))
     ) %>% 
