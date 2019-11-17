@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Validation Report for adoptr package</title>
   <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-07-06" />
+<meta name="date" content="2019-11-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 
-<link rel="next" href="scenarioI.html">
+<link rel="next" href="scenarioI.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -40,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -55,7 +58,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; position: absolute; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -285,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Validation Report for <strong>adoptr</strong> package</h1>
 <p class="author"><em>Kevin Kunzmann &amp; Maximilian Pilz</em></p>
-<p class="date"><em>2019-07-06</em></p>
+<p class="date"><em>2019-11-17</em></p>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
@@ -356,28 +358,28 @@ In some instances it might therefore be desireable to conduct a
 local validaton of <strong>adoptr</strong>.</p>
 <p>To do so, one should install <strong>adoptr</strong> with the <code>INSTALL_opts</code> option
 to include tests and invoke the test suit locally via</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;adoptr&quot;</span>, <span class="dt">INSTALL_opts =</span> <span class="kw">c</span>(<span class="st">&quot;--install-tests&quot;</span>))
-tools<span class="op">::</span><span class="kw">testInstalledPackage</span>(<span class="st">&quot;adoptr&quot;</span>, <span class="dt">types =</span> <span class="kw">c</span>(<span class="st">&quot;examples&quot;</span>, <span class="st">&quot;tests&quot;</span>))</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;adoptr&quot;</span>, <span class="dt">INSTALL_opts =</span> <span class="kw">c</span>(<span class="st">&quot;--install-tests&quot;</span>))</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">tools<span class="op">::</span><span class="kw">testInstalledPackage</span>(<span class="st">&quot;adoptr&quot;</span>, <span class="dt">types =</span> <span class="kw">c</span>(<span class="st">&quot;examples&quot;</span>, <span class="st">&quot;tests&quot;</span>))</a></code></pre></div>
 <p>Upon passing the test suit successfully, the validation report
 can be build locally.
 To do so, first clone the entire source directory and switch
 to the newly created folder</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone https://github.com/kkmann/adoptr-validation-report.git
-<span class="bu">cd</span> adoptr-validation-report</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">git</span> clone https://github.com/kkmann/adoptr-validation-report.git</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="bu">cd</span> adoptr-validation-report</a></code></pre></div>
 <p>Make sure that all packages requied for building the report are
 available, i.e., install all dependencies listed in the top-level
 <code>DESCRIPTION</code> file, e.g.,</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(
-    <span class="st">&quot;adoptr&quot;</span>, 
-    <span class="st">&quot;tidyverse&quot;</span>, 
-    <span class="st">&quot;bookdown&quot;</span>, 
-    <span class="st">&quot;rpact&quot;</span>, 
-    <span class="st">&quot;testthat&quot;</span>, 
-    <span class="st">&quot;pwr&quot;</span> ) )</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="st">&quot;adoptr&quot;</span>, </a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="st">&quot;tidyverse&quot;</span>, </a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="st">&quot;bookdown&quot;</span>, </a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">    <span class="st">&quot;rpact&quot;</span>, </a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">    <span class="st">&quot;testthat&quot;</span>, </a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="st">&quot;pwr&quot;</span> ) )</a></code></pre></div>
 <p>The book can then be build using the terminal command</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">Rscript</span> -e <span class="st">&#39;bookdown::render_book(&quot;index.Rmd&quot;, output_format = &quot;all&quot;)&#39;</span></code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="ex">Rscript</span> -e <span class="st">&#39;bookdown::render_book(&quot;index.Rmd&quot;, output_format = &quot;all&quot;)&#39;</span></a></code></pre></div>
 <p>or directly from R via</p>
-<pre class="sourceCode r"><code class="sourceCode r">bookdown<span class="op">::</span><span class="kw">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>, <span class="dt">output_format =</span> <span class="st">&quot;all&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">bookdown<span class="op">::</span><span class="kw">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>, <span class="dt">output_format =</span> <span class="st">&quot;all&quot;</span>)</a></code></pre></div>
 <p>This produces a new folder <code>_book</code> with the html and pdf versions
 of the report.</p>
 </div>
@@ -764,21 +766,20 @@ For error rates, a relative deviation of <span class="math inline">\(1\%\)</span
 accepted.
 (Expected) Sample sizes deviations are more liberally accepted up to an
 absolute deviation of <span class="math inline">\(0.5\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(adoptr)
-<span class="kw">library</span>(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 3.2.0     ✔ purrr   0.3.2
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(adoptr)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
 ## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
+## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
 ## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ✖ dplyr::n()      masks adoptr::n()</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rpact)</code></pre>
-<pre><code>## Thank you for using RPACT! Need help or more information? Visit www.rpact.com</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pwr)
-<span class="kw">library</span>(testthat)</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">library</span>(rpact)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">library</span>(pwr)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">library</span>(testthat)</a></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;testthat&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:dplyr&#39;:
@@ -787,28 +788,31 @@ absolute deviation of <span class="math inline">\(0.5\)</span>.</p>
 <pre><code>## The following object is masked from &#39;package:purrr&#39;:
 ## 
 ##     is_null</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     matches</code></pre>
 <pre><code>## The following object is masked from &#39;package:adoptr&#39;:
 ## 
 ##     expectation</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span>
-<span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))
-   <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))
-
-<span class="co"># define seed value</span>
-seed  &lt;-<span class="st"> </span><span class="dv">42</span>
-
-<span class="co"># define absolute tolerance for error rates</span>
-tol   &lt;-<span class="st"> </span><span class="fl">0.01</span>
-
-<span class="co"># define absolute tolerance for sample sizes</span>
-tol_n &lt;-<span class="st"> </span><span class="fl">0.5</span>
-
-<span class="co"># define custom tolerance and iteration limit for nloptr</span>
-opts =<span class="st"> </span><span class="kw">list</span>(
-    <span class="dt">algorithm =</span> <span class="st">&quot;NLOPT_LN_COBYLA&quot;</span>,
-    <span class="dt">xtol_rel  =</span> <span class="fl">1e-5</span>,
-    <span class="dt">maxeval   =</span> <span class="dv">100000</span>
-)</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">   <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co"># define seed value</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">seed  &lt;-<span class="st"> </span><span class="dv">42</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co"># define absolute tolerance for error rates</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9">tol   &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co"># define absolute tolerance for sample sizes</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12">tol_n &lt;-<span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co"># define custom tolerance and iteration limit for nloptr</span></a>
+<a class="sourceLine" id="cb16-15" data-line-number="15">opts =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb16-16" data-line-number="16">    <span class="dt">algorithm =</span> <span class="st">&quot;NLOPT_LN_COBYLA&quot;</span>,</a>
+<a class="sourceLine" id="cb16-17" data-line-number="17">    <span class="dt">xtol_rel  =</span> <span class="fl">1e-5</span>,</a>
+<a class="sourceLine" id="cb16-18" data-line-number="18">    <span class="dt">maxeval   =</span> <span class="dv">100000</span></a>
+<a class="sourceLine" id="cb16-19" data-line-number="19">)</a></code></pre></div>
 
 </div>
 </div>
@@ -841,24 +845,25 @@ opts =<span class="st"> </span><span class="kw">list</span>(
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": true,
 "facebook": false,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"],
+"github": true
 },
 "fontsettings": {
 "theme": "white",
@@ -889,8 +894,9 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
