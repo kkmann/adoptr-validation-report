@@ -313,6 +313,15 @@ The inequalities from variant [V.1](#variantV_1) can still be used.
 ### Initial Design
 
 The previous initial design with order $5$ is applied.
+This variant requires an upper bound on $c_2$.
+Otherwise, very large values for $c_2$ and large $n_2$-values would allow 
+appear to reduce $n_1$.
+
+```{r}
+ub_design <- get_upper_boundary_design(init_design(5))
+ub_design@c2_pivots <- rep(3, 5)
+```
+
 
 
 ### Optimization 
@@ -330,8 +339,9 @@ opt_n1 <- tibble(
               pow_cnstr
           ),
           
-          initial_design = init_design(5), 
-          opts           = opts)) 
+          initial_design        = init_design(5), 
+          upper_boundary_design = ub_design,
+          opts                  = opts)) 
 )
 ```
 
