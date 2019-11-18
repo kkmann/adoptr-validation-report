@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-11-17" />
+<meta name="date" content="2019-11-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -295,16 +295,16 @@ Type one error rate should be protected at 2.5% and the design’s power should
 be at least 80%.
 Differently than in the previous scenarios, we are assuming a single-arm
 design throughout this scenario.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="co"># data distribution and hypotheses</span></a>
-<a class="sourceLine" id="cb136-2" data-line-number="2">datadist   &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb136-3" data-line-number="3">H_<span class="dv">0</span>        &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb136-4" data-line-number="4">prior      &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb136-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb136-6" data-line-number="6"><span class="co"># define constraints</span></a>
-<a class="sourceLine" id="cb136-7" data-line-number="7">alpha      &lt;-<span class="st"> </span><span class="fl">0.025</span></a>
-<a class="sourceLine" id="cb136-8" data-line-number="8">min_power  &lt;-<span class="st"> </span><span class="fl">0.8</span></a>
-<a class="sourceLine" id="cb136-9" data-line-number="9">toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>)   <span class="op">&lt;=</span><span class="st"> </span>alpha</a>
-<a class="sourceLine" id="cb136-10" data-line-number="10">pow_cnstr  &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span>min_power</a></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="co"># data distribution and hypotheses</span></a>
+<a class="sourceLine" id="cb123-2" data-line-number="2">datadist   &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb123-3" data-line-number="3">H_<span class="dv">0</span>        &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb123-4" data-line-number="4">prior      &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb123-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb123-6" data-line-number="6"><span class="co"># define constraints</span></a>
+<a class="sourceLine" id="cb123-7" data-line-number="7">alpha      &lt;-<span class="st"> </span><span class="fl">0.025</span></a>
+<a class="sourceLine" id="cb123-8" data-line-number="8">min_power  &lt;-<span class="st"> </span><span class="fl">0.8</span></a>
+<a class="sourceLine" id="cb123-9" data-line-number="9">toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>)   <span class="op">&lt;=</span><span class="st"> </span>alpha</a>
+<a class="sourceLine" id="cb123-10" data-line-number="10">pow_cnstr  &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior) <span class="op">&gt;=</span><span class="st"> </span>min_power</a></code></pre></div>
 </div>
 <div id="variantV_1" class="section level2">
 <h2><span class="header-section-number">6.2</span> Variant V-1, sensitivity to integration order</h2>
@@ -315,7 +315,7 @@ We apply three different integration orders: 5, 8, and 11.</p>
 <h3><span class="header-section-number">6.2.1</span> Objective</h3>
 <p>Expected sample size under the alternative point mass prior <span class="math inline">\(\delta = 0.3\)</span>
 is minimized.</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1">ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)</a></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1">ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)</a></code></pre></div>
 </div>
 <div id="constraints-10" class="section level3">
 <h3><span class="header-section-number">6.2.2</span> Constraints</h3>
@@ -333,54 +333,54 @@ The initial stop for futility is at <span class="math inline">\(c_1^f=0\)</span>
 in the opponent direction to the alternative.
 The starting values for the efficacy stop and for <span class="math inline">\(c_2\)</span> is the <span class="math inline">\(1-\alpha\)</span>-
 quantile of the normal distribution.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" data-line-number="1">init_design &lt;-<span class="st"> </span><span class="cf">function</span>(order) {</a>
-<a class="sourceLine" id="cb138-2" data-line-number="2">    <span class="kw">TwoStageDesign</span>(</a>
-<a class="sourceLine" id="cb138-3" data-line-number="3">        <span class="dt">n1 =</span> <span class="kw">ceiling</span>(pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">d =</span> <span class="fl">.3</span>, </a>
-<a class="sourceLine" id="cb138-4" data-line-number="4">                                     <span class="dt">sig.level =</span> <span class="fl">.025</span>, </a>
-<a class="sourceLine" id="cb138-5" data-line-number="5">                                     <span class="dt">power =</span> <span class="fl">.8</span>, </a>
-<a class="sourceLine" id="cb138-6" data-line-number="6">                                     <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="op">$</span>n) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb138-7" data-line-number="7">        <span class="dt">c1f =</span> <span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb138-8" data-line-number="8">        <span class="dt">c1e =</span> <span class="kw">qnorm</span>( <span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.025</span>),</a>
-<a class="sourceLine" id="cb138-9" data-line-number="9">        <span class="dt">n2 =</span> <span class="kw">ceiling</span>(pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">d =</span> <span class="fl">.3</span>, </a>
-<a class="sourceLine" id="cb138-10" data-line-number="10">                                     <span class="dt">sig.level =</span> <span class="fl">.025</span>, </a>
-<a class="sourceLine" id="cb138-11" data-line-number="11">                                     <span class="dt">power =</span> <span class="fl">.8</span>, </a>
-<a class="sourceLine" id="cb138-12" data-line-number="12">                                     <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="op">$</span>n) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb138-13" data-line-number="13">        <span class="dt">c2 =</span> <span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.025</span>),</a>
-<a class="sourceLine" id="cb138-14" data-line-number="14">        <span class="dt">order =</span> order</a>
-<a class="sourceLine" id="cb138-15" data-line-number="15">)</a>
-<a class="sourceLine" id="cb138-16" data-line-number="16">}</a></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1">init_design &lt;-<span class="st"> </span><span class="cf">function</span>(order) {</a>
+<a class="sourceLine" id="cb125-2" data-line-number="2">    <span class="kw">TwoStageDesign</span>(</a>
+<a class="sourceLine" id="cb125-3" data-line-number="3">        <span class="dt">n1 =</span> <span class="kw">ceiling</span>(pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">d =</span> <span class="fl">.3</span>, </a>
+<a class="sourceLine" id="cb125-4" data-line-number="4">                                     <span class="dt">sig.level =</span> <span class="fl">.025</span>, </a>
+<a class="sourceLine" id="cb125-5" data-line-number="5">                                     <span class="dt">power =</span> <span class="fl">.8</span>, </a>
+<a class="sourceLine" id="cb125-6" data-line-number="6">                                     <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="op">$</span>n) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb125-7" data-line-number="7">        <span class="dt">c1f =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb125-8" data-line-number="8">        <span class="dt">c1e =</span> <span class="kw">qnorm</span>( <span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.025</span>),</a>
+<a class="sourceLine" id="cb125-9" data-line-number="9">        <span class="dt">n2 =</span> <span class="kw">ceiling</span>(pwr<span class="op">::</span><span class="kw">pwr.t.test</span>(<span class="dt">d =</span> <span class="fl">.3</span>, </a>
+<a class="sourceLine" id="cb125-10" data-line-number="10">                                     <span class="dt">sig.level =</span> <span class="fl">.025</span>, </a>
+<a class="sourceLine" id="cb125-11" data-line-number="11">                                     <span class="dt">power =</span> <span class="fl">.8</span>, </a>
+<a class="sourceLine" id="cb125-12" data-line-number="12">                                     <span class="dt">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="op">$</span>n) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb125-13" data-line-number="13">        <span class="dt">c2 =</span> <span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.025</span>),</a>
+<a class="sourceLine" id="cb125-14" data-line-number="14">        <span class="dt">order =</span> order</a>
+<a class="sourceLine" id="cb125-15" data-line-number="15">)</a>
+<a class="sourceLine" id="cb125-16" data-line-number="16">}</a></code></pre></div>
 </div>
 <div id="optimization-9" class="section level3">
 <h3><span class="header-section-number">6.2.4</span> Optimization</h3>
 <p>The optimal design is computed for three different integration orders: 5, 8,
 and 11.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(order) {</a>
-<a class="sourceLine" id="cb139-2" data-line-number="2">    <span class="kw">minimize</span>(</a>
-<a class="sourceLine" id="cb139-3" data-line-number="3">        ess,</a>
-<a class="sourceLine" id="cb139-4" data-line-number="4">        <span class="kw">subject_to</span>(</a>
-<a class="sourceLine" id="cb139-5" data-line-number="5">            toer_cnstr,</a>
-<a class="sourceLine" id="cb139-6" data-line-number="6">            pow_cnstr</a>
-<a class="sourceLine" id="cb139-7" data-line-number="7">        ),</a>
-<a class="sourceLine" id="cb139-8" data-line-number="8">        <span class="dt">initial_design =</span> <span class="kw">init_design</span>(order),</a>
-<a class="sourceLine" id="cb139-9" data-line-number="9">        <span class="dt">opts =</span> opts</a>
-<a class="sourceLine" id="cb139-10" data-line-number="10">    )</a>
-<a class="sourceLine" id="cb139-11" data-line-number="11">}</a>
-<a class="sourceLine" id="cb139-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb139-13" data-line-number="13">opt &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb139-14" data-line-number="14">  <span class="dt">order  =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>),</a>
-<a class="sourceLine" id="cb139-15" data-line-number="15">  <span class="dt">design =</span> <span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>), <span class="cf">function</span>(x) <span class="kw">opt_design</span>(x))</a>
-<a class="sourceLine" id="cb139-16" data-line-number="16">)</a></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1">opt_design &lt;-<span class="st"> </span><span class="cf">function</span>(order) {</a>
+<a class="sourceLine" id="cb126-2" data-line-number="2">    <span class="kw">minimize</span>(</a>
+<a class="sourceLine" id="cb126-3" data-line-number="3">        ess,</a>
+<a class="sourceLine" id="cb126-4" data-line-number="4">        <span class="kw">subject_to</span>(</a>
+<a class="sourceLine" id="cb126-5" data-line-number="5">            toer_cnstr,</a>
+<a class="sourceLine" id="cb126-6" data-line-number="6">            pow_cnstr</a>
+<a class="sourceLine" id="cb126-7" data-line-number="7">        ),</a>
+<a class="sourceLine" id="cb126-8" data-line-number="8">        <span class="dt">initial_design =</span> <span class="kw">init_design</span>(order),</a>
+<a class="sourceLine" id="cb126-9" data-line-number="9">        <span class="dt">opts =</span> opts</a>
+<a class="sourceLine" id="cb126-10" data-line-number="10">    )</a>
+<a class="sourceLine" id="cb126-11" data-line-number="11">}</a>
+<a class="sourceLine" id="cb126-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb126-13" data-line-number="13">opt &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb126-14" data-line-number="14">  <span class="dt">order  =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>),</a>
+<a class="sourceLine" id="cb126-15" data-line-number="15">  <span class="dt">design =</span> <span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>), <span class="cf">function</span>(x) <span class="kw">opt_design</span>(x))</a>
+<a class="sourceLine" id="cb126-16" data-line-number="16">)</a></code></pre></div>
 </div>
 <div id="test-cases-10" class="section level3">
 <h3><span class="header-section-number">6.2.5</span> Test cases</h3>
 <p>Check if the optimization algorithm converged in all cases.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1">opt <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb140-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
-<a class="sourceLine" id="cb140-3" data-line-number="3">      order, </a>
-<a class="sourceLine" id="cb140-4" data-line-number="4">      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb140-5" data-line-number="5">                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb140-6" data-line-number="6"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb140-7" data-line-number="7"><span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</a></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1">opt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb127-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
+<a class="sourceLine" id="cb127-3" data-line-number="3">      order, </a>
+<a class="sourceLine" id="cb127-4" data-line-number="4">      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb127-5" data-line-number="5">                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb127-6" data-line-number="6"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb127-7" data-line-number="7"><span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   order iterations
 ##   &lt;dbl&gt;      &lt;int&gt;
@@ -389,25 +389,23 @@ and 11.</p>
 ## 3    11       8826</code></pre>
 <p>Test the constraints on type one error rate and power by simulation and
 compare the results to the outcome of <code>evaluate()</code>.</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1">opt <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb142-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
-<a class="sourceLine" id="cb142-3" data-line-number="3">      order, </a>
-<a class="sourceLine" id="cb142-4" data-line-number="4">      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb142-5" data-line-number="5">                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb142-6" data-line-number="6">      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb142-7" data-line-number="7">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
-<a class="sourceLine" id="cb142-8" data-line-number="8">      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb142-9" data-line-number="9">                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb142-10" data-line-number="10">      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb142-11" data-line-number="11">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb142-12" data-line-number="12"><span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb142-13" data-line-number="13"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
-<a class="sourceLine" id="cb142-14" data-line-number="14">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb142-15" data-line-number="15">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb142-16" data-line-number="16">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb142-17" data-line-number="17">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</a></code></pre></div>
-<pre><code>## Warning: `cols` is now required.
-## Please use `cols = c(toer_sim, power_sim)`</code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1">opt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb129-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
+<a class="sourceLine" id="cb129-3" data-line-number="3">      order, </a>
+<a class="sourceLine" id="cb129-4" data-line-number="4">      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,</a>
+<a class="sourceLine" id="cb129-5" data-line-number="5">                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb129-6" data-line-number="6">      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb129-7" data-line-number="7">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
+<a class="sourceLine" id="cb129-8" data-line-number="8">      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
+<a class="sourceLine" id="cb129-9" data-line-number="9">                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb129-10" data-line-number="10">      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb129-11" data-line-number="11">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb129-12" data-line-number="12"><span class="st">  </span><span class="kw">unnest</span>(., <span class="dt">cols =</span> <span class="kw">c</span>(toer, toer_sim, power, power_sim)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb129-13" data-line-number="13"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
+<a class="sourceLine" id="cb129-14" data-line-number="14">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb129-15" data-line-number="15">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb129-16" data-line-number="16">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb129-17" data-line-number="17">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   order   toer toer_sim power power_sim
 ##   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
@@ -424,12 +422,12 @@ compare the results to the outcome of <code>evaluate()</code>.</p>
 power is minimized.
 The parameter <span class="math inline">\(\lambda\)</span> that is describing the ratio between expected
 sample size and power is varied.</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1">pow &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior)</a>
-<a class="sourceLine" id="cb145-2" data-line-number="2">ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)</a>
-<a class="sourceLine" id="cb145-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb145-4" data-line-number="4">obj &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {</a>
-<a class="sourceLine" id="cb145-5" data-line-number="5">  <span class="kw">composite</span>({ess <span class="op">-</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>pow})</a>
-<a class="sourceLine" id="cb145-6" data-line-number="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1">pow &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, prior)</a>
+<a class="sourceLine" id="cb131-2" data-line-number="2">ess &lt;-<span class="st"> </span><span class="kw">ExpectedSampleSize</span>(datadist, prior)</a>
+<a class="sourceLine" id="cb131-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb131-4" data-line-number="4">obj &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {</a>
+<a class="sourceLine" id="cb131-5" data-line-number="5">  <span class="kw">composite</span>({ess <span class="op">-</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>pow})</a>
+<a class="sourceLine" id="cb131-6" data-line-number="6">}</a></code></pre></div>
 </div>
 <div id="constraints-11" class="section level3">
 <h3><span class="header-section-number">6.3.2</span> Constraints</h3>
@@ -445,31 +443,31 @@ objective utility function.</p>
 <div id="optimization-10" class="section level3">
 <h3><span class="header-section-number">6.3.4</span> Optimization</h3>
 <p>The optimal design is computed for two values of <span class="math inline">\(\lambda\)</span>: 100 and 200.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1">opt_utility &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb146-2" data-line-number="2">  <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="dv">100</span>, <span class="dv">200</span>)</a>
-<a class="sourceLine" id="cb146-3" data-line-number="3">) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb146-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb146-5" data-line-number="5">    <span class="dt">design =</span> purrr<span class="op">::</span><span class="kw">map</span>(lambda, <span class="op">~</span><span class="kw">minimize</span>(</a>
-<a class="sourceLine" id="cb146-6" data-line-number="6">          <span class="kw">obj</span>(.),</a>
-<a class="sourceLine" id="cb146-7" data-line-number="7">          <span class="kw">subject_to</span>(</a>
-<a class="sourceLine" id="cb146-8" data-line-number="8">              toer_cnstr</a>
-<a class="sourceLine" id="cb146-9" data-line-number="9">          ),</a>
-<a class="sourceLine" id="cb146-10" data-line-number="10">          </a>
-<a class="sourceLine" id="cb146-11" data-line-number="11">          <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>), </a>
-<a class="sourceLine" id="cb146-12" data-line-number="12">          <span class="dt">opts           =</span> opts)) </a>
-<a class="sourceLine" id="cb146-13" data-line-number="13">)</a></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1">opt_utility &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb132-2" data-line-number="2">  <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="dv">100</span>, <span class="dv">200</span>)</a>
+<a class="sourceLine" id="cb132-3" data-line-number="3">) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb132-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb132-5" data-line-number="5">    <span class="dt">design =</span> purrr<span class="op">::</span><span class="kw">map</span>(lambda, <span class="op">~</span><span class="kw">minimize</span>(</a>
+<a class="sourceLine" id="cb132-6" data-line-number="6">          <span class="kw">obj</span>(.),</a>
+<a class="sourceLine" id="cb132-7" data-line-number="7">          <span class="kw">subject_to</span>(</a>
+<a class="sourceLine" id="cb132-8" data-line-number="8">              toer_cnstr</a>
+<a class="sourceLine" id="cb132-9" data-line-number="9">          ),</a>
+<a class="sourceLine" id="cb132-10" data-line-number="10">          </a>
+<a class="sourceLine" id="cb132-11" data-line-number="11">          <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>), </a>
+<a class="sourceLine" id="cb132-12" data-line-number="12">          <span class="dt">opts           =</span> opts)) </a>
+<a class="sourceLine" id="cb132-13" data-line-number="13">)</a></code></pre></div>
 </div>
 <div id="test-cases-11" class="section level3">
 <h3><span class="header-section-number">6.3.5</span> Test cases</h3>
 <p>Firstly, it is checked whether the maximum number of iterations was not
 exceeded in both flavours.</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1">opt_utility <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb147-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
-<a class="sourceLine" id="cb147-3" data-line-number="3">      lambda, </a>
-<a class="sourceLine" id="cb147-4" data-line-number="4">      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt_utility<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb147-5" data-line-number="5">                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb147-6" data-line-number="6"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb147-7" data-line-number="7"><span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</a></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1">opt_utility <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb133-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
+<a class="sourceLine" id="cb133-3" data-line-number="3">      lambda, </a>
+<a class="sourceLine" id="cb133-4" data-line-number="4">      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt_utility<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb133-5" data-line-number="5">                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb133-6" data-line-number="6"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb133-7" data-line-number="7"><span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   lambda iterations
 ##    &lt;dbl&gt;      &lt;int&gt;
@@ -479,24 +477,22 @@ exceeded in both flavours.</p>
 <code>adoptr</code>’s function <code>evaluate</code>.
 In addition, it is tested if the design with larger <span class="math inline">\(\lambda\)</span> (i.e.,
 stronger focus on power), shows the larger overall power.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1">opt_utility <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb149-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
-<a class="sourceLine" id="cb149-3" data-line-number="3">      lambda, </a>
-<a class="sourceLine" id="cb149-4" data-line-number="4">      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb149-5" data-line-number="5">                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb149-6" data-line-number="6">      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_utility<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb149-7" data-line-number="7">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
-<a class="sourceLine" id="cb149-8" data-line-number="8">      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb149-9" data-line-number="9">                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb149-10" data-line-number="10">      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_utility<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb149-11" data-line-number="11">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb149-12" data-line-number="12"><span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb149-13" data-line-number="13"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
-<a class="sourceLine" id="cb149-14" data-line-number="14">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer     <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb149-15" data-line-number="15">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb149-16" data-line-number="16">  testthat<span class="op">::</span><span class="kw">expect_lte</span>(.<span class="op">$</span>power[<span class="dv">1</span>], .<span class="op">$</span>power[<span class="dv">2</span>]) }</a></code></pre></div>
-<pre><code>## Warning: `cols` is now required.
-## Please use `cols = c(toer_sim, power_sim)`</code></pre>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1">opt_utility <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb135-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
+<a class="sourceLine" id="cb135-3" data-line-number="3">      lambda, </a>
+<a class="sourceLine" id="cb135-4" data-line-number="4">      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,</a>
+<a class="sourceLine" id="cb135-5" data-line-number="5">                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb135-6" data-line-number="6">      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_utility<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb135-7" data-line-number="7">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
+<a class="sourceLine" id="cb135-8" data-line-number="8">      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
+<a class="sourceLine" id="cb135-9" data-line-number="9">                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb135-10" data-line-number="10">      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_utility<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb135-11" data-line-number="11">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb135-12" data-line-number="12"><span class="st">  </span><span class="kw">unnest</span>(., <span class="kw">c</span>(toer, toer_sim, power, power_sim)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb135-13" data-line-number="13"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
+<a class="sourceLine" id="cb135-14" data-line-number="14">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer     <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb135-15" data-line-number="15">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb135-16" data-line-number="16">  testthat<span class="op">::</span><span class="kw">expect_lte</span>(.<span class="op">$</span>power[<span class="dv">1</span>], .<span class="op">$</span>power[<span class="dv">2</span>]) }</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   lambda   toer toer_sim power power_sim
 ##    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
@@ -504,8 +500,6 @@ stronger focus on power), shows the larger overall power.</p>
 ## 2    200 0.0251   0.0250 0.897     0.897</code></pre>
 <p>Finally, the three designs computed so far are plotted together to allow
 comparison.</p>
-<pre><code>## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2, CP)`</code></pre>
 <p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
 </div>
 </div>
@@ -517,11 +511,11 @@ comparison.</p>
 <p>In order to analyse the influence of <code>N1()</code>,
 a mixed criterion consisting of expected sample size under the point prior
 and <span class="math inline">\(N1()\)</span> is minimized.</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" data-line-number="1">N1 &lt;-<span class="st"> </span><span class="kw">N1</span>()</a>
-<a class="sourceLine" id="cb153-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb153-3" data-line-number="3">obj_n1 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {</a>
-<a class="sourceLine" id="cb153-4" data-line-number="4">  <span class="kw">composite</span>({ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>N1})</a>
-<a class="sourceLine" id="cb153-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1">N1 &lt;-<span class="st"> </span><span class="kw">N1</span>()</a>
+<a class="sourceLine" id="cb137-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb137-3" data-line-number="3">obj_n1 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {</a>
+<a class="sourceLine" id="cb137-4" data-line-number="4">  <span class="kw">composite</span>({ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>N1})</a>
+<a class="sourceLine" id="cb137-5" data-line-number="5">}</a></code></pre></div>
 </div>
 <div id="constraints-12" class="section level3">
 <h3><span class="header-section-number">6.4.2</span> Constraints</h3>
@@ -529,62 +523,66 @@ and <span class="math inline">\(N1()\)</span> is minimized.</p>
 </div>
 <div id="initial-design-10" class="section level3">
 <h3><span class="header-section-number">6.4.3</span> Initial Design</h3>
-<p>The previous initial design with order <span class="math inline">\(5\)</span> is applied.</p>
+<p>The previous initial design with order <span class="math inline">\(5\)</span> is applied.
+This variant requires an upper bound on <span class="math inline">\(c_2\)</span>.
+Otherwise, very large values for <span class="math inline">\(c_2\)</span> and large <span class="math inline">\(n_2\)</span>-values would allow
+appear to reduce <span class="math inline">\(n_1\)</span>.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" data-line-number="1">ub_design &lt;-<span class="st"> </span><span class="kw">get_upper_boundary_design</span>(<span class="kw">init_design</span>(<span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb138-2" data-line-number="2">ub_design<span class="op">@</span>c2_pivots &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">3</span>, <span class="dv">5</span>)</a></code></pre></div>
 </div>
 <div id="optimization-11" class="section level3">
 <h3><span class="header-section-number">6.4.4</span> Optimization</h3>
 <p>The optimal design is computed for two values of <span class="math inline">\(\lambda\)</span>: 0.05 and 0.2.</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1">opt_n1 &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb154-2" data-line-number="2">  <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="fl">0.05</span>, <span class="fl">0.2</span>)</a>
-<a class="sourceLine" id="cb154-3" data-line-number="3">) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb154-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb154-5" data-line-number="5">    <span class="dt">design =</span> purrr<span class="op">::</span><span class="kw">map</span>(lambda, <span class="op">~</span><span class="kw">minimize</span>(</a>
-<a class="sourceLine" id="cb154-6" data-line-number="6">          <span class="kw">obj_n1</span>(.),</a>
-<a class="sourceLine" id="cb154-7" data-line-number="7">          <span class="kw">subject_to</span>(</a>
-<a class="sourceLine" id="cb154-8" data-line-number="8">              toer_cnstr,</a>
-<a class="sourceLine" id="cb154-9" data-line-number="9">              pow_cnstr</a>
-<a class="sourceLine" id="cb154-10" data-line-number="10">          ),</a>
-<a class="sourceLine" id="cb154-11" data-line-number="11">          </a>
-<a class="sourceLine" id="cb154-12" data-line-number="12">          <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">5</span>), </a>
-<a class="sourceLine" id="cb154-13" data-line-number="13">          <span class="dt">opts           =</span> opts)) </a>
-<a class="sourceLine" id="cb154-14" data-line-number="14">)</a></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1">opt_n1 &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb139-2" data-line-number="2">  <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="fl">0.05</span>, <span class="fl">0.2</span>)</a>
+<a class="sourceLine" id="cb139-3" data-line-number="3">) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb139-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb139-5" data-line-number="5">    <span class="dt">design =</span> purrr<span class="op">::</span><span class="kw">map</span>(lambda, <span class="op">~</span><span class="kw">minimize</span>(</a>
+<a class="sourceLine" id="cb139-6" data-line-number="6">          <span class="kw">obj_n1</span>(.),</a>
+<a class="sourceLine" id="cb139-7" data-line-number="7">          <span class="kw">subject_to</span>(</a>
+<a class="sourceLine" id="cb139-8" data-line-number="8">              toer_cnstr,</a>
+<a class="sourceLine" id="cb139-9" data-line-number="9">              pow_cnstr</a>
+<a class="sourceLine" id="cb139-10" data-line-number="10">          ),</a>
+<a class="sourceLine" id="cb139-11" data-line-number="11">          </a>
+<a class="sourceLine" id="cb139-12" data-line-number="12">          <span class="dt">initial_design        =</span> <span class="kw">init_design</span>(<span class="dv">5</span>), </a>
+<a class="sourceLine" id="cb139-13" data-line-number="13">          <span class="dt">upper_boundary_design =</span> ub_design,</a>
+<a class="sourceLine" id="cb139-14" data-line-number="14">          <span class="dt">opts                  =</span> opts)) </a>
+<a class="sourceLine" id="cb139-15" data-line-number="15">)</a></code></pre></div>
 </div>
 <div id="test-cases-12" class="section level3">
 <h3><span class="header-section-number">6.4.5</span> Test cases</h3>
 <p>We start testing if the optimization algorithm converged in both cases</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1">opt_n1 <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb155-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
-<a class="sourceLine" id="cb155-3" data-line-number="3">      lambda, </a>
-<a class="sourceLine" id="cb155-4" data-line-number="4">      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt_n1<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb155-5" data-line-number="5">                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb155-6" data-line-number="6"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb155-7" data-line-number="7"><span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</a></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1">opt_n1 <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb140-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
+<a class="sourceLine" id="cb140-3" data-line-number="3">      lambda, </a>
+<a class="sourceLine" id="cb140-4" data-line-number="4">      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt_n1<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb140-5" data-line-number="5">                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb140-6" data-line-number="6"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb140-7" data-line-number="7"><span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   lambda iterations
 ##    &lt;dbl&gt;      &lt;int&gt;
-## 1   0.05       2222
-## 2   0.2        2222</code></pre>
+## 1   0.05       3035
+## 2   0.2        3040</code></pre>
 <p>Next, the error rate constraints on type one error rate and power are both
 tested by simulation and by the <code>evaluate</code>-call.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1">opt_n1 <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb157-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
-<a class="sourceLine" id="cb157-3" data-line-number="3">      lambda, </a>
-<a class="sourceLine" id="cb157-4" data-line-number="4">      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb157-5" data-line-number="5">                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb157-6" data-line-number="6">      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n1<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb157-7" data-line-number="7">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
-<a class="sourceLine" id="cb157-8" data-line-number="8">      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb157-9" data-line-number="9">                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb157-10" data-line-number="10">      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n1<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb157-11" data-line-number="11">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb157-12" data-line-number="12"><span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb157-13" data-line-number="13"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
-<a class="sourceLine" id="cb157-14" data-line-number="14">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb157-15" data-line-number="15">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb157-16" data-line-number="16">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb157-17" data-line-number="17">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</a></code></pre></div>
-<pre><code>## Warning: `cols` is now required.
-## Please use `cols = c(toer_sim, power_sim)`</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1">opt_n1 <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb142-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
+<a class="sourceLine" id="cb142-3" data-line-number="3">      lambda, </a>
+<a class="sourceLine" id="cb142-4" data-line-number="4">      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,</a>
+<a class="sourceLine" id="cb142-5" data-line-number="5">                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb142-6" data-line-number="6">      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n1<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb142-7" data-line-number="7">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
+<a class="sourceLine" id="cb142-8" data-line-number="8">      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
+<a class="sourceLine" id="cb142-9" data-line-number="9">                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb142-10" data-line-number="10">      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n1<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb142-11" data-line-number="11">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb142-12" data-line-number="12"><span class="st">  </span><span class="kw">unnest</span>(., <span class="dt">cols =</span> <span class="kw">c</span>(toer, toer_sim, power, power_sim)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb142-13" data-line-number="13"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
+<a class="sourceLine" id="cb142-14" data-line-number="14">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb142-15" data-line-number="15">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb142-16" data-line-number="16">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb142-17" data-line-number="17">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   lambda   toer toer_sim power power_sim
 ##    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
@@ -601,9 +599,7 @@ Finally, these three designs are plotted together to allow graphical comparison.
 ## 1 No Penalization on n_1                 &lt;TwStgDsg&gt;    50
 ## 2 Penalization on n_1 with lambda = 0.05 &lt;TwStgDsg&gt;    48
 ## 3 Penalization on n_1 with lambda = 0.2  &lt;TwStgDsg&gt;    41</code></pre>
-<pre><code>## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2, CP)`</code></pre>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
 </div>
 </div>
 <div id="variantV_4" class="section level2">
@@ -616,11 +612,11 @@ This can be done by means of the function <code>AverageN2()</code>.</p>
 <p>As in variant <a href="scenarioV.html#variantV_3">V.3</a>, a mixed criterion is minimized.
 Here, it consists of expected sample size under the point prior and the
 average of <span class="math inline">\(n_2\)</span>.</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1">avn2 &lt;-<span class="st"> </span><span class="kw">AverageN2</span>()</a>
-<a class="sourceLine" id="cb162-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb162-3" data-line-number="3">obj_n2 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {</a>
-<a class="sourceLine" id="cb162-4" data-line-number="4">  <span class="kw">composite</span>({ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>avn2})</a>
-<a class="sourceLine" id="cb162-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1">avn2 &lt;-<span class="st"> </span><span class="kw">AverageN2</span>()</a>
+<a class="sourceLine" id="cb145-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb145-3" data-line-number="3">obj_n2 &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {</a>
+<a class="sourceLine" id="cb145-4" data-line-number="4">  <span class="kw">composite</span>({ess <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span>avn2})</a>
+<a class="sourceLine" id="cb145-5" data-line-number="5">}</a></code></pre></div>
 </div>
 <div id="constraints-13" class="section level3">
 <h3><span class="header-section-number">6.5.2</span> Constraints</h3>
@@ -633,39 +629,39 @@ However, this case requires the definition of an upper-bound for <span class="ma
 Otherwise, very small <span class="math inline">\(n_2\)</span>-values and very large <span class="math inline">\(c_2\)</span>-values would
 appear close to the early-futility-stop boundary in order to
 decrease the average <span class="math inline">\(n_2\)</span>.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1">ub_design &lt;-<span class="st"> </span><span class="kw">get_upper_boundary_design</span>(<span class="kw">init_design</span>(<span class="dv">8</span>))</a>
-<a class="sourceLine" id="cb163-2" data-line-number="2">ub_design<span class="op">@</span>c2_pivots &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">2.5</span>, <span class="dv">8</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1">ub_design &lt;-<span class="st"> </span><span class="kw">get_upper_boundary_design</span>(<span class="kw">init_design</span>(<span class="dv">8</span>))</a>
+<a class="sourceLine" id="cb146-2" data-line-number="2">ub_design<span class="op">@</span>c2_pivots &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">2.5</span>, <span class="dv">8</span>)</a></code></pre></div>
 </div>
 <div id="optimization-12" class="section level3">
 <h3><span class="header-section-number">6.5.4</span> Optimization</h3>
 <p>The optimal design is computed for two values of <span class="math inline">\(\lambda\)</span>: 0.01 and 0.1.</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1">opt_n2 &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb164-2" data-line-number="2">  <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb164-3" data-line-number="3">) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb164-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb164-5" data-line-number="5">    <span class="dt">design =</span> purrr<span class="op">::</span><span class="kw">map</span>(lambda, <span class="op">~</span><span class="kw">minimize</span>(</a>
-<a class="sourceLine" id="cb164-6" data-line-number="6">          <span class="kw">obj_n2</span>(.),</a>
-<a class="sourceLine" id="cb164-7" data-line-number="7">          <span class="kw">subject_to</span>(</a>
-<a class="sourceLine" id="cb164-8" data-line-number="8">              toer_cnstr,</a>
-<a class="sourceLine" id="cb164-9" data-line-number="9">              pow_cnstr</a>
-<a class="sourceLine" id="cb164-10" data-line-number="10">          ),</a>
-<a class="sourceLine" id="cb164-11" data-line-number="11">          </a>
-<a class="sourceLine" id="cb164-12" data-line-number="12">          <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">8</span>), </a>
-<a class="sourceLine" id="cb164-13" data-line-number="13">          <span class="dt">upper_boundary_design =</span> ub_design,</a>
-<a class="sourceLine" id="cb164-14" data-line-number="14">          <span class="dt">opts           =</span> opts)) </a>
-<a class="sourceLine" id="cb164-15" data-line-number="15">)</a></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1">opt_n2 &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb147-2" data-line-number="2">  <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb147-3" data-line-number="3">) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb147-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb147-5" data-line-number="5">    <span class="dt">design =</span> purrr<span class="op">::</span><span class="kw">map</span>(lambda, <span class="op">~</span><span class="kw">minimize</span>(</a>
+<a class="sourceLine" id="cb147-6" data-line-number="6">          <span class="kw">obj_n2</span>(.),</a>
+<a class="sourceLine" id="cb147-7" data-line-number="7">          <span class="kw">subject_to</span>(</a>
+<a class="sourceLine" id="cb147-8" data-line-number="8">              toer_cnstr,</a>
+<a class="sourceLine" id="cb147-9" data-line-number="9">              pow_cnstr</a>
+<a class="sourceLine" id="cb147-10" data-line-number="10">          ),</a>
+<a class="sourceLine" id="cb147-11" data-line-number="11">          </a>
+<a class="sourceLine" id="cb147-12" data-line-number="12">          <span class="dt">initial_design =</span> <span class="kw">init_design</span>(<span class="dv">8</span>), </a>
+<a class="sourceLine" id="cb147-13" data-line-number="13">          <span class="dt">upper_boundary_design =</span> ub_design,</a>
+<a class="sourceLine" id="cb147-14" data-line-number="14">          <span class="dt">opts           =</span> opts)) </a>
+<a class="sourceLine" id="cb147-15" data-line-number="15">)</a></code></pre></div>
 </div>
 <div id="test-cases-13" class="section level3">
 <h3><span class="header-section-number">6.5.5</span> Test cases</h3>
 <p>As first step, we check if the maximum number of iterations was not exceeded
 in both cases.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1">opt_n2 <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb165-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
-<a class="sourceLine" id="cb165-3" data-line-number="3">      lambda, </a>
-<a class="sourceLine" id="cb165-4" data-line-number="4">      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt_n2<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb165-5" data-line-number="5">                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb165-6" data-line-number="6"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb165-7" data-line-number="7"><span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</a></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1">opt_n2 <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb148-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
+<a class="sourceLine" id="cb148-3" data-line-number="3">      lambda, </a>
+<a class="sourceLine" id="cb148-4" data-line-number="4">      <span class="dt">iterations =</span> purrr<span class="op">::</span><span class="kw">map_int</span>(opt_n2<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb148-5" data-line-number="5">                                  <span class="op">~</span>.<span class="op">$</span>nloptr_return<span class="op">$</span>iterations) ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb148-6" data-line-number="6"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb148-7" data-line-number="7"><span class="st">  </span>{testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>iterations <span class="op">&lt;</span><span class="st"> </span>opts<span class="op">$</span>maxeval))}</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   lambda iterations
 ##    &lt;dbl&gt;      &lt;int&gt;
@@ -673,25 +669,23 @@ in both cases.</p>
 ## 2   0.1       11045</code></pre>
 <p>As second step, the type one error rate and power restrictions are tested
 by simulation and by calling <code>evaluate</code>.</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1">opt_n2 <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb167-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
-<a class="sourceLine" id="cb167-3" data-line-number="3">      lambda, </a>
-<a class="sourceLine" id="cb167-4" data-line-number="4">      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb167-5" data-line-number="5">                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb167-6" data-line-number="6">      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n2<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb167-7" data-line-number="7">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
-<a class="sourceLine" id="cb167-8" data-line-number="8">      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb167-9" data-line-number="9">                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb167-10" data-line-number="10">      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n2<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb167-11" data-line-number="11">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb167-12" data-line-number="12"><span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb167-13" data-line-number="13"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
-<a class="sourceLine" id="cb167-14" data-line-number="14">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb167-15" data-line-number="15">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb167-16" data-line-number="16">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb167-17" data-line-number="17">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</a></code></pre></div>
-<pre><code>## Warning: `cols` is now required.
-## Please use `cols = c(toer_sim, power_sim)`</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1">opt_n2 <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb150-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
+<a class="sourceLine" id="cb150-3" data-line-number="3">      lambda, </a>
+<a class="sourceLine" id="cb150-4" data-line-number="4">      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,</a>
+<a class="sourceLine" id="cb150-5" data-line-number="5">                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb150-6" data-line-number="6">      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n2<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb150-7" data-line-number="7">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
+<a class="sourceLine" id="cb150-8" data-line-number="8">      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
+<a class="sourceLine" id="cb150-9" data-line-number="9">                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb150-10" data-line-number="10">      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt_n2<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb150-11" data-line-number="11">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb150-12" data-line-number="12"><span class="st">  </span><span class="kw">unnest</span>(., <span class="kw">c</span>(toer, toer_sim, power, power_sim)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb150-13" data-line-number="13"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
+<a class="sourceLine" id="cb150-14" data-line-number="14">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb150-15" data-line-number="15">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb150-16" data-line-number="16">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb150-17" data-line-number="17">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   lambda   toer toer_sim power power_sim
 ##    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
@@ -709,9 +703,7 @@ Additionally, these three designs are depicted in a joint plot.</p>
 ## 1 No Penalization on AvN2                 &lt;TwStgDsg&gt;       47.6
 ## 2 Penalization on AvN2 with lambda = 0.01 &lt;TwStgDsg&gt;       46.6
 ## 3 Penalization on AvN2 with lambda = 0.1  &lt;TwStgDsg&gt;       38.9</code></pre>
-<pre><code>## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2, CP)`</code></pre>
-<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+<p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
 
 </div>
 </div>

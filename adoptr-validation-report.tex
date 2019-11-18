@@ -128,7 +128,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-11-17}
+    \date{2019-11-18}
 
 \usepackage{booktabs}
 
@@ -1105,17 +1105,12 @@ for all three designs by simulation:
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob), }
       \DataTypeTok{power =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(tbl_designs}\OperatorTok{$}\NormalTok{optimal, }
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.4}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(toer, power)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer  }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{power }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) \}}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(toer, power)`
-\end{verbatim}
 
 \begin{verbatim}
 ## # A tibble: 3 x 3
@@ -1324,17 +1319,8 @@ Next, the type one error rate and power constraints are tested.
         \DataTypeTok{ess_sim   =} \KeywordTok{map}\NormalTok{(}
 \NormalTok{            delta, }
             \OperatorTok{~}\KeywordTok{sim_n}\NormalTok{(opt_h0}\OperatorTok{$}\NormalTok{design, . ,datadist)}\OperatorTok{$}\NormalTok{n ) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{    }\NormalTok{unnest}
-\end{Highlighting}
-\end{Shaded}
+\StringTok{    }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(power, power_sim, ess, ess_sim))}
 
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(power, power_sim, ess, ess_sim)`
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \KeywordTok{print}\NormalTok{(tbl_performance)}
 \end{Highlighting}
 \end{Shaded}
@@ -1475,17 +1461,8 @@ Check constraints.
         \DataTypeTok{ess_sim   =} \KeywordTok{map}\NormalTok{(}
 \NormalTok{            delta, }
             \OperatorTok{~}\KeywordTok{sim_n}\NormalTok{(opt_cp}\OperatorTok{$}\NormalTok{design, . ,datadist)}\OperatorTok{$}\NormalTok{n ) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{    }\NormalTok{unnest}
-\end{Highlighting}
-\end{Shaded}
+\StringTok{    }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(power, power_sim, ess, ess_sim))}
 
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(power, power_sim, ess, ess_sim)`
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \KeywordTok{print}\NormalTok{(tbl_performance)}
 \end{Highlighting}
 \end{Shaded}
@@ -1584,11 +1561,6 @@ side.
 The effect of the conditional power constraint (CP not below 0.7) is
 clearly visible and the very different characteristics between
 optimizing under the null or the alternative are clearly visible.
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2, CP)`
-\end{verbatim}
 
 \includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-22-1.pdf}
 
@@ -1740,16 +1712,11 @@ the type one error rate constraint can be tested for all three optimal designs.
 \NormalTok{      type, }
       \DataTypeTok{toer =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(tbl_designs}\OperatorTok{$}\NormalTok{optimal, }
                         \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(toer)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol))) \}}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(toer)`
-\end{verbatim}
 
 \begin{verbatim}
 ## # A tibble: 3 x 2
@@ -2088,11 +2055,6 @@ Variant II.1
 The optimal two-stage designs stemming from the different variants
 are plotted together.
 
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2, CP)`
-\end{verbatim}
-
 \includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-42-1.pdf}
 
 \hypertarget{scenarioIII}{%
@@ -2290,12 +2252,6 @@ Check that expected sample size decreases with decreasing prior variance.
 \subsection{Plot designs}\label{plot-designs}}
 
 Finally, we plot the designs and assess for convergence.
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2)`
-\end{verbatim}
-
 \includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-51-1.pdf}
 
 \hypertarget{scenarioIV}{%
@@ -2433,17 +2389,12 @@ Now, the constraints on type one error rate and power are tested via simulation.
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob), }
       \DataTypeTok{power =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(tbl_designs}\OperatorTok{$}\NormalTok{optimal, }
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(toer, power)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer  }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{power }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) \}}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(toer, power)`
-\end{verbatim}
 
 \begin{verbatim}
 ## # A tibble: 3 x 3
@@ -2610,17 +2561,12 @@ The type one error rate and power constraints are evaluated by simulation.
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob), }
       \DataTypeTok{power =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(tbl_designs_}\DecValTok{9}\OperatorTok{$}\NormalTok{optimal, }
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(toer, power)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer  }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{power }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power_}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) \}}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(toer, power)`
-\end{verbatim}
 
 \begin{verbatim}
 ## # A tibble: 3 x 3
@@ -2791,17 +2737,12 @@ are tested.
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob), }
       \DataTypeTok{power =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(tbl_designs_}\DecValTok{5}\OperatorTok{$}\NormalTok{optimal, }
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(toer, power)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer  }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha_}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{power }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power_}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) \}}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(toer, power)`
-\end{verbatim}
 
 \begin{verbatim}
 ## # A tibble: 3 x 3
@@ -2878,11 +2819,6 @@ is expected to be monotonously decreasing:
 
 The optimal two-stage designs stemming from the three different variants
 are plotted together.
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2)`
-\end{verbatim}
 
 \includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-76-1.pdf}
 
@@ -3043,7 +2979,7 @@ compare the results to the outcome of \texttt{evaluate()}.
                           \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{)), .}\OperatorTok{$}\NormalTok{design) ),}
       \DataTypeTok{power_sim =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(opt}\OperatorTok{$}\NormalTok{design, }
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.3}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(toer, toer_sim, power, power_sim)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer      }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer_sim  }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
@@ -3051,11 +2987,6 @@ compare the results to the outcome of \texttt{evaluate()}.
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{power_sim }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) \}}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(toer_sim, power_sim)`
-\end{verbatim}
 
 \begin{verbatim}
 ## # A tibble: 3 x 5
@@ -3168,18 +3099,13 @@ stronger focus on power), shows the larger overall power.
                           \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{)), .}\OperatorTok{$}\NormalTok{design) ),}
       \DataTypeTok{power_sim =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(opt_utility}\OperatorTok{$}\NormalTok{design, }
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.3}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\KeywordTok{c}\NormalTok{(toer, toer_sim, power, power_sim)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer     }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer_sim }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_lte}\NormalTok{(.}\OperatorTok{$}\NormalTok{power[}\DecValTok{1}\NormalTok{], .}\OperatorTok{$}\NormalTok{power[}\DecValTok{2}\NormalTok{]) \}}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(toer_sim, power_sim)`
-\end{verbatim}
 
 \begin{verbatim}
 ## # A tibble: 2 x 5
@@ -3191,11 +3117,6 @@ stronger focus on power), shows the larger overall power.
 
 Finally, the three designs computed so far are plotted together to allow
 comparison.
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2, CP)`
-\end{verbatim}
 
 \includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-87-1.pdf}
 
@@ -3230,6 +3151,16 @@ The inequalities from variant \protect\hyperlink{variantV_1}{V.1} can still be u
 \subsection{Initial Design}\label{initial-design-10}}
 
 The previous initial design with order \(5\) is applied.
+This variant requires an upper bound on \(c_2\).
+Otherwise, very large values for \(c_2\) and large \(n_2\)-values would allow
+appear to reduce \(n_1\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ub_design <-}\StringTok{ }\KeywordTok{get_upper_boundary_design}\NormalTok{(}\KeywordTok{init_design}\NormalTok{(}\DecValTok{5}\NormalTok{))}
+\NormalTok{ub_design}\OperatorTok{@}\NormalTok{c2_pivots <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{optimization-11}{%
 \subsection{Optimization}\label{optimization-11}}
@@ -3249,8 +3180,9 @@ The optimal design is computed for two values of \(\lambda\): 0.05 and 0.2.
 \NormalTok{              pow_cnstr}
 \NormalTok{          ),}
           
-          \DataTypeTok{initial_design =} \KeywordTok{init_design}\NormalTok{(}\DecValTok{5}\NormalTok{), }
-          \DataTypeTok{opts           =}\NormalTok{ opts)) }
+          \DataTypeTok{initial_design        =} \KeywordTok{init_design}\NormalTok{(}\DecValTok{5}\NormalTok{), }
+          \DataTypeTok{upper_boundary_design =}\NormalTok{ ub_design,}
+          \DataTypeTok{opts                  =}\NormalTok{ opts)) }
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -3276,8 +3208,8 @@ We start testing if the optimization algorithm converged in both cases
 ## # A tibble: 2 x 2
 ##   lambda iterations
 ##    <dbl>      <int>
-## 1   0.05       2222
-## 2   0.2        2222
+## 1   0.05       3035
+## 2   0.2        3040
 \end{verbatim}
 
 Next, the error rate constraints on type one error rate and power are both
@@ -3296,7 +3228,7 @@ tested by simulation and by the \texttt{evaluate}-call.
                           \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{)), .}\OperatorTok{$}\NormalTok{design) ),}
       \DataTypeTok{power_sim =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(opt_n1}\OperatorTok{$}\NormalTok{design, }
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.3}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(toer, toer_sim, power, power_sim)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer      }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer_sim  }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
@@ -3304,11 +3236,6 @@ tested by simulation and by the \texttt{evaluate}-call.
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{power_sim }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) \}}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(toer_sim, power_sim)`
-\end{verbatim}
 
 \begin{verbatim}
 ## # A tibble: 2 x 5
@@ -3333,12 +3260,7 @@ Finally, these three designs are plotted together to allow graphical comparison.
 ## 3 Penalization on n_1 with lambda = 0.2  <TwStgDsg>    41
 \end{verbatim}
 
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2, CP)`
-\end{verbatim}
-
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-92-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-93-1.pdf}
 
 \hypertarget{variantV_4}{%
 \section{Variant V-4, n2-penalty}\label{variantV_4}}
@@ -3452,7 +3374,7 @@ by simulation and by calling \texttt{evaluate}.
                           \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{)), .}\OperatorTok{$}\NormalTok{design) ),}
       \DataTypeTok{power_sim =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(opt_n2}\OperatorTok{$}\NormalTok{design, }
                          \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.3}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{unnest}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\KeywordTok{c}\NormalTok{(toer, toer_sim, power, power_sim)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer      }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer_sim  }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
@@ -3460,11 +3382,6 @@ by simulation and by calling \texttt{evaluate}.
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{power_sim }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) \}}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(toer_sim, power_sim)`
-\end{verbatim}
 
 \begin{verbatim}
 ## # A tibble: 2 x 5
@@ -3490,12 +3407,7 @@ Additionally, these three designs are depicted in a joint plot.
 ## 3 Penalization on AvN2 with lambda = 0.1  <TwStgDsg>       38.9
 \end{verbatim}
 
-\begin{verbatim}
-## Warning: `cols` is now required.
-## Please use `cols = c(x1, n, c2, CP)`
-\end{verbatim}
-
-\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-98-1.pdf}
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-99-1.pdf}
 
 \bibliography{book.bib,packages.bib}
 
