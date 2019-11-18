@@ -163,7 +163,7 @@ tibble(
         n  = adoptr::n(.$design[[1]], x1),
         c2 = c2(.$design[[1]], x1)
     ) %>% 
-    unnest() %>% 
+    unnest(., cols = c(x1, n, c2)) %>% 
     mutate(
         section = ifelse(
             is.finite(c2), 

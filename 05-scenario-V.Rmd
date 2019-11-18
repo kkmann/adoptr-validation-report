@@ -131,7 +131,7 @@ opt %>%
                           ~evaluate(Power(datadist, PointMassPrior(.3, 1)), .$design) ),
       power_sim = purrr::map(opt$design, 
                          ~sim_pr_reject(.[[1]], .3, datadist)$prob) ) %>% 
-  unnest() %>% 
+  unnest(., cols = c(toer, toer_sim, power, power_sim)) %>% 
   {print(.); .} %>% {
   testthat::expect_true(all(.$toer      <= alpha * (1 + tol)))
   testthat::expect_true(all(.$toer_sim  <= alpha * (1 + tol)))
@@ -225,7 +225,7 @@ opt_utility %>%
                           ~evaluate(Power(datadist, PointMassPrior(.3, 1)), .$design) ),
       power_sim = purrr::map(opt_utility$design, 
                          ~sim_pr_reject(.[[1]], .3, datadist)$prob) ) %>% 
-  unnest() %>% 
+  unnest(., c(toer, toer_sim, power, power_sim)) %>% 
   {print(.); .} %>% {
   testthat::expect_true(all(.$toer     <= alpha * (1 + tol)))
   testthat::expect_true(all(.$toer_sim <= alpha * (1 + tol)))
@@ -267,7 +267,7 @@ tibble(
         n  = adoptr::n(.$design[[1]], x1),
         c2 = c2(.$design[[1]], x1),
         CP = evaluate(ConditionalPower(datadist, prior), .$design[[1]], x1) ) %>% 
-    unnest() %>% 
+    unnest(., cols = c(x1, n, c2, CP)) %>% 
     mutate(
         section = ifelse(
             is.finite(c2), 
@@ -374,7 +374,7 @@ opt_n1 %>%
                           ~evaluate(Power(datadist, PointMassPrior(.3, 1)), .$design) ),
       power_sim = purrr::map(opt_n1$design, 
                          ~sim_pr_reject(.[[1]], .3, datadist)$prob) ) %>% 
-  unnest() %>% 
+  unnest(., cols = c(toer, toer_sim, power, power_sim)) %>% 
   {print(.); .} %>% {
   testthat::expect_true(all(.$toer      <= alpha * (1 + tol)))
   testthat::expect_true(all(.$toer_sim  <= alpha * (1 + tol)))
@@ -428,7 +428,7 @@ tibble(
         n  = adoptr::n(.$design[[1]], x1),
         c2 = c2(.$design[[1]], x1),
         CP = evaluate(ConditionalPower(datadist, prior), .$design[[1]], x1) ) %>% 
-    unnest() %>% 
+    unnest(., cols = c(x1, n, c2, CP)) %>% 
     mutate(
         section = ifelse(
             is.finite(c2), 
@@ -541,7 +541,7 @@ opt_n2 %>%
                           ~evaluate(Power(datadist, PointMassPrior(.3, 1)), .$design) ),
       power_sim = purrr::map(opt_n2$design, 
                          ~sim_pr_reject(.[[1]], .3, datadist)$prob) ) %>% 
-  unnest() %>% 
+  unnest(., c(toer, toer_sim, power, power_sim)) %>% 
   {print(.); .} %>% {
   testthat::expect_true(all(.$toer      <= alpha * (1 + tol)))
   testthat::expect_true(all(.$toer_sim  <= alpha * (1 + tol)))
@@ -595,7 +595,7 @@ tibble(
         n  = adoptr::n(.$design[[1]], x1),
         c2 = c2(.$design[[1]], x1),
         CP = evaluate(ConditionalPower(datadist, prior), .$design[[1]], x1) ) %>% 
-    unnest() %>% 
+    unnest(., cols = c(x1, n, c2, CP)) %>% 
     mutate(
         section = ifelse(
             is.finite(c2), 

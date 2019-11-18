@@ -114,7 +114,7 @@ tbl_designs %>%
                          ~sim_pr_reject(.[[1]], .0, datadist)$prob), 
       power = purrr::map(tbl_designs$optimal, 
                          ~sim_pr_reject(.[[1]], .2, datadist)$prob) ) %>% 
-  unnest() %>% 
+  unnest(., cols = c(toer, power)) %>% 
   {print(.); .} %>% {
   testthat::expect_true(all(.$toer  <= alpha * (1 + tol)))
   testthat::expect_true(all(.$power >= min_power * (1 - tol))) }
@@ -247,7 +247,7 @@ tbl_designs_9 %>%
                          ~sim_pr_reject(.[[1]], .0, datadist)$prob), 
       power = purrr::map(tbl_designs_9$optimal, 
                          ~sim_pr_reject(.[[1]], .2, datadist)$prob) ) %>% 
-  unnest() %>% 
+  unnest(., cols = c(toer, power)) %>% 
   {print(.); .} %>% {
   testthat::expect_true(all(.$toer  <= alpha * (1 + tol)))
   testthat::expect_true(all(.$power >= min_power_2 * (1 - tol))) }
@@ -380,7 +380,7 @@ tbl_designs_5 %>%
                          ~sim_pr_reject(.[[1]], .0, datadist)$prob), 
       power = purrr::map(tbl_designs_5$optimal, 
                          ~sim_pr_reject(.[[1]], .2, datadist)$prob) ) %>% 
-  unnest() %>% 
+  unnest(., cols = c(toer, power)) %>% 
   {print(.); .} %>% {
   testthat::expect_true(all(.$toer  <= alpha_2 * (1 + tol)))
   testthat::expect_true(all(.$power >= min_power_2 * (1 - tol))) }
@@ -469,7 +469,7 @@ tibble(
         x1 = x1,
         n  = adoptr::n(.$design[[1]], x1),
         c2 = c2(.$design[[1]], x1) ) %>% 
-    unnest() %>% 
+    unnest(., cols = c(x1, n, c2)) %>% 
     mutate(
         section = ifelse(
             is.finite(c2), 

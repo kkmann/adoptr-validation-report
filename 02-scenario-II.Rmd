@@ -127,7 +127,7 @@ tbl_designs %>%
       type, 
       toer = purrr::map(tbl_designs$optimal, 
                         ~sim_pr_reject(.[[1]], .0, datadist)$prob) ) %>% 
-  unnest() %>% 
+  unnest(., cols = c(toer)) %>% 
   {print(.); .} %>% {
   testthat::expect_true(all(.$toer <= alpha * (1 + tol))) }
 ```
@@ -402,7 +402,7 @@ tibble(
         n  = adoptr::n(.$design[[1]], x1),
         c2 = c2(.$design[[1]], x1),
         CP = evaluate(cp, .$design[[1]], x1) ) %>% 
-    unnest() %>% 
+    unnest(., cols = c(x1, n, c2, CP)) %>% 
     mutate(
         section = ifelse(
             is.finite(c2), 

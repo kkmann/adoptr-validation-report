@@ -119,7 +119,7 @@ tbl_designs %>%
                          ~sim_pr_reject(.[[1]], .0, datadist)$prob), 
       power = purrr::map(tbl_designs$optimal, 
                          ~sim_pr_reject(.[[1]], .4, datadist)$prob) ) %>% 
-  unnest() %>% 
+  unnest(., cols = c(toer, power)) %>% 
   {print(.); .} %>% {
   testthat::expect_true(all(.$toer  <= alpha * (1 + tol)))
   testthat::expect_true(all(.$power >= min_power * (1 - tol))) }
@@ -291,7 +291,7 @@ tbl_performance <- tibble(
         ess_sim   = map(
             delta, 
             ~sim_n(opt_h0$design, . ,datadist)$n ) ) %>% 
-    unnest
+    unnest(., cols = c(power, power_sim, ess, ess_sim))
 
 print(tbl_performance)
 
@@ -411,7 +411,7 @@ tbl_performance <- tibble(
         ess_sim   = map(
             delta, 
             ~sim_n(opt_cp$design, . ,datadist)$n ) ) %>% 
-    unnest
+    unnest(., cols = c(power, power_sim, ess, ess_sim))
 
 print(tbl_performance)
 
@@ -503,7 +503,7 @@ tibble(
         n  = adoptr::n(.$design[[1]], x1),
         c2 = c2(.$design[[1]], x1),
         CP = evaluate(cp, .$design[[1]], x1) ) %>% 
-    unnest() %>% 
+    unnest(., cols = c(x1, n, c2, CP)) %>% 
     mutate(
         section = ifelse(
             is.finite(c2), 
