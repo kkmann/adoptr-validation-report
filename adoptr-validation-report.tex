@@ -128,7 +128,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-11-18}
+    \date{2019-11-20}
 
 \usepackage{booktabs}
 
@@ -2926,6 +2926,7 @@ and 11.
 \NormalTok{            pow_cnstr}
 \NormalTok{        ),}
         \DataTypeTok{initial_design =} \KeywordTok{init_design}\NormalTok{(order),}
+        \DataTypeTok{upper_boundary_design =} \KeywordTok{TwoStageDesign}\NormalTok{(}\DecValTok{200}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{200}\NormalTok{, }\DecValTok{3}\NormalTok{, order),}
         \DataTypeTok{opts =}\NormalTok{ opts}
 \NormalTok{    )}
 \NormalTok{\}}
@@ -2958,9 +2959,9 @@ Check if the optimization algorithm converged in all cases.
 ## # A tibble: 3 x 2
 ##   order iterations
 ##   <dbl>      <int>
-## 1     5       2044
-## 2     8       4660
-## 3    11       8826
+## 1     5       2450
+## 2     8       5543
+## 3    11       9253
 \end{verbatim}
 
 Test the constraints on type one error rate and power by simulation and

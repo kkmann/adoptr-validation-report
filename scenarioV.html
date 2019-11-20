@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-11-18" />
+<meta name="date" content="2019-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -362,14 +362,15 @@ and 11.</p>
 <a class="sourceLine" id="cb126-6" data-line-number="6">            pow_cnstr</a>
 <a class="sourceLine" id="cb126-7" data-line-number="7">        ),</a>
 <a class="sourceLine" id="cb126-8" data-line-number="8">        <span class="dt">initial_design =</span> <span class="kw">init_design</span>(order),</a>
-<a class="sourceLine" id="cb126-9" data-line-number="9">        <span class="dt">opts =</span> opts</a>
-<a class="sourceLine" id="cb126-10" data-line-number="10">    )</a>
-<a class="sourceLine" id="cb126-11" data-line-number="11">}</a>
-<a class="sourceLine" id="cb126-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb126-13" data-line-number="13">opt &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb126-14" data-line-number="14">  <span class="dt">order  =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>),</a>
-<a class="sourceLine" id="cb126-15" data-line-number="15">  <span class="dt">design =</span> <span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>), <span class="cf">function</span>(x) <span class="kw">opt_design</span>(x))</a>
-<a class="sourceLine" id="cb126-16" data-line-number="16">)</a></code></pre></div>
+<a class="sourceLine" id="cb126-9" data-line-number="9">        <span class="dt">upper_boundary_design =</span> <span class="kw">TwoStageDesign</span>(<span class="dv">200</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">200</span>, <span class="dv">3</span>, order),</a>
+<a class="sourceLine" id="cb126-10" data-line-number="10">        <span class="dt">opts =</span> opts</a>
+<a class="sourceLine" id="cb126-11" data-line-number="11">    )</a>
+<a class="sourceLine" id="cb126-12" data-line-number="12">}</a>
+<a class="sourceLine" id="cb126-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb126-14" data-line-number="14">opt &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb126-15" data-line-number="15">  <span class="dt">order  =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>),</a>
+<a class="sourceLine" id="cb126-16" data-line-number="16">  <span class="dt">design =</span> <span class="kw">lapply</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">11</span>), <span class="cf">function</span>(x) <span class="kw">opt_design</span>(x))</a>
+<a class="sourceLine" id="cb126-17" data-line-number="17">)</a></code></pre></div>
 </div>
 <div id="test-cases-10" class="section level3">
 <h3><span class="header-section-number">6.2.5</span> Test cases</h3>
@@ -384,9 +385,9 @@ and 11.</p>
 <pre><code>## # A tibble: 3 x 2
 ##   order iterations
 ##   &lt;dbl&gt;      &lt;int&gt;
-## 1     5       2044
-## 2     8       4660
-## 3    11       8826</code></pre>
+## 1     5       2450
+## 2     8       5543
+## 3    11       9253</code></pre>
 <p>Test the constraints on type one error rate and power by simulation and
 compare the results to the outcome of <code>evaluate()</code>.</p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1">opt <span class="op">%&gt;%</span><span class="st"> </span></a>
