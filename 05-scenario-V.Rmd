@@ -93,6 +93,7 @@ opt_design <- function(order) {
             pow_cnstr
         ),
         initial_design = init_design(order),
+        upper_boundary_design = TwoStageDesign(200, 2, 4, 200, 3, order),
         opts = opts
     )
 }
