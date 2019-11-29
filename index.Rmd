@@ -38,6 +38,10 @@ output:
       keep_tex: yes
 ---
 
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
 # Introduction
 
 This work is licensed under the [CC-BY-SA 4.0 license](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
