@@ -13,7 +13,8 @@ install-deps:
 	R -e 'install.packages("bookdown")'
 	R -e 'install.packages("tidyverse")'
 	R -e 'install.packages("devtools")'
-	R -e 'devtools::install_github("kkmann/adoptr")'
+	R -e 'install.packages("adoptr")'
+	R -e 'install.packages("tinytex")'
 
 
 

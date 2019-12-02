@@ -150,6 +150,7 @@ testthat::expect_gte(
 ### Plot designs
 
 Finally, we plot the designs and assess for convergence.
+
 ```{r, echo=FALSE}
 x1 <- seq(0, 3, by = .01)
 
