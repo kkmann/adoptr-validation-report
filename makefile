@@ -14,6 +14,7 @@ install-deps:
 	R -e 'install.packages("tidyverse")'
 	R -e 'install.packages("devtools")'
 	R -e 'install.packages("adoptr")'
+	R -e 'install.packages("tinytex")'
 
 
 

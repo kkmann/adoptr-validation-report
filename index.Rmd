@@ -38,9 +38,6 @@ output:
       keep_tex: yes
 ---
 
-```{r, include=FALSE}
-options(tinytex.verbose = TRUE)
-```
 
 # Introduction
 
@@ -500,6 +497,9 @@ library(tidyverse)
 library(rpact)
 library(pwr)
 library(testthat)
+library(tinytex)
+
+tinytex::install_tinytex()
 
 # load custom functions in folder subfolder '/R'
 for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
