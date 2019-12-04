@@ -28,8 +28,6 @@ The following quality metrics are inspired by https://www.pharmar.org/packages/:
 | **License**                         | MIT, https://github.com/kkmann/adoptr/blob/master/LICENSE.md |
 | **CRAN?**                           | [![CRAN status](https://www.r-pkg.org/badges/version/adoptr)](https://cran.r-project.org/package=adoptr) |
 | **Long-term storage?**              | yes, [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2616951.svg)](https://doi.org/10.5281/zenodo.2616951) |
-| **Bioconductor?**                   | No |
-| **# reverse dependencies**          | 0 |
 | **# Downloads**                     | R Studio CRAN mirror: [![R Studio CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/last-month/adoptr?color=green)](https://cran.r-project.org/package=adoptr) [![](http://cranlogs.r-pkg.org/badges/grand-total/adoptr?color=green)](https://cran.r-project.org/package=adoptr) |
 | **Maturity**                        | Initial CRAN release date: 2019-04-01 |
 
@@ -46,12 +44,11 @@ and switch to the newly created folder
 ```bash
 cd adoptr-validation-report
 ```
-To build the book, you will need to install the dependencies listed in the DESCRIPTION file,
-i.e.
+Install the dependencies listed in the DESCRIPTION file, i.e.
 ```R
-install.packages(c("adoptr", "tidyverse", "bookdown", "rpact", "testthat", "pwr"))
+install.packages(c("adoptr", "tidyverse", "bookdown", "rpact", "testthat", "pwr", "tinytex"))
 ```
-before finally beuilding the book by invoking
+before finally building the book via
 ```bash
 Rscript -e 'bookdown::render_book("index.Rmd", output_format = "all")'
 ```
