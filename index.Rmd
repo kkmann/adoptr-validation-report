@@ -499,7 +499,7 @@ library(pwr)
 library(testthat)
 library(tinytex)
 
-tinytex::install_tinytex()
+#tinytex::install_tinytex()
 
 # load custom functions in folder subfolder '/R'
 for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
