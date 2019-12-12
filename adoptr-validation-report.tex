@@ -133,7 +133,7 @@
 
 \title{Validation Report for \textbf{adoptr} package}
 \author{Kevin Kunzmann \& Maximilian Pilz}
-\date{2019-12-04}
+\date{2019-12-12}
 
 \begin{document}
 \maketitle
@@ -944,27 +944,8 @@ absolute deviation of \(0.5\).
 \KeywordTok{library}\NormalTok{(testthat)}
 \KeywordTok{library}\NormalTok{(tinytex)}
 
-\NormalTok{tinytex}\OperatorTok{::}\KeywordTok{install_tinytex}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
+\CommentTok{#tinytex::install_tinytex()}
 
-\begin{verbatim}
-## Warning: Detected an existing tlmgr at /home/travis/bin/tlmgr. It seems TeX
-## Live has been installed (check tinytex::tinytex_root()). You are recommended
-## to uninstall it, although TinyTeX should work well alongside another LaTeX
-## distribution if a LaTeX document is compiled through tinytex::latexmk().
-\end{verbatim}
-
-\begin{verbatim}
-## TinyTeX installed to /home/travis/.TinyTeX
-\end{verbatim}
-
-\begin{verbatim}
-## You may have to restart your system after installing TinyTeX to make sure ~/bin appears in your PATH variable (https://github.com/yihui/tinytex/issues/16).
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{# load custom functions in folder subfolder '/R'}
 \ControlFlowTok{for}\NormalTok{ (nm }\ControlFlowTok{in} \KeywordTok{list.files}\NormalTok{(}\StringTok{"R"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{.[RrSsQq]$"}\NormalTok{))}
    \KeywordTok{source}\NormalTok{(}\KeywordTok{file.path}\NormalTok{(}\StringTok{"R"}\NormalTok{, nm))}

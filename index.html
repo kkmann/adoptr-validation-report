@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-12-04" />
+<meta name="date" content="2019-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -287,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Validation Report for <strong>adoptr</strong> package</h1>
 <p class="author"><em>Kevin Kunzmann &amp; Maximilian Pilz</em></p>
-<p class="date"><em>2019-12-04</em></p>
+<p class="date"><em>2019-12-12</em></p>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
@@ -796,33 +796,27 @@ absolute deviation of <span class="math inline">\(0.5\)</span>.</p>
 ##     expectation</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">library</span>(tinytex)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">tinytex<span class="op">::</span><span class="kw">install_tinytex</span>()</a></code></pre></div>
-<pre><code>## Warning: Detected an existing tlmgr at /home/travis/texlive/bin/x86_64-linux/
-## tlmgr. It seems TeX Live has been installed (check tinytex::tinytex_root()).
-## You are recommended to uninstall it, although TinyTeX should work well
-## alongside another LaTeX distribution if a LaTeX document is compiled through
-## tinytex::latexmk().</code></pre>
-<pre><code>## TinyTeX installed to /home/travis/.TinyTeX</code></pre>
-<pre><code>## You may have to restart your system after installing TinyTeX to make sure ~/bin appears in your PATH variable (https://github.com/yihui/tinytex/issues/16).</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3">   <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))</a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co"># define seed value</span></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6">seed  &lt;-<span class="st"> </span><span class="dv">42</span></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="co"># define absolute tolerance for error rates</span></a>
-<a class="sourceLine" id="cb20-9" data-line-number="9">tol   &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
-<a class="sourceLine" id="cb20-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="co"># define absolute tolerance for sample sizes</span></a>
-<a class="sourceLine" id="cb20-12" data-line-number="12">tol_n &lt;-<span class="st"> </span><span class="fl">0.5</span></a>
-<a class="sourceLine" id="cb20-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb20-14" data-line-number="14"><span class="co"># define custom tolerance and iteration limit for nloptr</span></a>
-<a class="sourceLine" id="cb20-15" data-line-number="15">opts =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb20-16" data-line-number="16">    <span class="dt">algorithm =</span> <span class="st">&quot;NLOPT_LN_COBYLA&quot;</span>,</a>
-<a class="sourceLine" id="cb20-17" data-line-number="17">    <span class="dt">xtol_rel  =</span> <span class="fl">1e-5</span>,</a>
-<a class="sourceLine" id="cb20-18" data-line-number="18">    <span class="dt">maxeval   =</span> <span class="dv">100000</span></a>
-<a class="sourceLine" id="cb20-19" data-line-number="19">)</a></code></pre></div>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#tinytex::install_tinytex()</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))</a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">   <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co"># define seed value</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10">seed  &lt;-<span class="st"> </span><span class="dv">42</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co"># define absolute tolerance for error rates</span></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13">tol   &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co"># define absolute tolerance for sample sizes</span></a>
+<a class="sourceLine" id="cb16-16" data-line-number="16">tol_n &lt;-<span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb16-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="co"># define custom tolerance and iteration limit for nloptr</span></a>
+<a class="sourceLine" id="cb16-19" data-line-number="19">opts =<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb16-20" data-line-number="20">    <span class="dt">algorithm =</span> <span class="st">&quot;NLOPT_LN_COBYLA&quot;</span>,</a>
+<a class="sourceLine" id="cb16-21" data-line-number="21">    <span class="dt">xtol_rel  =</span> <span class="fl">1e-5</span>,</a>
+<a class="sourceLine" id="cb16-22" data-line-number="22">    <span class="dt">maxeval   =</span> <span class="dv">100000</span></a>
+<a class="sourceLine" id="cb16-23" data-line-number="23">)</a></code></pre></div>
 
 </div>
 </div>
