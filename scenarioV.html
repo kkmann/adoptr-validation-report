@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2019-12-12" />
+<meta name="date" content="2020-01-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -394,25 +394,28 @@ compare the results to the outcome of <code>evaluate()</code>.</p>
 <a class="sourceLine" id="cb129-2" data-line-number="2"><span class="st">  </span><span class="kw">transmute</span>(</a>
 <a class="sourceLine" id="cb129-3" data-line-number="3">      order, </a>
 <a class="sourceLine" id="cb129-4" data-line-number="4">      <span class="dt">toer      =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb129-5" data-line-number="5">                           <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb129-6" data-line-number="6">      <span class="dt">toer_sim  =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb129-7" data-line-number="7">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
-<a class="sourceLine" id="cb129-8" data-line-number="8">      <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
-<a class="sourceLine" id="cb129-9" data-line-number="9">                          <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
-<a class="sourceLine" id="cb129-10" data-line-number="10">      <span class="dt">power_sim =</span> purrr<span class="op">::</span><span class="kw">map</span>(opt<span class="op">$</span>design, </a>
-<a class="sourceLine" id="cb129-11" data-line-number="11">                         <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob) ) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb129-12" data-line-number="12"><span class="st">  </span><span class="kw">unnest</span>(., <span class="dt">cols =</span> <span class="kw">c</span>(toer, toer_sim, power, power_sim)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb129-13" data-line-number="13"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
-<a class="sourceLine" id="cb129-14" data-line-number="14">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb129-15" data-line-number="15">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb129-16" data-line-number="16">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb129-17" data-line-number="17">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</a></code></pre></div>
-<pre><code>## # A tibble: 3 x 5
-##   order   toer toer_sim power power_sim
-##   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-## 1     5 0.0250   0.0250 0.799     0.800
-## 2     8 0.0250   0.0250 0.800     0.800
-## 3    11 0.0250   0.0250 0.800     0.800</code></pre>
+<a class="sourceLine" id="cb129-5" data-line-number="5">                            <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb129-6" data-line-number="6">        <span class="dt">toer_sim  =</span> <span class="kw">map_dbl</span>(opt<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb129-7" data-line-number="7">                               <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.0</span>, datadist)<span class="op">$</span>prob), </a>
+<a class="sourceLine" id="cb129-8" data-line-number="8">        <span class="dt">power     =</span> <span class="kw">map_dbl</span>(design,</a>
+<a class="sourceLine" id="cb129-9" data-line-number="9">                            <span class="op">~</span><span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, <span class="kw">PointMassPrior</span>(.<span class="dv">3</span>, <span class="dv">1</span>)), .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb129-10" data-line-number="10">        <span class="dt">power_sim =</span> <span class="kw">map_dbl</span>(opt<span class="op">$</span>design, </a>
+<a class="sourceLine" id="cb129-11" data-line-number="11">                               <span class="op">~</span><span class="kw">sim_pr_reject</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>prob),</a>
+<a class="sourceLine" id="cb129-12" data-line-number="12">        <span class="dt">ess       =</span> <span class="kw">map_dbl</span>(design, <span class="op">~</span><span class="kw">evaluate</span>(ess, .<span class="op">$</span>design) ),</a>
+<a class="sourceLine" id="cb129-13" data-line-number="13">        <span class="dt">ess_sim   =</span> <span class="kw">map_dbl</span>(opt<span class="op">$</span>design, <span class="op">~</span><span class="kw">sim_n</span>(.[[<span class="dv">1</span>]], <span class="fl">.3</span>, datadist)<span class="op">$</span>n)</a>
+<a class="sourceLine" id="cb129-14" data-line-number="14">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb129-15" data-line-number="15"><span class="st">  </span><span class="kw">unnest</span>(., <span class="dt">cols =</span> <span class="kw">c</span>(toer, toer_sim, power, power_sim)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb129-16" data-line-number="16"><span class="st">  </span>{<span class="kw">print</span>(.); .} <span class="op">%&gt;%</span><span class="st"> </span>{</a>
+<a class="sourceLine" id="cb129-17" data-line-number="17">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer      <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb129-18" data-line-number="18">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>toer_sim  <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb129-19" data-line-number="19">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power     <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol)))</a>
+<a class="sourceLine" id="cb129-20" data-line-number="20">  testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(.<span class="op">$</span>power_sim <span class="op">&gt;=</span><span class="st"> </span>min_power <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>tol))) }</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 7
+##   order   toer toer_sim power power_sim   ess ess_sim
+##   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1     5 0.0250   0.0250 0.799     0.800  71.0    71.0
+## 2     8 0.0250   0.0250 0.800     0.800  71.0    71.0
+## 3    11 0.0250   0.0250 0.800     0.800  71.0    71.0</code></pre>
 </div>
 </div>
 <div id="variantV_2" class="section level2">

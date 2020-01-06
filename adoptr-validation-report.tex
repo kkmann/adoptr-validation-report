@@ -105,35 +105,13 @@
 \def\fps@figure{htbp}
 \makeatother
 
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
 \usepackage{booktabs}
-% https://github.com/rstudio/rmarkdown/issues/337
-\let\rmarkdownfootnote\footnote%
-\def\footnote{\protect\rmarkdownfootnote}
-
-% https://github.com/rstudio/rmarkdown/pull/252
-\usepackage{titling}
-\setlength{\droptitle}{-2em}
-
-\pretitle{\vspace{\droptitle}\centering\huge}
-\posttitle{\par}
-
-\preauthor{\centering\large\emph}
-\postauthor{\par}
-
-\predate{\centering\large\emph}
-\postdate{\par}
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
 
 \title{Validation Report for \textbf{adoptr} package}
 \author{Kevin Kunzmann \& Maximilian Pilz}
-\date{2019-12-12}
+\date{2020-01-06}
 
 \begin{document}
 \maketitle
@@ -2978,13 +2956,16 @@ compare the results to the outcome of \texttt{evaluate()}.
 \StringTok{  }\KeywordTok{transmute}\NormalTok{(}
 \NormalTok{      order, }
       \DataTypeTok{toer      =} \KeywordTok{map_dbl}\NormalTok{(design,}
-                           \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)), .}\OperatorTok{$}\NormalTok{design) ),}
-      \DataTypeTok{toer_sim  =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(opt}\OperatorTok{$}\NormalTok{design, }
-                         \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob), }
-      \DataTypeTok{power     =} \KeywordTok{map_dbl}\NormalTok{(design,}
-                          \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{)), .}\OperatorTok{$}\NormalTok{design) ),}
-      \DataTypeTok{power_sim =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(opt}\OperatorTok{$}\NormalTok{design, }
-                         \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.3}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
+                            \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)), .}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{toer_sim  =} \KeywordTok{map_dbl}\NormalTok{(opt}\OperatorTok{$}\NormalTok{design, }
+                               \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob), }
+        \DataTypeTok{power     =} \KeywordTok{map_dbl}\NormalTok{(design,}
+                            \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(}\KeywordTok{Power}\NormalTok{(datadist, }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{)), .}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{power_sim =} \KeywordTok{map_dbl}\NormalTok{(opt}\OperatorTok{$}\NormalTok{design, }
+                               \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.3}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob),}
+        \DataTypeTok{ess       =} \KeywordTok{map_dbl}\NormalTok{(design, }\OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(ess, .}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{ess_sim   =} \KeywordTok{map_dbl}\NormalTok{(opt}\OperatorTok{$}\NormalTok{design, }\OperatorTok{~}\KeywordTok{sim_n}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.3}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n)}
+\NormalTok{  ) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(toer, toer_sim, power, power_sim)) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
 \NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer      }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
@@ -2995,12 +2976,12 @@ compare the results to the outcome of \texttt{evaluate()}.
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 3 x 5
-##   order   toer toer_sim power power_sim
-##   <dbl>  <dbl>    <dbl> <dbl>     <dbl>
-## 1     5 0.0250   0.0250 0.799     0.800
-## 2     8 0.0250   0.0250 0.800     0.800
-## 3    11 0.0250   0.0250 0.800     0.800
+## # A tibble: 3 x 7
+##   order   toer toer_sim power power_sim   ess ess_sim
+##   <dbl>  <dbl>    <dbl> <dbl>     <dbl> <dbl>   <dbl>
+## 1     5 0.0250   0.0250 0.799     0.800  71.0    71.0
+## 2     8 0.0250   0.0250 0.800     0.800  71.0    71.0
+## 3    11 0.0250   0.0250 0.800     0.800  71.0    71.0
 \end{verbatim}
 
 \hypertarget{variantV_2}{%
