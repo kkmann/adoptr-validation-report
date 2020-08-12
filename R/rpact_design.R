@@ -12,7 +12,7 @@
 #'
 #' @export
 rpact_design <- function(
-    effect, sig.level = 0.025, power = 0.8, two_armed = TRUE, order = 5L) {
+    dist, effect, sig.level = 0.025, power = 0.8, two_armed = TRUE, order = 5L) {
 
     design_rp <- rpact::getDesignInverseNormal(
         kMax = 2,
@@ -22,11 +22,20 @@ rpact_design <- function(
         typeOfDesign = "P"
     )
 
-    res <- rpact::getSampleSizeMeans(
-        design_rp, normalApproximation = TRUE, alternative = effect * ifelse(
-            two_armed, 1, sqrt(2)
-        )
-    )
+    if (is(dist, "Normal")) {
+        res <- rpact::getSampleSizeMeans(
+            design_rp, normalApproximation = TRUE, alternative = effect * ifelse(
+                two_armed, 1, sqrt(2)
+                )
+            ) 
+    } else if (is(dist, "Binomial")) {
+        res <- rpact::getSampleSizeRates(
+            design_rp, alpha = alpha, beta = beta, groups = 2, normalApproximation = TRUE,
+            pi1 = dist@rate_control, pi2 = dist@rate_control + effect
+            )
+    } else {
+        break("Specified data distribution does not exist in adoptr!")
+    }
 
     char <- rpact::getDesignCharacteristics(design_rp)
 

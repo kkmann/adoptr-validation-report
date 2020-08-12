@@ -63,8 +63,8 @@ tbl_designs <- tibble(
     type    = c("one-stage", "group-sequential", "two-stage"),
     initial = list(
         OneStageDesign(500, 2.0),
-        rpact_design(0.2, 0.025, 0.8, TRUE, order),
-        TwoStageDesign(rpact_design(0.2, 0.025, 0.8, TRUE, order))) )
+        rpact_design(datadist, 0.2, 0.025, 0.8, TRUE, order),
+        TwoStageDesign(rpact_design(datadist, 0.2, 0.025, 0.8, TRUE, order))) )
 ```
 
 
@@ -196,8 +196,8 @@ tbl_designs_9 <- tibble(
     type    = c("one-stage", "group-sequential", "two-stage"),
     initial = list(
         OneStageDesign(500, 2.0),
-        rpact_design(0.2, 0.025, 0.9, TRUE, order),
-        TwoStageDesign(rpact_design(0.2, 0.025, 0.9, TRUE, order))) )
+        rpact_design(datadist, 0.2, 0.025, 0.9, TRUE, order),
+        TwoStageDesign(rpact_design(datadist, 0.2, 0.025, 0.9, TRUE, order))) )
 ```
 
 
@@ -329,8 +329,8 @@ tbl_designs_5 <- tibble(
     type    = c("one-stage", "group-sequential", "two-stage"),
     initial = list(
         OneStageDesign(500, 2.0),
-        rpact_design(0.2, 0.05, 0.9, TRUE, order),
-        TwoStageDesign(rpact_design(0.2, 0.05, 0.9, TRUE, order))) )
+        rpact_design(datadist, 0.2, 0.05, 0.9, TRUE, order),
+        TwoStageDesign(rpact_design(datadist, 0.2, 0.05, 0.9, TRUE, order))) )
 ```
 
 

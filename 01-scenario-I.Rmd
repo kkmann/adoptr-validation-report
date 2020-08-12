@@ -68,8 +68,8 @@ tbl_designs <- tibble(
     type    = c("one-stage", "group-sequential", "two-stage"),
     initial = list(
         OneStageDesign(200, 2.0),
-        rpact_design(0.4, 0.025, 0.8, TRUE, order),
-        TwoStageDesign(rpact_design(0.4, 0.025, 0.8, TRUE, order))) )
+        rpact_design(datadist, 0.4, 0.025, 0.8, TRUE, order),
+        TwoStageDesign(rpact_design(datadist, 0.4, 0.025, 0.8, TRUE, order))) )
 ```
 
 The order of integration is set to `r order`.
