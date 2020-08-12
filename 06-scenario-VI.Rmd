@@ -34,7 +34,7 @@ efficient designs and is plausible with published results.
 
 ### Objective
 
-Expected sample size under the alternative point mass prior $\delta = 0.3$
+Expected sample size under the alternative point mass prior $\delta = 0.2$
 is minimized.
 ```{r}
 ess <- ExpectedSampleSize(datadist, prior)
