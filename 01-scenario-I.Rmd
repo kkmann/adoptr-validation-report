@@ -171,7 +171,7 @@ tbl_designs %>%
 ```
 
 The expected sample size under the alternative must be lower or equal than
-the expected sample size of the inital `rpact` group-sequential design that
+the expected sample size of the initial `rpact` group-sequential design that
 is based on the inverse normal combination test.
 ```{r}
 testthat::expect_lte(
@@ -316,7 +316,7 @@ testthat::expect_equal(
 ```
 
 The expected sample size under the null must be lower or equal than
-the expected sample size of the inital `rpact` group-sequential design.
+the expected sample size of the initial `rpact` group-sequential design.
 ```{r}
 testthat::expect_gte(
     evaluate(ess0, 
