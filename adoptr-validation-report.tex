@@ -111,7 +111,7 @@
 
 \title{Validation Report for \textbf{adoptr} package}
 \author{Kevin Kunzmann \& Maximilian Pilz}
-\date{2020-01-06}
+\date{2020-08-12}
 
 \begin{document}
 \maketitle
@@ -273,7 +273,7 @@ This is the default scenario.
 \item
   \textbf{Data distribution:} Two-armed trial with normally distributed test statistic
 \item
-  \textbf{Prior:} \(\delta\sim\textbf{1}_{delta=0.4}\)
+  \textbf{Prior:} \(\delta\sim\textbf{1}_{\delta=0.4}\)
 \item
   \textbf{Null hypothesis:} \(\mathcal{H}_0:\delta \leq 0\)
 \end{itemize}
@@ -893,6 +893,69 @@ Inspect the plot to see convergence pattern.
   \end{enumerate}
 \end{itemize}
 
+\hypertarget{scenario-vi-binomial-distribution}{%
+\subsection{\texorpdfstring{\protect\hyperlink{scenarioVI}{Scenario VI: Binomial distribution}}{Scenario VI: Binomial distribution}}\label{scenario-vi-binomial-distribution}}
+
+This scenario investigates the implementation of the binomial distribution.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data distribution:} Two-armed trial with binomial distributed outcomes.
+  Thus \(\delta := p_E - p_C\) refers to the rate difference here.
+  The control rate is assumed to equal \(p_C = 0.3\).
+\item
+  \textbf{Prior:} \(\delta\sim\textbf{1}_{\delta=0.2}\)
+\item
+  \textbf{Null hypothesis:} \(\mathcal{H}_0:\delta \leq 0\)
+\end{itemize}
+
+\hypertarget{variant-vi.1-minimizing-expected-sample-size-under-the-alternative}{%
+\subsubsection{\texorpdfstring{\protect\hyperlink{variantVI_1}{Variant VI.1: Minimizing Expected Sample Size under the Alternative}}{Variant VI.1: Minimizing Expected Sample Size under the Alternative}}\label{variant-vi.1-minimizing-expected-sample-size-under-the-alternative}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Objective:} \(ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]\)
+\item
+  \textbf{Constraints:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.2\big] \geq 0.9\)
+  \item
+    \(TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025\)
+  \item
+    Three variants: two-stage, group-sequential, one-stage.
+  \end{enumerate}
+\item
+  \textbf{Formal tests:}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Number of iterations are checked against default maximum to ensure proper
+    convergence.
+  \item
+    All three \textbf{adoptr} variants (two-stage, group-sequential, one-stage)
+    comply with constraints. Internally validated by testing vs.~simulated
+    values of the power curve at respective points.
+  \item
+    \(ESS\) of optimal two-stage design is lower than \(ESS\) of optimal
+    group-sequential one and that is in turn lower than the one of the
+    optimal one-stage design.
+  \item
+    \(ESS\) of optimal group-sequential design is lower than \(ESS\) of
+    externally computed group-sequential design using the \href{https://rpact.org/}{rpact} package.
+  \item
+    Are the \(ESS\) values obtained from simulation the same as the ones
+    obtained by using numerical integration via \texttt{adoptr::evaluate}?
+  \end{enumerate}
+\end{itemize}
+
 \hypertarget{technical-setup}{%
 \section{Technical Setup}\label{technical-setup}}
 
@@ -1021,8 +1084,8 @@ computed by the \texttt{rpact} package.
     \DataTypeTok{type    =} \KeywordTok{c}\NormalTok{(}\StringTok{"one-stage"}\NormalTok{, }\StringTok{"group-sequential"}\NormalTok{, }\StringTok{"two-stage"}\NormalTok{),}
     \DataTypeTok{initial =} \KeywordTok{list}\NormalTok{(}
         \KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{200}\NormalTok{, }\FloatTok{2.0}\NormalTok{),}
-        \KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.4}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
-        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.4}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
+        \KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.4}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
+        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.4}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1154,15 +1217,15 @@ are computed both via \texttt{evaluate()} and simulation-based.
 
 \begin{verbatim}
 ## # A tibble: 3 x 7
-##   type             initial    optimal      ess ess_sim  ess0 ess0_sim
-##   <chr>            <list>     <list>     <dbl>   <dbl> <dbl>    <dbl>
-## 1 one-stage        <OnStgDsg> <adptrOpR>  98      98    98       98  
-## 2 group-sequential <GrpSqntD> <adptrOpR>  80.9    80.9  68.5     68.5
-## 3 two-stage        <TwStgDsg> <adptrOpR>  79.7    79.7  68.9     68.9
+##   type             initial    optimal          ess ess_sim  ess0 ess0_sim
+##   <chr>            <list>     <list>         <dbl>   <dbl> <dbl>    <dbl>
+## 1 one-stage        <OnStgDsg> <adptrOpR [3]>  98      98    98       98  
+## 2 group-sequential <GrpSqntD> <adptrOpR [3]>  80.9    80.9  68.5     68.5
+## 3 two-stage        <TwStgDsg> <adptrOpR [3]>  79.7    79.7  68.9     68.9
 \end{verbatim}
 
 The expected sample size under the alternative must be lower or equal than
-the expected sample size of the inital \texttt{rpact} group-sequential design that
+the expected sample size of the initial \texttt{rpact} group-sequential design that
 is based on the inverse normal combination test.
 
 \begin{Shaded}
@@ -1339,7 +1402,7 @@ Next, the type one error rate and power constraints are tested.
 \end{Shaded}
 
 The expected sample size under the null must be lower or equal than
-the expected sample size of the inital \texttt{rpact} group-sequential design.
+the expected sample size of the initial \texttt{rpact} group-sequential design.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1549,8 +1612,8 @@ optimizing under the null or the alternative are clearly visible.
 \hypertarget{scenarioII}{%
 \chapter{Scenario II: large effect, Gaussian prior}\label{scenarioII}}
 
-\hypertarget{details-1}{%
-\section{Details}\label{details-1}}
+\hypertarget{details}{%
+\section{Details}\label{details}}
 
 In this scenario, we revisit the case from \protect\hyperlink{scenarioI}{Scenario I}, but
 are not assuming a point prior any more.
@@ -1591,8 +1654,8 @@ In the following, the expected power should be at least \(0.8\).
 \hypertarget{variantII_1}{%
 \section{Variant II-1: Minimizing Expected Sample Size under Point Prior}\label{variantII_1}}
 
-\hypertarget{objective-3}{%
-\subsection{Objective}\label{objective-3}}
+\hypertarget{objective}{%
+\subsection{Objective}\label{objective}}
 
 Expected sample size under the full prior is minimized, i.e.,
 \(\boldsymbol{E}\big[n(\mathcal{D})\big]\).
@@ -1603,13 +1666,13 @@ Expected sample size under the full prior is minimized, i.e.,
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{constraints-3}{%
-\subsection{Constraints}\label{constraints-3}}
+\hypertarget{constraints}{%
+\subsection{Constraints}\label{constraints}}
 
 No additional constraints are considered in this variant.
 
-\hypertarget{initial-design-2}{%
-\subsection{Initial Design}\label{initial-design-2}}
+\hypertarget{initial-design}{%
+\subsection{Initial Design}\label{initial-design}}
 
 For this example, the optimal one-stage, group-sequential, and generic
 two-stage designs are computed.
@@ -1627,15 +1690,15 @@ that fulfills the power constraint at an effect size of \(\delta = 0.3\).
     \DataTypeTok{type    =} \KeywordTok{c}\NormalTok{(}\StringTok{"one-stage"}\NormalTok{, }\StringTok{"group-sequential"}\NormalTok{, }\StringTok{"two-stage"}\NormalTok{),}
     \DataTypeTok{initial =} \KeywordTok{list}\NormalTok{(}
         \KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{250}\NormalTok{, }\FloatTok{2.0}\NormalTok{),}
-        \KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.3}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
-        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.3}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
+        \KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.3}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
+        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.3}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
 \end{Highlighting}
 \end{Shaded}
 
 The order of integration is set to 5.
 
-\hypertarget{optimization-3}{%
-\subsection{Optimization}\label{optimization-3}}
+\hypertarget{optimization}{%
+\subsection{Optimization}\label{optimization}}
 
 For all these three initial designs, the resulting optimal designs are
 computed.
@@ -1657,8 +1720,8 @@ computed.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-3}{%
-\subsection{Test Cases}\label{test-cases-3}}
+\hypertarget{test-cases}{%
+\subsection{Test Cases}\label{test-cases}}
 
 Firstly, it is checked that the maximum number of iterations was not reached
 in all these cases.
@@ -1740,18 +1803,18 @@ are computed both via \texttt{evaluate()} and simulation-based.
 
 \begin{verbatim}
 ## # A tibble: 3 x 6
-##   type             initial    optimal      ess essh0 essh0_sim
-##   <chr>            <list>     <list>     <dbl> <dbl>     <dbl>
-## 1 one-stage        <OnStgDsg> <adptrOpR>  165   165       165 
-## 2 group-sequential <GrpSqntD> <adptrOpR>  117.  115.      115.
-## 3 two-stage        <TwStgDsg> <adptrOpR>  115.  119.      119.
+##   type             initial    optimal          ess essh0 essh0_sim
+##   <chr>            <list>     <list>         <dbl> <dbl>     <dbl>
+## 1 one-stage        <OnStgDsg> <adptrOpR [3]>  165   165       165 
+## 2 group-sequential <GrpSqntD> <adptrOpR [3]>  117.  115.      115.
+## 3 two-stage        <TwStgDsg> <adptrOpR [3]>  115.  119.      119.
 \end{verbatim}
 
 \hypertarget{variantII_2}{%
 \section{Variant II-2: Minimizing Expected Sample Size under Null Hypothesis}\label{variantII_2}}
 
-\hypertarget{objective-4}{%
-\subsection{Objective}\label{objective-4}}
+\hypertarget{objective-1}{%
+\subsection{Objective}\label{objective-1}}
 
 Expected sample size conditioned on negative effect sizes is minimized, i.e.,
 
@@ -1761,14 +1824,14 @@ Expected sample size conditioned on negative effect sizes is minimized, i.e.,
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{constraints-4}{%
-\subsection{Constraints}\label{constraints-4}}
+\hypertarget{constraints-1}{%
+\subsection{Constraints}\label{constraints-1}}
 
 No additional constraints besides type one error rate and expected power
 are considered in this variant.
 
-\hypertarget{initial-design-3}{%
-\subsection{Initial Design}\label{initial-design-3}}
+\hypertarget{initial-design-1}{%
+\subsection{Initial Design}\label{initial-design-1}}
 
 As in \protect\hyperlink{variantI_2}{Variant I.2} another initial design is more appropriate
 for optimization under the null hypothesis.
@@ -1799,8 +1862,8 @@ of \(3\) for early efficacy stopping.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{optimization-4}{%
-\subsection{Optimization}\label{optimization-4}}
+\hypertarget{optimization-1}{%
+\subsection{Optimization}\label{optimization-1}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1821,8 +1884,8 @@ of \(3\) for early efficacy stopping.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-4}{%
-\subsection{Test Cases}\label{test-cases-4}}
+\hypertarget{test-cases-1}{%
+\subsection{Test Cases}\label{test-cases-1}}
 
 First of all, check if the optimization algorithm converged.
 To avoid improper solutions, it is first verified that the maximum
@@ -1890,14 +1953,14 @@ where expected sample size under the full prior was minimized.
 \hypertarget{variantII_3}{%
 \section{Variant II-3: Conditional Power Constraint}\label{variantII_3}}
 
-\hypertarget{objective-5}{%
-\subsection{Objective}\label{objective-5}}
+\hypertarget{objective-2}{%
+\subsection{Objective}\label{objective-2}}
 
 As in \protect\hyperlink{variantII_1}{Variant II-1}, expected sample size under the full prior
 is minimized.
 
-\hypertarget{constraints-5}{%
-\subsection{Constraints}\label{constraints-5}}
+\hypertarget{constraints-2}{%
+\subsection{Constraints}\label{constraints-2}}
 
 In addition to the constraints on type one error rate and expected power,
 a constraint on conditional power to be larger than \(0.7\) is included.
@@ -1909,13 +1972,13 @@ a constraint on conditional power to be larger than \(0.7\) is included.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{initial-design-4}{%
-\subsection{Initial Design}\label{initial-design-4}}
+\hypertarget{initial-design-2}{%
+\subsection{Initial Design}\label{initial-design-2}}
 
 The previous initial design can still be applied.
 
-\hypertarget{optimization-5}{%
-\subsection{Optimization}\label{optimization-5}}
+\hypertarget{optimization-2}{%
+\subsection{Optimization}\label{optimization-2}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1932,8 +1995,8 @@ The previous initial design can still be applied.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-5}{%
-\subsection{Test Cases}\label{test-cases-5}}
+\hypertarget{test-cases-2}{%
+\subsection{Test Cases}\label{test-cases-2}}
 
 We start checking whether the maximum number of iterations was not reached.
 
@@ -2031,8 +2094,8 @@ Variant II.1
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{plot-two-stage-designs-1}{%
-\section{Plot Two-Stage Designs}\label{plot-two-stage-designs-1}}
+\hypertarget{plot-two-stage-designs}{%
+\section{Plot Two-Stage Designs}\label{plot-two-stage-designs}}
 
 The optimal two-stage designs stemming from the different variants
 are plotted together.
@@ -2042,8 +2105,8 @@ are plotted together.
 \hypertarget{scenarioIII}{%
 \chapter{Scenario III: large effect, uniform prior}\label{scenarioIII}}
 
-\hypertarget{details-2}{%
-\section{Details}\label{details-2}}
+\hypertarget{details}{%
+\section{Details}\label{details}}
 
 This scenario covers a similar setting as \protect\hyperlink{scenarioI}{Scenario I}.
 The purpose is to asses whether placing uniform priors with decreasing
@@ -2100,8 +2163,8 @@ expected power.
 The goal of this variant is to make sure that the optimal solution
 converges as the prior is more and more concentrated at a point mass.
 
-\hypertarget{objective-6}{%
-\subsection{Objective}\label{objective-6}}
+\hypertarget{objective}{%
+\subsection{Objective}\label{objective}}
 
 Expected sample size under the respective prior is minimized, i.e.,
 \(\boldsymbol{E}\big[n(\mathcal{D})\big]\).
@@ -2114,8 +2177,8 @@ Expected sample size under the respective prior is minimized, i.e.,
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{constraints-6}{%
-\subsection{Constraints}\label{constraints-6}}
+\hypertarget{constraints}{%
+\subsection{Constraints}\label{constraints}}
 
 The constraints have already been described under details.
 
@@ -2160,8 +2223,8 @@ to fulfill the error constraints.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-6}{%
-\subsection{Test cases}\label{test-cases-6}}
+\hypertarget{test-cases}{%
+\subsection{Test cases}\label{test-cases}}
 
 Check that iteration limit was not exceeded in any case.
 
@@ -2240,8 +2303,8 @@ Finally, we plot the designs and assess for convergence.
 \hypertarget{scenarioIV}{%
 \chapter{Scenario IV: smaller effect, point prior}\label{scenarioIV}}
 
-\hypertarget{details-3}{%
-\section{Details}\label{details-3}}
+\hypertarget{details}{%
+\section{Details}\label{details}}
 
 In this scenario, we return to point priors as investigated in
 \protect\hyperlink{scenarioI}{Scenario I}.
@@ -2272,8 +2335,8 @@ Type one error rate is protected at \(2.5\%\) and the power should be at least
 \hypertarget{variantIV_1}{%
 \section{Variant IV-1: Minimizing Expected Sample Size under Point Prior}\label{variantIV_1}}
 
-\hypertarget{objective-7}{%
-\subsection{Objective}\label{objective-7}}
+\hypertarget{objective}{%
+\subsection{Objective}\label{objective}}
 
 Expected sample size under the alternative point prior \(\delta = 0.2\)
 is minimized.
@@ -2284,13 +2347,13 @@ is minimized.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{constraints-7}{%
-\subsection{Constraints}\label{constraints-7}}
+\hypertarget{constraints}{%
+\subsection{Constraints}\label{constraints}}
 
 No additional constraints are considered in this variant.
 
-\hypertarget{initial-design-5}{%
-\subsection{Initial Design}\label{initial-design-5}}
+\hypertarget{initial-design}{%
+\subsection{Initial Design}\label{initial-design}}
 
 For this example, the optimal one-stage, group-sequential, and generic
 two-stage designs are computed.
@@ -2309,13 +2372,13 @@ The order of integration is set to \(5\).
     \DataTypeTok{type    =} \KeywordTok{c}\NormalTok{(}\StringTok{"one-stage"}\NormalTok{, }\StringTok{"group-sequential"}\NormalTok{, }\StringTok{"two-stage"}\NormalTok{),}
     \DataTypeTok{initial =} \KeywordTok{list}\NormalTok{(}
         \KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{500}\NormalTok{, }\FloatTok{2.0}\NormalTok{),}
-        \KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
-        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
+        \KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
+        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{optimization-6}{%
-\subsection{Optimization}\label{optimization-6}}
+\hypertarget{optimization}{%
+\subsection{Optimization}\label{optimization}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2334,8 +2397,8 @@ The order of integration is set to \(5\).
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-7}{%
-\subsection{Test Cases}\label{test-cases-7}}
+\hypertarget{test-cases}{%
+\subsection{Test Cases}\label{test-cases}}
 
 Firstly, it is checked whether the maximum number of iterations was
 not exceeded in all three cases.
@@ -2412,11 +2475,11 @@ They are evaluated by simulation as well as by \texttt{evaluate()}.
 
 \begin{verbatim}
 ## # A tibble: 3 x 5
-##   type             initial    optimal      ess ess_sim
-##   <chr>            <list>     <list>     <dbl>   <dbl>
-## 1 one-stage        <OnStgDsg> <adptrOpR>  392     392 
-## 2 group-sequential <GrpSqntD> <adptrOpR>  324.    323.
-## 3 two-stage        <TwStgDsg> <adptrOpR>  320.    319.
+##   type             initial    optimal          ess ess_sim
+##   <chr>            <list>     <list>         <dbl>   <dbl>
+## 1 one-stage        <OnStgDsg> <adptrOpR [3]>  392     392 
+## 2 group-sequential <GrpSqntD> <adptrOpR [3]>  324.    323.
+## 3 two-stage        <TwStgDsg> <adptrOpR [3]>  320.    319.
 \end{verbatim}
 
 Furthermore, the expected sample size under the alternative of the
@@ -2452,13 +2515,13 @@ monotonously decreasing:
 \hypertarget{variantIV_2}{%
 \section{Variant IV-2: Increase Power}\label{variantIV_2}}
 
-\hypertarget{objective-8}{%
-\subsection{Objective}\label{objective-8}}
+\hypertarget{objective-1}{%
+\subsection{Objective}\label{objective-1}}
 
 The objective remains expected sample size under the alternative \(\delta = 0.2\).
 
-\hypertarget{constraints-8}{%
-\subsection{Constraints}\label{constraints-8}}
+\hypertarget{constraints-1}{%
+\subsection{Constraints}\label{constraints-1}}
 
 The minimal required power is increased to \(90\%\).
 
@@ -2469,8 +2532,8 @@ The minimal required power is increased to \(90\%\).
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{initial-design-6}{%
-\subsection{Initial Design}\label{initial-design-6}}
+\hypertarget{initial-design-1}{%
+\subsection{Initial Design}\label{initial-design-1}}
 
 For both flavours with two stages (group-sequential, generic two-stage)
 the initial design is created by \texttt{rpact} to fulfill the error rate constraints.
@@ -2481,13 +2544,13 @@ the initial design is created by \texttt{rpact} to fulfill the error rate constr
     \DataTypeTok{type    =} \KeywordTok{c}\NormalTok{(}\StringTok{"one-stage"}\NormalTok{, }\StringTok{"group-sequential"}\NormalTok{, }\StringTok{"two-stage"}\NormalTok{),}
     \DataTypeTok{initial =} \KeywordTok{list}\NormalTok{(}
         \KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{500}\NormalTok{, }\FloatTok{2.0}\NormalTok{),}
-        \KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
-        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
+        \KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
+        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{optimization-7}{%
-\subsection{Optimization}\label{optimization-7}}
+\hypertarget{optimization-1}{%
+\subsection{Optimization}\label{optimization-1}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2506,8 +2569,8 @@ the initial design is created by \texttt{rpact} to fulfill the error rate constr
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-8}{%
-\subsection{Test Cases}\label{test-cases-8}}
+\hypertarget{test-cases-1}{%
+\subsection{Test Cases}\label{test-cases-1}}
 
 We start checking if the maximum number of iterations was not exceeded in all
 three cases.
@@ -2585,11 +2648,11 @@ This is tested by simulation as well as by \texttt{evaluate()}.
 
 \begin{verbatim}
 ## # A tibble: 3 x 5
-##   type             initial    optimal      ess ess_sim
-##   <chr>            <list>     <list>     <dbl>   <dbl>
-## 1 one-stage        <OnStgDsg> <adptrOpR>  525     525 
-## 2 group-sequential <GrpSqntD> <adptrOpR>  405.    405.
-## 3 two-stage        <TwStgDsg> <adptrOpR>  397.    397.
+##   type             initial    optimal          ess ess_sim
+##   <chr>            <list>     <list>         <dbl>   <dbl>
+## 1 one-stage        <OnStgDsg> <adptrOpR [3]>  525     525 
+## 2 group-sequential <GrpSqntD> <adptrOpR [3]>  405.    405.
+## 3 two-stage        <TwStgDsg> <adptrOpR [3]>  397.    397.
 \end{verbatim}
 
 Comparing with the inverse-normal based group-sequential design created
@@ -2624,14 +2687,14 @@ two-stage design is expected to be monotonously decreasing:
 \hypertarget{variantIV_3}{%
 \section{Variant IV-3: Increase Type One Error rate}\label{variantIV_3}}
 
-\hypertarget{objective-9}{%
-\subsection{Objective}\label{objective-9}}
+\hypertarget{objective-2}{%
+\subsection{Objective}\label{objective-2}}
 
 As in variants \protect\hyperlink{variantIV_1}{IV.1} and \protect\hyperlink{variantIV_2}{IV-2},
 expected sample size under the point alternative is minimized.
 
-\hypertarget{constraints-9}{%
-\subsection{Constraints}\label{constraints-9}}
+\hypertarget{constraints-2}{%
+\subsection{Constraints}\label{constraints-2}}
 
 While the power is still lower bounded by \(90\%\) as in variant \protect\hyperlink{variantIV_2}{II},
 the maximal type one error rate is increased to \(5\%\).
@@ -2643,8 +2706,8 @@ the maximal type one error rate is increased to \(5\%\).
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{initial-design-7}{%
-\subsection{Initial Design}\label{initial-design-7}}
+\hypertarget{initial-design-2}{%
+\subsection{Initial Design}\label{initial-design-2}}
 
 Again, a design computed by means of the package \texttt{rpact} to fulfill
 the updated error rate constraints is applied as initial design for the
@@ -2656,13 +2719,13 @@ optimal group-sequential and generic two-stage designs.
     \DataTypeTok{type    =} \KeywordTok{c}\NormalTok{(}\StringTok{"one-stage"}\NormalTok{, }\StringTok{"group-sequential"}\NormalTok{, }\StringTok{"two-stage"}\NormalTok{),}
     \DataTypeTok{initial =} \KeywordTok{list}\NormalTok{(}
         \KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{500}\NormalTok{, }\FloatTok{2.0}\NormalTok{),}
-        \KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.05}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
-        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.05}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
+        \KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.2}\NormalTok{, }\FloatTok{0.05}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
+        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.2}\NormalTok{, }\FloatTok{0.05}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{optimization-8}{%
-\subsection{Optimization}\label{optimization-8}}
+\hypertarget{optimization-2}{%
+\subsection{Optimization}\label{optimization-2}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2681,8 +2744,8 @@ optimal group-sequential and generic two-stage designs.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-9}{%
-\subsection{Test Cases}\label{test-cases-9}}
+\hypertarget{test-cases-2}{%
+\subsection{Test Cases}\label{test-cases-2}}
 
 The convergence of the optimization algorithm is tested by checking if the
 maximum number of iterations was not exceeded.
@@ -2760,11 +2823,11 @@ They are tested by simulation as well as by calling \texttt{evaluate()}.
 
 \begin{verbatim}
 ## # A tibble: 3 x 5
-##   type             initial    optimal      ess ess_sim
-##   <chr>            <list>     <list>     <dbl>   <dbl>
-## 1 one-stage        <OnStgDsg> <adptrOpR>  428     428 
-## 2 group-sequential <GrpSqntD> <adptrOpR>  325.    325.
-## 3 two-stage        <TwStgDsg> <adptrOpR>  319.    319.
+##   type             initial    optimal          ess ess_sim
+##   <chr>            <list>     <list>         <dbl>   <dbl>
+## 1 one-stage        <OnStgDsg> <adptrOpR [3]>  428     428 
+## 2 group-sequential <GrpSqntD> <adptrOpR [3]>  325.    325.
+## 3 two-stage        <TwStgDsg> <adptrOpR [3]>  319.    319.
 \end{verbatim}
 
 The expected sample size under the alternative that was used as objective criterion
@@ -2797,8 +2860,8 @@ is expected to be monotonously decreasing:
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{plot-two-stage-designs-2}{%
-\section{Plot Two-Stage Designs}\label{plot-two-stage-designs-2}}
+\hypertarget{plot-two-stage-designs}{%
+\section{Plot Two-Stage Designs}\label{plot-two-stage-designs}}
 
 The optimal two-stage designs stemming from the three different variants
 are plotted together.
@@ -2808,8 +2871,8 @@ are plotted together.
 \hypertarget{scenarioV}{%
 \chapter{Scenario V: single-arm design, medium effect size}\label{scenarioV}}
 
-\hypertarget{details-4}{%
-\section{Details}\label{details-4}}
+\hypertarget{details}{%
+\section{Details}\label{details}}
 
 In this scenario, again a point prior is analyzed.
 The null hypothesis is \(\delta \leq 0\) and we assume an alternative effect size
@@ -2841,8 +2904,8 @@ In this variant, the sensitivity of the optimization with respect to the
 integration order is investigated.
 We apply three different integration orders: 5, 8, and 11.
 
-\hypertarget{objective-10}{%
-\subsection{Objective}\label{objective-10}}
+\hypertarget{objective}{%
+\subsection{Objective}\label{objective}}
 
 Expected sample size under the alternative point mass prior \(\delta = 0.3\)
 is minimized.
@@ -2853,13 +2916,13 @@ is minimized.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{constraints-10}{%
-\subsection{Constraints}\label{constraints-10}}
+\hypertarget{constraints}{%
+\subsection{Constraints}\label{constraints}}
 
 No additional constraints are considered in this variant.
 
-\hypertarget{initial-design-8}{%
-\subsection{Initial Design}\label{initial-design-8}}
+\hypertarget{initial-design}{%
+\subsection{Initial Design}\label{initial-design}}
 
 In order to vary the initial design, \texttt{rpact} is not used in this variant.
 Instead, the following heuristical considerations are made.
@@ -2893,8 +2956,8 @@ quantile of the normal distribution.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{optimization-9}{%
-\subsection{Optimization}\label{optimization-9}}
+\hypertarget{optimization}{%
+\subsection{Optimization}\label{optimization}}
 
 The optimal design is computed for three different integration orders: 5, 8,
 and 11.
@@ -2921,8 +2984,8 @@ and 11.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-10}{%
-\subsection{Test cases}\label{test-cases-10}}
+\hypertarget{test-cases}{%
+\subsection{Test cases}\label{test-cases}}
 
 Check if the optimization algorithm converged in all cases.
 
@@ -2987,8 +3050,8 @@ compare the results to the outcome of \texttt{evaluate()}.
 \hypertarget{variantV_2}{%
 \section{Variant V-2, utility maximization}\label{variantV_2}}
 
-\hypertarget{objective-11}{%
-\subsection{Objective}\label{objective-11}}
+\hypertarget{objective-1}{%
+\subsection{Objective}\label{objective-1}}
 
 In this variant, a utility function consisting of expected sample size and
 power is minimized.
@@ -3006,21 +3069,21 @@ sample size and power is varied.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{constraints-11}{%
-\subsection{Constraints}\label{constraints-11}}
+\hypertarget{constraints-1}{%
+\subsection{Constraints}\label{constraints-1}}
 
 The type one error rate is controlled at 0.025 on the boundary of the
 null hypothesis. Hence, the previous inequality can still be used.
 There is no constraint on power any more because power is part of the
 objective utility function.
 
-\hypertarget{initial-design-9}{%
-\subsection{Initial Design}\label{initial-design-9}}
+\hypertarget{initial-design-1}{%
+\subsection{Initial Design}\label{initial-design-1}}
 
 The previous initial design with order \(5\) is applied.
 
-\hypertarget{optimization-10}{%
-\subsection{Optimization}\label{optimization-10}}
+\hypertarget{optimization-1}{%
+\subsection{Optimization}\label{optimization-1}}
 
 The optimal design is computed for two values of \(\lambda\): 100 and 200.
 
@@ -3042,8 +3105,8 @@ The optimal design is computed for two values of \(\lambda\): 100 and 200.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-11}{%
-\subsection{Test cases}\label{test-cases-11}}
+\hypertarget{test-cases-1}{%
+\subsection{Test cases}\label{test-cases-1}}
 
 Firstly, it is checked whether the maximum number of iterations was not
 exceeded in both flavours.
@@ -3112,8 +3175,8 @@ comparison.
 
 In this variant, the influence of the regularization term \texttt{N1()} is investigated.
 
-\hypertarget{objective-12}{%
-\subsection{Objective}\label{objective-12}}
+\hypertarget{objective-2}{%
+\subsection{Objective}\label{objective-2}}
 
 In order to analyse the influence of \texttt{N1()},
 a mixed criterion consisting of expected sample size under the point prior
@@ -3129,13 +3192,13 @@ and \(N1()\) is minimized.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{constraints-12}{%
-\subsection{Constraints}\label{constraints-12}}
+\hypertarget{constraints-2}{%
+\subsection{Constraints}\label{constraints-2}}
 
 The inequalities from variant \protect\hyperlink{variantV_1}{V.1} can still be used.
 
-\hypertarget{initial-design-10}{%
-\subsection{Initial Design}\label{initial-design-10}}
+\hypertarget{initial-design-2}{%
+\subsection{Initial Design}\label{initial-design-2}}
 
 The previous initial design with order \(5\) is applied.
 This variant requires an upper bound on \(c_2\).
@@ -3149,8 +3212,8 @@ appear to reduce \(n_1\).
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{optimization-11}{%
-\subsection{Optimization}\label{optimization-11}}
+\hypertarget{optimization-2}{%
+\subsection{Optimization}\label{optimization-2}}
 
 The optimal design is computed for two values of \(\lambda\): 0.05 and 0.2.
 
@@ -3174,8 +3237,8 @@ The optimal design is computed for two values of \(\lambda\): 0.05 and 0.2.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-12}{%
-\subsection{Test cases}\label{test-cases-12}}
+\hypertarget{test-cases-2}{%
+\subsection{Test cases}\label{test-cases-2}}
 
 We start testing if the optimization algorithm converged in both cases
 
@@ -3256,8 +3319,8 @@ Here, we alter the situation from variant \protect\hyperlink{variantV_3}{V.3} by
 \(n_1\), but the average stage-two sample size \(n_2\).
 This can be done by means of the function \texttt{AverageN2()}.
 
-\hypertarget{objective-13}{%
-\subsection{Objective}\label{objective-13}}
+\hypertarget{objective-3}{%
+\subsection{Objective}\label{objective-3}}
 
 As in variant \protect\hyperlink{variantV_3}{V.3}, a mixed criterion is minimized.
 Here, it consists of expected sample size under the point prior and the
@@ -3273,13 +3336,13 @@ average of \(n_2\).
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{constraints-13}{%
-\subsection{Constraints}\label{constraints-13}}
+\hypertarget{constraints-3}{%
+\subsection{Constraints}\label{constraints-3}}
 
 The inequalities from variant \protect\hyperlink{variantV_1}{V.1} can still be used.
 
-\hypertarget{initial-design-11}{%
-\subsection{Initial Design}\label{initial-design-11}}
+\hypertarget{initial-design-3}{%
+\subsection{Initial Design}\label{initial-design-3}}
 
 The previous initial design with order \(8\) is applied.
 However, this case requires the definition of an upper-bound for \(c_2\).
@@ -3294,8 +3357,8 @@ decrease the average \(n_2\).
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{optimization-12}{%
-\subsection{Optimization}\label{optimization-12}}
+\hypertarget{optimization-3}{%
+\subsection{Optimization}\label{optimization-3}}
 
 The optimal design is computed for two values of \(\lambda\): 0.01 and 0.1.
 
@@ -3319,8 +3382,8 @@ The optimal design is computed for two values of \(\lambda\): 0.01 and 0.1.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{test-cases-13}{%
-\subsection{Test cases}\label{test-cases-13}}
+\hypertarget{test-cases-3}{%
+\subsection{Test cases}\label{test-cases-3}}
 
 As first step, we check if the maximum number of iterations was not exceeded
 in both cases.
@@ -3395,6 +3458,230 @@ Additionally, these three designs are depicted in a joint plot.
 \end{verbatim}
 
 \includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-99-1.pdf}
+
+\hypertarget{scenarioVI}{%
+\chapter{Scenario VI: binomial distribution}\label{scenarioVI}}
+
+\hypertarget{details}{%
+\section{Details}\label{details}}
+
+In this scenario, the implemented normal approximation of the binomial
+distribution is evaluated.
+There are two treatment groups \(E\) (experimental) and \(C\) (control)
+and the outcome of interest is the event rate in both groups.
+The event rate in the control group is assumed to equal \(p_C = 0.3\).
+Under the null hypothesis, the rate difference \(p_E - p_C = 0\) is assumed.
+Under the alternative, the rate difference is assumed to equal \(p_E - p_C = 0.2\).
+Type one error rate should be protected at 2.5\% and the design's power should
+be at least 90\%.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# data distribution and hypotheses}
+\NormalTok{datadist   <-}\StringTok{ }\KeywordTok{Binomial}\NormalTok{(}\DataTypeTok{rate_control =} \FloatTok{0.3}\NormalTok{, }\DataTypeTok{two_armed =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{H_}\DecValTok{0}\NormalTok{        <-}\StringTok{ }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{prior      <-}\StringTok{ }\KeywordTok{PointMassPrior}\NormalTok{(.}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\CommentTok{# define constraints}
+\NormalTok{alpha      <-}\StringTok{ }\FloatTok{0.025}
+\NormalTok{min_power  <-}\StringTok{ }\FloatTok{0.9}
+\NormalTok{toer_cnstr <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)   }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha}
+\NormalTok{pow_cnstr  <-}\StringTok{ }\KeywordTok{Power}\NormalTok{(datadist, prior) }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{variantVI_1}{%
+\section{Variant VI-1, efficiency of optimal designs for binomial distribution}\label{variantVI_1}}
+
+In this variant, it is evaluated whether the optimization leads to more
+efficient designs and is plausible with published results.
+
+\hypertarget{objective}{%
+\subsection{Objective}\label{objective}}
+
+Expected sample size under the alternative point mass prior \(\delta = 0.2\)
+is minimized.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ess <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, prior)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{constraints}{%
+\subsection{Constraints}\label{constraints}}
+
+No additional constraints are considered.
+
+\hypertarget{initial-designs}{%
+\subsection{Initial Designs}\label{initial-designs}}
+
+For this example, the optimal one-stage, group-sequential, and generic
+two-stage designs are computed.
+The initial design for the one-stage case is determined heuristically
+and both the group sequential and the generic two-stage designs are
+optimized starting from the corresponding group-sequential design as
+computed by the \texttt{rpact} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{order <-}\StringTok{ }\NormalTok{7L}
+\CommentTok{# data frame of initial designs }
+\NormalTok{tbl_designs <-}\StringTok{ }\KeywordTok{tibble}\NormalTok{(}
+    \DataTypeTok{type    =} \KeywordTok{c}\NormalTok{(}\StringTok{"one-stage"}\NormalTok{, }\StringTok{"group-sequential"}\NormalTok{, }\StringTok{"two-stage"}\NormalTok{),}
+    \DataTypeTok{initial =} \KeywordTok{list}\NormalTok{(}
+        \KeywordTok{OneStageDesign}\NormalTok{(}\DecValTok{200}\NormalTok{, }\FloatTok{2.0}\NormalTok{),}
+        \KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order),}
+        \KeywordTok{TwoStageDesign}\NormalTok{(}\KeywordTok{rpact_design}\NormalTok{(datadist, }\FloatTok{0.2}\NormalTok{, }\FloatTok{0.025}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, order))) )}
+\end{Highlighting}
+\end{Shaded}
+
+The order of integration is set to 7.
+
+\hypertarget{optimization}{%
+\subsection{Optimization}\label{optimization}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tbl_designs <-}\StringTok{ }\NormalTok{tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}
+       \DataTypeTok{optimal =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(initial, }\OperatorTok{~}\KeywordTok{minimize}\NormalTok{(}
+         
+\NormalTok{          ess,}
+          \KeywordTok{subject_to}\NormalTok{(}
+\NormalTok{              toer_cnstr,}
+\NormalTok{              pow_cnstr}
+\NormalTok{          ),}
+          
+          \DataTypeTok{initial_design =}\NormalTok{ ., }
+          \DataTypeTok{opts           =}\NormalTok{ opts)) )}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{test-cases}{%
+\subsection{Test Cases}\label{test-cases}}
+
+To avoid improper solutions, it is first verified that the maximum
+number of iterations was not exceeded in any of the three cases.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{transmute}\NormalTok{(}
+\NormalTok{      type, }
+      \DataTypeTok{iterations =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map_int}\NormalTok{(tbl_designs}\OperatorTok{$}\NormalTok{optimal, }
+                                  \OperatorTok{~}\NormalTok{.}\OperatorTok{$}\NormalTok{nloptr_return}\OperatorTok{$}\NormalTok{iterations) ) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{\{testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{iterations }\OperatorTok{<}\StringTok{ }\NormalTok{opts}\OperatorTok{$}\NormalTok{maxeval))\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 2
+##   type             iterations
+##   <chr>                 <int>
+## 1 one-stage                22
+## 2 group-sequential       1675
+## 3 two-stage              5060
+\end{verbatim}
+
+Next, the type one error rate and power constraints are verified
+for all three designs by simulation:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{transmute}\NormalTok{(}
+\NormalTok{      type, }
+      \DataTypeTok{toer  =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(tbl_designs}\OperatorTok{$}\NormalTok{optimal, }
+                         \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob), }
+      \DataTypeTok{power =}\NormalTok{ purrr}\OperatorTok{::}\KeywordTok{map}\NormalTok{(tbl_designs}\OperatorTok{$}\NormalTok{optimal, }
+                         \OperatorTok{~}\KeywordTok{sim_pr_reject}\NormalTok{(.[[}\DecValTok{1}\NormalTok{]], }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{prob) ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{unnest}\NormalTok{(., }\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(toer, power)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
+\NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{toer  }\OperatorTok{<=}\StringTok{ }\NormalTok{alpha }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{tol)))}
+\NormalTok{  testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(.}\OperatorTok{$}\NormalTok{power }\OperatorTok{>=}\StringTok{ }\NormalTok{min_power }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{tol))) \}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 3
+##   type               toer power
+##   <chr>             <dbl> <dbl>
+## 1 one-stage        0.0251 0.900
+## 2 group-sequential 0.0249 0.899
+## 3 two-stage        0.0249 0.900
+\end{verbatim}
+
+Since the degrees of freedom of the three design classes are ordered as
+`two-stage' \textgreater{} `group-sequential' \textgreater{} `one-stage',
+the expected sample sizes (under the alternative) should be ordered
+in reverse (`two-stage' smallest).
+Additionally, expected sample sizes under both null and alternative
+are computed both via \texttt{evaluate()} and simulation-based.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ess0 <-}\StringTok{ }\KeywordTok{ExpectedSampleSize}\NormalTok{(datadist, H_}\DecValTok{0}\NormalTok{)}
+\NormalTok{tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}
+        \DataTypeTok{ess      =} \KeywordTok{map_dbl}\NormalTok{(optimal,}
+                           \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(ess, .}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{ess_sim  =} \KeywordTok{map_dbl}\NormalTok{(optimal,}
+                           \OperatorTok{~}\KeywordTok{sim_n}\NormalTok{(.}\OperatorTok{$}\NormalTok{design, }\FloatTok{.2}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n ),}
+        \DataTypeTok{ess0     =} \KeywordTok{map_dbl}\NormalTok{(optimal,}
+                           \OperatorTok{~}\KeywordTok{evaluate}\NormalTok{(ess0, .}\OperatorTok{$}\NormalTok{design) ),}
+        \DataTypeTok{ess0_sim =} \KeywordTok{map_dbl}\NormalTok{(optimal,}
+                           \OperatorTok{~}\KeywordTok{sim_n}\NormalTok{(.}\OperatorTok{$}\NormalTok{design, }\FloatTok{.0}\NormalTok{, datadist)}\OperatorTok{$}\NormalTok{n ) ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\NormalTok{\{}\KeywordTok{print}\NormalTok{(.); .\} }\OperatorTok{%>%}\StringTok{ }\NormalTok{\{}
+    \CommentTok{# sim/evaluate same under alternative?}
+\NormalTok{    testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(.}\OperatorTok{$}\NormalTok{ess, .}\OperatorTok{$}\NormalTok{ess_sim, }
+                           \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+                           \DataTypeTok{scale =} \DecValTok{1}\NormalTok{)}
+    \CommentTok{# sim/evaluate same under null?}
+\NormalTok{    testthat}\OperatorTok{::}\KeywordTok{expect_equal}\NormalTok{(.}\OperatorTok{$}\NormalTok{ess0, .}\OperatorTok{$}\NormalTok{ess0_sim, }
+                           \DataTypeTok{tolerance =}\NormalTok{ tol_n,}
+                           \DataTypeTok{scale =} \DecValTok{1}\NormalTok{)}
+    \CommentTok{# monotonicity with respect to degrees of freedom}
+\NormalTok{    testthat}\OperatorTok{::}\KeywordTok{expect_true}\NormalTok{(}\KeywordTok{all}\NormalTok{(}\KeywordTok{diff}\NormalTok{(.}\OperatorTok{$}\NormalTok{ess) }\OperatorTok{<}\StringTok{ }\DecValTok{0}\NormalTok{)) \}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 7
+##   type             initial    optimal          ess ess_sim  ess0 ess0_sim
+##   <chr>            <list>     <list>         <dbl>   <dbl> <dbl>    <dbl>
+## 1 one-stage        <OnStgDsg> <adptrOpR [3]> 126     126   126      126  
+## 2 group-sequential <GrpSqntD> <adptrOpR [3]>  96.8    96.8  91.7     91.7
+## 3 two-stage        <TwStgDsg> <adptrOpR [3]>  95.2    95.2 102.     102.
+\end{verbatim}
+
+The expected sample size under the alternative must be lower or equal than
+the expected sample size of the initial \texttt{rpact} group-sequential design that
+is based on the inverse normal combination test.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{testthat}\OperatorTok{::}\KeywordTok{expect_lte}\NormalTok{(}
+  \KeywordTok{evaluate}\NormalTok{(ess, }
+\NormalTok{             tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                }\KeywordTok{filter}\NormalTok{(type }\OperatorTok{==}\StringTok{ "group-sequential"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                }\KeywordTok{pull}\NormalTok{(optimal) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                }\NormalTok{.[[}\DecValTok{1}\NormalTok{]]  }\OperatorTok{%>%}
+\StringTok{                }\NormalTok{.}\OperatorTok{$}\NormalTok{design ),}
+    \KeywordTok{evaluate}\NormalTok{(ess, }
+\NormalTok{             tbl_designs }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                }\KeywordTok{filter}\NormalTok{(type }\OperatorTok{==}\StringTok{ "group-sequential"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                }\KeywordTok{pull}\NormalTok{(initial) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{                }\NormalTok{.[[}\DecValTok{1}\NormalTok{]] ) )}
+\end{Highlighting}
+\end{Shaded}
+
+Finally, the \texttt{rpact} group-sequential design,
+the optimal group-sequential design, and the optimal generic two-stage design
+are plotted to allow visual inspection.
+
+\includegraphics{adoptr-validation-report_files/figure-latex/unnamed-chunk-108-1.pdf}
 
 \bibliography{book.bib,packages.bib}
 
