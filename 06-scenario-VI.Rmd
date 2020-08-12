@@ -1,0 +1,224 @@
+# Scenario VI: binomial distribution {#scenarioVI}
+
+## Details
+
+In this scenario, the implemented normal approximation of the binomial
+distribution is evaluated.
+There are two treatment groups $E$ (experimental) and $C$ (control)
+and the outcome of interest is the event rate in both groups.
+The event rate in the control group is assumed to equal $p_C = 0.3$.
+Under the null hypothesis, the rate difference $p_E - p_C = 0$ is assumed.
+Under the alternative, the rate difference is assumed to equal $p_E - p_C = 0.2$.
+Type one error rate should be protected at 2.5\% and the design's power should
+be at least 90\%.
+
+```{r}
+# data distribution and hypotheses
+datadist   <- Binomial(rate_control = 0.3, two_armed = TRUE)
+H_0        <- PointMassPrior(.0, 1)
+prior      <- PointMassPrior(.2, 1)
+
+# define constraints
+alpha      <- 0.025
+min_power  <- 0.9
+toer_cnstr <- Power(datadist, H_0)   <= alpha
+pow_cnstr  <- Power(datadist, prior) >= min_power
+```
+
+
+
+## Variant VI-1, efficiency of optimal designs for binomial distribution {#variantVI_1}
+
+In this variant, it is evaluated whether the optimization leads to more
+efficient designs and is plausible with published results.
+
+### Objective
+
+Expected sample size under the alternative point mass prior $\delta = 0.2$
+is minimized.
+```{r}
+ess <- ExpectedSampleSize(datadist, prior)
+```
+
+
+### Constraints
+
+No additional constraints are considered.
+
+
+### Initial Designs
+
+For this example, the optimal one-stage, group-sequential, and generic
+two-stage designs are computed.
+The initial design for the one-stage case is determined heuristically
+and both the group sequential and the generic two-stage designs are 
+optimized starting from the corresponding group-sequential design as
+computed by the `rpact` package.
+```{r}
+order <- 7L
+# data frame of initial designs 
+tbl_designs <- tibble(
+    type    = c("one-stage", "group-sequential", "two-stage"),
+    initial = list(
+        OneStageDesign(200, 2.0),
+        rpact_design(datadist, 0.2, 0.025, 0.9, TRUE, order),
+        TwoStageDesign(rpact_design(datadist, 0.2, 0.025, 0.9, TRUE, order))) )
+```
+
+The order of integration is set to `r order`.
+
+
+### Optimization 
+
+```{r}
+tbl_designs <- tbl_designs %>% 
+    mutate(
+       optimal = purrr::map(initial, ~minimize(
+         
+          ess,
+          subject_to(
+              toer_cnstr,
+              pow_cnstr
+          ),
+          
+          initial_design = ., 
+          opts           = opts)) )
+```
+
+
+
+### Test Cases
+
+To avoid improper solutions, it is first verified that the maximum
+number of iterations was not exceeded in any of the three cases.
+```{r}
+tbl_designs %>% 
+  transmute(
+      type, 
+      iterations = purrr::map_int(tbl_designs$optimal, 
+                                  ~.$nloptr_return$iterations) ) %>%
+  {print(.); .} %>% 
+  {testthat::expect_true(all(.$iterations < opts$maxeval))}
+```
+
+
+Next, the type one error rate and power constraints are verified 
+for all three designs by simulation:
+```{r}
+tbl_designs %>% 
+  transmute(
+      type, 
+      toer  = purrr::map(tbl_designs$optimal, 
+                         ~sim_pr_reject(.[[1]], .0, datadist)$prob), 
+      power = purrr::map(tbl_designs$optimal, 
+                         ~sim_pr_reject(.[[1]], .2, datadist)$prob) ) %>% 
+  unnest(., cols = c(toer, power)) %>% 
+  {print(.); .} %>% {
+  testthat::expect_true(all(.$toer  <= alpha * (1 + tol)))
+  testthat::expect_true(all(.$power >= min_power * (1 - tol))) }
+```
+
+
+
+Since the degrees of freedom of the three design classes are ordered as
+'two-stage' > 'group-sequential' > 'one-stage',
+the expected sample sizes (under the alternative) should be ordered 
+in reverse ('two-stage' smallest).
+Additionally, expected sample sizes under both null and alternative
+are computed both via `evaluate()` and simulation-based.
+```{r}
+ess0 <- ExpectedSampleSize(datadist, H_0)
+tbl_designs %>% 
+    mutate(
+        ess      = map_dbl(optimal,
+                           ~evaluate(ess, .$design) ),
+        ess_sim  = map_dbl(optimal,
+                           ~sim_n(.$design, .2, datadist)$n ),
+        ess0     = map_dbl(optimal,
+                           ~evaluate(ess0, .$design) ),
+        ess0_sim = map_dbl(optimal,
+                           ~sim_n(.$design, .0, datadist)$n ) ) %>% 
+    {print(.); .} %>% {
+    # sim/evaluate same under alternative?
+    testthat::expect_equal(.$ess, .$ess_sim, 
+                           tolerance = tol_n,
+                           scale = 1)
+    # sim/evaluate same under null?
+    testthat::expect_equal(.$ess0, .$ess0_sim, 
+                           tolerance = tol_n,
+                           scale = 1)
+    # monotonicity with respect to degrees of freedom
+    testthat::expect_true(all(diff(.$ess) < 0)) }
+```
+
+The expected sample size under the alternative must be lower or equal than
+the expected sample size of the initial `rpact` group-sequential design that
+is based on the inverse normal combination test.
+```{r}
+testthat::expect_lte(
+  evaluate(ess, 
+             tbl_designs %>% 
+                filter(type == "group-sequential") %>% 
+                pull(optimal) %>% 
+                .[[1]]  %>%
+                .$design ),
+    evaluate(ess, 
+             tbl_designs %>% 
+                filter(type == "group-sequential") %>% 
+                pull(initial) %>% 
+                .[[1]] ) )
+```
+
+
+Finally, the `rpact` group-sequential design,
+the optimal group-sequential design, and the optimal generic two-stage design
+are plotted to allow visual inspection.
+
+```{r, echo = FALSE}
+x1 <- seq(-.25, 3.5, by = .01)
+
+tibble(
+    type  = c(
+        "rpact", 
+        "optimal group-sequential", 
+        "optimal two-stage" ), 
+    design = list(
+        tbl_designs %>% 
+                filter(type == "group-sequential") %>% 
+                pull(initial) %>% 
+                .[[1]] , 
+        tbl_designs %>% 
+                filter(type == "group-sequential") %>% 
+                pull(optimal) %>% 
+                .[[1]] %>%
+                .$design, 
+        tbl_designs %>% 
+                filter(type == "two-stage") %>% 
+                pull(optimal)  %>% 
+                .[[1]] %>%
+                .$design ) ) %>% 
+  # plot the designs
+    group_by(type) %>% 
+    do(
+        x1 = x1,
+        n  = adoptr::n(.$design[[1]], x1),
+        c2 = c2(.$design[[1]], x1),
+        CP = evaluate(ConditionalPower(datadist, prior), .$design[[1]], x1) ) %>% 
+    unnest(., cols = c(x1, n, c2, CP)) %>% 
+    mutate(
+        section = ifelse(
+            is.finite(c2), 
+            "continuation", 
+            ifelse(c2 == -Inf, "efficacy", "futility") ) ) %>% 
+    gather(variable, value, n, c2, CP) %>% 
+    ggplot(aes(x1, value, color = type)) +
+        geom_line(aes(group = interaction(section, type))) + 
+        facet_wrap(~variable, scales = "free_y") +
+        labs(y = "", x = expression(x[1])) +
+        scale_color_discrete("") +
+        theme_bw() +
+        theme(
+            panel.grid       = element_blank(),
+            legend.direction = "vertical",
+            legend.position  = "bottom" )
+```

@@ -165,7 +165,7 @@ of the report.
 This is the default scenario. 
 
 * **Data distribution:** Two-armed trial with normally distributed test statistic
-* **Prior:** $\delta\sim\textbf{1}_{delta=0.4}$
+* **Prior:** $\delta\sim\textbf{1}_{\delta=0.4}$
 * **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
 
 
@@ -470,6 +470,40 @@ Inspect the plot to see convergence pattern.
     3. Is the `AverageN2` for the optimal design smaller than for the order-5 
     design in V.1?
 
+
+
+
+### [Scenario VI: Binomial distribution](#scenarioVI)
+
+This scenario investigates the implementation of the binomial distribution.
+
+* **Data distribution:** Two-armed trial with binomial distributed outcomes.
+Thus $\delta := p_E - p_C$ refers to the rate difference here.
+The control rate is assumed to equal $p_C = 0.3$.
+* **Prior:** $\delta\sim\textbf{1}_{\delta=0.2}$
+* **Null hypothesis:** $\mathcal{H}_0:\delta \leq 0$
+
+
+#### [Variant VI.1: Minimizing Expected Sample Size under the Alternative](#variantVI_1)
+
+* **Objective:** $ESS := \boldsymbol{E}\big[n(X_1)\,|\,\delta=0.2\big]$
+* **Constraints:** 
+    1. $Power := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.2\big] \geq 0.9$
+    2. $TOER := \boldsymbol{Pr}\big[c_2(X_1) < X_2\,|\,\delta=0.0\big] \leq 0.025$
+    3. Three variants: two-stage, group-sequential, one-stage. 
+* **Formal tests:**
+    1. Number of iterations are checked against default maximum to ensure proper
+      convergence.
+    2. All three **adoptr** variants (two-stage, group-sequential, one-stage) 
+        comply with constraints. Internally validated by testing vs. simulated 
+        values of the power curve at respective points.
+    3. $ESS$ of optimal two-stage design is lower than $ESS$ of optimal
+        group-sequential one and that is in turn lower than the one of the
+        optimal one-stage design.
+    4. $ESS$ of optimal group-sequential design is lower than $ESS$ of 
+        externally computed group-sequential design using the [rpact](https://rpact.org/) package.
+    5. Are the $ESS$ values obtained from simulation the same as the ones 
+        obtained by using numerical integration via `adoptr::evaluate`?
 
 
 
