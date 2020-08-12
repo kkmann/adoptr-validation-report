@@ -5,7 +5,7 @@
 #' Sample sizes are computed by \code{rpact}.
 #'
 #' @param effect Alternative effect size
-#' @param sig.level Desired level of significacne
+#' @param sig.level Desired level of significance
 #' @param power Desired power level
 #' @param two_armed Is a two-armed test regarded?
 #' @param order Order of integration rule
@@ -30,7 +30,7 @@ rpact_design <- function(
             ) 
     } else if (is(dist, "Binomial")) {
         res <- rpact::getSampleSizeRates(
-            design_rp, alpha = alpha, beta = beta, groups = 2, normalApproximation = TRUE,
+            design_rp, groups = 2, normalApproximation = TRUE,
             pi1 = dist@rate_control, pi2 = dist@rate_control + effect
             )
     } else {
@@ -49,8 +49,9 @@ rpact_design <- function(
         return(out)
     }
 
-    c1f <- stats::qnorm(char$futilityProbabilities) +
-        sqrt(res$numberOfSubjects1[1]) * effect / ifelse(two_armed, sqrt(2), 1)
+    c1f <- ifelse(is(dist, "Normal"), stats::qnorm(char$futilityProbabilities) +
+                      sqrt(res$numberOfSubjects1[1]) * effect / ifelse(two_armed, sqrt(2), 1),
+                  design_rp$futilityBounds)
     c1e <- design_rp$criticalValues[1]
 
 
