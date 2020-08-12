@@ -13,30 +13,6 @@ Type one error rate should be protected at 2.5\% and the design's power should
 be at least 90\%.
 
 ```{r}
-library(adoptr)
-library(tidyverse)
-library(rpact)
-library(pwr)
-library(testthat)
-library(tinytex)
-for (nm in list.files("R", pattern = "\\.[RrSsQq]$"))
-   source(file.path("R", nm))
-# define seed value
-seed  <- 42
-
-# define absolute tolerance for error rates
-tol   <- 0.01
-
-# define absolute tolerance for sample sizes
-tol_n <- 0.5
-
-# define custom tolerance and iteration limit for nloptr
-opts = list(
-    algorithm = "NLOPT_LN_COBYLA",
-    xtol_rel  = 1e-5,
-    maxeval   = 100000
-)
-
 # data distribution and hypotheses
 datadist   <- Binomial(rate_control = 0.3, two_armed = TRUE)
 H_0        <- PointMassPrior(.0, 1)
