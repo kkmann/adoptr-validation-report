@@ -1,4 +1,4 @@
-# Scenario VI: binomial distribution {#scenarioV}
+# Scenario VI: binomial distribution {#scenarioVI}
 
 ## Details
 
