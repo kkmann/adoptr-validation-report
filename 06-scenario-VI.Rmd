@@ -175,7 +175,7 @@ the optimal group-sequential design, and the optimal generic two-stage design
 are plotted to allow visual inspection.
 
 ```{r, echo = FALSE}
-x1 <- seq(-.25, 3.5, by = .01)
+x1 <- seq(-.25, 2.5, by = .01)
 
 tibble(
     type  = c(
