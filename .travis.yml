@@ -1,4 +1,4 @@
-dist: focal
+dist: bionic
 
 language: r
 cran: https://cloud.r-project.org
