@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Scenario III: large effect, uniform prior | Validation Report for adoptr package</title>
   <meta name="description" content="This is an automatically generated validation report for the adoptr R package published via bookdown." />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Scenario III: large effect, uniform prior | Validation Report for adoptr package" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2020-08-12" />
+<meta name="date" content="2020-10-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="scenarioII.html"/>
 <link rel="next" href="scenarioIV.html"/>
+<script src="libs/header-attrs-2.4/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,30 +51,30 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -133,38 +134,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Validation Report for adoptr Package</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#preliminaries"><i class="fa fa-check"></i><b>1.1</b> Preliminaries</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#scope"><i class="fa fa-check"></i><b>1.2</b> Scope</a><ul>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#scope"><i class="fa fa-check"></i><b>1.2</b> Scope</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#validating-a-local-installation-of-adoptr"><i class="fa fa-check"></i><b>1.2.1</b> Validating a local installation of adoptr</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#validation-scenarios"><i class="fa fa-check"></i><b>1.3</b> Validation Scenarios</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#scenario-i-large-effect-point-prior"><i class="fa fa-check"></i><b>1.3.1</b> <a href="scenarioI.html#scenarioI">Scenario I: Large effect, point prior</a></a></li>
-<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#scenario-ii-large-effect-gaussian-prior"><i class="fa fa-check"></i><b>1.3.2</b> <a href="scenarioII.html#scenarioII">Scenario II: Large effect, Gaussian prior</a></a></li>
-<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#scenario-iii-large-effect-uniform-prior"><i class="fa fa-check"></i><b>1.3.3</b> <a href="scenarioIII.html#scenarioIII">Scenario III: Large effect, uniform prior</a></a></li>
-<li class="chapter" data-level="1.3.4" data-path="index.html"><a href="index.html#scenario-iv-smaller-effect-size-larger-trials"><i class="fa fa-check"></i><b>1.3.4</b> <a href="scenarioIV.html#scenarioIV">Scenario IV: Smaller effect size, larger trials</a></a></li>
-<li class="chapter" data-level="1.3.5" data-path="index.html"><a href="index.html#scenario-v-single-arm-design-medium-effect-size"><i class="fa fa-check"></i><b>1.3.5</b> <a href="scenarioV.html#scenarioV">Scenario V: Single-arm design, medium effect size</a></a></li>
-<li class="chapter" data-level="1.3.6" data-path="index.html"><a href="index.html#scenario-vi-binomial-distribution"><i class="fa fa-check"></i><b>1.3.6</b> <a href="scenarioVI.html#scenarioVI">Scenario VI: Binomial distribution</a></a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#validation-scenarios"><i class="fa fa-check"></i><b>1.3</b> Validation Scenarios</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#scenario-i-large-effect-point-prior"><i class="fa fa-check"></i><b>1.3.1</b> <span>Scenario I: Large effect, point prior</span></a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#scenario-ii-large-effect-gaussian-prior"><i class="fa fa-check"></i><b>1.3.2</b> <span>Scenario II: Large effect, Gaussian prior</span></a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#scenario-iii-large-effect-uniform-prior"><i class="fa fa-check"></i><b>1.3.3</b> <span>Scenario III: Large effect, uniform prior</span></a></li>
+<li class="chapter" data-level="1.3.4" data-path="index.html"><a href="index.html#scenario-iv-smaller-effect-size-larger-trials"><i class="fa fa-check"></i><b>1.3.4</b> <span>Scenario IV: Smaller effect size, larger trials</span></a></li>
+<li class="chapter" data-level="1.3.5" data-path="index.html"><a href="index.html#scenario-v-single-arm-design-medium-effect-size"><i class="fa fa-check"></i><b>1.3.5</b> <span>Scenario V: Single-arm design, medium effect size</span></a></li>
+<li class="chapter" data-level="1.3.6" data-path="index.html"><a href="index.html#scenario-vi-binomial-distribution"><i class="fa fa-check"></i><b>1.3.6</b> <span>Scenario VI: Binomial distribution</span></a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#technical-setup"><i class="fa fa-check"></i><b>1.4</b> Technical Setup</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="scenarioI.html"><a href="scenarioI.html"><i class="fa fa-check"></i><b>2</b> Scenario I: large effect, point prior</a><ul>
+<li class="chapter" data-level="2" data-path="scenarioI.html"><a href="scenarioI.html"><i class="fa fa-check"></i><b>2</b> Scenario I: large effect, point prior</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="scenarioI.html"><a href="scenarioI.html#details"><i class="fa fa-check"></i><b>2.1</b> Details</a></li>
-<li class="chapter" data-level="2.2" data-path="scenarioI.html"><a href="scenarioI.html#variantI_1"><i class="fa fa-check"></i><b>2.2</b> Variant I-1: Minimizing Expected Sample Size under Point Prior</a><ul>
+<li class="chapter" data-level="2.2" data-path="scenarioI.html"><a href="scenarioI.html#variantI_1"><i class="fa fa-check"></i><b>2.2</b> Variant I-1: Minimizing Expected Sample Size under Point Prior</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="scenarioI.html"><a href="scenarioI.html#objective"><i class="fa fa-check"></i><b>2.2.1</b> Objective</a></li>
 <li class="chapter" data-level="2.2.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints"><i class="fa fa-check"></i><b>2.2.2</b> Constraints</a></li>
 <li class="chapter" data-level="2.2.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-designs"><i class="fa fa-check"></i><b>2.2.3</b> Initial Designs</a></li>
 <li class="chapter" data-level="2.2.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization"><i class="fa fa-check"></i><b>2.2.4</b> Optimization</a></li>
 <li class="chapter" data-level="2.2.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases"><i class="fa fa-check"></i><b>2.2.5</b> Test Cases</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="scenarioI.html"><a href="scenarioI.html#variantI_2"><i class="fa fa-check"></i><b>2.3</b> Variant I-2: Minimizing Expected Sample Size under Null Hypothesis</a><ul>
+<li class="chapter" data-level="2.3" data-path="scenarioI.html"><a href="scenarioI.html#variantI_2"><i class="fa fa-check"></i><b>2.3</b> Variant I-2: Minimizing Expected Sample Size under Null Hypothesis</a>
+<ul>
 <li class="chapter" data-level="2.3.1" data-path="scenarioI.html"><a href="scenarioI.html#objective-1"><i class="fa fa-check"></i><b>2.3.1</b> Objective</a></li>
 <li class="chapter" data-level="2.3.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints-1"><i class="fa fa-check"></i><b>2.3.2</b> Constraints</a></li>
 <li class="chapter" data-level="2.3.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-design"><i class="fa fa-check"></i><b>2.3.3</b> Initial Design</a></li>
 <li class="chapter" data-level="2.3.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization-1"><i class="fa fa-check"></i><b>2.3.4</b> Optimization</a></li>
 <li class="chapter" data-level="2.3.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases-1"><i class="fa fa-check"></i><b>2.3.5</b> Test Cases</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="scenarioI.html"><a href="scenarioI.html#variantI_3"><i class="fa fa-check"></i><b>2.4</b> Variant I-3: Conditional Power Constraint</a><ul>
+<li class="chapter" data-level="2.4" data-path="scenarioI.html"><a href="scenarioI.html#variantI_3"><i class="fa fa-check"></i><b>2.4</b> Variant I-3: Conditional Power Constraint</a>
+<ul>
 <li class="chapter" data-level="2.4.1" data-path="scenarioI.html"><a href="scenarioI.html#objective-2"><i class="fa fa-check"></i><b>2.4.1</b> Objective</a></li>
 <li class="chapter" data-level="2.4.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints-2"><i class="fa fa-check"></i><b>2.4.2</b> Constraints</a></li>
 <li class="chapter" data-level="2.4.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-design-1"><i class="fa fa-check"></i><b>2.4.3</b> Initial Design</a></li>
@@ -173,105 +181,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="scenarioI.html"><a href="scenarioI.html#plot-two-stage-designs"><i class="fa fa-check"></i><b>2.5</b> Plot Two-Stage Designs</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="scenarioII.html"><a href="scenarioII.html"><i class="fa fa-check"></i><b>3</b> Scenario II: large effect, Gaussian prior</a><ul>
-<li class="chapter" data-level="3.1" data-path="scenarioI.html"><a href="scenarioI.html#details"><i class="fa fa-check"></i><b>3.1</b> Details</a></li>
-<li class="chapter" data-level="3.2" data-path="scenarioII.html"><a href="scenarioII.html#variantII_1"><i class="fa fa-check"></i><b>3.2</b> Variant II-1: Minimizing Expected Sample Size under Point Prior</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="scenarioI.html"><a href="scenarioI.html#objective"><i class="fa fa-check"></i><b>3.2.1</b> Objective</a></li>
-<li class="chapter" data-level="3.2.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints"><i class="fa fa-check"></i><b>3.2.2</b> Constraints</a></li>
-<li class="chapter" data-level="3.2.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-design"><i class="fa fa-check"></i><b>3.2.3</b> Initial Design</a></li>
-<li class="chapter" data-level="3.2.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization"><i class="fa fa-check"></i><b>3.2.4</b> Optimization</a></li>
-<li class="chapter" data-level="3.2.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases"><i class="fa fa-check"></i><b>3.2.5</b> Test Cases</a></li>
+<li class="chapter" data-level="3" data-path="scenarioII.html"><a href="scenarioII.html"><i class="fa fa-check"></i><b>3</b> Scenario II: large effect, Gaussian prior</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="scenarioII.html"><a href="scenarioII.html#details-1"><i class="fa fa-check"></i><b>3.1</b> Details</a></li>
+<li class="chapter" data-level="3.2" data-path="scenarioII.html"><a href="scenarioII.html#variantII_1"><i class="fa fa-check"></i><b>3.2</b> Variant II-1: Minimizing Expected Sample Size under Point Prior</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="scenarioII.html"><a href="scenarioII.html#objective-3"><i class="fa fa-check"></i><b>3.2.1</b> Objective</a></li>
+<li class="chapter" data-level="3.2.2" data-path="scenarioII.html"><a href="scenarioII.html#constraints-3"><i class="fa fa-check"></i><b>3.2.2</b> Constraints</a></li>
+<li class="chapter" data-level="3.2.3" data-path="scenarioII.html"><a href="scenarioII.html#initial-design-2"><i class="fa fa-check"></i><b>3.2.3</b> Initial Design</a></li>
+<li class="chapter" data-level="3.2.4" data-path="scenarioII.html"><a href="scenarioII.html#optimization-3"><i class="fa fa-check"></i><b>3.2.4</b> Optimization</a></li>
+<li class="chapter" data-level="3.2.5" data-path="scenarioII.html"><a href="scenarioII.html#test-cases-3"><i class="fa fa-check"></i><b>3.2.5</b> Test Cases</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="scenarioII.html"><a href="scenarioII.html#variantII_2"><i class="fa fa-check"></i><b>3.3</b> Variant II-2: Minimizing Expected Sample Size under Null Hypothesis</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="scenarioI.html"><a href="scenarioI.html#objective-1"><i class="fa fa-check"></i><b>3.3.1</b> Objective</a></li>
-<li class="chapter" data-level="3.3.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints-1"><i class="fa fa-check"></i><b>3.3.2</b> Constraints</a></li>
-<li class="chapter" data-level="3.3.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-design-1"><i class="fa fa-check"></i><b>3.3.3</b> Initial Design</a></li>
-<li class="chapter" data-level="3.3.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization-1"><i class="fa fa-check"></i><b>3.3.4</b> Optimization</a></li>
-<li class="chapter" data-level="3.3.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases-1"><i class="fa fa-check"></i><b>3.3.5</b> Test Cases</a></li>
+<li class="chapter" data-level="3.3" data-path="scenarioII.html"><a href="scenarioII.html#variantII_2"><i class="fa fa-check"></i><b>3.3</b> Variant II-2: Minimizing Expected Sample Size under Null Hypothesis</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="scenarioII.html"><a href="scenarioII.html#objective-4"><i class="fa fa-check"></i><b>3.3.1</b> Objective</a></li>
+<li class="chapter" data-level="3.3.2" data-path="scenarioII.html"><a href="scenarioII.html#constraints-4"><i class="fa fa-check"></i><b>3.3.2</b> Constraints</a></li>
+<li class="chapter" data-level="3.3.3" data-path="scenarioII.html"><a href="scenarioII.html#initial-design-3"><i class="fa fa-check"></i><b>3.3.3</b> Initial Design</a></li>
+<li class="chapter" data-level="3.3.4" data-path="scenarioII.html"><a href="scenarioII.html#optimization-4"><i class="fa fa-check"></i><b>3.3.4</b> Optimization</a></li>
+<li class="chapter" data-level="3.3.5" data-path="scenarioII.html"><a href="scenarioII.html#test-cases-4"><i class="fa fa-check"></i><b>3.3.5</b> Test Cases</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="scenarioII.html"><a href="scenarioII.html#variantII_3"><i class="fa fa-check"></i><b>3.4</b> Variant II-3: Conditional Power Constraint</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="scenarioI.html"><a href="scenarioI.html#objective-2"><i class="fa fa-check"></i><b>3.4.1</b> Objective</a></li>
-<li class="chapter" data-level="3.4.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints-2"><i class="fa fa-check"></i><b>3.4.2</b> Constraints</a></li>
-<li class="chapter" data-level="3.4.3" data-path="scenarioII.html"><a href="scenarioII.html#initial-design-2"><i class="fa fa-check"></i><b>3.4.3</b> Initial Design</a></li>
-<li class="chapter" data-level="3.4.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization-2"><i class="fa fa-check"></i><b>3.4.4</b> Optimization</a></li>
-<li class="chapter" data-level="3.4.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases-2"><i class="fa fa-check"></i><b>3.4.5</b> Test Cases</a></li>
+<li class="chapter" data-level="3.4" data-path="scenarioII.html"><a href="scenarioII.html#variantII_3"><i class="fa fa-check"></i><b>3.4</b> Variant II-3: Conditional Power Constraint</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="scenarioII.html"><a href="scenarioII.html#objective-5"><i class="fa fa-check"></i><b>3.4.1</b> Objective</a></li>
+<li class="chapter" data-level="3.4.2" data-path="scenarioII.html"><a href="scenarioII.html#constraints-5"><i class="fa fa-check"></i><b>3.4.2</b> Constraints</a></li>
+<li class="chapter" data-level="3.4.3" data-path="scenarioII.html"><a href="scenarioII.html#initial-design-4"><i class="fa fa-check"></i><b>3.4.3</b> Initial Design</a></li>
+<li class="chapter" data-level="3.4.4" data-path="scenarioII.html"><a href="scenarioII.html#optimization-5"><i class="fa fa-check"></i><b>3.4.4</b> Optimization</a></li>
+<li class="chapter" data-level="3.4.5" data-path="scenarioII.html"><a href="scenarioII.html#test-cases-5"><i class="fa fa-check"></i><b>3.4.5</b> Test Cases</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="scenarioI.html"><a href="scenarioI.html#plot-two-stage-designs"><i class="fa fa-check"></i><b>3.5</b> Plot Two-Stage Designs</a></li>
+<li class="chapter" data-level="3.5" data-path="scenarioII.html"><a href="scenarioII.html#plot-two-stage-designs-1"><i class="fa fa-check"></i><b>3.5</b> Plot Two-Stage Designs</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="scenarioIII.html"><a href="scenarioIII.html"><i class="fa fa-check"></i><b>4</b> Scenario III: large effect, uniform prior</a><ul>
-<li class="chapter" data-level="4.1" data-path="scenarioI.html"><a href="scenarioI.html#details"><i class="fa fa-check"></i><b>4.1</b> Details</a></li>
-<li class="chapter" data-level="4.2" data-path="scenarioIII.html"><a href="scenarioIII.html#variantIII_1"><i class="fa fa-check"></i><b>4.2</b> Variant III.1: Convergence under prior concentration</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="scenarioI.html"><a href="scenarioI.html#objective"><i class="fa fa-check"></i><b>4.2.1</b> Objective</a></li>
-<li class="chapter" data-level="4.2.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints"><i class="fa fa-check"></i><b>4.2.2</b> Constraints</a></li>
+<li class="chapter" data-level="4" data-path="scenarioIII.html"><a href="scenarioIII.html"><i class="fa fa-check"></i><b>4</b> Scenario III: large effect, uniform prior</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="scenarioIII.html"><a href="scenarioIII.html#details-2"><i class="fa fa-check"></i><b>4.1</b> Details</a></li>
+<li class="chapter" data-level="4.2" data-path="scenarioIII.html"><a href="scenarioIII.html#variantIII_1"><i class="fa fa-check"></i><b>4.2</b> Variant III.1: Convergence under prior concentration</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="scenarioIII.html"><a href="scenarioIII.html#objective-6"><i class="fa fa-check"></i><b>4.2.1</b> Objective</a></li>
+<li class="chapter" data-level="4.2.2" data-path="scenarioIII.html"><a href="scenarioIII.html#constraints-6"><i class="fa fa-check"></i><b>4.2.2</b> Constraints</a></li>
 <li class="chapter" data-level="4.2.3" data-path="scenarioIII.html"><a href="scenarioIII.html#optimization-problem"><i class="fa fa-check"></i><b>4.2.3</b> Optimization problem</a></li>
-<li class="chapter" data-level="4.2.4" data-path="scenarioI.html"><a href="scenarioI.html#test-cases"><i class="fa fa-check"></i><b>4.2.4</b> Test cases</a></li>
+<li class="chapter" data-level="4.2.4" data-path="scenarioIII.html"><a href="scenarioIII.html#test-cases-6"><i class="fa fa-check"></i><b>4.2.4</b> Test cases</a></li>
 <li class="chapter" data-level="4.2.5" data-path="scenarioIII.html"><a href="scenarioIII.html#plot-designs"><i class="fa fa-check"></i><b>4.2.5</b> Plot designs</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="scenarioIV.html"><a href="scenarioIV.html"><i class="fa fa-check"></i><b>5</b> Scenario IV: smaller effect, point prior</a><ul>
-<li class="chapter" data-level="5.1" data-path="scenarioI.html"><a href="scenarioI.html#details"><i class="fa fa-check"></i><b>5.1</b> Details</a></li>
-<li class="chapter" data-level="5.2" data-path="scenarioIV.html"><a href="scenarioIV.html#variantIV_1"><i class="fa fa-check"></i><b>5.2</b> Variant IV-1: Minimizing Expected Sample Size under Point Prior</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="scenarioI.html"><a href="scenarioI.html#objective"><i class="fa fa-check"></i><b>5.2.1</b> Objective</a></li>
-<li class="chapter" data-level="5.2.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints"><i class="fa fa-check"></i><b>5.2.2</b> Constraints</a></li>
-<li class="chapter" data-level="5.2.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-design"><i class="fa fa-check"></i><b>5.2.3</b> Initial Design</a></li>
-<li class="chapter" data-level="5.2.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization"><i class="fa fa-check"></i><b>5.2.4</b> Optimization</a></li>
-<li class="chapter" data-level="5.2.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases"><i class="fa fa-check"></i><b>5.2.5</b> Test Cases</a></li>
+<li class="chapter" data-level="5" data-path="scenarioIV.html"><a href="scenarioIV.html"><i class="fa fa-check"></i><b>5</b> Scenario IV: smaller effect, point prior</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="scenarioIV.html"><a href="scenarioIV.html#details-3"><i class="fa fa-check"></i><b>5.1</b> Details</a></li>
+<li class="chapter" data-level="5.2" data-path="scenarioIV.html"><a href="scenarioIV.html#variantIV_1"><i class="fa fa-check"></i><b>5.2</b> Variant IV-1: Minimizing Expected Sample Size under Point Prior</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="scenarioIV.html"><a href="scenarioIV.html#objective-7"><i class="fa fa-check"></i><b>5.2.1</b> Objective</a></li>
+<li class="chapter" data-level="5.2.2" data-path="scenarioIV.html"><a href="scenarioIV.html#constraints-7"><i class="fa fa-check"></i><b>5.2.2</b> Constraints</a></li>
+<li class="chapter" data-level="5.2.3" data-path="scenarioIV.html"><a href="scenarioIV.html#initial-design-5"><i class="fa fa-check"></i><b>5.2.3</b> Initial Design</a></li>
+<li class="chapter" data-level="5.2.4" data-path="scenarioIV.html"><a href="scenarioIV.html#optimization-6"><i class="fa fa-check"></i><b>5.2.4</b> Optimization</a></li>
+<li class="chapter" data-level="5.2.5" data-path="scenarioIV.html"><a href="scenarioIV.html#test-cases-7"><i class="fa fa-check"></i><b>5.2.5</b> Test Cases</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="scenarioIV.html"><a href="scenarioIV.html#variantIV_2"><i class="fa fa-check"></i><b>5.3</b> Variant IV-2: Increase Power</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="scenarioI.html"><a href="scenarioI.html#objective-1"><i class="fa fa-check"></i><b>5.3.1</b> Objective</a></li>
-<li class="chapter" data-level="5.3.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints-1"><i class="fa fa-check"></i><b>5.3.2</b> Constraints</a></li>
-<li class="chapter" data-level="5.3.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-design-1"><i class="fa fa-check"></i><b>5.3.3</b> Initial Design</a></li>
-<li class="chapter" data-level="5.3.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization-1"><i class="fa fa-check"></i><b>5.3.4</b> Optimization</a></li>
-<li class="chapter" data-level="5.3.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases-1"><i class="fa fa-check"></i><b>5.3.5</b> Test Cases</a></li>
+<li class="chapter" data-level="5.3" data-path="scenarioIV.html"><a href="scenarioIV.html#variantIV_2"><i class="fa fa-check"></i><b>5.3</b> Variant IV-2: Increase Power</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="scenarioIV.html"><a href="scenarioIV.html#objective-8"><i class="fa fa-check"></i><b>5.3.1</b> Objective</a></li>
+<li class="chapter" data-level="5.3.2" data-path="scenarioIV.html"><a href="scenarioIV.html#constraints-8"><i class="fa fa-check"></i><b>5.3.2</b> Constraints</a></li>
+<li class="chapter" data-level="5.3.3" data-path="scenarioIV.html"><a href="scenarioIV.html#initial-design-6"><i class="fa fa-check"></i><b>5.3.3</b> Initial Design</a></li>
+<li class="chapter" data-level="5.3.4" data-path="scenarioIV.html"><a href="scenarioIV.html#optimization-7"><i class="fa fa-check"></i><b>5.3.4</b> Optimization</a></li>
+<li class="chapter" data-level="5.3.5" data-path="scenarioIV.html"><a href="scenarioIV.html#test-cases-8"><i class="fa fa-check"></i><b>5.3.5</b> Test Cases</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="scenarioIV.html"><a href="scenarioIV.html#variantIV_3"><i class="fa fa-check"></i><b>5.4</b> Variant IV-3: Increase Type One Error rate</a><ul>
-<li class="chapter" data-level="5.4.1" data-path="scenarioI.html"><a href="scenarioI.html#objective-2"><i class="fa fa-check"></i><b>5.4.1</b> Objective</a></li>
-<li class="chapter" data-level="5.4.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints-2"><i class="fa fa-check"></i><b>5.4.2</b> Constraints</a></li>
-<li class="chapter" data-level="5.4.3" data-path="scenarioII.html"><a href="scenarioII.html#initial-design-2"><i class="fa fa-check"></i><b>5.4.3</b> Initial Design</a></li>
-<li class="chapter" data-level="5.4.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization-2"><i class="fa fa-check"></i><b>5.4.4</b> Optimization</a></li>
-<li class="chapter" data-level="5.4.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases-2"><i class="fa fa-check"></i><b>5.4.5</b> Test Cases</a></li>
+<li class="chapter" data-level="5.4" data-path="scenarioIV.html"><a href="scenarioIV.html#variantIV_3"><i class="fa fa-check"></i><b>5.4</b> Variant IV-3: Increase Type One Error rate</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="scenarioIV.html"><a href="scenarioIV.html#objective-9"><i class="fa fa-check"></i><b>5.4.1</b> Objective</a></li>
+<li class="chapter" data-level="5.4.2" data-path="scenarioIV.html"><a href="scenarioIV.html#constraints-9"><i class="fa fa-check"></i><b>5.4.2</b> Constraints</a></li>
+<li class="chapter" data-level="5.4.3" data-path="scenarioIV.html"><a href="scenarioIV.html#initial-design-7"><i class="fa fa-check"></i><b>5.4.3</b> Initial Design</a></li>
+<li class="chapter" data-level="5.4.4" data-path="scenarioIV.html"><a href="scenarioIV.html#optimization-8"><i class="fa fa-check"></i><b>5.4.4</b> Optimization</a></li>
+<li class="chapter" data-level="5.4.5" data-path="scenarioIV.html"><a href="scenarioIV.html#test-cases-9"><i class="fa fa-check"></i><b>5.4.5</b> Test Cases</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="scenarioI.html"><a href="scenarioI.html#plot-two-stage-designs"><i class="fa fa-check"></i><b>5.5</b> Plot Two-Stage Designs</a></li>
+<li class="chapter" data-level="5.5" data-path="scenarioIV.html"><a href="scenarioIV.html#plot-two-stage-designs-2"><i class="fa fa-check"></i><b>5.5</b> Plot Two-Stage Designs</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="scenarioV.html"><a href="scenarioV.html"><i class="fa fa-check"></i><b>6</b> Scenario V: single-arm design, medium effect size</a><ul>
-<li class="chapter" data-level="6.1" data-path="scenarioI.html"><a href="scenarioI.html#details"><i class="fa fa-check"></i><b>6.1</b> Details</a></li>
-<li class="chapter" data-level="6.2" data-path="scenarioV.html"><a href="scenarioV.html#variantV_1"><i class="fa fa-check"></i><b>6.2</b> Variant V-1, sensitivity to integration order</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="scenarioI.html"><a href="scenarioI.html#objective"><i class="fa fa-check"></i><b>6.2.1</b> Objective</a></li>
-<li class="chapter" data-level="6.2.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints"><i class="fa fa-check"></i><b>6.2.2</b> Constraints</a></li>
-<li class="chapter" data-level="6.2.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-design"><i class="fa fa-check"></i><b>6.2.3</b> Initial Design</a></li>
-<li class="chapter" data-level="6.2.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization"><i class="fa fa-check"></i><b>6.2.4</b> Optimization</a></li>
-<li class="chapter" data-level="6.2.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases"><i class="fa fa-check"></i><b>6.2.5</b> Test cases</a></li>
+<li class="chapter" data-level="6" data-path="scenarioV.html"><a href="scenarioV.html"><i class="fa fa-check"></i><b>6</b> Scenario V: single-arm design, medium effect size</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="scenarioV.html"><a href="scenarioV.html#details-4"><i class="fa fa-check"></i><b>6.1</b> Details</a></li>
+<li class="chapter" data-level="6.2" data-path="scenarioV.html"><a href="scenarioV.html#variantV_1"><i class="fa fa-check"></i><b>6.2</b> Variant V-1, sensitivity to integration order</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="scenarioV.html"><a href="scenarioV.html#objective-10"><i class="fa fa-check"></i><b>6.2.1</b> Objective</a></li>
+<li class="chapter" data-level="6.2.2" data-path="scenarioV.html"><a href="scenarioV.html#constraints-10"><i class="fa fa-check"></i><b>6.2.2</b> Constraints</a></li>
+<li class="chapter" data-level="6.2.3" data-path="scenarioV.html"><a href="scenarioV.html#initial-design-8"><i class="fa fa-check"></i><b>6.2.3</b> Initial Design</a></li>
+<li class="chapter" data-level="6.2.4" data-path="scenarioV.html"><a href="scenarioV.html#optimization-9"><i class="fa fa-check"></i><b>6.2.4</b> Optimization</a></li>
+<li class="chapter" data-level="6.2.5" data-path="scenarioV.html"><a href="scenarioV.html#test-cases-10"><i class="fa fa-check"></i><b>6.2.5</b> Test cases</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="scenarioV.html"><a href="scenarioV.html#variantV_2"><i class="fa fa-check"></i><b>6.3</b> Variant V-2, utility maximization</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="scenarioI.html"><a href="scenarioI.html#objective-1"><i class="fa fa-check"></i><b>6.3.1</b> Objective</a></li>
-<li class="chapter" data-level="6.3.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints-1"><i class="fa fa-check"></i><b>6.3.2</b> Constraints</a></li>
-<li class="chapter" data-level="6.3.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-design-1"><i class="fa fa-check"></i><b>6.3.3</b> Initial Design</a></li>
-<li class="chapter" data-level="6.3.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization-1"><i class="fa fa-check"></i><b>6.3.4</b> Optimization</a></li>
-<li class="chapter" data-level="6.3.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases-1"><i class="fa fa-check"></i><b>6.3.5</b> Test cases</a></li>
+<li class="chapter" data-level="6.3" data-path="scenarioV.html"><a href="scenarioV.html#variantV_2"><i class="fa fa-check"></i><b>6.3</b> Variant V-2, utility maximization</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="scenarioV.html"><a href="scenarioV.html#objective-11"><i class="fa fa-check"></i><b>6.3.1</b> Objective</a></li>
+<li class="chapter" data-level="6.3.2" data-path="scenarioV.html"><a href="scenarioV.html#constraints-11"><i class="fa fa-check"></i><b>6.3.2</b> Constraints</a></li>
+<li class="chapter" data-level="6.3.3" data-path="scenarioV.html"><a href="scenarioV.html#initial-design-9"><i class="fa fa-check"></i><b>6.3.3</b> Initial Design</a></li>
+<li class="chapter" data-level="6.3.4" data-path="scenarioV.html"><a href="scenarioV.html#optimization-10"><i class="fa fa-check"></i><b>6.3.4</b> Optimization</a></li>
+<li class="chapter" data-level="6.3.5" data-path="scenarioV.html"><a href="scenarioV.html#test-cases-11"><i class="fa fa-check"></i><b>6.3.5</b> Test cases</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="scenarioV.html"><a href="scenarioV.html#variantV_3"><i class="fa fa-check"></i><b>6.4</b> Variant V-3, n1-penalty</a><ul>
-<li class="chapter" data-level="6.4.1" data-path="scenarioI.html"><a href="scenarioI.html#objective-2"><i class="fa fa-check"></i><b>6.4.1</b> Objective</a></li>
-<li class="chapter" data-level="6.4.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints-2"><i class="fa fa-check"></i><b>6.4.2</b> Constraints</a></li>
-<li class="chapter" data-level="6.4.3" data-path="scenarioII.html"><a href="scenarioII.html#initial-design-2"><i class="fa fa-check"></i><b>6.4.3</b> Initial Design</a></li>
-<li class="chapter" data-level="6.4.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization-2"><i class="fa fa-check"></i><b>6.4.4</b> Optimization</a></li>
-<li class="chapter" data-level="6.4.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases-2"><i class="fa fa-check"></i><b>6.4.5</b> Test cases</a></li>
+<li class="chapter" data-level="6.4" data-path="scenarioV.html"><a href="scenarioV.html#variantV_3"><i class="fa fa-check"></i><b>6.4</b> Variant V-3, n1-penalty</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="scenarioV.html"><a href="scenarioV.html#objective-12"><i class="fa fa-check"></i><b>6.4.1</b> Objective</a></li>
+<li class="chapter" data-level="6.4.2" data-path="scenarioV.html"><a href="scenarioV.html#constraints-12"><i class="fa fa-check"></i><b>6.4.2</b> Constraints</a></li>
+<li class="chapter" data-level="6.4.3" data-path="scenarioV.html"><a href="scenarioV.html#initial-design-10"><i class="fa fa-check"></i><b>6.4.3</b> Initial Design</a></li>
+<li class="chapter" data-level="6.4.4" data-path="scenarioV.html"><a href="scenarioV.html#optimization-11"><i class="fa fa-check"></i><b>6.4.4</b> Optimization</a></li>
+<li class="chapter" data-level="6.4.5" data-path="scenarioV.html"><a href="scenarioV.html#test-cases-12"><i class="fa fa-check"></i><b>6.4.5</b> Test cases</a></li>
 </ul></li>
-<li class="chapter" data-level="6.5" data-path="scenarioV.html"><a href="scenarioV.html#variantV_4"><i class="fa fa-check"></i><b>6.5</b> Variant V-4, n2-penalty</a><ul>
-<li class="chapter" data-level="6.5.1" data-path="scenarioV.html"><a href="scenarioV.html#objective-3"><i class="fa fa-check"></i><b>6.5.1</b> Objective</a></li>
-<li class="chapter" data-level="6.5.2" data-path="scenarioV.html"><a href="scenarioV.html#constraints-3"><i class="fa fa-check"></i><b>6.5.2</b> Constraints</a></li>
-<li class="chapter" data-level="6.5.3" data-path="scenarioV.html"><a href="scenarioV.html#initial-design-3"><i class="fa fa-check"></i><b>6.5.3</b> Initial Design</a></li>
-<li class="chapter" data-level="6.5.4" data-path="scenarioV.html"><a href="scenarioV.html#optimization-3"><i class="fa fa-check"></i><b>6.5.4</b> Optimization</a></li>
-<li class="chapter" data-level="6.5.5" data-path="scenarioV.html"><a href="scenarioV.html#test-cases-3"><i class="fa fa-check"></i><b>6.5.5</b> Test cases</a></li>
+<li class="chapter" data-level="6.5" data-path="scenarioV.html"><a href="scenarioV.html#variantV_4"><i class="fa fa-check"></i><b>6.5</b> Variant V-4, n2-penalty</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="scenarioV.html"><a href="scenarioV.html#objective-13"><i class="fa fa-check"></i><b>6.5.1</b> Objective</a></li>
+<li class="chapter" data-level="6.5.2" data-path="scenarioV.html"><a href="scenarioV.html#constraints-13"><i class="fa fa-check"></i><b>6.5.2</b> Constraints</a></li>
+<li class="chapter" data-level="6.5.3" data-path="scenarioV.html"><a href="scenarioV.html#initial-design-11"><i class="fa fa-check"></i><b>6.5.3</b> Initial Design</a></li>
+<li class="chapter" data-level="6.5.4" data-path="scenarioV.html"><a href="scenarioV.html#optimization-12"><i class="fa fa-check"></i><b>6.5.4</b> Optimization</a></li>
+<li class="chapter" data-level="6.5.5" data-path="scenarioV.html"><a href="scenarioV.html#test-cases-13"><i class="fa fa-check"></i><b>6.5.5</b> Test cases</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="scenarioVI.html"><a href="scenarioVI.html"><i class="fa fa-check"></i><b>7</b> Scenario VI: binomial distribution</a><ul>
-<li class="chapter" data-level="7.1" data-path="scenarioI.html"><a href="scenarioI.html#details"><i class="fa fa-check"></i><b>7.1</b> Details</a></li>
-<li class="chapter" data-level="7.2" data-path="scenarioVI.html"><a href="scenarioVI.html#variantVI_1"><i class="fa fa-check"></i><b>7.2</b> Variant VI-1, efficiency of optimal designs for binomial distribution</a><ul>
-<li class="chapter" data-level="7.2.1" data-path="scenarioI.html"><a href="scenarioI.html#objective"><i class="fa fa-check"></i><b>7.2.1</b> Objective</a></li>
-<li class="chapter" data-level="7.2.2" data-path="scenarioI.html"><a href="scenarioI.html#constraints"><i class="fa fa-check"></i><b>7.2.2</b> Constraints</a></li>
-<li class="chapter" data-level="7.2.3" data-path="scenarioI.html"><a href="scenarioI.html#initial-designs"><i class="fa fa-check"></i><b>7.2.3</b> Initial Designs</a></li>
-<li class="chapter" data-level="7.2.4" data-path="scenarioI.html"><a href="scenarioI.html#optimization"><i class="fa fa-check"></i><b>7.2.4</b> Optimization</a></li>
-<li class="chapter" data-level="7.2.5" data-path="scenarioI.html"><a href="scenarioI.html#test-cases"><i class="fa fa-check"></i><b>7.2.5</b> Test Cases</a></li>
+<li class="chapter" data-level="7" data-path="scenarioVI.html"><a href="scenarioVI.html"><i class="fa fa-check"></i><b>7</b> Scenario VI: binomial distribution</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="scenarioVI.html"><a href="scenarioVI.html#details-5"><i class="fa fa-check"></i><b>7.1</b> Details</a></li>
+<li class="chapter" data-level="7.2" data-path="scenarioVI.html"><a href="scenarioVI.html#variantVI_1"><i class="fa fa-check"></i><b>7.2</b> Variant VI-1, efficiency of optimal designs for binomial distribution</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="scenarioVI.html"><a href="scenarioVI.html#objective-14"><i class="fa fa-check"></i><b>7.2.1</b> Objective</a></li>
+<li class="chapter" data-level="7.2.2" data-path="scenarioVI.html"><a href="scenarioVI.html#constraints-14"><i class="fa fa-check"></i><b>7.2.2</b> Constraints</a></li>
+<li class="chapter" data-level="7.2.3" data-path="scenarioVI.html"><a href="scenarioVI.html#initial-designs-1"><i class="fa fa-check"></i><b>7.2.3</b> Initial Designs</a></li>
+<li class="chapter" data-level="7.2.4" data-path="scenarioVI.html"><a href="scenarioVI.html#optimization-13"><i class="fa fa-check"></i><b>7.2.4</b> Optimization</a></li>
+<li class="chapter" data-level="7.2.5" data-path="scenarioVI.html"><a href="scenarioVI.html#test-cases-14"><i class="fa fa-check"></i><b>7.2.5</b> Test Cases</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -295,9 +320,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="scenarioIII" class="section level1">
+<div id="scenarioIII" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Scenario III: large effect, uniform prior</h1>
-<div id="details" class="section level2">
+<div id="details-2" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Details</h2>
 <p>This scenario covers a similar setting as <a href="scenarioI.html#scenarioI">Scenario I</a>.
 The purpose is to asses whether placing uniform priors with decreasing
@@ -306,99 +331,99 @@ optimal designs which converges towards the solution in <a href="#variantI.1">va
 <p>The trial is still considered to be two-armed with normally distribtuted outcomes
 and the type one error rate under the null hypothesis
 <span class="math inline">\(\mathcal{H}_0:\delta \leq 0\)</span> is to be protected at <span class="math inline">\(\alpha = 0.025\)</span>.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1">datadist   &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb78-2" data-line-number="2">H_<span class="dv">0</span>        &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb78-3" data-line-number="3">alpha      &lt;-<span class="st"> </span><span class="fl">0.025</span></a>
-<a class="sourceLine" id="cb78-4" data-line-number="4">toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span>alpha</a></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="scenarioIII.html#cb78-1"></a>datadist   &lt;-<span class="st"> </span><span class="kw">Normal</span>(<span class="dt">two_armed =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb78-2"><a href="scenarioIII.html#cb78-2"></a>H_<span class="dv">0</span>        &lt;-<span class="st"> </span><span class="kw">PointMassPrior</span>(.<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb78-3"><a href="scenarioIII.html#cb78-3"></a>alpha      &lt;-<span class="st"> </span><span class="fl">0.025</span></span>
+<span id="cb78-4"><a href="scenarioIII.html#cb78-4"></a>toer_cnstr &lt;-<span class="st"> </span><span class="kw">Power</span>(datadist, H_<span class="dv">0</span>) <span class="op">&lt;=</span><span class="st"> </span>alpha</span></code></pre></div>
 <p>In this scenario we consider a sequence of uniform distributions
 <span class="math inline">\(\delta\sim\operatorname{Unif}(0.4 - \Delta_i, 0.4 + \Delta_i)\)</span>
 around <span class="math inline">\(0.4\)</span> with <span class="math inline">\(\Delta_i=(3 - i)/10\)</span> for <span class="math inline">\(i=0\ldots 3\)</span>.
 I.e., for <span class="math inline">\(\Delta_3=0\)</span> reduces to <code>PointMassPrior</code> on <span class="math inline">\(\delta=0.4\)</span>.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1">prior &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {</a>
-<a class="sourceLine" id="cb79-2" data-line-number="2">    <span class="cf">if</span> (delta <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb79-3" data-line-number="3">        <span class="kw">return</span>(<span class="kw">PointMassPrior</span>(.<span class="dv">4</span>, <span class="fl">1.0</span>))</a>
-<a class="sourceLine" id="cb79-4" data-line-number="4">    a &lt;-<span class="st"> </span><span class="fl">.4</span> <span class="op">-</span><span class="st"> </span>delta; b &lt;-<span class="st"> </span><span class="fl">.4</span> <span class="op">+</span><span class="st"> </span>delta</a>
-<a class="sourceLine" id="cb79-5" data-line-number="5">    <span class="kw">ContinuousPrior</span>(<span class="cf">function</span>(x) <span class="kw">dunif</span>(x, a, b), <span class="dt">support =</span> <span class="kw">c</span>(a, b))</a>
-<a class="sourceLine" id="cb79-6" data-line-number="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="scenarioIII.html#cb79-1"></a>prior &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {</span>
+<span id="cb79-2"><a href="scenarioIII.html#cb79-2"></a>    <span class="cf">if</span> (delta <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb79-3"><a href="scenarioIII.html#cb79-3"></a>        <span class="kw">return</span>(<span class="kw">PointMassPrior</span>(.<span class="dv">4</span>, <span class="fl">1.0</span>))</span>
+<span id="cb79-4"><a href="scenarioIII.html#cb79-4"></a>    a &lt;-<span class="st"> </span><span class="fl">.4</span> <span class="op">-</span><span class="st"> </span>delta; b &lt;-<span class="st"> </span><span class="fl">.4</span> <span class="op">+</span><span class="st"> </span>delta</span>
+<span id="cb79-5"><a href="scenarioIII.html#cb79-5"></a>    <span class="kw">ContinuousPrior</span>(<span class="cf">function</span>(x) <span class="kw">dunif</span>(x, a, b), <span class="dt">support =</span> <span class="kw">c</span>(a, b))</span>
+<span id="cb79-6"><a href="scenarioIII.html#cb79-6"></a>}</span></code></pre></div>
 <p>Across all variants in this scenario, the expected power under the respective
 prior conditioned on <span class="math inline">\(\delta &gt; 0\)</span> must be at least <span class="math inline">\(0.8\)</span>.
 I.e., throughout this scenario, we always use the following constraint on
 expected power.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1">ep_cnstr &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {</a>
-<a class="sourceLine" id="cb80-2" data-line-number="2">    prior     &lt;-<span class="st"> </span><span class="kw">prior</span>(delta)</a>
-<a class="sourceLine" id="cb80-3" data-line-number="3">    cnd_prior &lt;-<span class="st"> </span><span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">bounds</span>(prior)[<span class="dv">2</span>]))</a>
-<a class="sourceLine" id="cb80-4" data-line-number="4">    <span class="kw">return</span>( <span class="kw">Power</span>(datadist, cnd_prior) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.8</span> )</a>
-<a class="sourceLine" id="cb80-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="scenarioIII.html#cb80-1"></a>ep_cnstr &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {</span>
+<span id="cb80-2"><a href="scenarioIII.html#cb80-2"></a>    prior     &lt;-<span class="st"> </span><span class="kw">prior</span>(delta)</span>
+<span id="cb80-3"><a href="scenarioIII.html#cb80-3"></a>    cnd_prior &lt;-<span class="st"> </span><span class="kw">condition</span>(prior, <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">bounds</span>(prior)[<span class="dv">2</span>]))</span>
+<span id="cb80-4"><a href="scenarioIII.html#cb80-4"></a>    <span class="kw">return</span>( <span class="kw">Power</span>(datadist, cnd_prior) <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.8</span> )</span>
+<span id="cb80-5"><a href="scenarioIII.html#cb80-5"></a>}</span></code></pre></div>
 </div>
-<div id="variantIII_1" class="section level2">
+<div id="variantIII_1" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Variant III.1: Convergence under prior concentration</h2>
 <p>The goal of this variant is to make sure that the optimal solution
 converges as the prior is more and more concentrated at a point mass.</p>
-<div id="objective" class="section level3">
+<div id="objective-6" class="section level3" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Objective</h3>
 <p>Expected sample size under the respective prior is minimized, i.e.,
 <span class="math inline">\(\boldsymbol{E}\big[n(\mathcal{D})\big]\)</span>.</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1">objective &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {</a>
-<a class="sourceLine" id="cb81-2" data-line-number="2">    <span class="kw">ExpectedSampleSize</span>(datadist, <span class="kw">prior</span>(delta))</a>
-<a class="sourceLine" id="cb81-3" data-line-number="3">}</a></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="scenarioIII.html#cb81-1"></a>objective &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {</span>
+<span id="cb81-2"><a href="scenarioIII.html#cb81-2"></a>    <span class="kw">ExpectedSampleSize</span>(datadist, <span class="kw">prior</span>(delta))</span>
+<span id="cb81-3"><a href="scenarioIII.html#cb81-3"></a>}</span></code></pre></div>
 </div>
-<div id="constraints" class="section level3">
+<div id="constraints-6" class="section level3" number="4.2.2">
 <h3><span class="header-section-number">4.2.2</span> Constraints</h3>
 <p>The constraints have already been described under details.</p>
 </div>
-<div id="optimization-problem" class="section level3">
+<div id="optimization-problem" class="section level3" number="4.2.3">
 <h3><span class="header-section-number">4.2.3</span> Optimization problem</h3>
 <p>The optimization problem depending on <span class="math inline">\(\Delta_i\)</span> is defined below.
 The default optimization parameters, 5 pivot points, and a fixed initial design
 are used.
 The initial design is chosen such that the error constraints are
 fulfilled. Early stopping for futility is applied if the effect shows
-in the opponent direction to the alternative, i.e. <span class="math inline">\(c_1^f=0\)</span>.
+in the opponent direction to the alternative, i.e. <span class="math inline">\(c_1^f=0\)</span>.
 <span class="math inline">\(c_2\)</span> is chosen close to and <span class="math inline">\(c_1^e\)</span> a little larger than the <span class="math inline">\(1-\alpha\)</span>-quantile
 of the standard normal distribution. The sample sizes are selected
 to fulfill the error constraints.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1">init &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(</a>
-<a class="sourceLine" id="cb82-2" data-line-number="2">    <span class="dt">n1    =</span> <span class="dv">150</span>,</a>
-<a class="sourceLine" id="cb82-3" data-line-number="3">    <span class="dt">c1f   =</span> <span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb82-4" data-line-number="4">    <span class="dt">c1e   =</span> <span class="fl">2.3</span>,</a>
-<a class="sourceLine" id="cb82-5" data-line-number="5">    <span class="dt">n2    =</span> <span class="fl">125.0</span>,</a>
-<a class="sourceLine" id="cb82-6" data-line-number="6">    <span class="dt">c2    =</span> <span class="fl">2.0</span>,</a>
-<a class="sourceLine" id="cb82-7" data-line-number="7">    <span class="dt">order =</span> <span class="dv">5</span></a>
-<a class="sourceLine" id="cb82-8" data-line-number="8">)</a>
-<a class="sourceLine" id="cb82-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb82-10" data-line-number="10">optimal_design &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {</a>
-<a class="sourceLine" id="cb82-11" data-line-number="11">    <span class="kw">minimize</span>(</a>
-<a class="sourceLine" id="cb82-12" data-line-number="12">        <span class="kw">objective</span>(delta),</a>
-<a class="sourceLine" id="cb82-13" data-line-number="13">        <span class="kw">subject_to</span>(</a>
-<a class="sourceLine" id="cb82-14" data-line-number="14">            toer_cnstr,</a>
-<a class="sourceLine" id="cb82-15" data-line-number="15">            <span class="kw">ep_cnstr</span>(delta)</a>
-<a class="sourceLine" id="cb82-16" data-line-number="16">        ),</a>
-<a class="sourceLine" id="cb82-17" data-line-number="17">        <span class="dt">initial_design =</span> init</a>
-<a class="sourceLine" id="cb82-18" data-line-number="18">    )</a>
-<a class="sourceLine" id="cb82-19" data-line-number="19">}</a>
-<a class="sourceLine" id="cb82-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb82-21" data-line-number="21"><span class="co"># compute the sequence of optimal designs</span></a>
-<a class="sourceLine" id="cb82-22" data-line-number="22">deltas  &lt;-<span class="st"> </span><span class="dv">3</span><span class="op">:</span><span class="dv">0</span><span class="op">/</span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb82-23" data-line-number="23">results &lt;-<span class="st"> </span><span class="kw">lapply</span>(deltas, optimal_design)</a></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="scenarioIII.html#cb82-1"></a>init &lt;-<span class="st"> </span><span class="kw">TwoStageDesign</span>(</span>
+<span id="cb82-2"><a href="scenarioIII.html#cb82-2"></a>    <span class="dt">n1    =</span> <span class="dv">150</span>,</span>
+<span id="cb82-3"><a href="scenarioIII.html#cb82-3"></a>    <span class="dt">c1f   =</span> <span class="dv">0</span>,</span>
+<span id="cb82-4"><a href="scenarioIII.html#cb82-4"></a>    <span class="dt">c1e   =</span> <span class="fl">2.3</span>,</span>
+<span id="cb82-5"><a href="scenarioIII.html#cb82-5"></a>    <span class="dt">n2    =</span> <span class="fl">125.0</span>,</span>
+<span id="cb82-6"><a href="scenarioIII.html#cb82-6"></a>    <span class="dt">c2    =</span> <span class="fl">2.0</span>,</span>
+<span id="cb82-7"><a href="scenarioIII.html#cb82-7"></a>    <span class="dt">order =</span> <span class="dv">5</span></span>
+<span id="cb82-8"><a href="scenarioIII.html#cb82-8"></a>)</span>
+<span id="cb82-9"><a href="scenarioIII.html#cb82-9"></a></span>
+<span id="cb82-10"><a href="scenarioIII.html#cb82-10"></a>optimal_design &lt;-<span class="st"> </span><span class="cf">function</span>(delta) {</span>
+<span id="cb82-11"><a href="scenarioIII.html#cb82-11"></a>    <span class="kw">minimize</span>(</span>
+<span id="cb82-12"><a href="scenarioIII.html#cb82-12"></a>        <span class="kw">objective</span>(delta),</span>
+<span id="cb82-13"><a href="scenarioIII.html#cb82-13"></a>        <span class="kw">subject_to</span>(</span>
+<span id="cb82-14"><a href="scenarioIII.html#cb82-14"></a>            toer_cnstr,</span>
+<span id="cb82-15"><a href="scenarioIII.html#cb82-15"></a>            <span class="kw">ep_cnstr</span>(delta)</span>
+<span id="cb82-16"><a href="scenarioIII.html#cb82-16"></a>        ),</span>
+<span id="cb82-17"><a href="scenarioIII.html#cb82-17"></a>        <span class="dt">initial_design =</span> init</span>
+<span id="cb82-18"><a href="scenarioIII.html#cb82-18"></a>    )</span>
+<span id="cb82-19"><a href="scenarioIII.html#cb82-19"></a>}</span>
+<span id="cb82-20"><a href="scenarioIII.html#cb82-20"></a></span>
+<span id="cb82-21"><a href="scenarioIII.html#cb82-21"></a><span class="co"># compute the sequence of optimal designs</span></span>
+<span id="cb82-22"><a href="scenarioIII.html#cb82-22"></a>deltas  &lt;-<span class="st"> </span><span class="dv">3</span><span class="op">:</span><span class="dv">0</span><span class="op">/</span><span class="dv">10</span></span>
+<span id="cb82-23"><a href="scenarioIII.html#cb82-23"></a>results &lt;-<span class="st"> </span><span class="kw">lapply</span>(deltas, optimal_design)</span></code></pre></div>
 </div>
-<div id="test-cases" class="section level3">
+<div id="test-cases-6" class="section level3" number="4.2.4">
 <h3><span class="header-section-number">4.2.4</span> Test cases</h3>
 <p>Check that iteration limit was not exceeded in any case.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(results, <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)</a>
-<a class="sourceLine" id="cb83-2" data-line-number="2"><span class="kw">print</span>(iters)</a></code></pre></div>
-<pre><code>## [1] 2184 1804 2445 2981</code></pre>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;=</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</a></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="scenarioIII.html#cb83-1"></a>iters &lt;-<span class="st"> </span><span class="kw">sapply</span>(results, <span class="cf">function</span>(x) x<span class="op">$</span>nloptr_return<span class="op">$</span>iterations)</span>
+<span id="cb83-2"><a href="scenarioIII.html#cb83-2"></a><span class="kw">print</span>(iters)</span></code></pre></div>
+<pre><code>## [1] 2364 1912 2445 2981</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="scenarioIII.html#cb85-1"></a>testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(iters <span class="op">&lt;=</span><span class="st"> </span>opts<span class="op">$</span>maxeval))</span></code></pre></div>
 <p>Check type one error rate control by simulation and by calling <code>evaluate()</code>.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1">df_toer &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb86-2" data-line-number="2">  <span class="dt">delta    =</span> deltas,</a>
-<a class="sourceLine" id="cb86-3" data-line-number="3">  <span class="dt">toer     =</span> <span class="kw">sapply</span>(results, <span class="cf">function</span>(x) <span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, H_<span class="dv">0</span>), x<span class="op">$</span>design)),</a>
-<a class="sourceLine" id="cb86-4" data-line-number="4">  <span class="dt">toer_sim =</span> <span class="kw">sapply</span>(results, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>prob)</a>
-<a class="sourceLine" id="cb86-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb86-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb86-7" data-line-number="7">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer     <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb86-8" data-line-number="8">testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer_sim <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</a>
-<a class="sourceLine" id="cb86-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb86-10" data-line-number="10"><span class="kw">print</span>(df_toer)</a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="scenarioIII.html#cb86-1"></a>df_toer &lt;-<span class="st"> </span><span class="kw">tibble</span>(</span>
+<span id="cb86-2"><a href="scenarioIII.html#cb86-2"></a>  <span class="dt">delta    =</span> deltas,</span>
+<span id="cb86-3"><a href="scenarioIII.html#cb86-3"></a>  <span class="dt">toer     =</span> <span class="kw">sapply</span>(results, <span class="cf">function</span>(x) <span class="kw">evaluate</span>(<span class="kw">Power</span>(datadist, H_<span class="dv">0</span>), x<span class="op">$</span>design)),</span>
+<span id="cb86-4"><a href="scenarioIII.html#cb86-4"></a>  <span class="dt">toer_sim =</span> <span class="kw">sapply</span>(results, <span class="cf">function</span>(x) <span class="kw">sim_pr_reject</span>(x<span class="op">$</span>design, <span class="fl">.0</span>, datadist)<span class="op">$</span>prob)</span>
+<span id="cb86-5"><a href="scenarioIII.html#cb86-5"></a>)</span>
+<span id="cb86-6"><a href="scenarioIII.html#cb86-6"></a></span>
+<span id="cb86-7"><a href="scenarioIII.html#cb86-7"></a>testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer     <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</span>
+<span id="cb86-8"><a href="scenarioIII.html#cb86-8"></a>testthat<span class="op">::</span><span class="kw">expect_true</span>(<span class="kw">all</span>(df_toer<span class="op">$</span>toer_sim <span class="op">&lt;=</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>tol)))</span>
+<span id="cb86-9"><a href="scenarioIII.html#cb86-9"></a></span>
+<span id="cb86-10"><a href="scenarioIII.html#cb86-10"></a><span class="kw">print</span>(df_toer)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   delta   toer toer_sim
 ##   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
@@ -407,22 +432,22 @@ to fulfill the error constraints.</p>
 ## 3   0.1 0.0250   0.0250
 ## 4   0   0.0250   0.0250</code></pre>
 <p>Check that expected sample size decreases with decreasing prior variance.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1">testthat<span class="op">::</span><span class="kw">expect_gte</span>(</a>
-<a class="sourceLine" id="cb88-2" data-line-number="2">  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">1</span>]), results[[<span class="dv">1</span>]]<span class="op">$</span>design),</a>
-<a class="sourceLine" id="cb88-3" data-line-number="3">  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">2</span>]), results[[<span class="dv">2</span>]]<span class="op">$</span>design)</a>
-<a class="sourceLine" id="cb88-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb88-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb88-6" data-line-number="6">testthat<span class="op">::</span><span class="kw">expect_gte</span>(</a>
-<a class="sourceLine" id="cb88-7" data-line-number="7">  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">2</span>]), results[[<span class="dv">2</span>]]<span class="op">$</span>design),</a>
-<a class="sourceLine" id="cb88-8" data-line-number="8">  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">3</span>]), results[[<span class="dv">3</span>]]<span class="op">$</span>design)</a>
-<a class="sourceLine" id="cb88-9" data-line-number="9">)</a>
-<a class="sourceLine" id="cb88-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb88-11" data-line-number="11">testthat<span class="op">::</span><span class="kw">expect_gte</span>(</a>
-<a class="sourceLine" id="cb88-12" data-line-number="12">  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">3</span>]), results[[<span class="dv">3</span>]]<span class="op">$</span>design),</a>
-<a class="sourceLine" id="cb88-13" data-line-number="13">  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">4</span>]), results[[<span class="dv">4</span>]]<span class="op">$</span>design)</a>
-<a class="sourceLine" id="cb88-14" data-line-number="14">)</a></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="scenarioIII.html#cb88-1"></a>testthat<span class="op">::</span><span class="kw">expect_gte</span>(</span>
+<span id="cb88-2"><a href="scenarioIII.html#cb88-2"></a>  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">1</span>]), results[[<span class="dv">1</span>]]<span class="op">$</span>design),</span>
+<span id="cb88-3"><a href="scenarioIII.html#cb88-3"></a>  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">2</span>]), results[[<span class="dv">2</span>]]<span class="op">$</span>design)</span>
+<span id="cb88-4"><a href="scenarioIII.html#cb88-4"></a>)</span>
+<span id="cb88-5"><a href="scenarioIII.html#cb88-5"></a></span>
+<span id="cb88-6"><a href="scenarioIII.html#cb88-6"></a>testthat<span class="op">::</span><span class="kw">expect_gte</span>(</span>
+<span id="cb88-7"><a href="scenarioIII.html#cb88-7"></a>  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">2</span>]), results[[<span class="dv">2</span>]]<span class="op">$</span>design),</span>
+<span id="cb88-8"><a href="scenarioIII.html#cb88-8"></a>  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">3</span>]), results[[<span class="dv">3</span>]]<span class="op">$</span>design)</span>
+<span id="cb88-9"><a href="scenarioIII.html#cb88-9"></a>)</span>
+<span id="cb88-10"><a href="scenarioIII.html#cb88-10"></a></span>
+<span id="cb88-11"><a href="scenarioIII.html#cb88-11"></a>testthat<span class="op">::</span><span class="kw">expect_gte</span>(</span>
+<span id="cb88-12"><a href="scenarioIII.html#cb88-12"></a>  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">3</span>]), results[[<span class="dv">3</span>]]<span class="op">$</span>design),</span>
+<span id="cb88-13"><a href="scenarioIII.html#cb88-13"></a>  <span class="kw">evaluate</span>(<span class="kw">objective</span>(deltas[<span class="dv">4</span>]), results[[<span class="dv">4</span>]]<span class="op">$</span>design)</span>
+<span id="cb88-14"><a href="scenarioIII.html#cb88-14"></a>)</span></code></pre></div>
 </div>
-<div id="plot-designs" class="section level3">
+<div id="plot-designs" class="section level3" number="4.2.5">
 <h3><span class="header-section-number">4.2.5</span> Plot designs</h3>
 <p>Finally, we plot the designs and assess for convergence.</p>
 <p><img src="adoptr-validation-report_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
