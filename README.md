@@ -1,6 +1,6 @@
 ![cc-by-sa 4.0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg)
 
-[![Build Status](https://travis-ci.com/kkmann/adoptr-validation-report.svg?branch=master)](https://travis-ci.com/kkmann/adoptr-validation-report)
+[![build-and-deploy-validation-report](https://github.com/kkmann/adoptr-validation-report/actions/workflows/build-and-deplay-validation-report.yml/badge.svg)](https://github.com/kkmann/adoptr-validation-report/actions/workflows/build-and-deplay-validation-report.yml)
 
 # **adoptr** Validation Report 
 
