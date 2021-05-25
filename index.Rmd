@@ -91,9 +91,9 @@ allowing to show both the underlying code as well as the corresponding
 output in a human-readable format.
 
 The online version of the report is dynamically re-generated on a 
-daily basis using the Travis-CI service based on the respective 
+weekly basis based on the respective 
 most current version of **adoptr** on CRAN.
-The result of this daily build is available at 
+The latest result of these builds is available at 
 https://kkmann.github.io/adoptr-validation-report/.
 To ensure early warning in case of any test-case failures, 
 formal tests are implemented using the **testthat** package 
