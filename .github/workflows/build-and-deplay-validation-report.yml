@@ -14,6 +14,7 @@ on:
 name: build-and-deploy-validation-report
 
 jobs:
+  name: build-and-deploy-validation-report
     runs-on: ${{ matrix.config.os }}
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
