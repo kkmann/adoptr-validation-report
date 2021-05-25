@@ -36,7 +36,7 @@ The following quality metrics are inspired by https://www.pharmar.org/packages/:
 ## Creating a Local Validation Report
 
 To validate a local version of  **adoptr**, clone the validation report
-source reposiotry via
+source repository via
 ```bash
 git clone https://github.com/kkmann/adoptr-validation-report.git
 ```
