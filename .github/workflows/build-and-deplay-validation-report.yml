@@ -14,10 +14,9 @@ on:
 name: build-and-deploy-validation-report
 
 jobs:
-  name: build-and-deploy-validation-report
+  build-and-deploy:
     runs-on: ${{ matrix.config.os }}
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-
     strategy:
       fail-fast: false
       matrix:
