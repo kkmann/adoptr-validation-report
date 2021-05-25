@@ -6,4 +6,5 @@ Depends:
     bookdown,
     rpact,
     testthat,
-    pwr
+    pwr,
+    tinytex
