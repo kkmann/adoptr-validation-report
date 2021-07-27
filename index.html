@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2021-07-20" />
+<meta name="date" content="2021-07-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -302,7 +302,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Validation Report for <strong>adoptr</strong> package</h1>
 <p class="author"><em>Kevin Kunzmann &amp; Maximilian Pilz</em></p>
-<p class="date" style="margin-top: 1.5em;"><em>2021-07-20</em></p>
+<p class="date" style="margin-top: 1.5em;"><em>2021-07-27</em></p>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
@@ -823,9 +823,9 @@ absolute deviation of <span class="math inline">\(0.5\)</span>.</p>
 <span id="cb6-2"><a href="index.html#cb6-2"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
-## ✔ tibble  3.1.2     ✔ dplyr   1.0.7
+## ✔ tibble  3.1.3     ✔ dplyr   1.0.7
 ## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
-## ✔ readr   1.4.0     ✔ forcats 0.5.1</code></pre>
+## ✔ readr   2.0.0     ✔ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -841,33 +841,36 @@ absolute deviation of <span class="math inline">\(0.5\)</span>.</p>
 <pre><code>## The following object is masked from &#39;package:purrr&#39;:
 ## 
 ##     is_null</code></pre>
+<pre><code>## The following objects are masked from &#39;package:readr&#39;:
+## 
+##     edition_get, local_edition</code></pre>
 <pre><code>## The following object is masked from &#39;package:tidyr&#39;:
 ## 
 ##     matches</code></pre>
 <pre><code>## The following object is masked from &#39;package:adoptr&#39;:
 ## 
 ##     expectation</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="index.html#cb16-1"></a><span class="kw">library</span>(tinytex)</span>
-<span id="cb16-2"><a href="index.html#cb16-2"></a></span>
-<span id="cb16-3"><a href="index.html#cb16-3"></a><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span></span>
-<span id="cb16-4"><a href="index.html#cb16-4"></a><span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))</span>
-<span id="cb16-5"><a href="index.html#cb16-5"></a>   <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))</span>
-<span id="cb16-6"><a href="index.html#cb16-6"></a></span>
-<span id="cb16-7"><a href="index.html#cb16-7"></a><span class="co"># define seed value</span></span>
-<span id="cb16-8"><a href="index.html#cb16-8"></a>seed  &lt;-<span class="st"> </span><span class="dv">42</span></span>
-<span id="cb16-9"><a href="index.html#cb16-9"></a></span>
-<span id="cb16-10"><a href="index.html#cb16-10"></a><span class="co"># define absolute tolerance for error rates</span></span>
-<span id="cb16-11"><a href="index.html#cb16-11"></a>tol   &lt;-<span class="st"> </span><span class="fl">0.01</span></span>
-<span id="cb16-12"><a href="index.html#cb16-12"></a></span>
-<span id="cb16-13"><a href="index.html#cb16-13"></a><span class="co"># define absolute tolerance for sample sizes</span></span>
-<span id="cb16-14"><a href="index.html#cb16-14"></a>tol_n &lt;-<span class="st"> </span><span class="fl">0.5</span></span>
-<span id="cb16-15"><a href="index.html#cb16-15"></a></span>
-<span id="cb16-16"><a href="index.html#cb16-16"></a><span class="co"># define custom tolerance and iteration limit for nloptr</span></span>
-<span id="cb16-17"><a href="index.html#cb16-17"></a>opts =<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb16-18"><a href="index.html#cb16-18"></a>    <span class="dt">algorithm =</span> <span class="st">&quot;NLOPT_LN_COBYLA&quot;</span>,</span>
-<span id="cb16-19"><a href="index.html#cb16-19"></a>    <span class="dt">xtol_rel  =</span> <span class="fl">1e-5</span>,</span>
-<span id="cb16-20"><a href="index.html#cb16-20"></a>    <span class="dt">maxeval   =</span> <span class="dv">100000</span></span>
-<span id="cb16-21"><a href="index.html#cb16-21"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="index.html#cb17-1"></a><span class="kw">library</span>(tinytex)</span>
+<span id="cb17-2"><a href="index.html#cb17-2"></a></span>
+<span id="cb17-3"><a href="index.html#cb17-3"></a><span class="co"># load custom functions in folder subfolder &#39;/R&#39;</span></span>
+<span id="cb17-4"><a href="index.html#cb17-4"></a><span class="cf">for</span> (nm <span class="cf">in</span> <span class="kw">list.files</span>(<span class="st">&quot;R&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[RrSsQq]$&quot;</span>))</span>
+<span id="cb17-5"><a href="index.html#cb17-5"></a>   <span class="kw">source</span>(<span class="kw">file.path</span>(<span class="st">&quot;R&quot;</span>, nm))</span>
+<span id="cb17-6"><a href="index.html#cb17-6"></a></span>
+<span id="cb17-7"><a href="index.html#cb17-7"></a><span class="co"># define seed value</span></span>
+<span id="cb17-8"><a href="index.html#cb17-8"></a>seed  &lt;-<span class="st"> </span><span class="dv">42</span></span>
+<span id="cb17-9"><a href="index.html#cb17-9"></a></span>
+<span id="cb17-10"><a href="index.html#cb17-10"></a><span class="co"># define absolute tolerance for error rates</span></span>
+<span id="cb17-11"><a href="index.html#cb17-11"></a>tol   &lt;-<span class="st"> </span><span class="fl">0.01</span></span>
+<span id="cb17-12"><a href="index.html#cb17-12"></a></span>
+<span id="cb17-13"><a href="index.html#cb17-13"></a><span class="co"># define absolute tolerance for sample sizes</span></span>
+<span id="cb17-14"><a href="index.html#cb17-14"></a>tol_n &lt;-<span class="st"> </span><span class="fl">0.5</span></span>
+<span id="cb17-15"><a href="index.html#cb17-15"></a></span>
+<span id="cb17-16"><a href="index.html#cb17-16"></a><span class="co"># define custom tolerance and iteration limit for nloptr</span></span>
+<span id="cb17-17"><a href="index.html#cb17-17"></a>opts =<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb17-18"><a href="index.html#cb17-18"></a>    <span class="dt">algorithm =</span> <span class="st">&quot;NLOPT_LN_COBYLA&quot;</span>,</span>
+<span id="cb17-19"><a href="index.html#cb17-19"></a>    <span class="dt">xtol_rel  =</span> <span class="fl">1e-5</span>,</span>
+<span id="cb17-20"><a href="index.html#cb17-20"></a>    <span class="dt">maxeval   =</span> <span class="dv">100000</span></span>
+<span id="cb17-21"><a href="index.html#cb17-21"></a>)</span></code></pre></div>
 
 </div>
 </div>
