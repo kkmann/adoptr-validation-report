@@ -24,7 +24,7 @@
 <meta name="author" content="Kevin Kunzmann &amp; Maximilian Pilz" />
 
 
-<meta name="date" content="2021-08-24" />
+<meta name="date" content="2021-08-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -384,8 +384,8 @@ not exceeded in all three cases.</p>
 ##   type             iterations
 ##   &lt;chr&gt;                 &lt;int&gt;
 ## 1 one-stage                20
-## 2 group-sequential        947
-## 3 two-stage              2136</code></pre>
+## 2 group-sequential        959
+## 3 two-stage              2096</code></pre>
 <p>Now, the constraints on type one error rate and power are tested via simulation.</p>
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="scenarioIV.html#cb96-1"></a>tbl_designs <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb96-2"><a href="scenarioIV.html#cb96-2"></a><span class="st">  </span><span class="kw">transmute</span>(</span>
@@ -499,8 +499,8 @@ three cases.</p>
 ##   type             iterations
 ##   &lt;chr&gt;                 &lt;int&gt;
 ## 1 one-stage                30
-## 2 group-sequential       1189
-## 3 two-stage              2894</code></pre>
+## 2 group-sequential       1485
+## 3 two-stage              3069</code></pre>
 <p>The type one error rate and power constraints are evaluated by simulation.</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="scenarioIV.html#cb107-1"></a>tbl_designs_<span class="dv">9</span> <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb107-2"><a href="scenarioIV.html#cb107-2"></a><span class="st">  </span><span class="kw">transmute</span>(</span>
